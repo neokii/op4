@@ -10,7 +10,7 @@ ENABLE_INC_LANE_PROB = True
 TRAJECTORY_SIZE = 33
 # camera offset is meters from center car to camera
 if EON:
-  CAMERA_OFFSET = 0.06
+  CAMERA_OFFSET = 0.05
   PATH_OFFSET = 0.0
 elif TICI:
   CAMERA_OFFSET = -0.04
