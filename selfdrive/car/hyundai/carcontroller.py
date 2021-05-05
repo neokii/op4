@@ -96,7 +96,7 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     # fix for Genesis hard fault at low speed
-    if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+    if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
       lkas_active = False
 
     # Disable steering while turning blinker on and speed below 60 kph
@@ -118,7 +118,7 @@ class CarController():
                         left_lane, right_lane, left_lane_depart, right_lane_depart)
 
     clu11_speed = CS.clu11["CF_Clu_Vanz"]
-    enabled_speed = 38 if CS.is_set_speed_in_mph else 60
+    enabled_speed = 35 if CS.is_set_speed_in_mph else 55
     if clu11_speed > enabled_speed or not lkas_active:
       enabled_speed = clu11_speed
 
