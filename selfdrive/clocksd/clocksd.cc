@@ -14,7 +14,7 @@
 #include <cassert>
 #include <chrono>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "common/timing.h"
 #include "common/util.h"
 

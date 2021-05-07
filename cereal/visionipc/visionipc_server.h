@@ -5,7 +5,7 @@
 #include <atomic>
 #include <map>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "visionipc.h"
 #include "visionbuf.h"
 

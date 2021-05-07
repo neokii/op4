@@ -3,7 +3,7 @@
 #include <string>
 #include <unistd.h>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "visionipc.h"
 #include "visionbuf.h"
 

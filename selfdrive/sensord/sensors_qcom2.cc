@@ -3,7 +3,7 @@
 #include <thread>
 #include <sys/resource.h>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "common/i2c.h"
 #include "common/timing.h"
 #include "common/util.h"
@@ -93,6 +93,6 @@ int sensor_loop() {
 }
 
 int main(int argc, char *argv[]) {
-  setpriority(PRIO_PROCESS, 0, -18);
+  setpriority(PRIO_PROCESS, 0, -13);
   return sensor_loop();
 }

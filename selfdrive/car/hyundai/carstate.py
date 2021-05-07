@@ -326,8 +326,7 @@ class CarState(CarStateBase):
       ("ComfortBandUpper", "SCC14", 0),
       ("ComfortBandLower", "SCC14", 0),
 
-      ("AVH_STAT", "ESP11", 0),
-      ("LDM_STAT", "ESP11", 0),
+      ("AVH_STAT", "ESP11", -1),
     ]
 
     checks = [

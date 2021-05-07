@@ -9,7 +9,7 @@
 
 #include "common/timing.h"
 #include "common/util.h"
-#include "messaging.h"
+#include "messaging.hpp"
 
 ExitHandler do_exit;
 int main(int argc, char *argv[]) {

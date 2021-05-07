@@ -7,7 +7,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "ipc.h"
 #include "visionipc_server.h"
 

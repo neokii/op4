@@ -1,17 +1,13 @@
-#include <sys/time.h>
-#include <sys/resource.h>
-
 #include <android/log.h>
 #include <log/logger.h>
 #include <log/logprint.h>
 
 #include "common/util.h"
-#include "messaging.h"
+#include "messaging.hpp"
 
 int main() {
-  setpriority(PRIO_PROCESS, 0, -15);
-
   ExitHandler do_exit;
+
   PubMaster pm({"androidLog"});
 
   log_time last_log_time = {};

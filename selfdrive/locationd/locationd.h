@@ -6,7 +6,7 @@
 
 #include <eigen3/Eigen/Dense>
 
-#include "messaging.h"
+#include "messaging.hpp"
 #include "common/params.h"
 #include "common/util.h"
 #include "common/swaglog.h"
@@ -16,6 +16,9 @@
 #include "selfdrive/sensord/sensors/constants.h"
 
 #include "models/live_kf.h"
+
+#define VISION_DECIMATION 2
+#define SENSOR_DECIMATION 10
 
 #define POSENET_STD_HIST_HALF 20
 
@@ -27,7 +30,6 @@ public:
 
   void reset_kalman(double current_time = NAN);
   void reset_kalman(double current_time, Eigen::VectorXd init_orient, Eigen::VectorXd init_pos);
-  void finite_check(double current_time = NAN);
 
   kj::ArrayPtr<capnp::byte> get_message_bytes(MessageBuilder& msg_builder, uint64_t logMonoTime,
     bool inputsOK, bool sensorsOK, bool gpsOK);
@@ -59,4 +61,9 @@ private:
   int64_t unix_timestamp_millis = 0;
   double last_gps_fix = 0;
   bool device_fell = false;
+
+  int gyro_counter = 0;
+  int acc_counter = 0;
+  int speed_counter = 0;
+  int cam_counter = 0;
 };

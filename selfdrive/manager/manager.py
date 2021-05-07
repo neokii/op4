@@ -2,7 +2,6 @@
 import datetime
 import os
 import signal
-import subprocess
 import sys
 import traceback
 from multiprocessing import Process
@@ -10,17 +9,17 @@ from multiprocessing import Process
 import cereal.messaging as messaging
 import selfdrive.crash as crash
 from common.basedir import BASEDIR
-from common.params import Params, ParamKeyType
+from common.params import Params
 from common.text_window import TextWindow
 from selfdrive.boardd.set_time import set_time
-from selfdrive.hardware import HARDWARE, PC, TICI
+from selfdrive.hardware import HARDWARE, TICI, PC
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running, launcher
 from selfdrive.manager.process_config import managed_processes
 from selfdrive.athena.registration import register
 from selfdrive.swaglog import cloudlog, add_file_handler
 from selfdrive.version import dirty, get_git_commit, version, origin, branch, commit, \
-                              terms_version, training_version, comma_remote, \
+                              terms_version, training_version, \
                               get_git_branch, get_git_remote
 from selfdrive.hardware.eon.apk import system
 
@@ -30,7 +29,7 @@ def manager_init():
   set_time(cloudlog)
 
   params = Params()
-  params.clear_all(ParamKeyType.CLEAR_ON_MANAGER_START)
+  params.manager_start()
 
   default_params = [
     ("CompletedTrainingVersion", "0"),
@@ -101,7 +100,7 @@ def manager_init():
   cloudlog.bind_global(dongle_id=dongle_id, version=version, dirty=dirty,
                        device=HARDWARE.get_device_type())
 
-  if comma_remote and not (os.getenv("NOLOG") or os.getenv("NOCRASH") or PC):
+  if not (os.getenv("NOLOG") or os.getenv("NOCRASH") or PC):
     crash.init()
   crash.bind_user(id=dongle_id)
   crash.bind_extra(dirty=dirty, origin=origin, branch=branch, commit=commit,

@@ -8,8 +8,8 @@ typedef void (*sighandler_t)(int sig);
 
 #include "services.h"
 
-#include "impl_msgq.h"
-#include "impl_zmq.h"
+#include "impl_msgq.hpp"
+#include "impl_zmq.hpp"
 
 void sigpipe_handler(int sig) {
   assert(sig == SIGPIPE);

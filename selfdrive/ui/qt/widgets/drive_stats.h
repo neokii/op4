@@ -9,7 +9,6 @@ public:
   explicit DriveStats(QWidget* parent = 0);
 
 private:
-  bool metric;
   struct StatsLabels {
     QLabel *routes, *distance, *hours;
   } all_, week_;

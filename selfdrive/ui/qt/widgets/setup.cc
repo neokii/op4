@@ -24,16 +24,12 @@ PairingQRWidget::PairingQRWidget(QWidget* parent) : QWidget(parent) {
   QTimer* timer = new QTimer(this);
   timer->start(30 * 1000);
   connect(timer, &QTimer::timeout, this, &PairingQRWidget::refresh);
-}
-
-void PairingQRWidget::showEvent(QShowEvent *event){
-  refresh();
+  refresh(); // don't wait for the first refresh
 }
 
 void PairingQRWidget::refresh(){
-  Params params;
-  QString IMEI = QString::fromStdString(params.get("IMEI"));
-  QString serial = QString::fromStdString(params.get("HardwareSerial"));
+  QString IMEI = QString::fromStdString(Params().get("IMEI"));
+  QString serial = QString::fromStdString(Params().get("HardwareSerial"));
 
   if (std::min(IMEI.length(), serial.length()) <= 5) {
     qrCode->setText("Error getting serial: contact support");

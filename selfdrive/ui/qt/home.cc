@@ -30,7 +30,6 @@ HomeWindow::HomeWindow(QWidget* parent) : QWidget(parent) {
   onroad = new OnroadWindow(this);
   slayout->addWidget(onroad);
   QObject::connect(this, &HomeWindow::update, onroad, &OnroadWindow::update);
-  QObject::connect(this, &HomeWindow::offroadTransitionSignal, onroad, &OnroadWindow::offroadTransition);
 
   home = new OffroadHome();
   slayout->addWidget(home);
@@ -57,10 +56,11 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
   }
 
   // Handle sidebar collapsing
-  if (onroad->isVisible() && (!sidebar->isVisible() || e->x() > sidebar->width())) {
+  if (childAt(e->pos()) == onroad) {
     sidebar->setVisible(!sidebar->isVisible());
   }
 }
+
 
 // OffroadHome: the offroad home page
 
@@ -99,6 +99,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   statsAndSetup->addWidget(drive);
 
   SetupWidget* setup = new SetupWidget;
+  //setup->setFixedSize(700, 700);
   statsAndSetup->addWidget(setup);
 
   QWidget* statsAndSetupWidget = new QWidget();
@@ -116,6 +117,7 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   // set up refresh timer
   timer = new QTimer(this);
   QObject::connect(timer, &QTimer::timeout, this, &OffroadHome::refresh);
+  refresh();
   timer->start(10 * 1000);
 
   setLayout(main_layout);
@@ -127,10 +129,6 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
      color: white;
     }
   )");
-}
-
-void OffroadHome::showEvent(QShowEvent *event) {
-  refresh();
 }
 
 void OffroadHome::openAlerts() {

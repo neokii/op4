@@ -1,4 +1,4 @@
-#include "messaging.h"
+#include "messaging.hpp"
 #include "common/util.h"
 #include "common/swaglog.h"
 
@@ -13,13 +13,12 @@ int main() {
   AlignedBuffer aligned_buf;
   UbloxMsgParser parser;
 
-  PubMaster pm({"ubloxGnss", "gpsLocationExternal"});
-
   Context * context = Context::create();
   SubSocket * subscriber = SubSocket::create(context, "ubloxRaw");
   assert(subscriber != NULL);
   subscriber->setTimeout(100);
 
+  PubMaster pm({"ubloxGnss", "gpsLocationExternal"});
 
   while (!do_exit) {
     Message * msg = subscriber->receive();

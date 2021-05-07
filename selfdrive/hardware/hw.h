@@ -9,10 +9,5 @@
 #include "selfdrive/hardware/tici/hardware.h"
 #define Hardware HardwareTici
 #else
-class HardwarePC : public HardwareNone {
-public:
-  static std::string get_os_version() { return "openpilot for PC"; }
-  static bool PC() { return true; }
-};
-#define Hardware HardwarePC
+#define Hardware HardwareNone
 #endif

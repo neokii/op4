@@ -19,7 +19,6 @@
 #include "nanovg_gl.h"
 #include "nanovg_gl_utils.h"
 #include "paint.h"
-#include "selfdrive/hardware/hw.h"
 #include "extras.h"
 
 #ifdef QCOM2
@@ -38,8 +37,13 @@ const int box_h = vwp_h-(bdr_s*2);
 
 // TODO: this is also hardcoded in common/transformations/camera.py
 // TODO: choose based on frame input size
-const float y_offset = Hardware::TICI() ? 150.0 : 0.0;
-const float zoom = Hardware::TICI() ? 2912.8 : 2138.5;
+#ifdef QCOM2
+const float y_offset = 150.0;
+const float zoom = 2912.8;
+#else
+const float y_offset = 0.0;
+const float zoom = 2138.5;
+#endif
 
 static void ui_draw_text(const UIState *s, float x, float y, const char *string, float size, NVGcolor color, const char *font_name) {
   nvgFontFace(s->vg, font_name);
@@ -150,11 +154,11 @@ static void draw_frame(UIState *s) {
 
   if (s->last_frame) {
     glBindTexture(GL_TEXTURE_2D, s->texture[s->last_frame->idx]->frame_tex);
-    if (!Hardware::EON()) {
-      // this is handled in ion on QCOM
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s->last_frame->width, s->last_frame->height,
-                   0, GL_RGB, GL_UNSIGNED_BYTE, s->last_frame->addr);
-    }
+#ifndef QCOM
+    // this is handled in ion on QCOM
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, s->last_frame->width, s->last_frame->height,
+                 0, GL_RGB, GL_UNSIGNED_BYTE, s->last_frame->addr);
+#endif
   }
 
   glUseProgram(s->gl_shader->prog);
@@ -805,9 +809,13 @@ static void ui_draw_driver_view(UIState *s) {
 
   // blackout
   const int blackout_x_r = valid_rect.right();
-  const Rect &blackout_rect = Hardware::TICI() ? s->viz_rect : rect;
-  const int blackout_w_r = blackout_rect.right() - valid_rect.right();
-  const int blackout_x_l = blackout_rect.x;
+#ifndef QCOM2
+  const int blackout_w_r = rect.right() - valid_rect.right();
+  const int blackout_x_l = rect.x;
+#else
+  const int blackout_w_r = s->viz_rect.right() - valid_rect.right();
+  const int blackout_x_l = s->viz_rect.x;
+#endif
   const int blackout_w_l = valid_rect.x - blackout_x_l;
   ui_fill_rect(s->vg, {blackout_x_l, rect.y, blackout_w_l, rect.h}, COLOR_BLACK_ALPHA(144));
   ui_fill_rect(s->vg, {blackout_x_r, rect.y, blackout_w_r, rect.h}, COLOR_BLACK_ALPHA(144));
@@ -850,6 +858,61 @@ static void ui_draw_vision_header(UIState *s) {
   ui_draw_extras(s);
 }
 
+static void ui_draw_vision_footer(UIState *s) {
+  ui_draw_vision_face(s);
+
+#if UI_FEATURE_BRAKE
+  ui_draw_vision_brake(s);
+#endif
+#if UI_FEATURE_AUTOHOLD
+  ui_draw_vision_autohold(s);
+#endif
+}
+
+static float get_alert_alpha(float blink_rate) {
+  return 0.375 * cos((millis_since_boot() / 1000) * 2 * M_PI * blink_rate) + 0.625;
+}
+
+static void ui_draw_vision_alert(UIState *s) {
+  static std::map<cereal::ControlsState::AlertSize, const int> alert_size_map = {
+      {cereal::ControlsState::AlertSize::SMALL, 241},
+      {cereal::ControlsState::AlertSize::MID, 390},
+      {cereal::ControlsState::AlertSize::FULL, s->fb_h}};
+  const UIScene *scene = &s->scene;
+  bool longAlert1 = scene->alert_text1.length() > 15;
+
+  NVGcolor color = bg_colors[s->status];
+  color.a *= get_alert_alpha(scene->alert_blinking_rate);
+  const int alr_h = alert_size_map[scene->alert_size] + bdr_s;
+  const Rect rect = {.x = s->viz_rect.x - bdr_s,
+                     .y = s->fb_h - alr_h,
+                     .w = s->viz_rect.w + (bdr_s * 2),
+                     .h = alr_h};
+
+  ui_fill_rect(s->vg, rect, color);
+  ui_fill_rect(s->vg, rect, nvgLinearGradient(s->vg, rect.x, rect.y, rect.x, rect.bottom(),
+                                            nvgRGBAf(0.0, 0.0, 0.0, 0.05), nvgRGBAf(0.0, 0.0, 0.0, 0.35)));
+
+  nvgFillColor(s->vg, COLOR_WHITE);
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+
+  if (scene->alert_size == cereal::ControlsState::AlertSize::SMALL) {
+    ui_draw_text(s, rect.centerX(), rect.centerY() + 15, scene->alert_text1.c_str(), 40*2.5, COLOR_WHITE, "sans-semibold");
+  } else if (scene->alert_size == cereal::ControlsState::AlertSize::MID) {
+    ui_draw_text(s, rect.centerX(), rect.centerY() - 45, scene->alert_text1.c_str(), 48*2.5, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, rect.centerX(), rect.centerY() + 75, scene->alert_text2.c_str(), 36*2.5, COLOR_WHITE, "sans-regular");
+  } else if (scene->alert_size == cereal::ControlsState::AlertSize::FULL) {
+    nvgFontSize(s->vg, (longAlert1?72:96)*2.5);
+    nvgFontFace(s->vg, "sans-bold");
+    nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+    nvgTextBox(s->vg, rect.x, rect.y+(longAlert1?360:420), rect.w-60, scene->alert_text1.c_str(), NULL);
+    nvgFontSize(s->vg, 48*2.5);
+    nvgFontFace(s->vg,  "sans-regular");
+    nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BOTTOM);
+    nvgTextBox(s->vg, rect.x, rect.h-(longAlert1?300:360), rect.w-60, scene->alert_text2.c_str(), NULL);
+  }
+}
+
 static void ui_draw_vision_frame(UIState *s) {
   // Draw video frames
   glEnable(GL_SCISSOR_TEST);
@@ -870,9 +933,7 @@ static void ui_draw_vision(UIState *s) {
     }
     // Set Speed, Current Speed, Status/Events
     ui_draw_vision_header(s);
-    ui_draw_vision_face(s);
-    ui_draw_vision_brake(s);
-    ui_draw_vision_autohold(s);
+    ui_draw_vision_footer(s);
   } else {
     ui_draw_driver_view(s);
   }
@@ -887,7 +948,8 @@ static void ui_draw_background(UIState *s) {
 void ui_draw(UIState *s, int w, int h) {
   s->viz_rect = Rect{bdr_s, bdr_s, w - 2 * bdr_s, h - 2 * bdr_s};
 
-  const bool draw_vision = s->scene.started && s->vipc_client->connected;
+  const bool draw_alerts = s->scene.started;
+  const bool draw_vision = draw_alerts && s->vipc_client->connected;
 
   // GL drawing functions
   ui_draw_background(s);
@@ -903,6 +965,10 @@ void ui_draw(UIState *s, int w, int h) {
 
   if (draw_vision) {
     ui_draw_vision(s);
+  }
+
+  if (draw_alerts && s->scene.alert_size != cereal::ControlsState::AlertSize::NONE) {
+    ui_draw_vision_alert(s);
   }
 
   if (s->scene.driver_view && !s->vipc_client->connected) {
@@ -983,42 +1049,41 @@ static const mat4 device_transform = {{
   0.0,  0.0, 0.0, 1.0,
 }};
 
-static mat4 get_driver_view_transform() {
-  const float driver_view_ratio = 1.333;
-  mat4 transform;
-  if (Hardware::TICI()) {
-    // from dmonitoring.cc
-    const int full_width_tici = 1928;
-    const int full_height_tici = 1208;
-    const int adapt_width_tici = 668;
-    const int crop_x_offset = 32;
-    const int crop_y_offset = -196;
-    const float yscale = full_height_tici * driver_view_ratio / adapt_width_tici;
-    const float xscale = yscale*(1080-2*bdr_s)/(2160-2*bdr_s)*full_width_tici/full_height_tici;
-    transform = (mat4){{
-      xscale,  0.0, 0.0, xscale*crop_x_offset/full_width_tici*2,
-      0.0,  yscale, 0.0, yscale*crop_y_offset/full_height_tici*2,
-      0.0,  0.0, 1.0, 0.0,
-      0.0,  0.0, 0.0, 1.0,
-    }};
-  
-  } else {
-     // frame from 4/3 to 16/9 display
-    transform = (mat4){{
-      driver_view_ratio*(1080-2*bdr_s)/(1920-2*bdr_s),  0.0, 0.0, 0.0,
-      0.0,  1.0, 0.0, 0.0,
-      0.0,  0.0, 1.0, 0.0,
-      0.0,  0.0, 0.0, 1.0,
-    }};
-  }
-  return transform;
-}
+static const float driver_view_ratio = 1.333;
+#ifndef QCOM2
+// frame from 4/3 to 16/9 display
+static const mat4 driver_view_transform = {{
+  driver_view_ratio*(1080-2*bdr_s)/(1920-2*bdr_s),  0.0, 0.0, 0.0,
+  0.0,  1.0, 0.0, 0.0,
+  0.0,  0.0, 1.0, 0.0,
+  0.0,  0.0, 0.0, 1.0,
+}};
+#else
+// from dmonitoring.cc
+static const int full_width_tici = 1928;
+static const int full_height_tici = 1208;
+static const int adapt_width_tici = 668;
+static const int crop_x_offset = 32;
+static const int crop_y_offset = -196;
+static const float yscale = full_height_tici * driver_view_ratio / adapt_width_tici;
+static const float xscale = yscale*(1080-2*bdr_s)/(2160-2*bdr_s)*full_width_tici/full_height_tici;
+
+static const mat4 driver_view_transform = {{
+  xscale,  0.0, 0.0, xscale*crop_x_offset/full_width_tici*2,
+  0.0,  yscale, 0.0, yscale*crop_y_offset/full_height_tici*2,
+  0.0,  0.0, 1.0, 0.0,
+  0.0,  0.0, 0.0, 1.0,
+}};
+#endif
 
 void ui_nvg_init(UIState *s) {
   // init drawing
-
-  // on EON, we enable MSAA
-  s->vg = Hardware::EON() ? nvgCreate(0) : nvgCreate(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+#ifdef QCOM
+  // on QCOM, we enable MSAA
+  s->vg = nvgCreate(0);
+#else
+  s->vg = nvgCreate(NVG_ANTIALIAS | NVG_STENCIL_STROKES | NVG_DEBUG);
+#endif
   assert(s->vg);
 
   // init fonts
@@ -1115,7 +1180,7 @@ void ui_nvg_init(UIState *s) {
     0.0, 0.0, 0.0, 1.0,
   }};
 
-  s->front_frame_mat = matmul(device_transform, get_driver_view_transform());
+  s->front_frame_mat = matmul(device_transform, driver_view_transform);
   s->rear_frame_mat = matmul(device_transform, frame_transform);
 
   // Apply transformation such that video pixel coordinates match video

@@ -4,7 +4,6 @@
 #include <QFrame>
 #include <QPushButton>
 #include <QLabel>
-#include <QVBoxLayout>
 
 #include "common/params.h"
 #include "widgets/scrollview.h"
@@ -18,16 +17,14 @@ public:
   bool updateAvailable;
 
 private:
+  Params params;
+  QLabel releaseNotes;
+  std::map<std::string, QLabel*> alerts;
+  QPushButton rebootBtn;
   void updateAlerts();
 
-  Params params;
-  std::map<std::string, QLabel*> alerts;
-
-  QLabel releaseNotes;
-  QPushButton rebootBtn;
-  ScrollView *alertsScroll;
   ScrollView *releaseNotesScroll;
-  QVBoxLayout *alerts_layout;
+  ScrollView *alertsScroll;
 
 signals:
   void closeAlerts();
