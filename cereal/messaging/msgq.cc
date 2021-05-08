@@ -21,7 +21,7 @@
 
 #include <stdio.h>
 
-#include "msgq.hpp"
+#include "msgq.h"
 
 void sigusr2_handler(int signal) {
   assert(signal == SIGUSR2);
@@ -460,5 +460,5 @@ bool msgq_all_readers_updated(msgq_queue_t *q) {
       return false;
     }
   }
-  return true;
+  return num_readers > 0;
 }
