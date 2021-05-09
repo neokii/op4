@@ -335,7 +335,6 @@ class Controls:
     #elif self.CP.enableCruise and CS.cruiseState.enabled:
     #  self.v_cruise_kph = CS.cruiseState.speed * CV.MS_TO_KPH
 
-    # scc smoother
     SccSmoother.update_cruise_buttons(self, CS, self.CP.openpilotLongitudinalControl)
 
     # decrease the soft disable timer at every step, as it's reset on
