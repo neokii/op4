@@ -1,7 +1,5 @@
 #!/usr/bin/bash
 
-<<<<<<< HEAD
-=======
 if [ ! -f "/system/fonts/opensans_regular.ttf" ]; then
 
     echo "Installing fonts..."
@@ -16,17 +14,16 @@ if [ ! -f "/system/fonts/opensans_regular.ttf" ]; then
     mount -o ro,remount /system
 fi
 
-if [ "$(getprop persist.sys.locale)" != "ko-KR" ]; then
-    setprop persist.sys.locale ko-KR
-    setprop persist.sys.language ko
-    setprop persist.sys.country KR
-    setprop persist.sys.timezone Asia/Seoul
+if [ "$(getprop persist.sys.locale)" != "en-US" ]; then
+    setprop persist.sys.locale en-US
+    setprop persist.sys.language en
+    setprop persist.sys.country US
+    setprop persist.sys.timezone America/New_York
 
     sleep 2
     reboot
 fi
 
->>>>>>> parent of 605e307 (remove fonts)
 if [ -z "$BASEDIR" ]; then
   BASEDIR="/data/openpilot"
 fi
