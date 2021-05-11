@@ -3,7 +3,7 @@
 
 OpenPilot 0.8.4
 
-This fork has full long control for Genesis without any harness mod,  and maybe other hkg cars, you will have to test.
+This fork has full long control for Genesis without any radar harness mod,  and maybe other hkg cars, you will have to test.
 
 Dash cam recording from ui
 
