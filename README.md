@@ -1,31 +1,29 @@
 
-**This is based on xx979xx & Neokii's fork and is dedictated too Kia Stingers & Genesis G70's not meaning other HKG cars will work but not tested..**
+**This is based on xx979xx & Neokii's fork and is tuned for Genesis other HKG cars, but not tested..**
 
 OpenPilot 0.8.4
 
 This fork has Long control if you move scc to bus 1 with harness MSG johnpr#5623 for help with making a harness or to buy one.
 
+Dash cam recording from ui
+
 Long control is radar + vision 
 
-Slow down for curves option (works pretty good)
+Slow down for curves option
 
 MAD mode for no disengae on brake or gas (Disables Logging)
 
-Auto Lane Change with Blind spot monitoring (No Tug)
+Auto Lane Change with Blind spot monitoring (No Nudge)
 
 Super Smooth SCC with SCC smoother
 
 SCC sync set speed on gas press.
 
-Auto Update.
-
-Make sure to rename op4 to openpilot use this command here --> mv op4 openpilot
-
 Run nTune after 30 - 50 miles of driving you should autotune lateral control. use this command cd selfdrive && python ntune.py (make sure your not driving!) 
 
 Make sure to reboot.
 
-Then give it a whirl.
+Then give it a spin.
 
 https://github.com/xx979xx/openpilot
 
