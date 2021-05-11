@@ -3,7 +3,7 @@
 
 OpenPilot 0.8.4
 
-This fork has Long control if you move scc to bus 1 with harness MSG johnpr#5623 for help with making a harness or to buy one.
+This fork has full long control for Genesis without any harness mod,  and maybe other hkg cars, you will have to test.
 
 Dash cam recording from ui
 
