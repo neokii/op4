@@ -1,5 +1,5 @@
 
-**This is based on xx979xx & Neokii's fork and is tuned for Genesis other HKG cars, but not tested..**
+**This is based on xx979xx & Neokii's fork and is tuned for Genesis and other HKG car, but not tested..**
 
 OpenPilot 0.8.4
 
