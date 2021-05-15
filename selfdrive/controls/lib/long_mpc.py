@@ -103,7 +103,7 @@ class LongitudinalMpc():
     # Calculate mpc
     t = sec_since_boot()
 
-    cruise_gap = int(clip(CS.cruiseGap, 1., 1.))
+    cruise_gap = int(clip(CS.cruiseGap, 1., 4.))
     TR = interp(float(cruise_gap), [1., 2., 3., 4.], [1.05, 1.6, 2.3, 2.6])
 
     self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
