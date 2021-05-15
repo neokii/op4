@@ -1,20 +1,8 @@
 #!/usr/bin/bash
-if [ ! -f "/system/fonts/opensans_regular.ttf" ]; then
-
-    echo "Installing fonts..."
-
-    mount -o rw,remount /system
-
-  	cp -f /data/openpilot/selfdrive/assets/fonts/opensans_* /system/fonts/
-    cp -f /data/openpilot/selfdrive/assets/fonts.xml /system/etc/fonts.xml
-    chmod 644 /system/etc/fonts.xml
-  	chmod 644 /system/fonts/opensans_*
-
-    mount -o ro,remount /system
     
 if [ -z "$BASEDIR" ]; then
   BASEDIR="/data/openpilot"
-
+fi
 source "$BASEDIR/launch_env.sh"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
