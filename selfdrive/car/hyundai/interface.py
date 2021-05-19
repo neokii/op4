@@ -47,15 +47,17 @@ class CarInterface(CarInterfaceBase):
     ret.maxSteeringAngleDeg = 90.
 
     # lateral
-    ret.lateralTuning.init('indi')
-    ret.lateralTuning.indi.innerLoopGainBP = [0.]
-    ret.lateralTuning.indi.innerLoopGainV = [3.1]
-    ret.lateralTuning.indi.outerLoopGainBP = [0.]
-    ret.lateralTuning.indi.outerLoopGainV = [2.5]
-    ret.lateralTuning.indi.timeConstantBP = [0.]
-    ret.lateralTuning.indi.timeConstantV = [1.4]
-    ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-    ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+    ret.lateralTuning.init('lqr')
+
+    ret.lateralTuning.lqr.scale = 1650.
+    ret.lateralTuning.lqr.ki = 0.01
+    ret.lateralTuning.lqr.dcGain = 0.00275
+
+    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    ret.lateralTuning.lqr.c = [1., 0.]
+    ret.lateralTuning.lqr.k = [-110., 451.]
+    ret.lateralTuning.lqr.l = [0.33, 0.318]
 
     ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.1
@@ -66,22 +68,22 @@ class CarInterface(CarInterfaceBase):
 
     # longitudinal
     ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kpV = [0.92, 0.77, 0.57, 0.44, 0.39, 0.35]
+    ret.longitudinalTuning.kpV = [0.95, 0.75, 0.57, 0.45, 0.4, 0.36]
     ret.longitudinalTuning.kiBP = [0.]
     ret.longitudinalTuning.kiV = [0.015]
-    ret.longitudinalTuning.kf = 0.7
+    ret.longitudinalTuning.kf = 0.9
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
 
     ret.gasMaxBP = [0., 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.gasMaxV = [0.50, 0.32, 0.24, 0.16, 0.13]
+    ret.gasMaxV = [0.43, 0.3, 0.22, 0.14, 0.11]
 
     ret.brakeMaxBP = [0.]
-    ret.brakeMaxV = [1.45]
+    ret.brakeMaxV = [1.35]
 
-    ret.stoppingBrakeRate = 0.1  # brake_travel/s while trying to stop
+    ret.stoppingBrakeRate = 0.15  # brake_travel/s while trying to stop
     ret.startingBrakeRate = 1.0  # brake_travel/s while releasing on restart
-    ret.startAccel = 1.5
+    ret.startAccel = 1.3
 
     # genesis
     if candidate == CAR.GENESIS:
