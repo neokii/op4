@@ -47,15 +47,17 @@ class CarInterface(CarInterfaceBase):
     ret.maxSteeringAngleDeg = 90.
 
     # lateral
-    ret.lateralTuning.init('indi')
-    ret.lateralTuning.indi.innerLoopGainBP = [0.]
-    ret.lateralTuning.indi.innerLoopGainV = [3.1]
-    ret.lateralTuning.indi.outerLoopGainBP = [0.]
-    ret.lateralTuning.indi.outerLoopGainV = [2.5]
-    ret.lateralTuning.indi.timeConstantBP = [0.]
-    ret.lateralTuning.indi.timeConstantV = [1.4]
-    ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-    ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+    ret.lateralTuning.init('lqr')
+
+    ret.lateralTuning.lqr.scale = 1650.
+    ret.lateralTuning.lqr.ki = 0.01
+    ret.lateralTuning.lqr.dcGain = 0.00275
+
+    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    ret.lateralTuning.lqr.c = [1., 0.]
+    ret.lateralTuning.lqr.k = [-110., 451.]
+    ret.lateralTuning.lqr.l = [0.33, 0.318]
 
     ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.1
