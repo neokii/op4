@@ -280,10 +280,11 @@ struct DeviceState @0xa4d8b5af2aa492eb {
   cpuUsagePercent @20 :Int8;
   usbOnline @12 :Bool;
   networkType @22 :NetworkType;
+  networkInfo @31 :NetworkInfo;
   offroadPowerUsageUwh @23 :UInt32;
   networkStrength @24 :NetworkStrength;
   carBatteryCapacityUwh @25 :UInt32;
-  wifiIpAddress @31 :Text;
+  wifiIpAddress @32 :Text;
 
   fanSpeedPercentDesired @10 :UInt16;
   started @11 :Bool;
@@ -327,6 +328,13 @@ struct DeviceState @0xa4d8b5af2aa492eb {
     moderate @2;
     good @3;
     great @4;
+  }
+
+  struct NetworkInfo {
+    technology @0 :Text;
+    operator @1 :Text;
+    band @2 :Text;
+    channel @3 :UInt16;
   }
 
   # deprecated
@@ -1087,6 +1095,7 @@ struct UbloxGnss {
     aStatus @2 :AntennaSupervisorState;
     aPower @3 :AntennaPowerStatus;
     jamInd @4 :UInt8;
+    flags @5 :UInt8;
 
     enum AntennaSupervisorState {
       init @0;
@@ -1209,9 +1218,11 @@ struct DriverMonitoringState @0xb83cda094a1da284 {
 
 struct Boot {
   wallTimeNanos @0 :UInt64;
-  lastKmsg @1 :Data;
-  lastPmsg @2 :Data;
+  pstore @4 :Map(Text, Data);
   launchLog @3 :Text;
+
+  lastKmsgDEPRECATED @1 :Data;
+  lastPmsgDEPRECATED @2 :Data;
 }
 
 struct LiveParametersData {

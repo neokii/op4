@@ -8,7 +8,7 @@ from selfdrive.car.hyundai.values import Buttons
 from common.params import Params
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_CRUISE_DELTA_KM, V_CRUISE_DELTA_MI
 from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
-from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed
+from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
 
 # do not modify
 MIN_SET_SPEED_KPH = V_CRUISE_MIN
@@ -57,6 +57,7 @@ class SccSmoother:
     self.slow_on_curves = Params().get_bool('SccSmootherSlowOnCurves')
     self.sync_set_speed_while_gas_pressed = Params().get_bool('SccSmootherSyncGasPressed')
     self.is_metric = Params().get_bool('IsMetric')
+    self.fuse_with_stock = Params().get_bool('FuseWithStockScc')
 
     self.speed_conv_to_ms = CV.KPH_TO_MS if self.is_metric else CV.MPH_TO_MS
     self.speed_conv_to_clu = CV.MS_TO_KPH if self.is_metric else CV.MS_TO_MPH
@@ -168,7 +169,7 @@ class SccSmoother:
         max_speed_clu = min(max_speed_clu, lead_speed)
 
         if not self.limited_lead:
-          self.max_speed_clu = clu11_speed
+          self.max_speed_clu = clu11_speed + 5.
           self.limited_lead = True
     else:
       self.limited_lead = False
@@ -183,6 +184,8 @@ class SccSmoother:
     clu11_speed = CS.clu11["CF_Clu_Vanz"]
 
     road_limit_speed, left_dist, max_speed_log = self.cal_max_speed(frame, CC, CS, controls.sm, clu11_speed, controls)
+
+    CC.sccSmoother.roadLimitSpeedActive = road_speed_limiter_get_active()
     CC.sccSmoother.roadLimitSpeed = road_limit_speed
     CC.sccSmoother.roadLimitSpeedLeftDist = left_dist
 
@@ -262,8 +265,8 @@ class SccSmoother:
       lead = self.get_lead(sm)
       if lead is not None:
         d = lead.dRel - 5.
-        cruise_gap = clip(CS.cruise_gap, 1., 4.)
-        if 0. < d < -lead.vRel * (9. + cruise_gap) * 2. and lead.vRel < -1.:
+        #cruise_gap = clip(CS.cruise_gap, 1., 4.)
+        if 0. < d < -lead.vRel * (10. + 3.) * 2. and lead.vRel < -1.:
           t = d / lead.vRel
           accel = -(lead.vRel / t) * self.speed_conv_to_clu
           accel *= 1.4
@@ -335,7 +338,7 @@ class SccSmoother:
     if lead is not None:
       dRel = lead.dRel
 
-      if lead.radar:
+      if self.fuse_with_stock and lead.radar:
 
         if stock_accel > 0.:
           stock_weight = interp(dRel, [3., 25.], [0.7, 0.])
@@ -346,12 +349,14 @@ class SccSmoother:
 
     return apply_accel, dRel
 
-  def get_accel(self, actuators):
+  def get_accel(self, CS, sm, actuators):
+
     accel = actuators.gas - actuators.brake
     if accel > 0:
       accel *= self.gas_gain
     else:
       accel *= self.brake_gain
+
     return accel
 
   @staticmethod

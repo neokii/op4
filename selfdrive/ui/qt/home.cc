@@ -1,16 +1,16 @@
+#include "selfdrive/ui/qt/home.h"
+
 #include <QDateTime>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QVBoxLayout>
 
-#include "common/util.h"
-#include "common/params.h"
-#include "common/timing.h"
-#include "common/swaglog.h"
-
-#include "home.h"
-#include "widgets/drive_stats.h"
-#include "widgets/setup.h"
+#include "selfdrive/common/params.h"
+#include "selfdrive/common/swaglog.h"
+#include "selfdrive/common/timing.h"
+#include "selfdrive/common/util.h"
+#include "selfdrive/ui/qt/widgets/drive_stats.h"
+#include "selfdrive/ui/qt/widgets/setup.h"
 
 // HomeWindow: the container for the offroad and onroad UIs
 
@@ -29,6 +29,7 @@ HomeWindow::HomeWindow(QWidget* parent) : QWidget(parent) {
 
   onroad = new OnroadWindow(this);
   slayout->addWidget(onroad);
+
   QObject::connect(this, &HomeWindow::update, onroad, &OnroadWindow::update);
   QObject::connect(this, &HomeWindow::offroadTransitionSignal, onroad, &OnroadWindow::offroadTransition);
 
@@ -46,6 +47,7 @@ void HomeWindow::offroadTransition(bool offroad) {
     slayout->setCurrentWidget(onroad);
   }
   sidebar->setVisible(offroad);
+  emit offroadTransitionSignal(offroad);
 }
 
 void HomeWindow::mousePressEvent(QMouseEvent* e) {
@@ -58,7 +60,16 @@ void HomeWindow::mousePressEvent(QMouseEvent* e) {
 
   // Handle sidebar collapsing
   if (onroad->isVisible() && (!sidebar->isVisible() || e->x() > sidebar->width())) {
-    sidebar->setVisible(!sidebar->isVisible());
+    // Hide map first if visible, then hide sidebar
+    if (onroad->map != nullptr && onroad->map->isVisible()){
+      onroad->map->setVisible(false);
+    } else if (!sidebar->isVisible()) {
+      sidebar->setVisible(true);
+    } else {
+      sidebar->setVisible(false);
+
+      if (onroad->map != nullptr) onroad->map->setVisible(true);
+    }
   }
 }
 

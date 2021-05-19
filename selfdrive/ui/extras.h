@@ -7,8 +7,20 @@ static void ui_draw_extras_limit_speed(UIState *s)
 {
     const UIScene *scene = &s->scene;
     cereal::CarControl::SccSmoother::Reader scc_smoother = scene->car_control.getSccSmoother();
+    int activeNDA = scc_smoother.getRoadLimitSpeedActive();
     int limit_speed = scc_smoother.getRoadLimitSpeed();
     int left_dist = scc_smoother.getRoadLimitSpeedLeftDist();
+
+    if(activeNDA > 0)
+    {
+        int w = 120;
+        int h = 54;
+        int x = (s->viz_rect.w + (bdr_s*2))/2 - w/2;
+        int y = 40;
+
+        const char* img = activeNDA == 1 ? "img_nda" : "img_hda";
+        ui_draw_image(s, {x, y, w, h}, img, 1.f);
+    }
 
     if(limit_speed > 10 && left_dist > 0)
     {

@@ -1,11 +1,12 @@
+#include "drive_stats.h"
+
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVBoxLayout>
 
-#include "common/params.h"
-#include "drive_stats.h"
-#include "request_repeater.h"
+#include "selfdrive/common/params.h"
+#include "selfdrive/ui/qt/request_repeater.h"
 
 const double MILE_TO_KM = 1.60934;
 
@@ -59,10 +60,10 @@ DriveStats::DriveStats(QWidget* parent) : QWidget(parent) {
   gl->addWidget(new QLabel("PAST WEEK"), 6, 0, 1, 3);
   add_stats_layouts(gl, week_, 7, distance_unit);
 
-  QString dongleId = QString::fromStdString(Params().get("DongleId"));
+  /*QString dongleId = QString::fromStdString(Params().get("DongleId"));
   QString url = "https://api.commadotai.com/v1.1/devices/" + dongleId + "/stats";
   RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 30);
-  QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);
+  QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);*/
 
   setLayout(gl);
   setStyleSheet(R"(QLabel {font-size: 48px; font-weight: 500;})");

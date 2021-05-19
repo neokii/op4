@@ -78,12 +78,12 @@ def create_clu11(packer, frame, bus, clu11, button, speed):
   values["CF_Clu_AliveCnt1"] = frame
   return packer.make_can_msg("CLU11", bus, values)
 
-def create_lfahda_mfc(packer, enabled, hda_set_speed=0):
+def create_lfahda_mfc(packer, enabled, active):
   values = {
     "LFA_Icon_State": 2 if enabled else 0,
-    "HDA_Active": 1 if hda_set_speed else 0,
-    "HDA_Icon_State": 2 if hda_set_speed else 0,
-    "HDA_VSetReq": hda_set_speed,
+    "HDA_Active": 1 if active > 0 else 0,
+    "HDA_Icon_State": 2 if active > 0 else 0,
+    # "HDA_VSetReq": 0,
   }
 
   # VAL_ 1157 LFA_Icon_State 0 "no_wheel" 1 "white_wheel" 2 "green_wheel" 3 "green_wheel_blink";
@@ -135,14 +135,26 @@ def create_scc13(packer, scc13):
   values = copy.copy(scc13)
   return packer.make_can_msg("SCC13", 0, values)
 
-def create_scc14(packer, enabled, scc14):
+def create_scc14(packer, enabled, e_vgo, standstill, accel, gaspressed, objgap, scc14):
   values = copy.copy(scc14)
+
+  # xps-genesis
   if enabled:
-    values["JerkUpperLimit"] = 3.2
-    values["JerkLowerLimit"] = 0.1
-    values["SCCMode"] = 1
-    values["ComfortBandUpper"] = 0.24
-    values["ComfortBandLower"] = 0.24
+    values["ACCMode"] = 2 if gaspressed and (accel > -0.2) else 1
+    values["ObjGap"] = objgap
+    if standstill:
+      values["JerkUpperLimit"] = 0.5
+      values["JerkLowerLimit"] = 10.
+      values["ComfortBandUpper"] = 0.
+      values["ComfortBandLower"] = 0.
+      if e_vgo > 0.27:
+        values["ComfortBandUpper"] = 2.
+        values["ComfortBandLower"] = 0.
+    else:
+      values["JerkUpperLimit"] = 50.
+      values["JerkLowerLimit"] = 50.
+      values["ComfortBandUpper"] = 50.
+      values["ComfortBandLower"] = 50.
 
   return packer.make_can_msg("SCC14", 0, values)
 

@@ -1,22 +1,21 @@
-#include <string>
-#include <iostream>
-#include <sstream>
+#include "settings.h"
+
 #include <cassert>
+#include <string>
 
 #ifndef QCOM
-#include "networking.h"
+#include "selfdrive/ui/qt/offroad/networking.h"
 #endif
-#include "settings.h"
-#include "widgets/input.h"
-#include "widgets/toggle.h"
-#include "widgets/offroad_alerts.h"
-#include "widgets/scrollview.h"
-#include "widgets/controls.h"
-#include "widgets/ssh_keys.h"
-#include "common/params.h"
-#include "common/util.h"
+#include "selfdrive/common/params.h"
+#include "selfdrive/common/util.h"
 #include "selfdrive/hardware/hw.h"
-#include "ui.h"
+#include "selfdrive/ui/qt/widgets/controls.h"
+#include "selfdrive/ui/qt/widgets/input.h"
+#include "selfdrive/ui/qt/widgets/offroad_alerts.h"
+#include "selfdrive/ui/qt/widgets/scrollview.h"
+#include "selfdrive/ui/qt/widgets/ssh_keys.h"
+#include "selfdrive/ui/qt/widgets/toggle.h"
+#include "selfdrive/ui/ui.h"
 
 TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   QVBoxLayout *toggles_list = new QVBoxLayout();
@@ -322,6 +321,12 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                             ));
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("FuseWithStockScc",
+                                            "Use by fusion with stock scc.",
+                                            "",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("ShowDebugUI",
                                             "Show Debug UI",
                                             "",
@@ -380,12 +385,13 @@ void SettingsWindow::showEvent(QShowEvent *event) {
   for (auto &[name, panel] : panels) {
     QPushButton *btn = new QPushButton(name);
     btn->setCheckable(true);
+    btn->setChecked(nav_btns->buttons().size() == 0);
     btn->setStyleSheet(R"(
       QPushButton {
         color: grey;
         border: none;
         background: none;
-        font-size: 65px;
+        font-size: 60px;
         font-weight: 500;
         padding-top: 35px;
         padding-bottom: 35px;
