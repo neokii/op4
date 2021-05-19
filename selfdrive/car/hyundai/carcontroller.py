@@ -3,17 +3,19 @@ from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
 from selfdrive.car import apply_std_steer_torque_limits
-from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, create_lfahda_mfc, \
+from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
-  create_mdps12
+  create_mdps12, create_lfahda_mfc
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
 from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
 from common.params import Params
+from selfdrive.controls.lib.longcontrol import LongCtrlState
+from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
-min_set_speed = 30 * CV.KPH_TO_MS
+min_set_speed = 0 * CV.KPH_TO_MS
 
 
 def accel_hysteresis(accel, accel_steady):
@@ -80,7 +82,7 @@ class CarController():
     # *** compute control surfaces ***
 
     # gas and brake
-    apply_accel = self.scc_smoother.get_accel(actuators)
+    apply_accel = self.scc_smoother.get_accel(CS, controls.sm, actuators)
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE,
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
@@ -96,8 +98,8 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     # fix for Genesis hard fault at low speed
-    if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
-      lkas_active = False
+    #if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+      #lkas_active = False
 
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
@@ -118,7 +120,7 @@ class CarController():
                         left_lane, right_lane, left_lane_depart, right_lane_depart)
 
     clu11_speed = CS.clu11["CF_Clu_Vanz"]
-    enabled_speed = 35 if CS.is_set_speed_in_mph else 55
+    enabled_speed = 38 if CS.is_set_speed_in_mph else 60
     if clu11_speed > enabled_speed or not lkas_active:
       enabled_speed = clu11_speed
 
@@ -218,16 +220,36 @@ class CarController():
       controls.lead_drel = lead_drel
 
       can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc12_cnt, self.scc_live, CS.scc12))
-      can_sends.append(create_scc11(self.packer, frame, enabled, set_speed, controls.sm['radarState'], self.scc_live, CS.scc11))
+      can_sends.append(create_scc11(self.packer, frame, enabled, set_speed, lead_visible, self.scc_live, CS.scc11))
 
       if CS.has_scc13 and frame % 20 == 0:
         can_sends.append(create_scc13(self.packer, CS.scc13))
       if CS.has_scc14:
-        can_sends.append(create_scc14(self.packer, enabled, CS.scc14))
+
+        if CS.out.vEgo < 2.:
+          long_control_state = controls.LoC.long_control_state
+          acc_standstill = True if long_control_state == LongCtrlState.stopping else False
+        else:
+          acc_standstill = False
+
+        lead = self.scc_smoother.get_lead(controls.sm)
+
+        if lead is not None:
+          d = lead.dRel
+          obj_gap = 1 if d < 25 else 2 if d < 40 else 3 if d < 60 else 4 if d < 80 else 5
+        else:
+          obj_gap = 0
+
+        can_sends.append(create_scc14(self.packer, enabled, CS.out.vEgo, acc_standstill, apply_accel, CS.out.gasPressed,
+                                      obj_gap, CS.scc14))
       self.scc12_cnt += 1
 
-      # 20 Hz LFA MFA message
-    if frame % 5 == 0 and self.car_fingerprint in FEATURES["send_lfa_mfa"]:
-      can_sends.append(create_lfahda_mfc(self.packer, enabled))
+    # 20 Hz LFA MFA message
+    if frame % 5 == 0:
+      activated_hda = road_speed_limiter_get_active()
+      if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
+        can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
+      elif CS.mdps_bus == 0:
+        can_sends.append(create_lfahda_mfc(self.packer, False, activated_hda))
 
     return can_sends
