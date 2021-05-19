@@ -1,4 +1,3 @@
-#include <iostream>
 #include "i2c_sensor.h"
 
 int16_t read_12_bit(uint8_t lsb, uint8_t msb){

@@ -1,15 +1,15 @@
+#include "onboarding.h"
+
+#include <QDesktopWidget>
 #include <QLabel>
 #include <QPainter>
-#include <QVBoxLayout>
-#include <QDesktopWidget>
 #include <QQmlContext>
 #include <QQuickWidget>
+#include <QVBoxLayout>
 
-#include "common/params.h"
-#include "onboarding.h"
-#include "home.h"
-#include "util.h"
-
+#include "selfdrive/common/params.h"
+#include "selfdrive/common/util.h"
+#include "selfdrive/ui/qt/home.h"
 
 void TrainingGuide::mouseReleaseEvent(QMouseEvent *e) {
   QPoint touch = QPoint(e->x(), e->y()) - imageCorner;
@@ -107,8 +107,7 @@ void TermsPage::enableAccept(){
 }
 
 void OnboardingWindow::updateActiveScreen() {
-  bool accepted_terms = params.get("HasAcceptedTerms", false).compare(current_terms_version) == 0;
-  bool training_done = params.get("CompletedTrainingVersion", false).compare(current_training_version) == 0;
+  updateOnboardingStatus();
 
   if (!accepted_terms) {
     setCurrentIndex(0);
@@ -156,4 +155,14 @@ OnboardingWindow::OnboardingWindow(QWidget *parent) : QStackedWidget(parent) {
   )");
 
   updateActiveScreen();
+}
+
+void OnboardingWindow::updateOnboardingStatus() {
+  accepted_terms = params.get("HasAcceptedTerms", false).compare(current_terms_version) == 0;
+  training_done = params.get("CompletedTrainingVersion", false).compare(current_training_version) == 0;
+}
+
+bool OnboardingWindow::isOnboardingDone() {
+  updateOnboardingStatus();
+  return accepted_terms && training_done;
 }

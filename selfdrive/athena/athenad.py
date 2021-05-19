@@ -17,7 +17,7 @@ from typing import Any
 
 import requests
 from jsonrpc import JSONRPCResponseManager, dispatcher
-from websocket import ABNF, WebSocketTimeoutException, create_connection
+from websocket import ABNF, WebSocketTimeoutException, WebSocketException, create_connection
 
 import cereal.messaging as messaging
 from cereal.services import service_list
@@ -129,6 +129,17 @@ def getMessage(service=None, timeout=1000):
     raise TimeoutError
 
   return ret.to_dict()
+
+
+@dispatcher.add_method
+def setNavDestination(latitude=0, longitude=0):
+  destination = {
+    "latitude": latitude,
+    "longitude": longitude,
+  }
+  Params().put("NavDestination", json.dumps(destination))
+
+  return {"success": 1}
 
 
 @dispatcher.add_method
@@ -433,6 +444,9 @@ def main():
       handle_long_poll(ws)
     except (KeyboardInterrupt, SystemExit):
       break
+    except (ConnectionError, TimeoutError, WebSocketException):
+      conn_retries += 1
+      params.delete("LastAthenaPingTime")
     except Exception:
       crash.capture_exception()
       cloudlog.exception("athenad.main.exception")

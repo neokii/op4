@@ -1,6 +1,7 @@
-#include "common/util.h"
-#include "sidebar.h"
-#include "qt_window.h"
+#include "selfdrive/ui/qt/sidebar.h"
+
+#include "selfdrive/ui/qt/qt_window.h"
+#include "selfdrive/common/util.h"
 #include "selfdrive/hardware/hw.h"
 #include "selfdrive/ui/qt/util.h"
 
@@ -21,13 +22,13 @@ void Sidebar::drawMetric(QPainter &p, const QString &label, const QString &val, 
 
   p.setPen(QColor(0xff, 0xff, 0xff));
   if (val.isEmpty()) {
-    configFont(p, "Open Sans", 35, 500);
+    configFont(p, "Open Sans", 35, "Bold");
     const QRect r = QRect(rect.x() + 35, rect.y(), rect.width() - 50, rect.height());
     p.drawText(r, Qt::AlignCenter, label);
   } else {
-    configFont(p, "Open Sans", 58, 500);
+    configFont(p, "Open Sans", 58, "Bold");
     p.drawText(rect.x() + 50, rect.y() + 71, val);
-    configFont(p, "Open Sans", 35, 400);
+    configFont(p, "Open Sans", 35, "Regular");
     p.drawText(rect.x() + 50, rect.y() + 50 + 77, label);
   }
 }
@@ -60,18 +61,19 @@ void Sidebar::update(const UIState &s) {
     repaint();
   }
 
-  net_type = s.scene.deviceState.getNetworkType();
-  strength = s.scene.deviceState.getNetworkStrength();
-  wifi_addr = s.scene.deviceState.getWifiIpAddress().cStr();
+  auto deviceState = (*s.sm)["deviceState"].getDeviceState();
+  net_type = deviceState.getNetworkType();
+  strength = deviceState.getNetworkStrength();
+  wifi_addr = deviceState.getWifiIpAddress().cStr();
 
   temp_status = danger_color;
-  auto ts = s.scene.deviceState.getThermalStatus();
+  auto ts = deviceState.getThermalStatus();
   if (ts == cereal::DeviceState::ThermalStatus::GREEN) {
     temp_status = good_color;
   } else if (ts == cereal::DeviceState::ThermalStatus::YELLOW) {
     temp_status = warning_color;
   }
-  temp_val = (int)s.scene.deviceState.getAmbientTempC();
+  temp_val = (int)deviceState.getAmbientTempC();
 
   panda_str = "VEHICLE\nONLINE";
   panda_status = good_color;
@@ -80,7 +82,7 @@ void Sidebar::update(const UIState &s) {
     panda_str = "NO\nPANDA";
   } else if (Hardware::TICI() && s.scene.started) {
     panda_str = QString("SAT CNT\n%1").arg(s.scene.satelliteCount);
-    panda_status = s.scene.gpsOK ? good_color : warning_color;
+    panda_status = (*s.sm)["liveLocationKalman"].getLiveLocationKalman().getGpsOK() ? good_color : warning_color;
   }
 
   if (s.sm->updated("deviceState") || s.sm->updated("pandaState")) {
@@ -101,7 +103,7 @@ void Sidebar::paintEvent(QPaintEvent *event) {
 
   // network
   p.drawImage(58, 196, signal_imgs[strength]);
-  configFont(p, "Open Sans", 30, 400);
+  configFont(p, "Open Sans", 30, "Regular");
   p.setPen(QColor(0xff, 0xff, 0xff));
   const QRect r = QRect(0, 247, event->rect().width(), 50);
 
@@ -111,6 +113,7 @@ void Sidebar::paintEvent(QPaintEvent *event) {
     p.drawText(r, Qt::AlignCenter, network_type[net_type]);
 
   // metrics
+  configFont(p, "Open Sans", 35, "Regular");
   drawMetric(p, "TEMP", QString("%1°C").arg(temp_val), temp_status, 338);
   drawMetric(p, panda_str, "", panda_status, 518);
   drawMetric(p, "CONNECT\n" + connect_str, "", connect_status, 676);

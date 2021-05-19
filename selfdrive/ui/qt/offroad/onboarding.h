@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QWidget>
-#include <QStackedWidget>
-#include <QTextEdit>
+#include <QImage>
 #include <QMouseEvent>
 #include <QPushButton>
-#include <QImage>
+#include <QStackedWidget>
+#include <QTextEdit>
+#include <QWidget>
 
 #include "selfdrive/common/params.h"
 
@@ -77,11 +77,15 @@ class OnboardingWindow : public QStackedWidget {
 
 public:
   explicit OnboardingWindow(QWidget *parent = 0);
+  bool isOnboardingDone();
 
 private:
   Params params;
   std::string current_terms_version;
   std::string current_training_version;
+  bool accepted_terms = false;
+  bool training_done = false;
+  void updateOnboardingStatus();
 
 signals:
   void onboardingDone();

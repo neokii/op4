@@ -1,11 +1,12 @@
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QJsonObject>
-#include <QJsonDocument>
-
 #include "offroad_alerts.h"
-#include "selfdrive/hardware/hw.h"
+
+#include <QHBoxLayout>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVBoxLayout>
+
 #include "selfdrive/common/util.h"
+#include "selfdrive/hardware/hw.h"
 
 OffroadAlert::OffroadAlert(QWidget* parent) : QFrame(parent) {
   QVBoxLayout *layout = new QVBoxLayout;
@@ -16,7 +17,6 @@ OffroadAlert::OffroadAlert(QWidget* parent) : QFrame(parent) {
   alerts_layout = new QVBoxLayout;
   alerts_layout->setMargin(0);
   alerts_layout->setSpacing(30);
-  alerts_layout->addStretch(1);
   alerts_widget->setLayout(alerts_layout);
   alerts_widget->setStyleSheet("background-color: transparent;");
 
@@ -82,6 +82,7 @@ void OffroadAlert::refresh() {
       l->setVisible(false);
       alerts_layout->addWidget(l);
     }
+    alerts_layout->addStretch(1);
   }
 
   updateAlerts();

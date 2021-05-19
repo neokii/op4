@@ -1,3 +1,5 @@
+#include "setup.h"
+
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -6,11 +8,10 @@
 #include <QStackedWidget>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QrCode.hpp>
 
-#include "QrCode.hpp"
-#include "request_repeater.h"
-#include "common/params.h"
-#include "setup.h"
+#include "selfdrive/common/params.h"
+#include "selfdrive/ui/qt/request_repeater.h"
 
 using qrcodegen::QrCode;
 
@@ -137,7 +138,7 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
 
   vlayout->addWidget(new QLabel("Upgrade now"), 1, Qt::AlignTop);
 
-  QLabel* description = new QLabel("Become a comma prime member in the comma connect app and get premium features!");
+  QLabel* description = new QLabel("Become a comma prime member at my.comma.ai and get premium features!");
   description->setStyleSheet(R"(
     font-size: 50px;
     color: #b8b8b8;
@@ -238,13 +239,14 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   setSizePolicy(sp_retain);
 
   // set up API requests
-  QString dongleId = QString::fromStdString(Params().get("DongleId"));
+  /*QString dongleId = QString::fromStdString(Params().get("DongleId"));
   QString url = "https://api.commadotai.com/v1.1/devices/" + dongleId + "/";
   RequestRepeater* repeater = new RequestRepeater(this, url, "ApiCache_Device", 5);
 
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &SetupWidget::replyFinished);
-  QObject::connect(repeater, &RequestRepeater::failedResponse, this, &SetupWidget::parseError);
-  hide(); // Only show when first request comes back
+  QObject::connect(repeater, &RequestRepeater::failedResponse, this, &SetupWidget::parseError);*/
+  //hide(); // Only show when first request comes back
+  parseError("");
 }
 
 void SetupWidget::parseError(const QString &response) {
