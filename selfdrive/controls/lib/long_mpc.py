@@ -13,7 +13,7 @@ from selfdrive.config import Conversions as CV
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
 CRUISE_GAP_BP = [1., 2., 3., 4.]
-CRUISE_GAP_V = [1.2, 1.5, 2.1, 2.73]
+CRUISE_GAP_V = [1.1, 1.3, 2.1, 2.6]
 
 
 class LongitudinalMpc():
@@ -113,7 +113,7 @@ class LongitudinalMpc():
     if self.auto_tr and cruise_gap == 1:
       TR = interp(v_ego,
                   [40.*CV.KPH_TO_MS, 60.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS],
-                  [1.1, 1.25, 1.6, 2., 2.7])
+                  [1.0, 1.25, 1.5, 2.0, 2.5])
     else:
       TR = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
 
