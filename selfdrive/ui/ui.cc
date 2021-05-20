@@ -275,7 +275,12 @@ static void update_extras(UIState *s)
 {
    UIScene &scene = s->scene;
    SubMaster &sm = *(s->sm);
-
+	
+  if (sm.updated("carState")) {
+    auto event = sm["carState"];
+    scene.car_state = event.getCarState();
+  }
+	
    if(sm.updated("carControl"))
     scene.car_control = sm["carControl"].getCarControl();
 
