@@ -110,6 +110,8 @@ typedef struct UIScene {
   int blinker_blinkingrate;
   cereal::PandaState::PandaType pandaType;
 
+  cereal::CarState::Reader car_state;
+  
   // gps
   int satelliteCount;
   float gpsAccuracy;
