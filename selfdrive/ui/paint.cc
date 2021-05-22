@@ -842,7 +842,7 @@ static void ui_draw_vision_speed(UIState *s) {
 static void ui_draw_vision_event(UIState *s) {
   if ((*s->sm)["controlsState"].getControlsState().getEngageable()) {
     // draw steering wheel
-    const int radius = 96;
+    const int radius = 96; 
     const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
     const int center_y = s->viz_rect.y + radius  + (bdr_s * 1.5);
     ui_draw_circle_image(s, center_x, center_y, radius, "wheel", bg_colors[s->status], 1.0f);
@@ -859,15 +859,15 @@ static void ui_draw_vision_face(UIState *s) {
 
 static void ui_draw_vision_bsd_left(UIState *s) {
   const int radius = 85;
-  const int bsd_x = (s->viz_rect.x + radius + (bdr_s*2));
-  const int bsd_y = (s->viz_rect.bottom() - footer_h / 2);
+  const int bsd_x = (s->viz_rect.x + radius + (bdr_s*25));
+  const int bsd_y = (s->viz_rect.bottom() - footer_h * 1.8);
   ui_draw_circle_image(s, bsd_x, bsd_y - (radius*2), radius, "bsd_l", s->scene.car_state.getLeftBlindspot());
 }
 
 static void ui_draw_vision_bsd_right(UIState *s) {
   const int radius = 85;
-  const int bsd_x = (s->viz_rect.x + radius + (bdr_s*2));
-  const int bsd_y = (s->viz_rect.bottom() - footer_h / 2);
+  const int bsd_x = (s->viz_rect.x + radius + (bdr_s*52));
+  const int bsd_y = (s->viz_rect.bottom() - footer_h * 1.8);
   ui_draw_circle_image(s, bsd_x + (radius*2), bsd_y - (radius*2), radius, "bsd_r", s->scene.car_state.getRightBlindspot());
 }
 
