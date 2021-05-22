@@ -94,7 +94,7 @@ typedef struct {
 } line_vertices_data;
 
 typedef struct UIScene {
-  cereal::CarState::Reader car_state;
+
   mat3 view_from_calib;
   bool world_objects_visible;
 
