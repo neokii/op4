@@ -71,9 +71,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   if (Hardware::TICI()) {
     toggles.append(new ParamControl("EnableWideCamera",
                                     "Enable use of Wide Angle Camera",
-                                    "Use wide angle camera for driving and ui. Only takes effect after reboot.",
+                                    "Use wide angle camera for driving and ui.",
                                     "../assets/offroad/icon_openpilot.png",
                                     this));
+    QObject::connect(toggles.back(), &ToggleControl::toggleFlipped, [=](bool state) {
+      Params().remove("CalibrationParams");
+    });
+
     toggles.append(new ParamControl("EnableLteOnroad",
                                     "Enable LTE while onroad",
                                     "",
@@ -303,8 +307,14 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_openpilot.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("LaneChangeEnabled",
+                                            "Enable Lane Change Assist",
+                                            "Perform assisted lane changes with openpilot by checking your surroundings for safety, activating the turn signal and gently nudging the steering wheel towards your desired lane. openpilot is not capable of checking if a lane change is safe. You must continuously observe your surroundings to use this feature.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AutoLaneChangeEnabled",
-                                            "Enable Auto Lane Change Assist",
+                                            "Enable Auto Lane Change(Nudgeless)",
                                             "warnings: it is beta, be careful!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
@@ -322,7 +332,7 @@ QWidget * community_panel() {
                                             ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("FuseWithStockScc",
-                                            "Use by fusion with stock scc.",
+                                            "Use by fusion with stock scc",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
