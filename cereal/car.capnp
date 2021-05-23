@@ -128,8 +128,8 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     modelLagWarningDEPRECATED @93;
     startupOneplusDEPRECATED @82;
 
-    turningIndicatorOn @100;
-    autoLaneChange @101;
+    turningIndicatorOn @103;
+    autoLaneChange @104;
 
     slowingDownSpeed @105;
     slowingDownSpeedSound @106;
