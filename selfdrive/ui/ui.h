@@ -52,6 +52,11 @@
 #define COLOR_RED_ALPHA(x) nvgRGBA(201, 34, 49, x)
 #define COLOR_YELLOW nvgRGBA(218, 202, 37, 255)
 #define COLOR_RED nvgRGBA(201, 34, 49, 255)
+#define COLOR_ENGAGED_ALPHA(x) nvgRGBA(23, 134, 68, x)
+#define COLOR_WARNING nvgRGBA(218, 111, 37, 255)
+#define COLOR_WARNING_ALPHA(x) nvgRGBA(218, 111, 37, x)
+#define COLOR_ENGAGEABLE nvgRGBA(23, 51, 73, 255)
+#define COLOR_ENGAGEABLE_ALPHA(x) nvgRGBA(23, 51, 73, x)
 
 typedef struct Rect {
   int x, y, w, h;
@@ -100,9 +105,13 @@ typedef struct UIScene {
 
   bool is_rhd;
   bool driver_view;
-
+  bool leftBlinker, rightBlinker;
+  bool leftblindspot, rightblindspot;
+  int blinker_blinkingrate;
   cereal::PandaState::PandaType pandaType;
 
+  cereal::CarState::Reader car_state;
+  
   // gps
   int satelliteCount;
   float gpsAccuracy;
