@@ -30,7 +30,7 @@ from selfdrive.loggerd.config import ROOT
 from selfdrive.loggerd.xattr_cache import getxattr, setxattr
 from selfdrive.swaglog import cloudlog, SWAGLOG_DIR
 import selfdrive.crash as crash
-from selfdrive.version import dirty, origin, branch, commit
+from selfdrive.version import dirty, origin, branch, commit, get_version, get_git_remote, get_git_branch, get_git_commit
 
 ATHENA_HOST = os.getenv('ATHENA_HOST', 'wss://athena.comma.ai')
 HANDLER_THREADS = int(os.getenv('HANDLER_THREADS', "4"))
@@ -130,6 +130,16 @@ def getMessage(service=None, timeout=1000):
     raise TimeoutError
 
   return ret.to_dict()
+
+
+@dispatcher.add_method
+def getVersion():
+  return {
+    "version": get_version(),
+    "remote": get_git_remote(),
+    "branch": get_git_branch(),
+    "commit": get_git_commit(),
+  }
 
 
 @dispatcher.add_method
@@ -441,6 +451,7 @@ def main():
   conn_retries = 0
   while 1:
     try:
+      cloudlog.event("athenad.main.connecting_ws", ws_uri=ws_uri)
       ws = create_connection(ws_uri,
                              cookie="jwt=" + api.get_token(),
                              enable_multithread=True,

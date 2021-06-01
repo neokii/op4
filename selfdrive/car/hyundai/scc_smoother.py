@@ -10,6 +10,8 @@ from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_C
 from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
 
+SYNC_MARGIN = 3.
+
 # do not modify
 MIN_SET_SPEED_KPH = V_CRUISE_MIN
 MAX_SET_SPEED_KPH = V_CRUISE_MAX
@@ -169,7 +171,7 @@ class SccSmoother:
         max_speed_clu = min(max_speed_clu, lead_speed)
 
         if not self.limited_lead:
-          self.max_speed_clu = clu11_speed + 5.
+          self.max_speed_clu = clu11_speed + 3.
           self.limited_lead = True
     else:
       self.limited_lead = False
@@ -266,7 +268,7 @@ class SccSmoother:
       if lead is not None:
         d = lead.dRel - 5.
         #cruise_gap = clip(CS.cruise_gap, 1., 4.)
-        if 0. < d < -lead.vRel * (10. + 3.) * 2. and lead.vRel < -1.:
+        if 0. < d < -lead.vRel * (9. + 3.) * 2. and lead.vRel < -1.:
           t = d / lead.vRel
           accel = -(lead.vRel / t) * self.speed_conv_to_clu
           accel *= 1.4
@@ -307,8 +309,8 @@ class SccSmoother:
 
     if not self.longcontrol:
       if CS.gas_pressed and self.sync_set_speed_while_gas_pressed and CS.cruise_buttons == Buttons.NONE:
-        if clu11_speed + 2. > self.kph_to_clu(controls.v_cruise_kph):
-          set_speed = clip(clu11_speed + 2., self.min_set_speed_clu, self.max_set_speed_clu)
+        if clu11_speed + SYNC_MARGIN > self.kph_to_clu(controls.v_cruise_kph):
+          set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           controls.v_cruise_kph = set_speed * self.speed_conv_to_ms * CV.MS_TO_KPH
 
       self.target_speed = self.kph_to_clu(controls.v_cruise_kph)
@@ -318,8 +320,8 @@ class SccSmoother:
 
     elif CS.cruiseState_enabled:
       if CS.gas_pressed and self.sync_set_speed_while_gas_pressed and CS.cruise_buttons == Buttons.NONE:
-        if clu11_speed + 2. > self.kph_to_clu(controls.v_cruise_kph):
-          set_speed = clip(clu11_speed + 2., self.min_set_speed_clu, self.max_set_speed_clu)
+        if clu11_speed + SYNC_MARGIN > self.kph_to_clu(controls.v_cruise_kph):
+          set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           self.target_speed = set_speed
 
   def update_max_speed(self, max_speed):
