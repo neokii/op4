@@ -129,14 +129,7 @@ static void update_sockets(UIState *s){
 static void update_state(UIState *s) {
   SubMaster &sm = *(s->sm);
   UIScene &scene = s->scene;
-  if (sm.updated("carState")) {
-    scene.car_state = sm["carState"].getCarState();
-    if(scene.leftBlinker!=scene.car_state.getLeftBlinker() || scene.rightBlinker!=scene.car_state.getRightBlinker()){
-      scene.blinker_blinkingrate = 120;
-    }
-    scene.leftBlinker = scene.car_state.getLeftBlinker();
-    scene.rightBlinker = scene.car_state.getRightBlinker();
-  }
+
   if (sm.updated("radarState")) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
     if (sm.rcv_frame("modelV2") > 0) {
@@ -286,12 +279,7 @@ static void update_extras(UIState *s)
 {
    UIScene &scene = s->scene;
    SubMaster &sm = *(s->sm);
-	
-  if (sm.updated("carState")) {
-    auto event = sm["carState"];
-    scene.car_state = event.getCarState();
-  }
-	
+
    if(sm.updated("carControl"))
     scene.car_control = sm["carControl"].getCarControl();
 
