@@ -44,20 +44,32 @@ class CarInterface(CarInterfaceBase):
       if fw.ecu == "eps" and b"," in fw.fwVersion:
         eps_modified = True
 
-    ret.maxSteeringAngleDeg = 90.
+    ret.maxSteeringAngleDeg = 140.
+    # lateral(Steering) Control choose either INDI or LQR. LQR isnt tuned at all, but its available.
+    
+    #LQR Start
+    #ret.lateralTuning.init('lqr')
+    #ret.lateralTuning.lqr.scale = 1650.
+    #ret.lateralTuning.lqr.ki = 0.01
+    #ret.lateralTuning.lqr.dcGain = 0.00275
+    #ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
+    #ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
+    #ret.lateralTuning.lqr.c = [1., 0.]
+    #ret.lateralTuning.lqr.k = [-110., 451.]
+    #ret.lateralTuning.lqr.l = [0.33, 0.318]
+    #LQR End
 
-    # lateral
-    ret.lateralTuning.init('lqr')
-
-    ret.lateralTuning.lqr.scale = 1650.
-    ret.lateralTuning.lqr.ki = 0.01
-    ret.lateralTuning.lqr.dcGain = 0.00275
-
-    ret.lateralTuning.lqr.a = [0., 1., -0.22619643, 1.21822268]
-    ret.lateralTuning.lqr.b = [-1.92006585e-04, 3.95603032e-05]
-    ret.lateralTuning.lqr.c = [1., 0.]
-    ret.lateralTuning.lqr.k = [-110., 451.]
-    ret.lateralTuning.lqr.l = [0.33, 0.318]
+    #INDI Start
+    ret.lateralTuning.init('indi')
+    ret.lateralTuning.indi.innerLoopGainBP = [0.]
+    ret.lateralTuning.indi.innerLoopGainV = [3.55]
+    ret.lateralTuning.indi.outerLoopGainBP = [0.]
+    ret.lateralTuning.indi.outerLoopGainV = [2.55]
+    ret.lateralTuning.indi.timeConstantBP = [0.]
+    ret.lateralTuning.indi.timeConstantV = [1.4]
+    ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+    ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+    #INDI End
 
     ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.1
@@ -68,24 +80,24 @@ class CarInterface(CarInterfaceBase):
 
     # longitudinal
     ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kpV = [0.93, 0.7, 0.52, 0.45, 0.4, 0.33, 0.25]
+    ret.longitudinalTuning.kpV = [1.24, 1.20, 1.12, 1.0, 0.90, 0.80, 0.70]
     ret.longitudinalTuning.kiBP = [0.]
-    ret.longitudinalTuning.kiV = [0.05]
+    ret.longitudinalTuning.kiV = [0.015]
     ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.kfV = [0.6, 0.4]
+    ret.longitudinalTuning.kfV = [0.5, 0.3]
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
 
     ret.gasMaxBP = [0., 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 50. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.gasMaxV = [0.43, 0.3, 0.24, 0.165, 0.13, 0.11]
+    ret.gasMaxV = [0.45, 0.55, 0.45, 0.35, 0.25, 0.15]
 
     ret.brakeMaxBP = [0, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.brakeMaxV = [1.35, 1., 0.6]
+    ret.brakeMaxV = [2.25, 1.25, 0.8]
 
     ret.stoppingBrakeRate = 0.15  # brake_travel/s while trying to stop
     ret.startingBrakeRate = 1.0  # brake_travel/s while releasing on restart
     ret.startAccel = 1.3
-
+    
     # genesis
     if candidate == CAR.GENESIS:
       ret.mass = 1900. + STD_CARGO_KG
