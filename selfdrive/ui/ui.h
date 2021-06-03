@@ -104,15 +104,9 @@ typedef struct UIScene {
   mat3 view_from_calib;
   bool world_objects_visible;
 
-  bool is_rhd;
-  bool driver_view;
-  bool leftBlinker, rightBlinker;
-  bool leftblindspot, rightblindspot;
-  int blinker_blinkingrate;
   cereal::PandaState::PandaType pandaType;
   cereal::CarState::Reader car_state;
-  
-  // gps
+    // gps
   int satelliteCount;
   float gpsAccuracy;
 
