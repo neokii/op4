@@ -288,7 +288,11 @@ static void update_extras(UIState *s)
 
    if(sm.updated("liveParameters"))
     scene.live_params = sm["liveParameters"].getLiveParameters();
-
+	
+  if (sm.updated("carState")) {
+    auto event = sm["carState"];
+    scene.car_state = event.getCarState();
+  }
 
 #if UI_FEATURE_DASHCAM
    if(s->awake)
@@ -304,7 +308,7 @@ static void update_extras(UIState *s)
 QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
     "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "liveLocationKalman",
-    "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "ubloxGnss",
+    "pandaState", "carParams", "driverState", "driverMonitoringState", "sensorEvents", "carState", "ubloxGnss",
     "gpsLocationExternal", "roadCameraState",
     "carControl", "liveParameters"});
 
