@@ -441,8 +441,7 @@ FW_VERSIONS = {
   (Ecu.transmission, 0x7e1, None): [b'\xf1\x87WAJTE17552812CH4vfFffvfVeT5DwvvVVdFeegeg\x88\x88o\xff\x1a]\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00TCK2T20NB1\x19\xd2\x00\x94',],
   (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00CK  MFC  AT USA LHD 1.00 1.03 95740-J5000 170822',],
   (Ecu.engine, 0x7e0, None): [b'\xf1\x81606DE051\x00\x00\x00\x00\x00\x00\x00\x00',],
-}
-  },  
+},
   CAR.NIRO_EV: {
     (Ecu.fwdRadar, 0x7D0, None): [
       b'\xf1\x00DEev SCC F-CUP      1.00 1.03 96400-Q4100         \xf1\xa01.03',
