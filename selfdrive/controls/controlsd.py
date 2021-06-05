@@ -81,7 +81,7 @@ class Controls:
     print("Waiting for CAN messages...")
     get_one_can(self.can_sock)
 
-    self.CI, self.CP = get_car(self.can_sock, self.pm.sock['sendcan'])
+    self.CI, self.CP = get_car(self.can_sock, self.pm.sock['sendcan'], has_relay)
 
     # read params
     params = Params()
