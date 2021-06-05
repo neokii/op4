@@ -107,7 +107,7 @@ class CarInterface(CarInterfaceBase):
       # Donfyffe stock tune
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
-      ret.lateralTuning.indi.innerLoopGainV = [3.1]
+      ret.lateralTuning.indi.innerLoopGainV = [3.0]
       ret.lateralTuning.indi.outerLoopGainBP = [0.]
       ret.lateralTuning.indi.outerLoopGainV = [2.5]
       ret.lateralTuning.indi.timeConstantBP = [0.]
@@ -121,7 +121,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.05]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [0.6, 0.4]
-      ret.gasMaxV = [0.75, 0.65, 0.55, 0.35, 0.20, 0.11]
+      ret.gasMaxV = [0.85, 0.70, 0.50, 0.40, 0.25, 0.11]
 
     elif candidate == CAR.GENESIS_G70:
 
