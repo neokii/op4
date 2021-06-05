@@ -146,7 +146,7 @@ def fingerprint(logcan, sendcan, has_relay):
           car_fingerprint = candidate_cars[b][0]
 
     # bail if no cars left or we've been waiting for more than 2s
-    failed = (all(len(cc) == 0 for cc in candidate_cars.values()) and frame > frame_fingerprint) or frame > 800# increase to 8 seconds
+    failed = (all(len(cc) == 0 for cc in candidate_cars.values()) and frame > frame_fingerprint) or frame > 200
     succeeded = car_fingerprint is not None
     done = failed or succeeded
 
@@ -174,10 +174,10 @@ def get_car(logcan, sendcan, has_relay=False):
 
   if candidate is None:
     cloudlog.warning("car doesn't match any fingerprints: %r", fingerprints)
-    CAR_FORCE_RECOGNITION = True
+    candidate = "mock"
 
-  if CAR_FORCE_RECOGNITION is True:
-    candidate = CAR.STINGER
+  if CAR_FORCE_RECOGNITION is not None:
+    candidate = CAR_FORCE_RECOGNITION
 
   CarInterface, CarController, CarState = interfaces[candidate]
   car_params = CarInterface.get_params(candidate, fingerprints, has_relay, car_fw)
