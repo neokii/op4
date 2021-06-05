@@ -121,7 +121,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.05]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [0.6, 0.4]
-      ret.gasMaxV = [0.60, 0.55, 0.45, 0.30, 0.20, 0.11]
+      ret.gasMaxV = [0.75, 0.65, 0.55, 0.35, 0.20, 0.11]
 
     elif candidate == CAR.GENESIS_G70:
 
