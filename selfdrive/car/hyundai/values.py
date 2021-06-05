@@ -1,5 +1,6 @@
 # flake8: noqa
 
+from selfdrive.car.car_helpers import fingerprint
 from cereal import car
 from selfdrive.car import dbc_dict
 Ecu = car.CarParams.Ecu
@@ -62,7 +63,7 @@ class CAR:
 
 
 # ex) CAR_FORCE_RECOGNITION = CAR.GRANDEUR_IG
-CAR_FORCE_RECOGNITION = None
+
 
 class Buttons:
   NONE = 0

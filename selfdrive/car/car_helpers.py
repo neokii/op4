@@ -1,7 +1,7 @@
 import os
 from common.params import Params
 from common.basedir import BASEDIR
-from selfdrive.car.hyundai.values import CAR_FORCE_RECOGNITION
+from selfdrive.car.hyundai.values import CAR, CAR_FORCE_RECOGNITION
 from selfdrive.car.fingerprints import eliminate_incompatible_cars, all_legacy_fingerprint_cars
 from selfdrive.car.vin import get_vin, VIN_UNKNOWN
 from selfdrive.car.fw_versions import get_fw_versions, match_fw_to_car
@@ -146,7 +146,7 @@ def fingerprint(logcan, sendcan, has_relay):
           car_fingerprint = candidate_cars[b][0]
 
     # bail if no cars left or we've been waiting for more than 2s
-    failed = (all(len(cc) == 0 for cc in candidate_cars.values()) and frame > frame_fingerprint) or frame > 200
+    failed = (all(len(cc) == 0 for cc in candidate_cars.values()) and frame > frame_fingerprint) or frame > 800# increase to 8 seconds
     succeeded = car_fingerprint is not None
     done = failed or succeeded
 
@@ -174,10 +174,10 @@ def get_car(logcan, sendcan, has_relay=False):
 
   if candidate is None:
     cloudlog.warning("car doesn't match any fingerprints: %r", fingerprints)
-    candidate = "mock"
+    CAR_FORCE_RECOGNITION = True
 
-  if CAR_FORCE_RECOGNITION is not None:
-    candidate = CAR_FORCE_RECOGNITION
+  if CAR_FORCE_RECOGNITION is True:
+    candidate = CAR.STINGER
 
   CarInterface, CarController, CarState = interfaces[candidate]
   car_params = CarInterface.get_params(candidate, fingerprints, has_relay, car_fw)
