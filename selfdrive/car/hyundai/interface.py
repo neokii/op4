@@ -68,7 +68,7 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxV = [1.5]
 
     # longitudinal
-    if candidate not CAR.GENESIS_G70 or CAR.STINGER: #Individualize Tunes
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER: #Individualize Tunes
 
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
