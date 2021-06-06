@@ -67,9 +67,15 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxBP = [0.]
     ret.steerMaxV = [1.5]
 
+<<<<<<< HEAD
    #Longitudinal Tune and logic for car tune
     if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Tune for untuned cars
      # Donfyffe stock tune for untuned cars
+=======
+    # longitudinal
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER: #Individualize Tunes
+# Donfyffe stock tune
+>>>>>>> parent of 5360b79 (Merge branch 'hkg_085_dev' into hkg_085)
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
@@ -93,24 +99,6 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1900. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
-      # Donfyffe stock tune
-      ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGainBP = [0.]
-      ret.lateralTuning.indi.innerLoopGainV = [3.0]
-      ret.lateralTuning.indi.outerLoopGainBP = [0.]
-      ret.lateralTuning.indi.outerLoopGainV = [2.5]
-      ret.lateralTuning.indi.timeConstantBP = [0.]
-      ret.lateralTuning.indi.timeConstantV = [1.4]
-      ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-      ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
-
-      ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [0.93, 0.7, 0.52, 0.45, 0.4, 0.33, 0.25]
-      ret.longitudinalTuning.kiBP = [0.]
-      ret.longitudinalTuning.kiV = [0.05]
-      ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [0.6, 0.4]
-      ret.gasMaxV = [0.85, 0.70, 0.50, 0.40, 0.25, 0.11]
 
     elif candidate == CAR.GENESIS_G70:
 
