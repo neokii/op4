@@ -841,10 +841,10 @@ static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, (*s->sm)["controlsState"].getControlsState().getCluSpeedMs() * (s->scene.is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, s->scene.car_state.getBrakeLights()?nvgRGBA(255, 66, 66, 255):nvgRGBA(0, 204, 0, 255), "sans-bold");
+  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, COLOR_WHITE, "sans-bold");
   ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
-	
-	  // turning blinker sequential crwusiz / mod by arne-fork Togo
+
+  // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
   const int viz_blinker_x = s->viz_rect.centerX() - 140;
   const int viz_add = 50;
@@ -901,8 +901,8 @@ static void ui_draw_vision_face(UIState *s) {
   const int center_y = s->viz_rect.bottom() - footer_h / 2;
   bool is_active = (*s->sm)["driverMonitoringState"].getDriverMonitoringState().getIsActiveMode();
   ui_draw_circle_image(s, center_x, center_y, radius, "driver_face", is_active);
-	
 }
+
 static void ui_draw_vision_bsd_left(UIState *s) {
   const int radius = 85;
   const int bsd_x = (s->viz_rect.x + radius + (bdr_s*25));
@@ -1078,10 +1078,10 @@ void ui_nvg_init(UIState *s) {
 
   // init images
   std::vector<std::pair<const char *, const char *>> images = {
-    {"wheel", "../assets/img_chffr_wheel.png"},
-    {"driver_face", "../assets/img_driver_face.png"},
-    {"bsd_l", "../assets/img_bsd_l.png"},
-    {"bsd_r", "../assets/img_bsd_r.png"},
+  {"wheel", "../assets/img_chffr_wheel.png"},
+  {"driver_face", "../assets/img_driver_face.png"},
+  {"bsd_l", "../assets/img_bsd_l.png"},
+  {"bsd_r", "../assets/img_bsd_r.png"},
 	{"brake", "../assets/img_brake_disc.png"},
 	{"autohold_warning", "../assets/img_autohold_warning.png"},
 	{"autohold_active", "../assets/img_autohold_active.png"},
