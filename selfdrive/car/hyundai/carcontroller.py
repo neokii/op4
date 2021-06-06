@@ -107,7 +107,7 @@ class CarController():
 
     # fix for Genesis hard fault at low speed
     if Params().get_bool('UseSMDPSHarness') == 0:
-      if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
         lkas_active = False
 
     # Disable steering while turning blinker on and speed below 60 kph
