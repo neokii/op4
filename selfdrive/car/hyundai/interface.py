@@ -67,9 +67,9 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxBP = [0.]
     ret.steerMaxV = [1.5]
 
-    # longitudinal
-    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Individualize Tunes
-# Donfyffe stock tune for untuned cars
+   #Longitudinal Tune and logic for car tune
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Tune for untuned cars
+      # Donfyffe stock tune for untuned cars
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
