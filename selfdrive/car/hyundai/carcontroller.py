@@ -106,7 +106,7 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     # fix for Genesis hard fault at low speed
-    if Params().get_bool('UseSMDPSHarness') == "0":
+    if Params().get_bool('UseSMDPSHarness') == '0':
       if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
         lkas_active = False
 
