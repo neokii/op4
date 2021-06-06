@@ -37,12 +37,12 @@ def manager_init():
     ("HasAcceptedTerms", "0"),
     ("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')),
     ("OpenpilotEnabledToggle", "1"),
-    ("IsMetric", "1"),
+    ("IsMetric", "0"),
 
     # HKG
     ("UseClusterSpeed", "1"),
     ("LongControlEnabled", "0"),
-    ("MadModeEnabled", "1"),
+    ("MadModeEnabled", "0"),
     ("LaneChangeEnabled", "0"),
     ("AutoLaneChangeEnabled", "0"),
 
