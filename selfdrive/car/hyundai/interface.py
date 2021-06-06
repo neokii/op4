@@ -240,7 +240,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.015]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [0.5, 0.3]
-      ret.gasMaxV = [0.60, 0.55, 0.45, 0.30, 0.20, 0.11]
+      ret.gasMaxV = [0.60, 0.55, 0.45, 0.35, 0.25, 0.15]
 
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
