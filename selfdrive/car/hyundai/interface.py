@@ -67,9 +67,9 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxBP = [0.]
     ret.steerMaxV = [1.5]
 
-    # longitudinal
-    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Individualize Tunes
-# Donfyffe stock tune for untuned cars
+   #Longitudinal Tune and logic for car tune
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Tune for untuned cars
+     # Donfyffe stock tune for untuned cars
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
@@ -88,18 +88,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfV = [0.6, 0.4]
       ret.gasMaxV = [0.43, 0.3, 0.24, 0.165, 0.13, 0.11]
     
-
-    ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
-    ret.longitudinalTuning.deadzoneV = [0., 0.015]
-    ret.gasMaxBP = [0., 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 50. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.brakeMaxBP = [0, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.brakeMaxV = [3.5, 1.50, 0.6]
-
-    ret.stoppingBrakeRate = 0.15  # brake_travel/s while trying to stop
-    ret.startingBrakeRate = 1.0  # brake_travel/s while releasing on restart
-    ret.startAccel = 1.3
-
-    # genesis
+# Global Hyundai Long settings
     if candidate == CAR.GENESIS:
       ret.mass = 1900. + STD_CARGO_KG
       ret.wheelbase = 3.01
