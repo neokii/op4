@@ -50,7 +50,7 @@ def manager_init():
     ("SccSmootherSyncGasPressed", "0"),
     ("FuseWithStockScc", "0"),
     ("ShowDebugUI", "0"),
-    ("CustomLeadMark", "0")
+    ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0")
   ]
 
