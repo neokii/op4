@@ -15,7 +15,11 @@ from selfdrive.controls.lib.longcontrol import LongCtrlState
 from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
-min_set_speed = 30 * CV.KPH_TO_MS
+if Params().get_bool('UseSMDPSHarness') == 0:
+  min_set_speed = 30 * CV.KPH_TO_MS
+elif Params().get_bool('UseSMDPSHarness') == 1:
+  min_set_speed = 0 * CV.KPH_TO_MS
+
 
 
 def accel_hysteresis(accel, accel_steady):
@@ -102,8 +106,9 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     # fix for Genesis hard fault at low speed
-    if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
-      lkas_active = False
+    if Params().get_bool('UseSMDPSHarness') == 0:
+      if CS.out.vEgo < 60 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+        lkas_active = False
 
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
