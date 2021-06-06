@@ -19,7 +19,7 @@ class Api():
   def request(self, method, endpoint, timeout=None, access_token=None, **params):
     return api_get(endpoint, method=method, timeout=timeout, access_token=access_token, **params)
 
-  def get_token(sef):
+  def get_token(self):
     now = datetime.utcnow()
     payload = {
       'identity': self.dongle_id,
