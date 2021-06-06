@@ -1,5 +1,3 @@
-Test auto update 
-
 **This is based on xx979xx for Hyundai, Kia, Genesis.**
 
 https://github.com/xx979xx/openpilot
