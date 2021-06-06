@@ -69,7 +69,7 @@ class CarInterface(CarInterfaceBase):
 
     # longitudinal
     if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS: #Individualize Tunes
-# Donfyffe stock tune
+# Donfyffe stock tune for untuned cars
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
