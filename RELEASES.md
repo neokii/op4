@@ -1,3 +1,11 @@
+Version 0.8.5 (2021-6-6)
+========================
+* Retro Pilot
+* Fixed all bugs with uploader and logger
+* Added SMDPS toggle
+* New onscreen BSM
+* Individualized Tunes
+
 Version 0.8.5 (2021-XX-XX)
 ========================
  * NEOS update: improved reliability and stability
