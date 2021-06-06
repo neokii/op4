@@ -5,6 +5,8 @@ Version 0.8.5 (2021-6-6)
 * Added SMDPS toggle
 * New onscreen BSM
 * Individualized Tunes
+* Various Bug Fixes
+* WiFi Hot Spot Auto Start on Boot
 
 Version 0.8.5 (2021-XX-XX)
 ========================
