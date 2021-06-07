@@ -189,6 +189,7 @@ class Uploader():
         success = False
 
     return success
+
 def uploader_fn(exit_event):
   params = Params()
   dongle_id = params.get("DongleId", encoding='utf8')
@@ -207,15 +208,14 @@ def uploader_fn(exit_event):
   while not exit_event.is_set():
     sm.update(0)
     offroad = params.get_bool("IsOffroad")
-    onroad = not params.get_bool("IsOffroad")
-    network_type = sm['deviceState'].networkType #if not force_wifi else NetworkType.wifi
+    network_type = sm['deviceState'].networkType if not force_wifi else NetworkType.wifi
     if network_type == NetworkType.none:
       if allow_sleep:
         time.sleep(60 if offroad else 5)
       continue
 
     on_wifi = network_type == NetworkType.wifi
-    allow_raw_upload = params.get_bool("IsUploadRawEnabled")
+    allow_raw_upload = params.get_bool("UploadRaw")
 
     if offroad and Params().get_bool('c_wifi_offroad'):
       os.system("service call wifi 37 i32 0 i32 0 &")
