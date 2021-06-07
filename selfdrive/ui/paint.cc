@@ -78,8 +78,14 @@ static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, i
   nvgCircle(s->vg, center_x, center_y, radius);
   nvgFillColor(s->vg, color);
   nvgFill(s->vg);
-  const int img_size = radius * 1.5;
-  ui_draw_image(s, {center_x - (img_size / 2), center_y - (img_size / 2), img_size, img_size}, image, img_alpha);
+  //ui_draw_image(s, {center_x - (img_size / 2), center_y - (img_size / 2), img_size, img_size}, image, img_alpha);
+
+  nvgSave( s->vg );
+  nvgTranslate(s->vg, center_x, (center_y + (bdr_s*1.5)));
+  nvgRotate(s->vg, -img_rotation);  
+
+  ui_draw_image(s, {ct_pos, ct_pos, img_size, img_size}, image, img_alpha);
+  nvgRestore(s->vg); 
 }
 
 static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, int radius, const char *image, bool active) {
@@ -186,9 +192,52 @@ static void ui_draw_line(UIState *s, const line_vertices_data &vd, NVGcolor *col
   nvgFill(s->vg);
 }
 
+//Atom(Conan)'s colored track, some codes come from Hoya
+static void ui_draw_track(UIState *s, const line_vertices_data &vd) 
+{
+  if (vd.cnt == 0) return;
+
+  nvgBeginPath(s->vg);
+  nvgMoveTo(s->vg, vd.v[0].x, vd.v[0].y);
+  for (int i=1; i<vd.cnt; i++) {
+    nvgLineTo(s->vg, vd.v[i].x, vd.v[i].y);
+  }
+  nvgClosePath(s->vg);
+
+  int steerOverride = s->scene.car_state.getSteeringPressed();
+  NVGpaint track_bg;
+  if (s->scene.controls_state.getEnabled() && !s->scene.comma_stock_ui) {
+    if (steerOverride) {
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+        COLOR_BLACK_ALPHA(80), COLOR_BLACK_ALPHA(20));
+    } else {
+      float steer_max_v = s->scene.steerMax_V - (1.5 * (s->scene.steerMax_V - 0.9));
+      int torque_scale = (int)fabs(255*(float)s->scene.output_scale*steer_max_v);
+      int red_lvl = fmin(255, torque_scale);
+      int green_lvl = fmin(255, 255-torque_scale);
+      track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h*.4,
+        nvgRGBA(          red_lvl,            green_lvl,  0, 150),
+        nvgRGBA((int)(0.7*red_lvl), (int)(0.7*green_lvl), 0, 20));
+    }
+  } else {
+    // Draw white vision track
+    track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h * .4,
+                                        COLOR_WHITE_ALPHA(150), COLOR_WHITE_ALPHA(20));
+  }
+
+  nvgFillPaint(s->vg, track_bg);
+  nvgFill(s->vg); 
+}
+
 static void draw_frame(UIState *s) {
-  glBindVertexArray(s->frame_vao);
-  mat4 *out_mat = &s->rear_frame_mat;
+  mat4 *out_mat;
+  if (s->scene.driver_view) {
+    glBindVertexArray(s->frame_vao[1]);
+    out_mat = &s->front_frame_mat;
+  } else {
+    glBindVertexArray(s->frame_vao[0]);
+    out_mat = &s->rear_frame_mat;
+  }
   glActiveTexture(GL_TEXTURE0);
 
   if (s->last_frame) {
@@ -213,12 +262,27 @@ static void draw_frame(UIState *s) {
 
 static void ui_draw_vision_lane_lines(UIState *s) {
   const UIScene &scene = s->scene;
-  NVGpaint track_bg;
-  if (!scene.end_to_end) {
+  float red_lvl = 0.0;
+  float green_lvl = 0.0;
+  //if (!scene.end_to_end) {
+  if (!scene.lateralPlan.lanelessModeStatus) {
     // paint lanelines
     for (int i = 0; i < std::size(scene.lane_line_vertices); i++) {
-      NVGcolor color = nvgRGBAf(1.0, 1.0, 1.0, scene.lane_line_probs[i]);
-      ui_draw_line(s, scene.lane_line_vertices[i], &color, nullptr);
+      red_lvl = 0.0;
+      green_lvl = 0.0;
+      if (scene.lane_line_probs[i] > 0.4){
+        red_lvl = 1.0 - (scene.lane_line_probs[i] - 0.4) * 2.5;
+        green_lvl = 1.0 ;
+      }
+      else {
+        red_lvl = 1.0 ;
+        green_lvl = 1.0 - (0.4 - scene.lane_line_probs[i]) * 2.5;
+      }
+      NVGcolor lane_color = nvgRGBAf(red_lvl, green_lvl, 0, 1);
+      if (s->scene.comma_stock_ui) {
+        lane_color = nvgRGBAf(1.0, 1.0, 1.0, scene.lane_line_probs[i]);
+      }
+      ui_draw_line(s, scene.lane_line_vertices[i], &lane_color, nullptr);
     }
 
     // paint road edges
@@ -233,7 +297,10 @@ static void ui_draw_vision_lane_lines(UIState *s) {
                                           COLOR_RED_ALPHA(180), COLOR_RED_ALPHA(0));
   }
   // paint path
-  ui_draw_line(s, scene.track_vertices, nullptr, &track_bg);
+  ui_draw_track(s, scene.track_vertices);
+  //NVGpaint track_bg = nvgLinearGradient(s->vg, s->fb_w, s->fb_h, s->fb_w, s->fb_h * .4,
+  //                                      COLOR_WHITE, COLOR_WHITE_ALPHA(0));
+  //ui_draw_line(s, scene.track_vertices, nullptr, &track_bg);
 }
 
 // Draw all world space objects.
@@ -246,6 +313,7 @@ static void ui_draw_world(UIState *s) {
 
   // Draw lead indicators if openpilot is handling longitudinal
   //if (s->scene.longitudinal_control) {
+  if (true) {
     auto radar_state = (*s->sm)["radarState"].getRadarState();
     auto lead_one = radar_state.getLeadOne();
     auto lead_two = radar_state.getLeadTwo();
