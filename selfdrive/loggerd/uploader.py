@@ -189,6 +189,10 @@ class Uploader():
         success = False
 
     return success
+if offroad and Params().get_bool('c_wifi_offroad'):
+  os.system("service call wifi 37 i32 0 i32 0 &")
+if onroad and Params().get_bool('c_wifi_offroad'):
+  os.system("service call wifi 37 i32 0 i32 1 &")
 
 def uploader_fn(exit_event):
   params = Params()
@@ -234,8 +238,6 @@ def uploader_fn(exit_event):
       time.sleep(backoff + random.uniform(0, backoff))
       backoff = min(backoff*2, 120)
     cloudlog.info("upload done, success=%r", success)
-  if offroad and Params().get_bool('c_wifi_offroad'):
-    os.system("service call wifi 37 i32 0 i32 0 &")
 def main():
   uploader_fn(threading.Event())
 
