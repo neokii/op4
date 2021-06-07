@@ -396,12 +396,19 @@ QWidget * community_panel() {
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
-  
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseSMDPSHarness",
                                             "Use SMDPS Harness",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("hotspot_on_boot",
+                                            "Hot Spot On Boot",
+                                            "",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+
 
   QWidget *widget = new QWidget;
   widget->setLayout(toggles_list);
