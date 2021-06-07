@@ -189,6 +189,7 @@ class Uploader():
         success = False
 
     return success
+params = Params()
 offroad = params.get_bool("IsOffroad")
 onroad = params.get_bool("IsOnroad")
 
