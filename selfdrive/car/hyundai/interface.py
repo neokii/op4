@@ -121,12 +121,12 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.84
       ret.centerToFront = ret.wheelbase * 0.4
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [0.40, 0.35, 0.30, 0.25, 0.20, 0.15, 0.10]
+      ret.longitudinalTuning.kpV = [0.6, 0.58, 0.55, 0.48, 0.45, 0.40, 0.35]
       ret.longitudinalTuning.kiBP = [0.]
       ret.longitudinalTuning.kiV = [0.015]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [0.5, 0.3]
-      ret.gasMaxV = [0.43, 0.3, 0.24, 0.165, 0.13, 0.11]
+      ret.gasMaxV = [0.85, 0.7, 0.45, 0.3, 0.2, 0.15]
 
     elif candidate == CAR.GENESIS_G80:
       ret.mass = 1855. + STD_CARGO_KG
@@ -240,7 +240,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.015]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [0.5, 0.3]
-      ret.gasMaxV = [0.60, 0.55, 0.45, 0.35, 0.25, 0.15]
+      ret.gasMaxV = [0.75, 0.65, 0.55, 0.45, 0.35, 0.25]
 
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
