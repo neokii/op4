@@ -215,9 +215,10 @@ def uploader_fn(exit_event):
     on_wifi = network_type == NetworkType.wifi
     allow_raw_upload = params.get_bool("IsUploadRawEnabled")
 
-    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and offroad)
+    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and offroad)
     if d is None:  # Nothing to upload
-      time.sleep(60 if offroad else 5)
+      if allow_sleep:
+        time.sleep(60 if offroad else 5)
       continue
 
     key, fn = d
