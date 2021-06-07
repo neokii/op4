@@ -215,7 +215,7 @@ def uploader_fn(exit_event):
       continue
 
     on_wifi = network_type == NetworkType.wifi
-    allow_raw_upload = params.get_bool("UploadRaw")
+    allow_raw_upload = params.get_bool("IsUploadRawEnabled")
 
     d = uploader.next_file_to_upload(with_raw=allow_raw_upload and offroad)
     if d is None:  # Nothing to upload
