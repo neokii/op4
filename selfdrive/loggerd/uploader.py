@@ -217,8 +217,7 @@ def uploader_fn(exit_event):
 
     d = uploader.next_file_to_upload(with_raw=allow_raw_upload and offroad)
     if d is None:  # Nothing to upload
-      if allow_sleep:
-        time.sleep(60 if offroad else 5)
+      time.sleep(60 if offroad else 5)
       continue
 
     key, fn = d
