@@ -27,10 +27,6 @@ from selfdrive.hardware import HARDWARE, TICI
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
 from selfdrive.ntune import ntune_get, ntune_isEnabled
 
-#Auto start hot spot
-if Params().get_bool("hotspot_on_boot"):
-  os.system("service call wifi 37 i32 0 i32 1 &")
-
 LDW_MIN_SPEED = 20 * CV.MPH_TO_MS
 LANE_DEPARTURE_THRESHOLD = 0.1
 STEER_ANGLE_SATURATION_TIMEOUT = 1.0 / DT_CTRL
@@ -689,6 +685,7 @@ class Controls:
     # Publish data
     self.publish_logs(CS, start_time, actuators, v_acc, a_acc, lac_log)
     self.prof.checkpoint("Sent")
+
 
   def controlsd_thread(self):
     while True:
