@@ -6,7 +6,8 @@ Version 0.8.5 (2021-6-6)
 * New onscreen BSM
 * Individualized Tunes
 * Various Bug Fixes
-* WiFi Hot Spot Auto Start on Drive
+* WiFi Hot Spot Auto Start on drive
+* End WiFi Hot Spot on end of drive
 
 Version 0.8.5 (2021-XX-XX)
 ========================

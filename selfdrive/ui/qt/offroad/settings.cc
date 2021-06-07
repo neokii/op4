@@ -404,7 +404,13 @@ QWidget * community_panel() {
                                             ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("hotspot_on_boot",
-                                            "Hot Spot On Boot",
+                                            "Hot Spot On Start",
+                                            "",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("c_wifi_offroad",
+                                            "WiFi On Offroad",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));

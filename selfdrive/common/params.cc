@@ -231,6 +231,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"CustomLeadMark", PERSISTENT},
     {"UseSMDPSHarness", PERSISTENT},
     {"hotspot_on_boot", PERSISTENT},
+    {"c_wifi_offroad",PERSISTENT},
 };
 
 } // namespace

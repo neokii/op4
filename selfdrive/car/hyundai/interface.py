@@ -9,10 +9,6 @@ from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
 
-#Auto start hot spot
-if Params().get_bool("hotspot_on_boot"):
-  os.system("service call wifi 37 i32 0 i32 1 &")
-
 GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
 ButtonType = car.CarState.ButtonEvent.Type
