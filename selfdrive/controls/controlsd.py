@@ -686,7 +686,6 @@ class Controls:
     self.publish_logs(CS, start_time, actuators, v_acc, a_acc, lac_log)
     self.prof.checkpoint("Sent")
 
-
   def controlsd_thread(self):
     while True:
       self.step()
