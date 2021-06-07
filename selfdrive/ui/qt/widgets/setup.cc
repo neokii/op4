@@ -76,11 +76,14 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout = new QVBoxLayout;
   mainLayout->setMargin(30);
 
-  QLabel* commaPrime = new QLabel("COMMA PRIME");
+  QLabel* commaPrime = new QLabel("Retro Pilot Services");
   mainLayout->addWidget(commaPrime, 0, Qt::AlignTop);
 
   username = new QLabel();
-  username->setStyleSheet("font-size: 55px;"); // TODO: fit width
+  QLabel* RetroPilot = new QLabel("On Circuit Pro HKG");
+  mainLayout->addWidget(RetroPilot, 0, Qt::AlignTop);
+  username->setStyleSheet("font-size: 53px;"); // TODO: fit width
+
   mainLayout->addWidget(username, 0, Qt::AlignTop);
 
   mainLayout->addSpacing(100);
