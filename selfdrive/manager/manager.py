@@ -51,7 +51,7 @@ def manager_init():
     ("FuseWithStockScc", "0"),
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
-    ("UseSMDPSHarness", "0")
+    ("UseSMDPSHarness", "0"),
     ("hotspot_on_boot", "1")
   ]
 
