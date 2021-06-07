@@ -189,6 +189,9 @@ class Uploader():
         success = False
 
     return success
+offroad = params.get_bool("IsOffroad")
+onroad = params.get_bool("IsOnroad")
+
 if offroad and Params().get_bool('c_wifi_offroad'):
   os.system("service call wifi 37 i32 0 i32 0 &")
 if onroad and Params().get_bool('c_wifi_offroad'):
