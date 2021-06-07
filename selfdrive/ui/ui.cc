@@ -225,7 +225,6 @@ static void update_params(UIState *s) {
     scene.is_metric = params.getBool("IsMetric");
     s->show_debug_ui = params.getBool("ShowDebugUI");
 	s->custom_lead_mark = params.getBool("CustomLeadMark");
-    scene.end_to_end = params.getBool("EndToEndToggle");
   }
 }
 
