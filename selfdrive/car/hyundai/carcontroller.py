@@ -102,7 +102,7 @@ class CarController():
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
 
     # fix for Genesis hard fault at low speed
-    if UseSMDPS == False:
+    if UseSMDPS == True:
       if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
         lkas_active = False
     else:
