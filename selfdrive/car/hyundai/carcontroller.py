@@ -15,10 +15,7 @@ from selfdrive.controls.lib.longcontrol import LongCtrlState
 from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
-if Params().get_bool('UseSMDPSHarness') is False:
-  min_set_speed = 30 * CV.KPH_TO_MS
-elif Params().get_bool('UseSMDPSHarness') is True:
-  min_set_speed = 0 * CV.KPH_TO_MS
+
 
 
 
@@ -77,6 +74,7 @@ class CarController():
     self.scc_live = not CP.radarOffCan
 
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+    self.use_smdps = Params().get_bool('UseSMDPSHarness')
 
     # gas_gain, brake_gain
     # Adjust it in the range of 0.7 to 1.3
@@ -106,7 +104,8 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     # fix for Genesis hard fault at low speed
-    if Params().get_bool('UseSMDPSHarness'):
+    if self.use_smdps:
+      min_set_speed = 0 * CV.KPH_TO_MS
       if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
         lkas_active = False
 
