@@ -98,13 +98,7 @@ class CarController():
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
-    UseSMDPS = Params().get_bool('UseSMDPSHarness')
 
-    # fix for Genesis hard fault at low speed
-    if UseSMDPS == True:
-      min_set_speed = 0 * CV.KPH_TO_MS
-      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
-        lkas_active = False
 
 
     # Disable steering while turning blinker on and speed below 60 kph
@@ -135,6 +129,14 @@ class CarController():
     if not (min_set_speed < set_speed < 255 * CV.KPH_TO_MS):
       set_speed = min_set_speed
     set_speed *= CV.MS_TO_MPH if CS.is_set_speed_in_mph else CV.MS_TO_KPH
+
+    UseSMDPS = Params().get_bool('UseSMDPSHarness')
+
+    # fix for Genesis hard fault at low speed
+    if UseSMDPS == True:
+      min_set_speed = 0 * CV.KPH_TO_MS
+      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+        lkas_active = False
 
     if frame == 0:  # initialize counts from last received count signals
       self.lkas11_cnt = CS.lkas11["CF_Lkas_MsgCount"]
