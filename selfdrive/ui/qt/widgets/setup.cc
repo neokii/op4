@@ -80,7 +80,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout->addWidget(commaPrime, 0, Qt::AlignTop);
 
   username = new QLabel();
-  QLabel* RetroPilot = new QLabel("On Circuit Pro HKG");
+  QLabel* RetroPilot = new QLabel("Circuit Pro HKG");
   mainLayout->addWidget(RetroPilot, 0, Qt::AlignTop);
   username->setStyleSheet("font-size: 53px;"); // TODO: fit width
 
