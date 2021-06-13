@@ -7,7 +7,7 @@ import cereal.messaging as messaging
 
 def main():
 
-  shutdown_at = 60 * 10
+  shutdown_at = 10 * 10
   shutdown_count = 0
   device_state_sock = messaging.sub_sock('deviceState')
 
