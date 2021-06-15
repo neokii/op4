@@ -1,6 +1,6 @@
 #include "settings.h"
 
-#include <stdlib.h>
+#include <sys/stat.h> //#include <stdlib.h>
 
 #include <cassert>
 #include <string>
@@ -177,8 +177,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
                                         "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       //run code here
-      system("cd /storage/emulated/0/videos");
-      system("rm *");
+      system("cd /storage/emulated/0/videos && rm *.*");
     }
   }, "", this));
 
