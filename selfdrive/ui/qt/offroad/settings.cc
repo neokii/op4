@@ -172,12 +172,21 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       emit reviewTrainingGuide();
     }
   }, "", this));
-//DELETE UI SCREEN RECORDINGS
+
+  //DELETE UI SCREEN RECORDINGS
     offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
                                         "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       //run code here
       system("cd /storage/emulated/0/videos && rm *.*");
+    }
+  }, "", this));
+
+  //Open Android Settings adb shell am start -a android.settings.SETTINGS
+    offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
+                                        "This opens android settings to change APN name settings", [=]() {
+    if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
+      system("am start -a android.settings.SETTINGS");
     }
   }, "", this));
 
