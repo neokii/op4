@@ -1,6 +1,6 @@
 #include "settings.h"
 
-#include <sys/stat.h> //#include <stdlib.h>
+#include <stdlib.h>
 
 #include <cassert>
 #include <string>
