@@ -1,5 +1,7 @@
 #include "settings.h"
 
+#include <stdlib.h>
+
 #include <cassert>
 #include <string>
 
