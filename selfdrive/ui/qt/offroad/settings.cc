@@ -186,7 +186,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
     if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
-      system("am start -a android.settings");
+      system("am start -a android.settings.SETTINGS");
     }
   }, "", this));
 
