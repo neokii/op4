@@ -10,6 +10,7 @@ Version 0.8.5 (2021-6-6)
 * End WiFi Hot Spot on end of drive
 * Added Open APN Android settings button
 * Added Delete UI Screen Recordings button
+
 Version 0.8.5 (2021-XX-XX)
 ========================
  * NEOS update: improved reliability and stability
