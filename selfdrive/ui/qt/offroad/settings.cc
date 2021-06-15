@@ -1,5 +1,7 @@
 #include "settings.h"
 
+#include <stdlib.h>
+
 #include <cassert>
 #include <string>
 
@@ -168,6 +170,14 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
       Params().remove("CompletedTrainingVersion");
       emit reviewTrainingGuide();
+    }
+  }, "", this));
+//DELETE UI SCREEN RECORDINGS
+    offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
+                                        "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
+      //run code here
+      system("cd /storage/emulated/0/videos && rm *.*");
     }
   }, "", this));
 
