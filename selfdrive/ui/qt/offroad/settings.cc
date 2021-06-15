@@ -172,7 +172,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       emit reviewTrainingGuide();
     }
   }, "", this));
-//DELETE UI SCREEN RECORDINGS
+  
+  //DELETE UI SCREEN RECORDINGS
     offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
                                         "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
@@ -189,7 +190,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       system("adb shell am start -a android.settings.SETTINGS");
     }
   }, "", this));
-
 
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   offroad_btns.append(new ButtonControl("Uninstall " + brand, "UNINSTALL", "", [=]() {
