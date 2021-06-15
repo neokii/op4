@@ -181,6 +181,16 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   }, "", this));
 
+  //Open Android Settings adb shell am start -a android.settings.SETTINGS
+    offroad_btns.append(new ButtonControl("Opens Android Settings", "SETTINGS",
+                                        "This opens android settings to change APN name settings", [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want too open android settings? Reboot required to exit.", this)) {
+      //run code here
+      system("adb shell am start -a android.settings.SETTINGS");
+    }
+  }, "", this));
+
+
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   offroad_btns.append(new ButtonControl("Uninstall " + brand, "UNINSTALL", "", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
