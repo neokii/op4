@@ -172,8 +172,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       emit reviewTrainingGuide();
     }
   }, "", this));
-
-    offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "Delete",
+//DELETE UI SCREEN RECORDINGS
+    offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
                                         "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       //run code here
