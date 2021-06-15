@@ -188,7 +188,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (ConfirmationDialog::confirm("Sure you want too open android settings? Reboot required to exit.", this)) {
       //run code here
       //system("adb shell am start -a android.settings.SETTINGS");
-      adb shell am start -a android.settings.SETTINGS
+      adb shell am start -a android.settings.SETTINGS;
     }
   }, "", this));
 
