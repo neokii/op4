@@ -172,7 +172,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       emit reviewTrainingGuide();
     }
   }, "", this));
-  
+
   //DELETE UI SCREEN RECORDINGS
     offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
                                         "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos", [=]() {
@@ -183,7 +183,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }, "", this));
 
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
-    offroad_btns.append(new ButtonControl("Opens Android Settings", "SETTINGS",
+    offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want too open android settings? Reboot required to exit.", this)) {
       //run code here
