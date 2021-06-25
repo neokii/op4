@@ -1,5 +1,6 @@
 Version 0.8.5 (2021-6-6)
 ========================
+* Fix Kona HEV FCA errors
 * Retro Pilot Services
 * Fixed all bugs with uploader and logger
 * Added SMDPS toggle
