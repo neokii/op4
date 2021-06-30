@@ -182,6 +182,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   }, "", this));
 
+  //Run Ntune.py
+    offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
+                                        "This runs Ntune.py too autotune Lateral.", [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to run ntune?", this)) {
+      //run code here
+      system("cd /data/openpilot/selfdrive && python ntune.py");
+    }
+  }, "", this));
+
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
