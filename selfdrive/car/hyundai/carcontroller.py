@@ -107,12 +107,6 @@ class CarController():
         lkas_active = False
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
-      if v_ego < min_set_speed:
-        events.events.add(EventName.pedalPressed)
-
-
-
-
 
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
