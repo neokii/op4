@@ -422,7 +422,12 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                             ));
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("hotspot_on_boot",
+  toggles_list->addWidget(new ParamControl("TypeMDPS",
+                                            "2016, 2015 or 2017 +",
+                                            "",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+  toggles_list->addWidget(horizontal_line());  toggles_list->addWidget(new ParamControl("hotspot_on_boot",
                                             "Hot Spot On Start",
                                             "",
                                             "../assets/offroad/icon_road.png"
