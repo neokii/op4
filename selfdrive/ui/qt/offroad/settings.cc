@@ -183,7 +183,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }, "", this));
 
   //Run Ntune.py
-    offroad_btns.append(new ButtonControl("Delete all UI Screen Recordings", "DELETE",
+    offroad_btns.append(new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune",
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to run ntune?", this)) {
       //run code here
