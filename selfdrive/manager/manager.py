@@ -52,7 +52,6 @@ def manager_init():
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
-    ("TypeMDPS", "0"),
     ("hotspot_on_boot", "1"),
     ("c_wifi_offroad", "1")
   ]
