@@ -101,7 +101,7 @@ class CarController():
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
 
     # fix for Genesis hard fault at low speed
-    if UseSMDPS:
+    if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
