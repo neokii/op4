@@ -84,10 +84,9 @@ class CarController():
     # gas and brake
     apply_accel = actuators.gas - actuators.brake
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady)
+    apply_accel = self.scc_smoother.get_accel(CS, controls.sm, apply_accel)    
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE,
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
-
-    apply_accel = self.scc_smoother.get_accel(CS, controls.sm, apply_accel)
 
     # Steering Torque
     new_steer = int(round(actuators.steer * CarControllerParams.STEER_MAX))
@@ -102,14 +101,13 @@ class CarController():
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
 
     # fix for Genesis hard fault at low speed
-    if UseSMDPS == True:
+    if UseSMDPS:
+      min_set_speed = 0 * CV.KPH_TO_MS
+    else:
+      min_set_speed = 30 * CV.KPH_TO_MS
       if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
         lkas_active = False
-    else:
-      min_set_speed = 0 * CV.KPH_TO_MS
-
-
-
+        
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
       self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
@@ -138,14 +136,6 @@ class CarController():
     if not (min_set_speed < set_speed < 255 * CV.KPH_TO_MS):
       set_speed = min_set_speed
     set_speed *= CV.MS_TO_MPH if CS.is_set_speed_in_mph else CV.MS_TO_KPH
-
-    UseSMDPS = Params().get_bool('UseSMDPSHarness')
-
-    # fix for Genesis hard fault at low speed
-    if UseSMDPS == True:
-      min_set_speed = 0 * CV.KPH_TO_MS
-      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
-        lkas_active = False
 
     if frame == 0:  # initialize counts from last received count signals
       self.lkas11_cnt = CS.lkas11["CF_Lkas_MsgCount"]

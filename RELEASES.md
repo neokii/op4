@@ -1,5 +1,7 @@
 Version 0.8.5 (2021-6-6)
 ========================
+* Removed Battery indicator from right sidebar
+* Fixed bug for SMDPS toggle and duplicate code
 * Fix Kona HEV FCA errors
 * Retro Pilot Services
 * Fixed all bugs with uploader and logger
