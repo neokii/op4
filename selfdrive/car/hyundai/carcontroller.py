@@ -109,6 +109,9 @@ class CarController():
           lkas_active = False
       else:
         min_set_speed = 30 * CV.KPH_TO_MS
+        if v_ego < min_set_speed:
+          events.events.add(EventName.pedalPressed)
+
 
 
 
