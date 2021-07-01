@@ -254,7 +254,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
       
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [1.18, 1.125, 1.05, 1.0, 0.90, 0.80, 0.70]
+      ret.longitudinalTuning.kpV = [1.18, 1.1, 1.05, 1.0, 0.90, 0.80, 0.70]
       ret.longitudinalTuning.kiBP = [0.]
       ret.longitudinalTuning.kiV = [0.015]
       ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
