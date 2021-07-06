@@ -1,4 +1,4 @@
-Version 0.8.5 (2021-6-6)
+Version 0.8.5 (2021-7-6)
 ========================
 * Added UI Screen Recording stop on disengage toggle
 * Added button to run nTune
