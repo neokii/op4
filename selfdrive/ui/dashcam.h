@@ -345,9 +345,11 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
     // Assume car is not in drive so stop recording
     stop_capture();
   }
-
-  if ((*s->sm)["carState"].getCarState().getVEgo() < 1.5 && !(*s->sm)["controlsState"].getControlsState().getEnabled()) {
-    stop_capture();
+// Auto stop capture on disengage
+  if SSCOD == true{
+    if ((*s->sm)["carState"].getCarState().getVEgo() < 1.5 && !(*s->sm)["controlsState"].getControlsState().getEnabled()) {
+      stop_capture();
+      }
   }
   //s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
   
