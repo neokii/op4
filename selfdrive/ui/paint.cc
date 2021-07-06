@@ -240,7 +240,7 @@ static void ui_draw_world(UIState *s) {
   ui_draw_vision_lane_lines(s);
 
   // Draw lead indicators if openpilot is handling longitudinal
-  //if (s->scene.longitudinal_control) {
+  if (s->scene.longitudinal_control) {
     auto radar_state = (*s->sm)["radarState"].getRadarState();
     auto lead_one = radar_state.getLeadOne();
     auto lead_two = radar_state.getLeadTwo();
@@ -863,7 +863,7 @@ static void ui_draw_vision_speed(UIState *s) {
 }
 
 static void ui_draw_vision_event(UIState *s) {
-  if ((*s->sm)["controlsState"].getControlsState().getEngageable()) {
+  if (s->scene.engageable) {
     // draw steering wheel
     const int radius = 96;
     const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
