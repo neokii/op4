@@ -258,7 +258,7 @@ static void ui_draw_world(UIState *s) {
       else
         draw_lead(s, lead_two, s->scene.lead_vertices[1]);
     }
-  //}
+  }
 
   nvgResetScissor(s->vg);
 }
