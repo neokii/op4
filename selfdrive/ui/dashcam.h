@@ -346,7 +346,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
     stop_capture();
   }
 // Auto stop capture on disengage
-  if (SSCOD = True) {
+  if (SSCOD = true) {
     if ((*s->sm)["carState"].getCarState().getVEgo() < 1.5 && !(*s->sm)["controlsState"].getControlsState().getEnabled()) {
       stop_capture();
       }
