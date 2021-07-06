@@ -441,6 +441,13 @@ QWidget * community_panel() {
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+  toggles_list->addWidget(horizontal_line());  
+  toggles_list->addWidget(new ParamControl("SSCOD",
+                                            "Stop Screen Capture on disengage",
+                                            "Stop Screen Capture on disengage",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+  toggles_list->addWidget(horizontal_line());                  
 
 
   QWidget *widget = new QWidget;

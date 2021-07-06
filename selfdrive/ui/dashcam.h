@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "selfdrive/common/params.cc"
 
 #define CAPTURE_STATE_NONE 0
 #define CAPTURE_STATE_CAPTURING 1
