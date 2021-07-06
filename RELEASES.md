@@ -1,5 +1,6 @@
 Version 0.8.5 (2021-6-6)
 ========================
+* Added UI Screen Recording stop on disengage toggle
 * Added button to run nTune
 * Removed Battery indicator from right sidebar
 * Fixed bug for SMDPS toggle and duplicate code
