@@ -1,5 +1,7 @@
-Version 0.8.5 (2021-6-6)
+Version 0.8.5 (2021-7-6)
 ========================
+* Removed On-Screen vision and radar leads without HKG Long
+* Added UI Screen Recording stop on disengage toggle
 * Added button to run nTune
 * Removed Battery indicator from right sidebar
 * Fixed bug for SMDPS toggle and duplicate code
