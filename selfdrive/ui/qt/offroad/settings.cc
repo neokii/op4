@@ -198,7 +198,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         std::this_thread::sleep_for (std::chrono::seconds(1));
         }
         std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);// fix loading bug
-        return 0;
     }
   }, "", this));
 
