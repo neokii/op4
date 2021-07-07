@@ -5,6 +5,10 @@
 #include <cassert>
 #include <string>
 
+#include <iostream>       // std::cout, std::endl
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+ 
 #ifndef QCOM
 #include "selfdrive/ui/qt/offroad/networking.h"
 #endif
