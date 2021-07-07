@@ -346,7 +346,6 @@ class CarInterface(CarInterfaceBase):
 
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
-    ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
 
     if self.CP.enableCruise and not self.CC.scc_live:
       self.CP.enableCruise = False
