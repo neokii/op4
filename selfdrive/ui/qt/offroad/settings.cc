@@ -212,9 +212,9 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger"
       char newname[] ="img_spinner_comma.png";
       result= rename( oldname , newname );
       if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this
+        ConfirmationDialog::confirm("Success.", this)
       else
-        ConfirmationDialog::confirm("Failure.", this
+        ConfirmationDialog::confirm("Failure.", this)
       return 0;
     }
   }, "", this));
@@ -227,9 +227,9 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai"
       char newname[] ="img_spinner_comma.png";
       result= rename( oldname , newname );
       if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this
+        ConfirmationDialog::confirm("Success.", this)
       else
-        ConfirmationDialog::confirm("Failure.", this
+        ConfirmationDialog::confirm("Failure.", this)
       return 0;
     }
   }, "", this));
@@ -243,9 +243,9 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis"
       char newname[] ="img_spinner_comma.png";
       result= rename( oldname , newname );
       if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this
+        ConfirmationDialog::confirm("Success.", this)
       else
-        ConfirmationDialog::confirm("Failure.", this
+        ConfirmationDialog::confirm("Failure.", this)
       return 0;
     }
   }, "", this));
@@ -259,9 +259,9 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
       char newname[] ="img_spinner_comma.png";
       result= rename( oldname , newname );
       if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this
+        ConfirmationDialog::confirm("Success.", this)
       else
-        ConfirmationDialog::confirm("Failure.", this
+        ConfirmationDialog::confirm("Failure.", this)
       return 0;
     }
   }, "", this));
@@ -275,9 +275,9 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
       char newname[] ="img_spinner_comma.png";
       result= rename( oldname , newname );
       if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this
+        ConfirmationDialog::confirm("Success.", this)
       else
-        ConfirmationDialog::confirm("Failure.", this
+        ConfirmationDialog::confirm("Failure.", this)
       return 0;
     }
   }, "", this));
