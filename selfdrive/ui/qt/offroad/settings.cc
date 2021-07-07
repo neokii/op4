@@ -189,7 +189,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //Run Ntune.py
     offroad_btns.append(new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune",
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to run ntune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
       std::cout << "countdown:\n";
