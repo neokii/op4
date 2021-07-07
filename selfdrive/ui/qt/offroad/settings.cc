@@ -5,6 +5,10 @@
 #include <cassert>
 #include <string>
 
+#include <iostream>       // std::cout, std::endl
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+ 
 #ifndef QCOM
 #include "selfdrive/ui/qt/offroad/networking.h"
 #endif
@@ -185,9 +189,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //Run Ntune.py
     offroad_btns.append(new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune",
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to run ntune?", this)) {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
+      std::cout << "countdown:\n";
+      for (int i=2; i>0; --i) {
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for (std::chrono::seconds(1));
+        }
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);// fix loading bug
     }
   }, "", this));
 
