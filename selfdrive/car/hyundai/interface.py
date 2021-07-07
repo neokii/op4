@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import numpy as np
 import os
+import shutil
+from os import path
 from cereal import car
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
@@ -8,8 +10,7 @@ from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness,
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
-import shutil
-from os import path
+
 
 GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
@@ -28,7 +29,6 @@ class CarInterface(CarInterfaceBase):
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=[]):  # pylint: disable=dangerous-default-value
     ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
-
     ret.openpilotLongitudinalControl = Params().get_bool('LongControlEnabled')
 
     ret.carName = "hyundai"
@@ -49,7 +49,7 @@ class CarInterface(CarInterfaceBase):
     ret.maxSteeringAngleDeg = 160.
 
     # lateral LQR global hyundai
-    #et.lateralTuning.init('lqr')
+    #ret.lateralTuning.init('lqr')
 
     #ret.lateralTuning.lqr.scale = 1650.
     #ret.lateralTuning.lqr.ki = 0.01
@@ -294,45 +294,8 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
       
-
-  #auto change boot logo Genesis
-    if candidate == CAR.GENESIS or CAR.GENESIS_G70 or CAR.GENESIS_G80 or CAR.GENESIS_G90 or CAR.GENESIS_G90_L:
-      if path.exists("Genesis.png"):
-	# get the path to the file in the current directory
-        src = path.openpilot.assets("Genesis.png");
-		
-	# rename the original file
-        os.rename('Genesis.png','img_spinner_comma.png') 
-
-  #auto change boot logo Hyundai
-    if candidate == CAR.ELANTRA or CAR.ELANTRA_GT_I30 or CAR.SONATA or CAR.SONATA_HEV or CAR.SONATA19 or CAR.SONATA19_HEV or CAR.SONATA_LF_TURBO or CAR.KONA or CAR.KONA_EV or CAR.KONA_HEV or CAR.IONIQ or CAR.IONIQ_EV_LTD or CAR.SANTA_FE or CAR.PALISADE or CAR.VELOSTER or CAR.GRANDEUR_IG or CAR.GRANDEUR_IG_HEV or CAR.GRANDEUR_IG_FL or CAR.GRANDEUR_IG_FL_HEV or CAR.TUCSON_TL_SCC:
-      if path.exists("Hyundai.png"):
-	# get the path to the file in the current directory
-        src = path.openpilot.assets("Hyundai.png");
-		
-	# rename the original file
-        os.rename('Hyundai.png','img_spinner_comma.png') 
-
-          #auto change boot logo Kia
-    if candidate == CAR.FORTE or CAR.K5 or CAR.K5_HEV or CAR.SPORTAGE or CAR.SORENTO or CAR.NIRO_EV or CAR.NIRO_HEV or CAR.CEED or CAR.K7 or CAR.K7_HEV or CAR.SELTOS:
-      if path.exists("Kia.png"):
-	# get the path to the file in the current directory
-        src = path.openpilot.assets("Kia.png");
-		
-	# rename the original file
-        os.rename('Kia.png','img_spinner_comma.png') 
-
-
-#auto change boot logo Stinger
-    if candidate == CAR.STINGER:
-      if path.exists("Hyundai.png"):
-	# get the path to the file in the current directory
-        src = path.openpilot.assets("Hyundai.png");
-		
-	# rename the original file
-        os.rename('Hyundai.png','img_spinner_comma.png') 
-
     ret.radarTimeStep = 0.05
+    
 
 
     # TODO: get actual value, for now starting with reasonable value for
@@ -369,10 +332,51 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.enableCruise = not ret.radarOffCan
 
+    #auto change boot logo Genesis
+   ''' if candidate == CAR.GENESIS or CAR.GENESIS_G70 or CAR.GENESIS_G80 or CAR.GENESIS_G90 or CAR.GENESIS_G90_L:
+      if path.exists("Genesis.png"):
+        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
+        os.remove("img_spinner_comma.png")
+  # get the path to the file in the current directory
+        src = path.openpilot.selfdrive.assets("Genesis.png")
+  # rename the original file
+        os.rename('Genesis.png','img_spinner_comma.png') 
+
+  #auto change boot logo Hyundai
+    if candidate == CAR.ELANTRA or CAR.ELANTRA_GT_I30 or CAR.SONATA or CAR.SONATA_HEV or CAR.SONATA19 or CAR.SONATA19_HEV or CAR.SONATA_LF_TURBO or CAR.KONA or CAR.KONA_EV or CAR.KONA_HEV or CAR.IONIQ or CAR.IONIQ_EV_LTD or CAR.SANTA_FE or CAR.PALISADE or CAR.VELOSTER or CAR.GRANDEUR_IG or CAR.GRANDEUR_IG_HEV or CAR.GRANDEUR_IG_FL or CAR.GRANDEUR_IG_FL_HEV or CAR.TUCSON_TL_SCC:
+      if path.exists("Hyundai.png"):
+        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
+        os.remove("img_spinner_comma.png")
+  # get the path to the file in the current directory
+        src = path.openpilot.selfdrive.assets("Hyundai.png")
+  # rename the original file
+        os.rename('Hyundai.png','img_spinner_comma.png') 
+
+          #auto change boot logo Kia
+    if candidate == CAR.FORTE or CAR.K5 or CAR.K5_HEV or CAR.SPORTAGE or CAR.SORENTO or CAR.NIRO_EV or CAR.NIRO_HEV or CAR.CEED or CAR.K7 or CAR.K7_HEV or CAR.SELTOS:
+      if path.exists("Kia.png"):
+        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
+        os.remove("img_spinner_comma.png")
+  # get the path to the file in the current directory
+        src = path.openpilot.selfdrive.assets("Kia.png")
+  # rename the original file
+        os.rename('Kia.png','img_spinner_comma.png') 
+
+#auto change boot logo Stinger
+    if candidate == CAR.STINGER:
+      if path.exists("Stinger.png"):
+        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
+        os.remove("img_spinner_comma.png")
+  # get the path to the file in the current directory
+        src = path.openpilot.selfdrive.assets("Stinger.png")
+  # rename the original file
+        os.rename('Stinger.png','img_spinner_comma.png') '''
+
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
       ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
     return ret
+    
 
   def update(self, c, can_strings):
     self.cp.update_strings(can_strings)
@@ -381,6 +385,7 @@ class CarInterface(CarInterfaceBase):
 
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
+    ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
 
     if self.CP.enableCruise and not self.CC.scc_live:
       self.CP.enableCruise = False

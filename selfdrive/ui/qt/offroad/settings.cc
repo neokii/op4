@@ -1,6 +1,7 @@
 #include "settings.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <cassert>
 #include <string>
@@ -201,7 +202,80 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
     }
   }, "", this));
+//Overide Boot Logo
+offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this))) {
+      //auto change boot logo Stinger
+  int result;
+  char oldname[] ="Stinger.png";
+  char newname[] ="img_spinner_comma.png";
+  result= rename( oldname , newname );
+  if ( result == 0 )
+    puts ( "File successfully renamed" );
+  else
+    perror( "Error renaming file" );
+  return 0;
+  }, "", this));
+offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Hyundai?.", this))) {
+      //auto change boot logo Hyundai
+  int result;
+  char oldname[] ="Hyundai.png";
+  char newname[] ="img_spinner_comma.png";
+  result= rename( oldname , newname );
+  if ( result == 0 )
+    puts ( "File successfully renamed" );
+  else
+    perror( "Error renaming file" );
+  return 0;
+  }, "", this));
 
+offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia Genesis?.", this))) {
+      //auto change boot logo Genesis
+  int result;
+  char oldname[] ="Stinger.png";
+  char newname[] ="img_spinner_comma.png";
+  result= rename( oldname , newname );
+  if ( result == 0 )
+    puts ( "File successfully renamed" );
+  else
+    perror( "Error renaming file" );
+  return 0;
+  }, "", this));
+
+offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this))) {
+      //auto change boot logo Kia
+  int result;
+  char oldname[] ="Kia.png";
+  char newname[] ="img_spinner_comma.png";
+  result= rename( oldname , newname );
+  if ( result == 0 )
+    puts ( "File successfully renamed" );
+  else
+    perror( "Error renaming file" );
+  return 0;
+  }, "", this));
+
+offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Comma?.", this))) {
+      //auto change boot logo Comma
+  int result;
+  char oldname[] ="Comma.png";
+  char newname[] ="img_spinner_comma.png";
+  result= rename( oldname , newname );
+  if ( result == 0 )
+    puts ( "File successfully renamed" );
+  else
+    perror( "Error renaming file" );
+  return 0;
+  }, "", this));
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
