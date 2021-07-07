@@ -332,45 +332,6 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.enableCruise = not ret.radarOffCan
 
-    #auto change boot logo Genesis
-   ''' if candidate == CAR.GENESIS or CAR.GENESIS_G70 or CAR.GENESIS_G80 or CAR.GENESIS_G90 or CAR.GENESIS_G90_L:
-      if path.exists("Genesis.png"):
-        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
-        os.remove("img_spinner_comma.png")
-  # get the path to the file in the current directory
-        src = path.openpilot.selfdrive.assets("Genesis.png")
-  # rename the original file
-        os.rename('Genesis.png','img_spinner_comma.png') 
-
-  #auto change boot logo Hyundai
-    if candidate == CAR.ELANTRA or CAR.ELANTRA_GT_I30 or CAR.SONATA or CAR.SONATA_HEV or CAR.SONATA19 or CAR.SONATA19_HEV or CAR.SONATA_LF_TURBO or CAR.KONA or CAR.KONA_EV or CAR.KONA_HEV or CAR.IONIQ or CAR.IONIQ_EV_LTD or CAR.SANTA_FE or CAR.PALISADE or CAR.VELOSTER or CAR.GRANDEUR_IG or CAR.GRANDEUR_IG_HEV or CAR.GRANDEUR_IG_FL or CAR.GRANDEUR_IG_FL_HEV or CAR.TUCSON_TL_SCC:
-      if path.exists("Hyundai.png"):
-        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
-        os.remove("img_spinner_comma.png")
-  # get the path to the file in the current directory
-        src = path.openpilot.selfdrive.assets("Hyundai.png")
-  # rename the original file
-        os.rename('Hyundai.png','img_spinner_comma.png') 
-
-          #auto change boot logo Kia
-    if candidate == CAR.FORTE or CAR.K5 or CAR.K5_HEV or CAR.SPORTAGE or CAR.SORENTO or CAR.NIRO_EV or CAR.NIRO_HEV or CAR.CEED or CAR.K7 or CAR.K7_HEV or CAR.SELTOS:
-      if path.exists("Kia.png"):
-        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
-        os.remove("img_spinner_comma.png")
-  # get the path to the file in the current directory
-        src = path.openpilot.selfdrive.assets("Kia.png")
-  # rename the original file
-        os.rename('Kia.png','img_spinner_comma.png') 
-
-#auto change boot logo Stinger
-    if candidate == CAR.STINGER:
-      if path.exists("Stinger.png"):
-        src = path.openpilot.selfdrive.assets("img_spinner_comma.png")
-        os.remove("img_spinner_comma.png")
-  # get the path to the file in the current directory
-        src = path.openpilot.selfdrive.assets("Stinger.png")
-  # rename the original file
-        os.rename('Stinger.png','img_spinner_comma.png') '''
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
