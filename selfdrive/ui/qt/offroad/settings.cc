@@ -188,6 +188,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (ConfirmationDialog::confirm("Are you sure you want to run ntune?", this)) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
+      ConfirmationDialog::confirm("nTune Ran Successfully", this);
     }
   }, "", this));
 
