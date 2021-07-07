@@ -324,12 +324,12 @@ class CarInterface(CarInterfaceBase):
 
 #auto change boot logo Stinger
     if candidate == CAR.STINGER:
-      if path.exists("Stinger.png"):
+      if path.exists("Hyundai.png"):
 	# get the path to the file in the current directory
-        src = path.openpilot.assets("Stinger.png");
+        src = path.openpilot.assets("Hyundai.png");
 		
 	# rename the original file
-        os.rename('Stinger.png','img_spinner_comma.png') 
+        os.rename('Hyundai.png','img_spinner_comma.png') 
 
     ret.radarTimeStep = 0.05
 
