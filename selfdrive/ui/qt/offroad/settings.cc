@@ -215,7 +215,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger"
         ConfirmationDialog::confirm("Success.", this);
       else
         ConfirmationDialog::confirm("Failure.", this);
-      return 0;
+      //return 0;
     }
   }, "", this));
 offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai",
@@ -230,7 +230,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai"
         ConfirmationDialog::confirm("Success.", this);
       else
         ConfirmationDialog::confirm("Failure.", this);
-      return 0;
+      //return 0;
     }
   }, "", this));
 
@@ -246,7 +246,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis"
         ConfirmationDialog::confirm("Success.", this);
       else
         ConfirmationDialog::confirm("Failure.", this);
-      return 0;
+      //return 0;
     }
   }, "", this));
 
@@ -262,7 +262,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
         ConfirmationDialog::confirm("Success.", this);
       else
         ConfirmationDialog::confirm("Failure.", this);
-      return 0;
+      //return 0;
     }
   }, "", this));
 
@@ -278,7 +278,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
         ConfirmationDialog::confirm("Success.", this);
       else
         ConfirmationDialog::confirm("Failure.", this);
-      return 0;
+      //return 0;
     }
   }, "", this));
 
