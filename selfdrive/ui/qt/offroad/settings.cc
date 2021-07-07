@@ -247,6 +247,16 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
     }
   }, "", this));
 
+  //restore for update
+offroad_btns.append(new ButtonControl("Restore logo for update", "Restore",
+                                        "This changes the boot logo to stock so that you can update.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to allow update?", this)) {
+      //auto change boot logo Comma
+      system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv StingerBak.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
