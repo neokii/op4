@@ -207,50 +207,25 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //auto change boot logo Stinger
-      int result;
-      char oldname[] ="selfdrive/assets/Stinger.png";
-      char newname[] ="selfdrive/assets/img_spinner_comma.png";
-      result= rename( oldname , newname );
-      if ( result == 0 )
+    system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Stinger.png img_spinner_comma.png");
         ConfirmationDialog::confirm("Success.", this);
-      else
-        ConfirmationDialog::confirm("Failure.", this);
-      //return 0;
     }
   }, "", this));
 offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Hyundai?.", this)) {
       //auto change boot logo Hyundai
-      if( remove( "selfdrive/assets/img_spinner_comma.png" ) != 0 )
-        ConfirmationDialog::confirm("Failure.", this);
-      else
+      system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Hyundai.png img_spinner_comma.png");
         ConfirmationDialog::confirm("Success.", this);
-      int result;
-      char oldname[] ="selfdrive/assets/Hyundai.png";
-      char newname[] ="selfdrive/assets/img_spinner_comma.png";
-      result= rename( oldname , newname );
-      if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this);
-      else
-        ConfirmationDialog::confirm("Failure.", this);
-      //return 0;
     }
   }, "", this));
 
 offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis",
                                         "This changes the boot logo.", [=]() {
-    if (ConfirmationDialog::confirm("Change Boot logo to Kia Genesis?.", this)) {
+    if (ConfirmationDialog::confirm("Change Boot logo to Genesis?.", this)) {
       //auto change boot logo Genesis
-      int result;
-      char oldname[] ="selfdrive/assets/Stinger.png";
-      char newname[] ="selfdrive/assets/img_spinner_comma.png";
-      result= rename( oldname , newname );
-      if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this);
-      else
-        ConfirmationDialog::confirm("Failure.", this);
-      //return 0;
+      system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Genesis.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
 
@@ -258,15 +233,8 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this)) {
       //auto change boot logo Kia
-      int result;
-      char oldname[] ="selfdrive/assets/Kia.png";
-      char newname[] ="selfdrive/assets/img_spinner_comma.png";
-      result= rename( oldname , newname );
-      if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this);
-      else
-        ConfirmationDialog::confirm("Failure.", this);
-      //return 0;
+      system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Kis.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
 
@@ -274,15 +242,8 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Comma?.", this)) {
       //auto change boot logo Comma
-      int result;
-      char oldname[] ="selfdrive/assets/Comma.png";
-      char newname[] ="selfdrive/assets/img_spinner_comma.png";
-      result= rename( oldname , newname );
-      if ( result == 0 )
-        ConfirmationDialog::confirm("Success.", this);
-      else
-        ConfirmationDialog::confirm("Failure.", this);
-      //return 0;
+      system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Comma.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
 
