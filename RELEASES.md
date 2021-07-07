@@ -1,6 +1,6 @@
 Version 0.8.5 (2021-7-6)
 ========================
-* Customize your Boot logo in `settings` under `device`. Make sure to restore origional for any OTA update.
+* Customize your Boot logo in `settings` under `device`.
 * nTune will not allow you to run when car on now.
 * Various bug fixes and Improvements.
 * Removed On-Screen vision and radar leads without HKG Long, due to missleading information. When HKG Long isn't on it causes a false sense of security because OP may recognize a car before stock SCC does.
