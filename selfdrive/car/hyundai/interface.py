@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import numpy as np
 import os
+import shutil
+from os import path
 from cereal import car
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
@@ -8,6 +10,7 @@ from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness,
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
+
 
 GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
@@ -26,7 +29,6 @@ class CarInterface(CarInterfaceBase):
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=[]):  # pylint: disable=dangerous-default-value
     ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
-
     ret.openpilotLongitudinalControl = Params().get_bool('LongControlEnabled')
 
     ret.carName = "hyundai"
@@ -47,7 +49,7 @@ class CarInterface(CarInterfaceBase):
     ret.maxSteeringAngleDeg = 160.
 
     # lateral LQR global hyundai
-    #et.lateralTuning.init('lqr')
+    #ret.lateralTuning.init('lqr')
 
     #ret.lateralTuning.lqr.scale = 1650.
     #ret.lateralTuning.lqr.ki = 0.01
@@ -291,9 +293,9 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-
-
+      
     ret.radarTimeStep = 0.05
+    
 
 
     # TODO: get actual value, for now starting with reasonable value for
@@ -330,10 +332,12 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.enableCruise = not ret.radarOffCan
 
+
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
       ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
     return ret
+    
 
   def update(self, c, can_strings):
     self.cp.update_strings(can_strings)

@@ -1,6 +1,7 @@
 #include "settings.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <cassert>
 #include <string>
@@ -191,7 +192,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
     if (Params().getBool("IsOffroad") && (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this))) {
       //run code here
-      system("cd /data/openpilot/selfdrive && python ntune.py");
+      std::system("cd /data/openpilot/selfdrive && python ntune.py");
       // fix loading bug
       std::cout << "countdown:\n"; 
       for (int i=2; i>0; --i) {
@@ -201,6 +202,60 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
     }
   }, "", this));
+//Overide Boot Logo
+offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
+      //auto change boot logo Stinger
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Stinger.png img_spinner_comma.png");
+        ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Hyundai?.", this)) {
+      //auto change boot logo Hyundai
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Hyundai.png img_spinner_comma.png");
+        ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+
+offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Genesis?.", this)) {
+      //auto change boot logo Genesis
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Genesis.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+
+offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this)) {
+      //auto change boot logo Kia
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Kis.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+
+offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
+                                        "This changes the boot logo.", [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Comma?.", this)) {
+      //auto change boot logo Comma
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Comma.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+    }
+  }, "", this));
+
+  //restore for update
+//offroad_btns.append(new ButtonControl("Restore logo for update", "Restore",
+//                                        "This changes the boot logo to stock so that you can update.", [=]() {
+  //  if (ConfirmationDialog::confirm("Change Boot logo to allow update?", this)) {
+      //auto change boot logo Comma
+    //  system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv StingerBak.png img_spinner_comma.png");
+      //ConfirmationDialog::confirm("Success.", this);
+    //}
+  //}, "", this));
 
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
