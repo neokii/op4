@@ -255,27 +255,49 @@ static void ui_draw_world(UIState *s) {
           draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
           else
           draw_lead(s, lead_two, s->scene.lead_vertices[1]);
-    }
-  }
-  else {
-  //if (s->scene.longitudinal_control) {
-    auto radar_state = (*s->sm)["radarState"].getRadarState();
-    auto lead_one = radar_state.getLeadOne();
-    auto lead_two = radar_state.getLeadTwo();
-    if (lead_one.getStatus()) {
-      if (s->custom_lead_mark)
-      draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
-      else
-      draw_lead(s, lead_one, s->scene.lead_vertices[0]);
       }
-      if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
-        if (s->custom_lead_mark)
-        draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
-        else
-        draw_lead(s, lead_two, s->scene.lead_vertices[1]);
     }
   }
-}
+  else if ((Params().getBool("LongControlEnabled") == true))
+  {
+    if (s->scene.longitudinal_control) {
+      auto radar_state = (*s->sm)["radarState"].getRadarState();
+      auto lead_one = radar_state.getLeadOne();
+      auto lead_two = radar_state.getLeadTwo();
+      if (lead_one.getStatus()) {
+        if (s->custom_lead_mark)
+        draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
+        else
+        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+        }
+        if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
+          if (s->custom_lead_mark)
+          draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
+          else
+          draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+        }
+      }
+    }
+   else
+   {
+     if ((Params().getBool("LongControlEnabled") == true)) {
+       auto radar_state = (*s->sm)["radarState"].getRadarState();
+       auto lead_one = radar_state.getLeadOne();
+       auto lead_two = radar_state.getLeadTwo();
+       if (lead_one.getStatus()) {
+         if (s->custom_lead_mark)
+         draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
+         else
+         draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+         }
+       if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
+         if (s->custom_lead_mark)
+         draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
+         else
+         draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+        }
+      }
+    }
   nvgResetScissor(s->vg);
 }
 
