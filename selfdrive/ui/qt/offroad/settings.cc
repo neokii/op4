@@ -207,7 +207,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //auto change boot logo Stinger
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Stinger.png img_spinner_comma.png");
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
         ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
@@ -215,7 +215,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Hyundai?.", this)) {
       //auto change boot logo Hyundai
-      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Hyundai.png img_spinner_comma.png");
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
         ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
@@ -224,7 +224,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Genesis?.", this)) {
       //auto change boot logo Genesis
-      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Genesis.png img_spinner_comma.png");
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
       ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
@@ -233,7 +233,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this)) {
       //auto change boot logo Kia
-      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Kia.png img_spinner_comma.png");
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
       ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
@@ -242,7 +242,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Comma?.", this)) {
       //auto change boot logo Comma
-      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Comma.png img_spinner_comma.png");
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
       ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
