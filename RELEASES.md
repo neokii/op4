@@ -1,5 +1,6 @@
 Version 0.8.5 (2021-7-6)
 ========================
+* Various bug fixes and improvements.
 * Removed On-Screen vision and radar leads without HKG Long
 * Added UI Screen Recording stop on disengage toggle
 * Added button to run nTune
