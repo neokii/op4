@@ -322,6 +322,7 @@ class CarInterface(CarInterfaceBase):
 	# rename the original file
         os.rename('Kia.png','img_spinner_comma.png') 
 
+
 #auto change boot logo Stinger
     if candidate == CAR.STINGER:
       if path.exists("Hyundai.png"):
