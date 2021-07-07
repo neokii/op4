@@ -9,6 +9,8 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
  
+#include "selfdrive/common/params.cc"
+
 #ifndef QCOM
 #include "selfdrive/ui/qt/offroad/networking.h"
 #endif
@@ -189,7 +191,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //Run Ntune.py
     offroad_btns.append(new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune",
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
-    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) && (Params().getBool(IsOffroad) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
       std::cout << "countdown:\n";
@@ -204,7 +206,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
     offroad_btns.append(new ButtonControl("Open Android Settings", "SETTINGS",
                                         "This opens android settings to change APN name settings", [=]() {
-    if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
+    if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)){
       system("am start -a android.settings.SETTINGS");
     }
   }, "", this));
