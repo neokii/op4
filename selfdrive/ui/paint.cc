@@ -239,27 +239,43 @@ static void ui_draw_world(UIState *s) {
   // Draw lane edges and vision/mpc tracks
   ui_draw_vision_lane_lines(s);
 
-  // Draw lead indicators if openpilot is handling longitudinal
-  if (s->scene.longitudinal_control) {
+  if (Params().getBool("RVL") == true) {
+    if (s->scene.longitudinal_control) {
+      auto radar_state = (*s->sm)["radarState"].getRadarState();
+      auto lead_one = radar_state.getLeadOne();
+      auto lead_two = radar_state.getLeadTwo();
+      if (lead_one.getStatus()) {
+        if (s->custom_lead_mark)
+        draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
+        else
+        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+        }
+        if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
+          if (s->custom_lead_mark)
+          draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
+          else
+          draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+    }
+  }
+  else {
+  //if (s->scene.longitudinal_control) {
     auto radar_state = (*s->sm)["radarState"].getRadarState();
     auto lead_one = radar_state.getLeadOne();
     auto lead_two = radar_state.getLeadTwo();
     if (lead_one.getStatus()) {
-
       if (s->custom_lead_mark)
-        draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
+      draw_lead_custom(s, lead_one, s->scene.lead_vertices[0]);
       else
-        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
-    }
-    if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
-
-      if (s->custom_lead_mark)
+      draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+      }
+      if (lead_two.getStatus() && (std::abs(lead_one.getDRel() - lead_two.getDRel()) > 3.0)) {
+        if (s->custom_lead_mark)
         draw_lead_custom(s, lead_two, s->scene.lead_vertices[1]);
-      else
+        else
         draw_lead(s, lead_two, s->scene.lead_vertices[1]);
     }
   }
-
+}
   nvgResetScissor(s->vg);
 }
 

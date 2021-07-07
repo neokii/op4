@@ -54,8 +54,8 @@ def manager_init():
     ("UseSMDPSHarness", "0"),
     ("hotspot_on_boot", "1"),
     ("c_wifi_offroad", "1"),
-    ("SSCOD", "1"),
-    ("RVL", "0")
+    ("SSCOD", "0"),
+    ("RVL", "0"),
   ]
 
   if TICI:

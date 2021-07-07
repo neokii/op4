@@ -1,6 +1,7 @@
 Version 0.8.5 (2021-7-6)
 ========================
-* Various bug fixes and improvements.
+* nTune will not allow you to run when car on now.
+* Various bug fixes and Improvements.
 * Removed On-Screen vision and radar leads without HKG Long, due to missleading information. When HKG Long isn't on it causes a false sense of security because OP may recognize a car before stock SCC does.
   * Bring back my Lead Markers toggle for non HKG Long cars. Not Recommended
 * Added UI Screen Recording stop on disengage toggle

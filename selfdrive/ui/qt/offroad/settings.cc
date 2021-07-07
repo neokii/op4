@@ -186,18 +186,19 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   }, "", this));
 
-  //Run Ntune.py
+ //Run Ntune.py
     offroad_btns.append(new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune",
                                         "This runs Ntune.py too autotune Lateral.", [=]() {
-    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this)) {
+    if (Params().getBool("IsOffroad") && (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs other proccesses.", this))) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
-      std::cout << "countdown:\n";
+      // fix loading bug
+      std::cout << "countdown:\n"; 
       for (int i=2; i>0; --i) {
         std::cout << i << std::endl;
         std::this_thread::sleep_for (std::chrono::seconds(1));
         }
-        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);// fix loading bug
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
     }
   }, "", this));
 
