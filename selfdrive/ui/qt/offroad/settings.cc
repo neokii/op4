@@ -207,6 +207,10 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Stinger.", "Stinger"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //auto change boot logo Stinger
+      if( remove( "img_spinner_comma.png" ) != 0 )
+        ConfirmationDialog::confirm("Failure.", this);
+      else
+        ConfirmationDialog::confirm("Success.", this);
       int result;
       char oldname[] ="Stinger.png";
       char newname[] ="img_spinner_comma.png";
@@ -222,6 +226,10 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Hyundai.", "Hyundai"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Hyundai?.", this)) {
       //auto change boot logo Hyundai
+      if( remove( "img_spinner_comma.png" ) != 0 )
+        ConfirmationDialog::confirm("Failure.", this);
+      else
+        ConfirmationDialog::confirm("Success.", this);
       int result;
       char oldname[] ="Hyundai.png";
       char newname[] ="img_spinner_comma.png";
@@ -238,6 +246,10 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Genesis.", "Genesis"
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia Genesis?.", this)) {
       //auto change boot logo Genesis
+      if( remove( "img_spinner_comma.png" ) != 0 )
+        ConfirmationDialog::confirm("Failure.", this);
+      else
+        ConfirmationDialog::confirm("Success.", this);
       int result;
       char oldname[] ="Stinger.png";
       char newname[] ="img_spinner_comma.png";
@@ -254,6 +266,10 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this)) {
       //auto change boot logo Kia
+      if( remove( "img_spinner_comma.png" ) != 0 )
+        ConfirmationDialog::confirm("Failure.", this);
+      else
+        ConfirmationDialog::confirm("Success.", this);
       int result;
       char oldname[] ="Kia.png";
       char newname[] ="img_spinner_comma.png";
@@ -270,6 +286,10 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Comma.", "Comma",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Comma?.", this)) {
       //auto change boot logo Comma
+      if( remove( "img_spinner_comma.png" ) != 0 )
+        ConfirmationDialog::confirm("Failure.", this);
+      else
+        ConfirmationDialog::confirm("Success.", this);
       int result;
       char oldname[] ="Comma.png";
       char newname[] ="img_spinner_comma.png";
