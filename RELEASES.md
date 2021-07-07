@@ -1,4 +1,4 @@
-Version 0.8.5 (2021-7-6)
+Version 0.8.5 (2021-7-7)
 ========================
 * Customize your Boot logo in `settings` under `device`. (Resets after an update.)
 * nTune will not allow you to run when car is on now.
