@@ -233,7 +233,7 @@ offroad_btns.append(new ButtonControl("Overide boot logo to Kia.", "Kia",
                                         "This changes the boot logo.", [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia?.", this)) {
       //auto change boot logo Kia
-      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Kis.png img_spinner_comma.png");
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && mv Kia.png img_spinner_comma.png");
       ConfirmationDialog::confirm("Success.", this);
     }
   }, "", this));
