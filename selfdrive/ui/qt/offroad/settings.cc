@@ -188,7 +188,13 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (ConfirmationDialog::confirm("Are you sure you want to run ntune?", this)) {
       //run code here
       system("cd /data/openpilot/selfdrive && python ntune.py");
-      ConfirmationDialog::confirm("nTune Ran Successfully", this);
+      std::cout << "countdown:\n";
+      for (int i=10; i>0; --i) {
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for (std::chrono::seconds(1));
+        }
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);// fix loading bug
+        return 0;
     }
   }, "", this));
 
