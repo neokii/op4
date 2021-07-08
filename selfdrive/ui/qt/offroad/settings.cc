@@ -475,7 +475,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());      
 
 //DELETE UI SCREEN RECORDINGS
-  DUISR = new ButtonControl("Check for Update", "");
+
   DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "Recordings saved to location /storage/emulated/0/videos");
   connect(DUISR, &ButtonControl::released, [=]() {
     if (params.getBool("IsOffroad")) {
