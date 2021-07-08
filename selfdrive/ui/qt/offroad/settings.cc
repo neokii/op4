@@ -352,8 +352,7 @@ QWidget * community_panel() {
   QObject::connect(DSUIR, &ButtonControl::released, [=]() { 
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
       system("cd /storage/emulated/0/videos && rm *.*");
-    }));
-  }
+    });
   toggles_list->addWidget(DSUIR);
   toggles_list->addWidget(horizontal_line());
 
@@ -367,9 +366,8 @@ QWidget * community_panel() {
         std::cout << i << std::endl;
         std::this_thread::sleep_for (std::chrono::seconds(1));
         }
-        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully");
-      }));
-    }
+
+      });
   toggles_list->addWidget(nTune);
   toggles_list->addWidget(horizontal_line());
 
