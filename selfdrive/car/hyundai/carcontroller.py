@@ -105,7 +105,7 @@ class CarController():
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
-      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS and not CS.mdps_bus:
+      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS or self.car_fingerprint == CAR.GENESIS_G80 and not CS.mdps_bus:
         lkas_active = False
         
     # Disable steering while turning blinker on and speed below 60 kph
