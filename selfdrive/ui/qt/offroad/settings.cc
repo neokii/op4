@@ -120,7 +120,96 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   QHBoxLayout *reset_layout = new QHBoxLayout();
   reset_layout->setSpacing(30);
+  main_layout->addWidget(horizontal_line());
+  //DELETE UI SCREEN RECORDINGS
+  auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
+  connect(DUISR, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
+      system("cd /storage/emulated/0/videos && rm *.*");
+    }
+  });
+  main_layout->addWidget(horizontal_line());
+ //Run Ntune.py
+  ButtonControl *nTuneBtn = nullptr;
+  nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
+  connect(nTuneBtn, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
+      //run code here
+      std::system("cd /data/openpilot/selfdrive && python ntune.py");
+      // fix loading bug
+      std::cout << "countdown:\n"; 
+      for (int i=2; i>0; --i) {
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for (std::chrono::seconds(1));
+        }
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
+      }
+    });
+  main_layout->addWidget(horizontal_line());
+//Overide Boot Logo
+  ButtonControl *OVKS = nullptr;
+  OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
+  connect(OVKS, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
+      //run code here
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+      }
+    });
 
+//Overide Boot Logo
+  ButtonControl *OVH = nullptr;
+  OVH = new ButtonControl("Overide boot logo to Hyundai.", "Hyundai", "This changes the boot logo.");
+  connect(OVH, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Hyundai logo?.", this)) {
+      //run code here
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+      }
+    });
+
+//Overide Boot Logo
+  ButtonControl *OVG = nullptr;
+  OVG = new ButtonControl("Overide boot logo to Genesis.", "Genesis", "This changes the boot logo.");
+  connect(OVG, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Genesis logo?.", this)) {
+      //run code here
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+      }
+    });
+
+//Overide Boot Logo
+  ButtonControl *OVK = nullptr;
+  OVK = new ButtonControl("Overide boot logo to Kia.", "Kia", "This changes the boot logo.");
+  connect(OVK, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Kia logo?.", this)) {
+      //run code here
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
+      confirmationDialog::confirm("Success.", this);
+      }
+    });
+
+//Overide Boot Logo
+  ButtonControl *OVC = nullptr;
+  OVC = new ButtonControl("Overide boot logo to Comma.", "Comma", "This changes the boot logo.");
+  connect(OVC, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Change Boot logo to Comma logo?.", this)) {
+    //run code here
+      std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
+      ConfirmationDialog::confirm("Success.", this);
+      }
+    });
+
+  //Open Android Settings adb shell am start -a android.settings.SETTINGS
+  ButtonControl *APN = nullptr;
+  APN = new ButtonControl("Open Android Settings", "SETTINGS", "This opens android settings to change APN name settings");
+  connect(APN, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
+    //run code here
+      std::system("am start -a android.settings.SETTINGS");
+      }
+    });
   // reset calibration button
   QPushButton *reset_calib_btn = new QPushButton("Reset Calibration and LiveParameters");
   reset_calib_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
@@ -180,97 +269,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
         Params().remove("CompletedTrainingVersion");
         emit reviewTrainingGuide();
-      }
-    });
-  main_layout->addWidget(horizontal_line());
-  //DELETE UI SCREEN RECORDINGS
-  auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
-  connect(DUISR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
-      system("cd /storage/emulated/0/videos && rm *.*");
-    }
-  });
-  main_layout->addWidget(horizontal_line());
- //Run Ntune.py
-  ButtonControl *nTuneBtn = nullptr;
-  nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
-  connect(nTuneBtn, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
-      //run code here
-      std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      // fix loading bug
-      std::cout << "countdown:\n"; 
-      for (int i=2; i>0; --i) {
-        std::cout << i << std::endl;
-        std::this_thread::sleep_for (std::chrono::seconds(1));
-        }
-        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
-      }
-    });
-  main_layout->addWidget(horizontal_line());
-//Overide Boot Logo
-    ButtonControl *OVKS = nullptr;
-    OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
-    connect(OVKS, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
-      //run code here
-        std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
-        ConfirmationDialog::confirm("Success.", this);
-      }
-    });
-
-//Overide Boot Logo
-    ButtonControl *OVH = nullptr;
-    OVH = new ButtonControl("Overide boot logo to Hyundai.", "Hyundai", "This changes the boot logo.");
-    connect(OVH, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Change Boot logo to Hyundai logo?.", this)) {
-      //run code here
-        std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
-        ConfirmationDialog::confirm("Success.", this);
-      }
-    });
-
-//Overide Boot Logo
-  ButtonControl *OVG = nullptr;
-    OVG = new ButtonControl("Overide boot logo to Genesis.", "Genesis", "This changes the boot logo.");
-    connect(OVG, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Change Boot logo to Genesis logo?.", this)) {
-      //run code here
-        std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
-        ConfirmationDialog::confirm("Success.", this);
-      }
-    });
-
-//Overide Boot Logo
-  ButtonControl *OVK = nullptr;
-    OVK = new ButtonControl("Overide boot logo to Kia.", "Kia", "This changes the boot logo.");
-    connect(OVK, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Change Boot logo to Kia logo?.", this)) {
-      //run code here
-        std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
-        ConfirmationDialog::confirm("Success.", this);
-      }
-    });
-
-//Overide Boot Logo
-  ButtonControl *OVC = nullptr;
-    OVC = new ButtonControl("Overide boot logo to Comma.", "Comma", "This changes the boot logo.");
-    connect(OVC, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Change Boot logo to Comma logo?.", this)) {
-      //run code here
-        std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
-        ConfirmationDialog::confirm("Success.", this);
-      }
-    });
-
-  //Open Android Settings adb shell am start -a android.settings.SETTINGS
-  ButtonControl *APN = nullptr;
-
-    APN = new ButtonControl("Open Android Settings", "SETTINGS", "This opens android settings to change APN name settings");
-    connect(APN, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
-      //run code here
-        std::system("am start -a android.settings.SETTINGS");
       }
     });
 
