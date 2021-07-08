@@ -193,8 +193,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       }
     });
 
-
-
  //Run Ntune.py
   ButtonControl *nTuneBtn = nullptr;
     nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
@@ -214,8 +212,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
  
 //Overide Boot Logo
   ButtonControl *OVKS = nullptr;
-    OVKSbtn = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
-    connect(OVKSbtn, &ButtonControl::released, [=]() {
+    OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
+    connect(OVKS, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //run code here
         std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
