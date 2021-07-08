@@ -480,14 +480,8 @@ QWidget * community_panel() {
       if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
         system("cd /storage/emulated/0/videos && rm *.*");
     }
-    std::system("pkill -1 -f selfdrive.updated");
   });
-  auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
-  AbstractControl::connect(DUISR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
-      system("cd /storage/emulated/0/videos && rm *.*");
-    }
-  });
+
   toggles_list->addWidget(horizontal_line()); 
  //Run Ntune.py
   ButtonControl *nTuneBtn = nullptr;
