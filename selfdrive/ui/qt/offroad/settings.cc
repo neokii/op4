@@ -350,10 +350,26 @@ QWidget * community_panel() {
 )");
   auto DSUIR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(DSUIR, &ButtonControl::released, [=]() { 
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       system("cd /storage/emulated/0/videos && rm *.*");
     });
   toggles_list->addWidget(DSUIR);
+  toggles_list->addWidget(horizontal_line());
+
+  auto nTune = new ButtonControl("Run nTune AutoTune for lateral Autotune.", "Run nTune");
+  QObject::connect(nTune, &ButtonControl::released, [=]() { 
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This lags.", this)) {
+      std::system("cd /data/openpilot/selfdrive && python ntune.py");
+      // fix loading bug
+      std::cout << "countdown:\n"; 
+      for (int i=2; i>0; --i) {
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for (std::chrono::seconds(1));
+        }
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully");
+
+    });
+  toggles_list->addWidget(nTune);
   toggles_list->addWidget(horizontal_line());
 
   QListView* list = new QListView(supported_cars);
