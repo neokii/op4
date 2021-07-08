@@ -182,7 +182,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         emit reviewTrainingGuide();
       }
     });
-
+  main_layout->addWidget(horizontal_line());
   //DELETE UI SCREEN RECORDINGS
   auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
   connect(DUISR, &ButtonControl::released, [=]() {
@@ -190,7 +190,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       system("cd /storage/emulated/0/videos && rm *.*");
     }
   });
-
+  main_layout->addWidget(horizontal_line());
  //Run Ntune.py
   ButtonControl *nTuneBtn = nullptr;
   nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
@@ -207,7 +207,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
       }
     });
- 
+  main_layout->addWidget(horizontal_line());
 //Overide Boot Logo
     ButtonControl *OVKS = nullptr;
     OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
