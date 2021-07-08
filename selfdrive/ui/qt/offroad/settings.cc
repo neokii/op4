@@ -214,8 +214,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
  
 //Overide Boot Logo
   ButtonControl *OVKS = nullptr;
-    OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
-    connect(OVKS, &ButtonControl::released, [=]() {
+    OVKSbtn = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
+    connect(OVKSbtn, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //run code here
         std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
@@ -257,7 +257,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     });
 
 //Overide Boot Logo
-  ButtonControl *OVK = nullptr;
+  ButtonControl *OVC = nullptr;
     OVC = new ButtonControl("Overide boot logo to Comma.", "Comma", "This changes the boot logo.");
     connect(OVC, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Change Boot logo to Comma logo?.", this)) {

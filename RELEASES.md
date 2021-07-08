@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-8-7)
 ========================
+* Fixed Button bugs.
 * Fixed outdated buttons.
 * Fixed 2017 Elantra bugs.
 * Updated to 0.8.6 by merging with Neokii's 0.8.6 version.
