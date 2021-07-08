@@ -186,7 +186,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia logo?.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
-      confirmationDialog::confirm("Success.", this);
+      ConfirmationDialog::confirm("Success.", this);
       }
     });
 
