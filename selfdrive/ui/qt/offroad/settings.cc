@@ -185,7 +185,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
   //DELETE UI SCREEN RECORDINGS
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -198,7 +198,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
 
  //Run Ntune.py
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -217,7 +217,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
  
 //Overide Boot Logo
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -230,7 +230,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
 //Overide Boot Logo
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Overide boot logo to Hyundai.", "Hyundai", "This changes the boot logo.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -243,7 +243,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
 //Overide Boot Logo
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Overide boot logo to Genesis.", "Genesis", "This changes the boot logo.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -256,7 +256,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
 //Overide Boot Logo
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Overide boot logo to Kia.", "Kia", "This changes the boot logo.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -269,7 +269,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
 //Overide Boot Logo
-  ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Overide boot logo to Comma.", "Comma", "This changes the boot logo.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
@@ -282,7 +282,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
-    ButtonControl *retrainingBtn = nullptr;
+  //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Open Android Settings", "SETTINGS", "This opens android settings to change APN name settings");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
