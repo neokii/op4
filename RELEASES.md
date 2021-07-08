@@ -5,7 +5,6 @@ Version 0.8.6 (2021-8-7)
 * Fixed 2017 Elantra bugs.
 * Updated to 0.8.6 by merging with Neokii's 0.8.6 version.
 
-
 Version 0.8.5 (2021-7-7)
 ========================
 * Fix 2017 Elantra
