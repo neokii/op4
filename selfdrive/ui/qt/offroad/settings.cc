@@ -184,34 +184,34 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     });
 
   //DELETE UI SCREEN RECORDINGS
-  ButtonControl *delUIrecordings = nullptr;
-    delUIrecordings = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
-    connect(delUIrecordings, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
+  //ButtonControl *delUIrecordings = nullptr;
+  auto delUIrecordings = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
+  connect(delUIrecordings, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       //run code here
-        system("cd /storage/emulated/0/videos && rm *.*");
-      }
-    });
+      system("cd /storage/emulated/0/videos && rm *.*");
+    }
+  });
 
  //Run Ntune.py
   ButtonControl *nTuneBtn = nullptr;
-    nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
-    connect(nTuneBtn, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
+  nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
+  connect(nTuneBtn, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
       //run code here
-        std::system("cd /data/openpilot/selfdrive && python ntune.py");
+      std::system("cd /data/openpilot/selfdrive && python ntune.py");
       // fix loading bug
-        std::cout << "countdown:\n"; 
-        for (int i=2; i>0; --i) {
-          std::cout << i << std::endl;
-          std::this_thread::sleep_for (std::chrono::seconds(1));
+      std::cout << "countdown:\n"; 
+      for (int i=2; i>0; --i) {
+        std::cout << i << std::endl;
+        std::this_thread::sleep_for (std::chrono::seconds(1));
         }
-          std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
+        std::cout << ConfirmationDialog::confirm("nTune Ran Successfully", this);
       }
     });
  
 //Overide Boot Logo
-  ButtonControl *OVKS = nullptr;
+    ButtonControl *OVKS = nullptr;
     OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
     connect(OVKS, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
@@ -222,7 +222,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     });
 
 //Overide Boot Logo
-  ButtonControl *OVH = nullptr;
+    ButtonControl *OVH = nullptr;
     OVH = new ButtonControl("Overide boot logo to Hyundai.", "Hyundai", "This changes the boot logo.");
     connect(OVH, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Change Boot logo to Hyundai logo?.", this)) {
