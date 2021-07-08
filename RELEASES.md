@@ -1,5 +1,6 @@
 Version 0.8.5 (2021-7-7)
 ========================
+* Fix 2017 Elantra
 * Adjust Neokii's fix for auto resume for 2020 sonata.
 * Customize your Boot logo in `settings` under `device`. (Resets after an update.)
 * nTune will not allow you to run when car is on now.
