@@ -176,7 +176,7 @@ class CarController():
     if pcm_cancel_cmd and (self.longcontrol and not self.mad_mode_enabled):
       can_sends.append(create_clu11(self.packer, frame % 0x10, CS.scc_bus, CS.clu11, Buttons.CANCEL, clu11_speed))
 
-    # fix auto resume - by neokii
+    # fix auto resume - by neokii, adjusted by JPR
     if CS.out.cruiseState.standstill:
 
       if self.last_lead_distance == 0:
@@ -195,9 +195,9 @@ class CarController():
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.scc_bus, CS.clu11, Buttons.RES_ACCEL, clu11_speed))
         self.resume_cnt += 1
 
-        if self.resume_cnt >= 8:
+        if self.resume_cnt >= 5:
           self.resume_cnt = 0
-          self.resume_wait_timer = SccSmoother.get_wait_count() * 2
+          self.resume_wait_timer = SccSmoother.get_wait_count() * 1
 
     # reset lead distnce after the car starts moving
     elif self.last_lead_distance != 0:
