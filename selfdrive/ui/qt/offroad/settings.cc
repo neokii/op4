@@ -293,8 +293,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     });
   }
 
-  QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
-  offroad_btns.append(new ButtonControl("Uninstall " + brand, "UNINSTALL", "", [=]() {
+  auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
+  connect(uninstallBtn, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
       Params().putBool("DoUninstall", true);
     }
