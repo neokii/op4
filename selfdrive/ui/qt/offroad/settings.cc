@@ -348,11 +348,12 @@ QWidget * community_panel() {
     height: 140px;
     }
 )");
-  auto TEST = new ButtonControl("TEST TEST", "test");
-  QObject::connect(TEST, &ButtonControl::released, [=]() { 
-    HardwareEon::launch_wifi(); 
+  auto DSUIR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  QObject::connect(DSUIR, &ButtonControl::released, [=]() { 
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
+      system("cd /storage/emulated/0/videos && rm *.*");
     });
-  toggles_list->addWidget(TEST);
+  toggles_list->addWidget(DSUIR);
   toggles_list->addWidget(horizontal_line());
 
   QListView* list = new QListView(supported_cars);
