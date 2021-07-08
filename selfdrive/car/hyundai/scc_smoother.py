@@ -8,6 +8,7 @@ from selfdrive.car.hyundai.values import Buttons
 from common.params import Params
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_CRUISE_DELTA_KM, V_CRUISE_DELTA_MI
 from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
+from selfdrive.controls.lib.long_mpc import AUTO_TR_CRUISE_GAP
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
 
 SYNC_MARGIN = 3.
@@ -53,7 +54,7 @@ class SccSmoother:
   def kph_to_clu(self, kph):
     return int(kph * CV.KPH_TO_MS * self.speed_conv_to_clu)
 
-  def __init__(self, gas_gain, brake_gain, curvature_gain):
+  def __init__(self, gas_factor, brake_factor, curvature_factor):
 
     self.longcontrol = Params().get_bool('LongControlEnabled')
     self.slow_on_curves = Params().get_bool('SccSmootherSlowOnCurves')
@@ -67,9 +68,9 @@ class SccSmoother:
     self.min_set_speed_clu = self.kph_to_clu(MIN_SET_SPEED_KPH)
     self.max_set_speed_clu = self.kph_to_clu(MAX_SET_SPEED_KPH)
 
-    self.gas_gain = clip(gas_gain, 0.7, 1.3)
-    self.brake_gain = clip(brake_gain, 0.7, 1.3)
-    self.curvature_gain = curvature_gain
+    self.gas_factor = clip(gas_factor, 0.7, 1.3)
+    self.brake_factor = clip(brake_factor, 0.7, 1.3)
+    self.curvature_factor = curvature_factor
 
     self.target_speed = 0.
 
@@ -198,6 +199,8 @@ class SccSmoother:
     CC.sccSmoother.cruiseVirtualMaxSpeed = controls.cruiseVirtualMaxSpeed
     CC.sccSmoother.cruiseRealMaxSpeed = controls.v_cruise_kph
 
+    CC.sccSmoother.autoTrGap = AUTO_TR_CRUISE_GAP
+
     ascc_enabled = CS.acc_mode and enabled and CS.cruiseState_enabled \
                    and 1 < CS.cruiseState_speed < 255 and not CS.brake_pressed
 
@@ -290,10 +293,12 @@ class SccSmoother:
         dy = np.gradient(y, x)
         d2y = np.gradient(dy, x)
         curv = d2y / (1 + dy ** 2) ** 1.5
-        curv = curv[5:TRAJECTORY_SIZE-10]
+
+        start = int(interp(v_ego, [10., 35.], [5, TRAJECTORY_SIZE-10]))
+        curv = curv[start:min(start+10, TRAJECTORY_SIZE)]
         a_y_max = 2.975 - v_ego * 0.0375  # ~1.85 @ 75mph, ~2.6 @ 25mph
         v_curvature = np.sqrt(a_y_max / np.clip(np.abs(curv), 1e-4, None))
-        model_speed = np.mean(v_curvature) * 0.9 * self.curvature_gain
+        model_speed = np.mean(v_curvature) * 0.9 * self.curvature_factor
 
         if model_speed < v_ego:
           self.curve_speed_ms = float(max(model_speed, MIN_CURVE_SPEED))
@@ -341,32 +346,28 @@ class SccSmoother:
       dRel = lead.dRel
 
       if self.fuse_with_stock and lead.radar:
-
         if stock_accel > 0.:
-          stock_weight = interp(dRel, [3., 25.], [0.7, 0.])
+          stock_weight = interp(dRel, [4., 25.], [0.7, 0.])
         else:
-          stock_weight = interp(dRel, [3., 25.], [1., 0.])
-
+          stock_weight = interp(dRel, [4., 25.], [1., 0.])
         apply_accel = apply_accel * (1. - stock_weight) + stock_accel * stock_weight
 
     return apply_accel, dRel
 
   def get_accel(self, CS, sm, accel):
 
-    gas_gain = clip(self.gas_gain, 0.7, 1.3)
-    brake_gain = clip(self.brake_gain, 0.7, 1.3)
+    gas_factor = clip(self.gas_factor, 0.7, 1.3)
+    brake_factor = clip(self.brake_factor, 0.7, 1.3)
 
     lead = self.get_lead(sm)
-    if lead is not None and lead.radar:
-      if accel > 0:
-        accel *= gas_gain
-      else:
-        accel *= brake_gain * interp(lead.dRel, [3., 20.], [1.1, 1.0])
+    if lead is not None:
+      wd = interp(lead.dRel, [4., 15.], [1.2, 1.0])
+      brake_factor *= interp(CS.out.vEgo, [0., 20.], [1., wd])
+
+    if accel > 0:
+      accel *= gas_factor
     else:
-      if accel > 0:
-        accel *= gas_gain
-      else:
-        accel *= brake_gain
+      accel *= brake_factor
 
     return accel
 

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import datetime
+import json
 import os
+import subprocess
 import time
 from pathlib import Path
 from typing import Dict, Optional, Tuple
@@ -10,6 +12,7 @@ from smbus2 import SMBus
 
 import cereal.messaging as messaging
 from cereal import log
+from common.basedir import BASEDIR
 from common.filter_simple import FirstOrderFilter
 from common.numpy_fast import clip, interp
 from common.params import Params, ParamKeyType
@@ -157,6 +160,7 @@ def thermald_thread():
   network_strength = NetworkStrength.unknown
   wifiIpAddress = 'N/A'
   network_info = None
+  registered_count = 0
 
   current_filter = FirstOrderFilter(0., CURRENT_TAU, DT_TRML)
   cpu_temp_filter = FirstOrderFilter(0., CPU_TEMP_TAU, DT_TRML)
@@ -172,6 +176,9 @@ def thermald_thread():
 
   thermal_config = HARDWARE.get_thermal_config()
 
+  if params.get_bool("IsOnroad"):
+    cloudlog.event("onroad flag not cleared")
+
   # CPR3 logging
   if EON:
     base_path = "/sys/kernel/debug/cpr3-regulator/"
@@ -185,6 +192,15 @@ def thermald_thread():
         except Exception:
           pass
     cloudlog.event("CPR", data=cpr_data)
+
+    # modem logging
+    try:
+      binpath = os.path.join(BASEDIR, "selfdrive/hardware/eon/rat")
+      out = subprocess.check_output([binpath], encoding='utf8').strip()
+      dat = json.loads(out.splitlines()[1])
+      cloudlog.event("NV data", data=dat)
+    except Exception:
+      pass
 
   while 1:
     pandaState = messaging.recv_sock(pandaState_sock, wait=True)
@@ -234,12 +250,24 @@ def thermald_thread():
         network_strength = HARDWARE.get_network_strength(network_type)
         network_info = HARDWARE.get_network_info()  # pylint: disable=assignment-from-none
         wifiIpAddress = HARDWARE.get_ip_address()
+
+        if TICI and (network_info.get('state', None) == "REGISTERED"):
+          registered_count += 1
+        else:
+          registered_count = 0
+
+        if registered_count > 10:
+          cloudlog.warning(f"Modem stuck in registered state {network_info}. nmcli conn up lte")
+          os.system("nmcli conn up lte")
+          registered_count = 0
+
       except Exception:
         cloudlog.exception("Error getting network status")
 
     msg.deviceState.freeSpacePercent = get_available_percent(default=100.0)
     msg.deviceState.memoryUsagePercent = int(round(psutil.virtual_memory().percent))
     msg.deviceState.cpuUsagePercent = int(round(psutil.cpu_percent()))
+    msg.deviceState.gpuUsagePercent = int(round(HARDWARE.get_gpu_usage_percent()))
     msg.deviceState.networkType = network_type
     msg.deviceState.networkStrength = network_strength
     if network_info is not None:
@@ -345,7 +373,7 @@ def thermald_thread():
     # with 2% left, we killall, otherwise the phone will take a long time to boot
     startup_conditions["free_space"] = msg.deviceState.freeSpacePercent > 2
     startup_conditions["completed_training"] = params.get("CompletedTrainingVersion") == training_version or \
-                                               (current_branch in ['dashcam', 'dashcam-staging'])
+                                               params.get_bool("Passive")
     startup_conditions["not_driver_view"] = not params.get_bool("IsDriverViewEnabled")
     startup_conditions["not_taking_snapshot"] = not params.get_bool("IsTakingSnapshot")
     # if any CPU gets above 107 or the battery gets above 63, kill all processes
@@ -359,11 +387,9 @@ def thermald_thread():
     # Handle offroad/onroad transition
     should_start = all(startup_conditions.values())
     if should_start != should_start_prev or (count == 0):
+      params.put_bool("IsOnroad", should_start)
       params.put_bool("IsOffroad", not should_start)
       HARDWARE.set_power_save(not should_start)
-      if TICI and not params.get_bool("EnableLteOnroad"):
-        fxn = "off" if should_start else "on"
-        os.system(f"nmcli radio wwan {fxn}")
 
     if should_start:
       off_ts = None

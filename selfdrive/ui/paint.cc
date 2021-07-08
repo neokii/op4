@@ -1,8 +1,7 @@
-#include "paint.h"
-
-#include <assert.h>
+#include "selfdrive/ui/paint.h"
 
 #include <algorithm>
+#include <cassert>
 
 #ifdef __APPLE__
 #include <OpenGL/gl3.h>
@@ -100,7 +99,7 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
     fillAlpha = (int)(fmin(fillAlpha, 255));
   }
 
-  float sz = std::clamp((25 * 30) / (d_rel / 3 + 30), 15.0f, 30.0f) * s->zoom;
+  float sz = std::clamp((25 * 30) / (d_rel / 3 + 30), 15.0f, 30.0f) * 2.35;
   x = std::clamp(x, 0.f, s->viz_rect.right() - sz / 2);
   y = std::fmin(s->viz_rect.bottom() - sz * .6, y);
 
@@ -453,21 +452,22 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    auto controls_state = (*s->sm)["controlsState"].getControlsState();
-    if (controls_state.getEnabled()) {
+    auto carControl = (*s->sm)["carControl"].getCarControl();
+    if (carControl.getEnabled()) {
       //show Orange if more than 6 degrees
       //show red if  more than 12 degrees
 
-      float steeringAngleDesiredDeg  = controls_state.getSteeringAngleDesiredDeg ();
+      auto actuators = carControl.getActuators();
+      float steeringAngleDeg  = actuators.getSteeringAngleDeg();
 
-      if(((int)(steeringAngleDesiredDeg ) < -30) || ((int)(steeringAngleDesiredDeg ) > 30)) {
+      if(((int)(steeringAngleDeg ) < -30) || ((int)(steeringAngleDeg ) > 30)) {
         val_color = nvgRGBA(255, 255, 255, 200);
       }
-      if(((int)(steeringAngleDesiredDeg ) < -50) || ((int)(steeringAngleDesiredDeg ) > 50)) {
+      if(((int)(steeringAngleDeg ) < -50) || ((int)(steeringAngleDeg ) > 50)) {
         val_color = nvgRGBA(255, 255, 255, 200);
       }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDesiredDeg );
+      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg );
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
@@ -771,6 +771,50 @@ static void bb_ui_draw_UI(UIState *s)
     bb_ui_draw_debug(s);
 }
 
+static void ui_draw_vision_scc_gap(UIState *s) {
+  const UIScene *scene = &s->scene;
+  auto car_state = (*s->sm)["carState"].getCarState();
+  auto scc_smoother = s->scene.car_control.getSccSmoother();
+
+  int gap = car_state.getCruiseGap();
+  bool longControl = scc_smoother.getLongControl();
+  int autoTrGap = scc_smoother.getAutoTrGap();
+
+  const int radius = 96;
+  const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
+  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+
+  NVGcolor color_bg = nvgRGBA(0, 0, 0, (255 * 0.1f));
+
+  nvgBeginPath(s->vg);
+  nvgCircle(s->vg, center_x, center_y, radius);
+  nvgFillColor(s->vg, color_bg);
+  nvgFill(s->vg);
+
+  NVGcolor textColor = nvgRGBA(255, 255, 255, 200);
+  float textSize = 30.f;
+
+  char str[64];
+  if(gap <= 0) {
+    snprintf(str, sizeof(str), "N/A");
+  }
+  else if(longControl && gap == autoTrGap) {
+    snprintf(str, sizeof(str), "AUTO");
+    textColor = nvgRGBA(120, 255, 120, 200);
+  }
+  else {
+    snprintf(str, sizeof(str), "%d", (int)gap);
+    textColor = nvgRGBA(120, 255, 120, 200);
+    textSize = 38.f;
+  }
+
+  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+
+  ui_draw_text(s, center_x, center_y-36, "GAP", 22 * 2.5f, nvgRGBA(255, 255, 255, 200), "sans-bold");
+  ui_draw_text(s, center_x, center_y+22, str, textSize * 2.5f, textColor, "sans-bold");
+
+}
+
 static void ui_draw_vision_brake(UIState *s) {
   const UIScene *scene = &s->scene;
 
@@ -901,7 +945,7 @@ static void ui_draw_vision_speed(UIState *s) {
 }
 
 static void ui_draw_vision_event(UIState *s) {
-  if ((*s->sm)["controlsState"].getControlsState().getEngageable()) {
+  if (s->scene.engageable) {
     // draw steering wheel
     const int radius = 96;
     const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
@@ -916,8 +960,7 @@ static void ui_draw_vision_face(UIState *s) {
   const int radius = 96;
   const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
   const int center_y = s->viz_rect.bottom() - footer_h / 2;
-  bool is_active = (*s->sm)["driverMonitoringState"].getDriverMonitoringState().getIsActiveMode();
-  ui_draw_circle_image(s, center_x, center_y, radius, "driver_face", is_active);
+  ui_draw_circle_image(s, center_x, center_y, radius, "driver_face", s->scene.dm_active);
 }
 
 static void ui_draw_vision_bsd_left(UIState *s) {
@@ -968,6 +1011,7 @@ static void ui_draw_vision(UIState *s) {
   }
   // Set Speed, Current Speed, Status/Events
   ui_draw_vision_header(s);
+  ui_draw_vision_scc_gap(s);
   ui_draw_vision_brake(s);
   ui_draw_vision_autohold(s);
   ui_draw_vision_bsd_left(s);
@@ -1153,7 +1197,7 @@ void ui_nvg_init(UIState *s) {
   ui_resize(s, s->fb_w, s->fb_h);
 }
 
-void ui_resize(UIState *s, int width, int height){
+void ui_resize(UIState *s, int width, int height) {
   s->fb_w = width;
   s->fb_h = height;
 

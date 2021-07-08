@@ -51,6 +51,10 @@ class CarInterfaceBase():
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=None):
     raise NotImplementedError
 
+  @staticmethod
+  def init(CP, logcan, sendcan):
+    pass
+
   # returns a set of default params to avoid repetition in car specific params
   @staticmethod
   def get_std_params(candidate, fingerprint, has_relay):
@@ -76,7 +80,7 @@ class CarInterfaceBase():
     ret.minSpeedCan = 0.3
     ret.stoppingBrakeRate = 0.2 # brake_travel/s while trying to stop
     ret.startingBrakeRate = 0.8 # brake_travel/s while releasing on restart
-    ret.stoppingControl = False
+    ret.stoppingControl = True
     ret.longitudinalTuning.deadzoneBP = [0.]
     ret.longitudinalTuning.deadzoneV = [0.]
     ret.longitudinalTuning.kpBP = [0.]
@@ -169,6 +173,8 @@ class CarStateBase:
     self.cruise_buttons = 0
     self.left_blinker_cnt = 0
     self.right_blinker_cnt = 0
+    self.left_blinker_prev = False
+    self.right_blinker_prev = False
 
     # Q = np.matrix([[10.0, 0.0], [0.0, 100.0]])
     # R = 1e3
@@ -184,10 +190,36 @@ class CarStateBase:
     v_ego_x = self.v_ego_kf.update(v_ego_raw)
     return float(v_ego_x[0]), float(v_ego_x[1])
 
-  def update_blinker(self, blinker_time: int, left_blinker_lamp: bool, right_blinker_lamp: bool):
+  def update_blinker_from_lamp(self, blinker_time: int, left_blinker_lamp: bool, right_blinker_lamp: bool):
+    """Update blinkers from lights. Enable output when light was seen within the last `blinker_time`
+    iterations"""
+    # TODO: Handle case when switching direction. Now both blinkers can be on at the same time
     self.left_blinker_cnt = blinker_time if left_blinker_lamp else max(self.left_blinker_cnt - 1, 0)
     self.right_blinker_cnt = blinker_time if right_blinker_lamp else max(self.right_blinker_cnt - 1, 0)
     return self.left_blinker_cnt > 0, self.right_blinker_cnt > 0
+
+  def update_blinker_from_stalk(self, blinker_time: int, left_blinker_stalk: bool, right_blinker_stalk: bool):
+    """Update blinkers from stalk position. When stalk is seen the blinker will be on for at least blinker_time,
+    or until the stalk is turned off, whichever is longer. If the opposite stalk direction is seen the blinker
+    is forced to the other side. On a rising edge of the stalk the timeout is reset."""
+
+    if left_blinker_stalk:
+      self.right_blinker_cnt = 0
+      if not self.left_blinker_prev:
+        self.left_blinker_cnt = blinker_time
+
+    if right_blinker_stalk:
+      self.left_blinker_cnt = 0
+      if not self.right_blinker_prev:
+        self.right_blinker_cnt = blinker_time
+
+    self.left_blinker_cnt = max(self.left_blinker_cnt - 1, 0)
+    self.right_blinker_cnt = max(self.right_blinker_cnt - 1, 0)
+
+    self.left_blinker_prev = left_blinker_stalk
+    self.right_blinker_prev = right_blinker_stalk
+
+    return bool(left_blinker_stalk or self.left_blinker_cnt > 0), bool(right_blinker_stalk or self.right_blinker_cnt > 0)
 
   @staticmethod
   def parse_gear_shifter(gear: str) -> car.CarState.GearShifter:

@@ -13,13 +13,13 @@ from selfdrive.config import Conversions as CV
 LOG_MPC = os.environ.get('LOG_MPC', False)
 
 CRUISE_GAP_BP = [1., 2., 3., 4.]
-CRUISE_GAP_V = [1.15, 1.5, 2., 2.5]
+CRUISE_GAP_V = [1.3, 1.6, 2.1, 2.7]
 
-AUTO_TR_BP = [40.*CV.KPH_TO_MS, 60.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-AUTO_TR_V = [1.1, 1.15, 1.2, 1.25, 1.3]
+AUTO_TR_BP = [20.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+AUTO_TR_V = [1.3, 1.6, 2.0, 2.4]
 
 AUTO_TR_ENABLED = True
-AUTO_TR_CRUISE_GAP = 1
+AUTO_TR_CRUISE_GAP = 2
 
 class LongitudinalMpc():
   def __init__(self, mpc_id):
@@ -78,14 +78,17 @@ class LongitudinalMpc():
     # Setup current mpc state
     self.cur_state[0].x_ego = 0.0
 
+    cruise_gap = int(clip(CS.cruiseGap, 1., 4.))
+
+    if self.auto_tr and cruise_gap == AUTO_TR_CRUISE_GAP:
+      TR = interp(v_ego, AUTO_TR_BP, AUTO_TR_V)
+    else:
+      TR = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
+
     if lead is not None and lead.status:
       x_lead = lead.dRel
       v_lead = max(0.0, lead.vLead)
       a_lead = lead.aLeadK
-
-      dist_cost = interp(lead.dRel, [4., 20.], [MPC_COST_LONG.DISTANCE/2., MPC_COST_LONG.DISTANCE])
-      dist_cost = interp(v_ego, [60.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS], [dist_cost, MPC_COST_LONG.DISTANCE])
-      self.libmpc.set_weights(MPC_COST_LONG.TTC, dist_cost, MPC_COST_LONG.ACCELERATION, MPC_COST_LONG.JERK)
 
       if (v_lead < 0.1 or -a_lead / 2.0 > v_lead):
         v_lead = 0.0
@@ -109,17 +112,8 @@ class LongitudinalMpc():
       a_lead = 0.0
       self.a_lead_tau = _LEAD_ACCEL_TAU
 
-      self.libmpc.set_weights(MPC_COST_LONG.TTC, MPC_COST_LONG.DISTANCE, MPC_COST_LONG.ACCELERATION, MPC_COST_LONG.JERK)
-
     # Calculate mpc
     t = sec_since_boot()
-
-    cruise_gap = int(clip(CS.cruiseGap, 1., 4.))
-
-    if self.auto_tr and cruise_gap == AUTO_TR_CRUISE_GAP:
-      TR = interp(v_ego, AUTO_TR_BP, AUTO_TR_V)
-    else:
-      TR = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
 
     self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
     self.duration = int((sec_since_boot() - t) * 1e9)

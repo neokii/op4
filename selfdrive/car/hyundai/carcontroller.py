@@ -26,9 +26,14 @@ def accel_hysteresis(accel, accel_steady):
 
   return accel, accel_steady
 
-def process_hud_alert(enabled, fingerprint, visual_alert, left_lane,
-                      right_lane, left_lane_depart, right_lane_depart):
-  sys_warning = (visual_alert == VisualAlert.steerRequired)
+
+SP_CARS = [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80,
+           CAR.GENESIS_EQ900, CAR.GENESIS_EQ900_L, CAR.K9, CAR.GENESIS_G90]
+
+def process_hud_alert(enabled, fingerprint, visual_alert, left_lane, right_lane,
+                      left_lane_depart, right_lane_depart):
+
+  sys_warning = (visual_alert in [VisualAlert.steerRequired, VisualAlert.ldw])
 
   # initialize to no line visible
   sys_state = 1
@@ -43,11 +48,9 @@ def process_hud_alert(enabled, fingerprint, visual_alert, left_lane,
   left_lane_warning = 0
   right_lane_warning = 0
   if left_lane_depart:
-    left_lane_warning = 1 if fingerprint in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80,
-                                             CAR.GENESIS_G90, CAR.GENESIS_G90_L] else 2
+    left_lane_warning = 1 if fingerprint in SP_CARS else 2
   if right_lane_depart:
-    right_lane_warning = 1 if fingerprint in [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80,
-                                              CAR.GENESIS_G90, CAR.GENESIS_G90_L] else 2
+    right_lane_warning = 1 if fingerprint in SP_CARS else 2
 
   return sys_warning, sys_state, left_lane_warning, right_lane_warning
 
@@ -71,10 +74,11 @@ class CarController():
     self.scc_live = not CP.radarOffCan
 
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+    self.ldws_opt = Params().get_bool('IsLdwsCar')
 
-    # gas_gain, brake_gain
+    # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
-    self.scc_smoother = SccSmoother(gas_gain=1.0, brake_gain=1.0, curvature_gain=1.0)
+    self.scc_smoother = SccSmoother(gas_factor=1.0, brake_factor=1.0, curvature_factor=1.0)
 
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls):
@@ -84,7 +88,7 @@ class CarController():
     # gas and brake
     apply_accel = actuators.gas - actuators.brake
     apply_accel, self.accel_steady = accel_hysteresis(apply_accel, self.accel_steady)
-    apply_accel = self.scc_smoother.get_accel(CS, controls.sm, apply_accel)    
+    apply_accel = self.scc_smoother.get_accel(CS, controls.sm, apply_accel)
     apply_accel = clip(apply_accel * CarControllerParams.ACCEL_SCALE,
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
 
@@ -163,18 +167,20 @@ class CarController():
     can_sends = []
     can_sends.append(create_lkas11(self.packer, frame, self.car_fingerprint, apply_steer, lkas_active,
                                    CS.lkas11, sys_warning, sys_state, enabled, left_lane, right_lane,
-                                   left_lane_warning, right_lane_warning, 0))
+                                   left_lane_warning, right_lane_warning, 0, self.ldws_opt))
 
     if CS.mdps_bus or CS.scc_bus == 1:  # send lkas11 bus 1 if mdps or scc is on bus 1
       can_sends.append(create_lkas11(self.packer, frame, self.car_fingerprint, apply_steer, lkas_active,
                                      CS.lkas11, sys_warning, sys_state, enabled, left_lane, right_lane,
-                                     left_lane_warning, right_lane_warning, 1))
+                                     left_lane_warning, right_lane_warning, 1, self.ldws_opt))
 
     if frame % 2 and CS.mdps_bus: # send clu11 to mdps if it is not on bus 0
       can_sends.append(create_clu11(self.packer, frame // 2 % 0x10, CS.mdps_bus, CS.clu11, Buttons.NONE, enabled_speed))
 
     if pcm_cancel_cmd and (self.longcontrol and not self.mad_mode_enabled):
       can_sends.append(create_clu11(self.packer, frame % 0x10, CS.scc_bus, CS.clu11, Buttons.CANCEL, clu11_speed))
+    else:
+      can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 
     # fix auto resume - by neokii, adjusted by JPR
     if CS.out.cruiseState.standstill:
@@ -205,9 +211,6 @@ class CarController():
 
     # scc smoother
     self.scc_smoother.update(enabled, can_sends, self.packer, CC, CS, frame, apply_accel, controls)
-
-    if CS.mdps_bus:  # send mdps12 to LKAS to prevent LKAS error
-      can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 
     controls.apply_accel = apply_accel
     aReqValue = CS.scc12["aReqValue"]
@@ -253,6 +256,7 @@ class CarController():
     # 20 Hz LFA MFA message
     if frame % 5 == 0:
       activated_hda = road_speed_limiter_get_active()
+      # activated_hda: 0 - off, 1 - main road, 2 - highway
       if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
       elif CS.mdps_bus == 0:

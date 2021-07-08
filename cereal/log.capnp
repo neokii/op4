@@ -279,6 +279,7 @@ struct DeviceState @0xa4d8b5af2aa492eb {
   freeSpacePercent @7 :Float32;
   memoryUsagePercent @19 :Int8;
   cpuUsagePercent @20 :Int8;
+  gpuUsagePercent @33 :Int8;
   usbOnline @12 :Bool;
   networkType @22 :NetworkType;
   networkInfo @31 :NetworkInfo;
@@ -291,7 +292,7 @@ struct DeviceState @0xa4d8b5af2aa492eb {
   startedMonoTime @13 :UInt64;
 
   lastAthenaPingTime @32 :UInt64;
-  wifiIpAddress @33 :Text;
+  wifiIpAddress @34 :Text;
 
   # power
   batteryPercent @8 :Int16;
@@ -323,6 +324,7 @@ struct DeviceState @0xa4d8b5af2aa492eb {
     cell3G @3;
     cell4G @4;
     cell5G @5;
+    ethernet @6;
   }
 
   enum NetworkStrength {
@@ -376,6 +378,7 @@ struct PandaState @0xa7649e2575e4591e {
   uptime @17 :UInt32;
   faults @18 :List(FaultType);
   harnessStatus @21 :HarnessStatus;
+  heartbeatLost @22 :Bool;
 
   enum FaultStatus {
     none @0;
@@ -522,7 +525,6 @@ struct ControlsState @0x97ff69c53601abf1 {
   uiAccelCmd @5 :Float32;
   ufAccelCmd @33 :Float32;
   aTarget @35 :Float32;
-  steeringAngleDesiredDeg @29 :Float32;
   curvature @37 :Float32;  # path curvature from vehicle model
   forceDecel @51 :Bool;
 
@@ -539,25 +541,26 @@ struct ControlsState @0x97ff69c53601abf1 {
   cumLagMs @15 :Float32;
   canErrorCounter @57 :UInt32;
 
-  angleSteers @59 :Float32;
-  cluSpeedMs @60 :Float32;
-  applyAccel @61 :Float32;
-  fusedAccel @62 :Float32;
-  leadDist @63 :Float32;
-  aReqValue @64 :Float32;
-  aReqValueMin @65 :Float32;
-  aReqValueMax @66 :Float32;
-
-  steerRatio @67 :Float32;
-  steerRateCost @68 :Float32;
-  steerActuatorDelay @69 :Float32;
-
   lateralControlState :union {
     indiState @52 :LateralINDIState;
     pidState @53 :LateralPIDState;
     lqrState @55 :LateralLQRState;
     angleState @58 :LateralAngleState;
+    debugState @59 :LateralDebugState;
   }
+
+  angleSteers @60 :Float32;
+  cluSpeedMs @61 :Float32;
+  applyAccel @62 :Float32;
+  fusedAccel @63 :Float32;
+  leadDist @64 :Float32;
+  aReqValue @65 :Float32;
+  aReqValueMin @66 :Float32;
+  aReqValueMax @67 :Float32;
+
+  steerRatio @68 :Float32;
+  steerRateCost @69 :Float32;
+  steerActuatorDelay @70 :Float32;
 
   enum OpenpilotState @0xdbe58b96d2d1ac61 {
     disabled @0;
@@ -628,6 +631,13 @@ struct ControlsState @0x97ff69c53601abf1 {
     saturated @3 :Bool;
   }
 
+  struct LateralDebugState {
+    active @0 :Bool;
+    steeringAngleDeg @1 :Float32;
+    output @2 :Float32;
+    saturated @3 :Bool;
+  }
+
   # deprecated
   vEgoDEPRECATED @0 :Float32;
   vEgoRawDEPRECATED @32 :Float32;
@@ -656,6 +666,7 @@ struct ControlsState @0x97ff69c53601abf1 {
   mapValidDEPRECATED @49 :Bool;
   jerkFactorDEPRECATED @12 :Float32;
   steerOverrideDEPRECATED @20 :Bool;
+  steeringAngleDesiredDegDEPRECATED @29 :Float32;
 }
 
 struct ModelDataV2 {
@@ -682,6 +693,7 @@ struct ModelDataV2 {
 
   # predicted lead cars
   leads @11 :List(LeadDataV2);
+  leadsV3 @18 :List(LeadDataV3);
 
   meta @12 :MetaData;
 
@@ -706,6 +718,25 @@ struct ModelDataV2 {
     xyva @2 :List(Float32);
     xyvaStd @3 :List(Float32);
   }
+
+  struct LeadDataV3 {
+    prob @0 :Float32; # probability that car is your lead at time t
+    probTime @1 :Float32;
+    t @2 :List(Float32);
+
+    # x and y are relative position in device frame
+    # v absolute norm speed
+    # a is derivative of v
+    x @3 :List(Float32);
+    xStd @4 :List(Float32);
+    y @5 :List(Float32);
+    yStd @6 :List(Float32);
+    v @7 :List(Float32);
+    vStd @8 :List(Float32);
+    a @9 :List(Float32);
+    aStd @10 :List(Float32);
+  }
+
 
   struct MetaData {
     engagedProb @0 :Float32;
@@ -832,14 +863,14 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   laneChangeState @18 :LaneChangeState;
   laneChangeDirection @19 :LaneChangeDirection;
 
-  # curvature is in rad/m
-  curvature @22 :Float32;
-  curvatureRate @23 :Float32;
-  rawCurvature @24 :Float32;
-  rawCurvatureRate @25 :Float32;
+
+  # desired curvatures over next 2.5s in rad/m
+  psis @26 :List(Float32);
+  curvatures @27 :List(Float32);
+  curvatureRates @28 :List(Float32);
   
-  autoLaneChangeEnabled @26 :Bool;
-  autoLaneChangeTimer @27 :Int8;
+  autoLaneChangeEnabled @29 :Bool;
+  autoLaneChangeTimer @30 :Int8;
 
   enum Desire {
     none @0;
@@ -865,6 +896,10 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   }
 
   # deprecated
+  curvatureDEPRECATED @22 :Float32;
+  curvatureRateDEPRECATED @23 :Float32;
+  rawCurvatureDEPRECATED @24 :Float32;
+  rawCurvatureRateDEPRECATED @25 :Float32;
   cProbDEPRECATED @3 :Float32;
   dPolyDEPRECATED @1 :List(Float32);
   cPolyDEPRECATED @2 :List(Float32);
@@ -919,6 +954,7 @@ struct LiveLocationKalman {
   sensorsOK @21 :Bool = true;
   deviceStable @22 :Bool = true;
   timeSinceReset @23 :Float64;
+  excessiveResets @24 :Bool;
 
   enum Status {
     uninitialized @0;
@@ -1216,6 +1252,8 @@ struct DriverState {
   partialFace @18 :Float32;
   distractedPose @19 :Float32;
   distractedEyes @20 :Float32;
+  eyesOnRoad @21 :Float32;
+  phoneUse @22 :Float32;
 
   irPwrDEPRECATED @10 :Float32;
   descriptorDEPRECATED @1 :List(Float32);

@@ -82,22 +82,24 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
       ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
-      ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [0.93, 0.7, 0.52, 0.45, 0.4, 0.33, 0.25]
-      ret.longitudinalTuning.kiBP = [0.]
-      ret.longitudinalTuning.kiV = [0.05]
-      ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [0.6, 0.4]
-      ret.gasMaxV = [0.43, 0.3, 0.24, 0.165, 0.13, 0.11]
+      ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
+      ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.4]
+
     
+    # longitudinal
+    ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+    ret.brakeMaxV = [1.5, 1.3, 0.78]
+    ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+    ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
 
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
-    ret.gasMaxBP = [0., 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 50. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.brakeMaxBP = [0, 70. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-    ret.brakeMaxV = [3.0, 2.0, 1.0]
 
-    ret.stoppingBrakeRate = 0.125  # brake_travel/s while trying to stop
+    ret.stoppingBrakeRate = 0.2  # brake_travel/s while trying to stop
     ret.startingBrakeRate = 1.0  # brake_travel/s while releasing on restart
     ret.startAccel = 1.3
 
@@ -134,7 +136,8 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1855. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
-      # Donfyffe stock tune for untuned cars
+
+
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
@@ -145,21 +148,26 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
       ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
-      ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [0.93, 0.7, 0.52, 0.45, 0.4, 0.33, 0.25]
-      ret.longitudinalTuning.kiBP = [0.]
-      ret.longitudinalTuning.kiV = [0.05]
-      ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [0.6, 0.4]
-      ret.gasMaxV = [0.43, 0.3, 0.24, 0.165, 0.13, 0.11]
+      ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
+      ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
 
-    elif candidate == CAR.GENESIS_G90:
+    elif candidate == CAR.GENESIS_EQ900:
       ret.mass = 2200
       ret.wheelbase = 3.15
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate == CAR.GENESIS_G90_L:
+    elif candidate == CAR.GENESIS_EQ900_L:
       ret.mass = 2290
       ret.wheelbase = 3.45
+      ret.centerToFront = ret.wheelbase * 0.4
+    elif candidate == CAR.GENESIS_G90:
+      ret.mass = 2150
+      ret.wheelbase = 3.16
       ret.centerToFront = ret.wheelbase * 0.4
     # hyundai
     elif candidate in [CAR.SANTA_FE]:
@@ -191,6 +199,16 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+    elif candidate == CAR.ELANTRA_2021:
+      ret.mass = (2800. * CV.LB_TO_KG) + STD_CARGO_KG
+      ret.wheelbase = 2.72
+      ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
+      tire_stiffness_factor = 0.65
+    elif candidate == CAR.ELANTRA_HEV_2021:
+      ret.mass = (3017. * CV.LB_TO_KG) + STD_CARGO_KG
+      ret.wheelbase = 2.72
+      ret.steerRatio = 13.27 * 1.15  # 15% higher at the center seems reasonable
+      tire_stiffness_factor = 0.65
     elif candidate == CAR.KONA:
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
@@ -201,11 +219,12 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD]:
+    elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
-      tire_stiffness_factor = 0.7
-      ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.385
+      #if candidate not in [CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
+      #  ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.GRANDEUR_IG, CAR.GRANDEUR_IG_HEV]:
       tire_stiffness_factor = 0.8
       ret.mass = 1640. + STD_CARGO_KG
@@ -224,10 +243,12 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.9
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.TUCSON_TL_SCC:
-      ret.mass = 1985. + STD_CARGO_KG #1730
-      ret.wheelbase = 2.78 # 2.67
-      tire_stiffness_factor = 0.6
+      ret.mass = 1594. + STD_CARGO_KG #1730
+      ret.wheelbase = 2.67
+      tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+      ret.maxSteeringAngleDeg = 120.
+      ret.startAccel = 0.5
     # kia
     elif candidate == CAR.SORENTO:
       ret.mass = 1985. + STD_CARGO_KG
@@ -257,11 +278,12 @@ class CarInterface(CarInterfaceBase):
       
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.18, 1.1, 1.05, 1.0, 0.90, 0.80, 0.70]
-      ret.longitudinalTuning.kiBP = [0.]
-      ret.longitudinalTuning.kiV = [0.015]
-      ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [0.5, 0.3]
-      ret.gasMaxV = [0.65, 0.55, 0.45, 0.35, 0.25, 0.15]
+      ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
+
 
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
@@ -293,7 +315,12 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-      
+    elif candidate == CAR.K9:
+      ret.mass = 2005. + STD_CARGO_KG
+      ret.wheelbase = 3.15
+      ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.8
+
     ret.radarTimeStep = 0.05
     
 
@@ -326,6 +353,8 @@ class CarInterface(CarInterfaceBase):
     if ret.sccBus >= 0:
       ret.hasScc13 = 1290 in fingerprint[ret.sccBus]
       ret.hasScc14 = 905 in fingerprint[ret.sccBus]
+
+    ret.hasEms = 608 in fingerprint[0] and 809 in fingerprint[0]
 
     print('fingerprint', fingerprint)
 

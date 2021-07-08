@@ -1,10 +1,10 @@
 #include "selfdrive/ui/ui.h"
 
-#include <assert.h>
-#include <stdio.h>
 #include <unistd.h>
 
+#include <cassert>
 #include <cmath>
+#include <cstdio>
 
 #include "selfdrive/common/swaglog.h"
 #include "selfdrive/common/util.h"
@@ -122,7 +122,7 @@ static void update_model(UIState *s, const cereal::ModelDataV2::Reader &model) {
   update_line_data(s, model_position, 0.5, 1.22, &scene.track_vertices, max_idx);
 }
 
-static void update_sockets(UIState *s){
+static void update_sockets(UIState *s) {
   s->sm->update(0);
 }
 
@@ -139,6 +139,11 @@ static void update_state(UIState *s) {
     scene.rightBlinker = scene.car_state.getRightBlinker();
   }
   
+  // update engageability and DM icons at 2Hz
+  if (sm.frame % (UI_FREQ / 2) == 0) {
+    scene.engageable = sm["controlsState"].getControlsState().getEngageable();
+    scene.dm_active = sm["driverMonitoringState"].getDriverMonitoringState().getIsActiveMode();
+  }
   if (sm.updated("radarState")) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
     if (sm.rcv_frame("modelV2") > 0) {
@@ -190,12 +195,12 @@ static void update_state(UIState *s) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
       if (!scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
         auto accel = sensor.getAcceleration().getV();
-        if (accel.totalSize().wordCount){ // TODO: sometimes empty lists are received. Figure out why
+        if (accel.totalSize().wordCount) { // TODO: sometimes empty lists are received. Figure out why
           scene.accel_sensor = accel[2];
         }
       } else if (!scene.started && sensor.which() == cereal::SensorEventData::GYRO_UNCALIBRATED) {
         auto gyro = sensor.getGyroUncalibrated().getV();
-        if (gyro.totalSize().wordCount){
+        if (gyro.totalSize().wordCount) {
           scene.gyro_sensor = gyro[1];
         }
       }
@@ -230,14 +235,14 @@ static void update_params(UIState *s) {
 
 static void update_vision(UIState *s) {
   if (!s->vipc_client->connected && s->scene.started) {
-    if (s->vipc_client->connect(false)){
+    if (s->vipc_client->connect(false)) {
       ui_init_vision(s);
     }
   }
 
-  if (s->vipc_client->connected){
+  if (s->vipc_client->connected) {
     VisionBuf * buf = s->vipc_client->recv();
-    if (buf != nullptr){
+    if (buf != nullptr) {
       s->last_frame = buf;
     } else if (!Hardware::PC()) {
       LOGE("visionIPC receive timeout");
@@ -269,10 +274,12 @@ static void update_status(UIState *s) {
       s->wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
 
       // Update intrinsics matrix after possible wide camera toggle change
-      ui_resize(s, s->fb_w, s->fb_h);
+      if (s->vg) {
+        ui_resize(s, s->fb_w, s->fb_h);
+      }
 
       // Choose vision ipc client
-      if (s->wide_camera){
+      if (s->wide_camera) {
         s->vipc_client = s->vipc_client_wide;
       } else {
         s->vipc_client = s->vipc_client_rear;

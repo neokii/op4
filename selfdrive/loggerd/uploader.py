@@ -217,7 +217,7 @@ def uploader_fn(exit_event):
       continue
 
     on_wifi = network_type == NetworkType.wifi
-    allow_raw_upload = params.get_bool("IsUploadRawEnabled")
+    allow_raw_upload = params.get_bool("UploadRaw")
 
     if offroad and Params().get_bool('c_wifi_offroad'):
       os.system("service call wifi 37 i32 0 i32 0 &")

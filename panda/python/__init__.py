@@ -143,6 +143,9 @@ class Panda(object):
   CLOCK_SOURCE_MODE_FREE_RUNNING = 1
   CLOCK_SOURCE_MODE_EXTERNAL_SYNC = 2
 
+  FLAG_HONDA_ALT_BRAKE = 1
+  FLAG_HONDA_BOSCH_LONG = 2
+
   def __init__(self, serial=None, claim=True):
     self._serial = serial
     self._handle = None
@@ -332,8 +335,8 @@ class Panda(object):
   # ******************* health *******************
 
   def health(self):
-    dat = self._handle.controlRead(Panda.REQUEST_IN, 0xd2, 0, 0, 43)
-    a = struct.unpack("<IIIIIIIIBBBBBBBHBB", dat)
+    dat = self._handle.controlRead(Panda.REQUEST_IN, 0xd2, 0, 0, 44)
+    a = struct.unpack("<IIIIIIIIBBBBBBBHBBB", dat)
     return {
       "uptime": a[0],
       "voltage": a[1],
@@ -352,7 +355,8 @@ class Panda(object):
       "safety_mode": a[14],
       "safety_param": a[15],
       "fault_status": a[16],
-      "power_save_enabled": a[17]
+      "power_save_enabled": a[17],
+      "heartbeat_lost": a[18],
     }
 
   # ******************* control *******************
@@ -419,8 +423,10 @@ class Panda(object):
     self._handle.controlWrite(Panda.REQUEST_OUT, 0xda, int(bootmode), 0, b'')
     time.sleep(0.2)
 
-  def set_safety_mode(self, mode=SAFETY_SILENT):
+  def set_safety_mode(self, mode=SAFETY_SILENT, disable_heartbeat=True):
     self._handle.controlWrite(Panda.REQUEST_OUT, 0xdc, mode, 0, b'')
+    if disable_heartbeat:
+      self.set_heartbeat_disabled()
 
   def set_can_forwarding(self, from_bus, to_bus):
     # TODO: This feature may not work correctly with saturated buses
@@ -617,6 +623,11 @@ class Panda(object):
 
   def send_heartbeat(self):
     self._handle.controlWrite(Panda.REQUEST_OUT, 0xf3, 0, 0, b'')
+
+  # disable heartbeat checks for use outside of openpilot
+  # sending a heartbeat will reenable the checks
+  def set_heartbeat_disabled(self):
+    self._handle.controlWrite(Panda.REQUEST_OUT, 0xf8, 0, 0, b'')
 
   # ******************* RTC *******************
   def set_datetime(self, dt):

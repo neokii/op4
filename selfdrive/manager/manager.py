@@ -13,7 +13,7 @@ from common.basedir import BASEDIR
 from common.params import Params, ParamKeyType
 from common.text_window import TextWindow
 from selfdrive.boardd.set_time import set_time
-from selfdrive.hardware import HARDWARE, PC, TICI
+from selfdrive.hardware import HARDWARE, PC
 from selfdrive.manager.helpers import unblock_stdout
 from selfdrive.manager.process import ensure_running, launcher
 from selfdrive.manager.process_config import managed_processes
@@ -23,6 +23,8 @@ from selfdrive.version import dirty, get_git_commit, version, origin, branch, co
                               terms_version, training_version, comma_remote, \
                               get_git_branch, get_git_remote
 from selfdrive.hardware.eon.apk import system
+
+sys.path.append(os.path.join(BASEDIR, "pyextra"))
 
 def manager_init():
 
@@ -35,20 +37,19 @@ def manager_init():
   default_params = [
     ("CompletedTrainingVersion", "0"),
     ("HasAcceptedTerms", "0"),
-    ("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')),
     ("OpenpilotEnabledToggle", "1"),
     ("IsMetric", "0"),
 
     # HKG
     ("UseClusterSpeed", "1"),
     ("LongControlEnabled", "0"),
-    ("MadModeEnabled", "0"),
+    ("MadModeEnabled", "1"),
+    ("IsLdwsCar", "0"),
     ("LaneChangeEnabled", "0"),
     ("AutoLaneChangeEnabled", "0"),
 
     ("SccSmootherSlowOnCurves", "0"),
     ("SccSmootherSyncGasPressed", "0"),
-    ("FuseWithStockScc", "0"),
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
@@ -56,10 +57,11 @@ def manager_init():
     ("c_wifi_offroad", "1"),
     ("SSCOD", "0"),
     ("RVL", "0"),
+    ("FuseWithStockScc", "1"),
+    ("CustomLeadMark", "0")
   ]
-
-  if TICI:
-    default_params.append(("EnableLteOnroad", "1"))
+  if not PC:
+    default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
 
   if params.get_bool("RecordFrontLock"):
     params.put_bool("RecordFront", True)

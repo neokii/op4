@@ -87,7 +87,7 @@ typedef enum UIStatus {
   STATUS_ALERT,
 } UIStatus;
 
-static QColor bg_colors [] = {
+const QColor bg_colors [] = {
   [STATUS_DISENGAGED] =  QColor(0x17, 0x33, 0x49, 0xc8),
   [STATUS_ENGAGED] = QColor(0x17, 0x86, 0x44, 0xf1),
   [STATUS_WARNING] = QColor(0xDA, 0x6F, 0x25, 0xf1),
@@ -124,6 +124,8 @@ typedef struct UIScene {
   line_vertices_data track_vertices;
   line_vertices_data lane_line_vertices[4];
   line_vertices_data road_edge_vertices[2];
+
+  bool dm_active, engageable;
 
   // lead
   vertex_data lead_vertices[2];
