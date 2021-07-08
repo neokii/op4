@@ -474,6 +474,14 @@ QWidget * community_panel() {
                                             ));
   toggles_list->addWidget(horizontal_line());            
 //DELETE UI SCREEN RECORDINGS
+  DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "Recordings saved to location /storage/emulated/0/videos");
+  connect(DUISR, &ButtonControl::released, [=]() {
+    if (params.getBool("IsOffroad")) {
+      if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
+        system("cd /storage/emulated/0/videos && rm *.*");
+    }
+    std::system("pkill -1 -f selfdrive.updated");
+  });
   auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
   AbstractControl::connect(DUISR, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
