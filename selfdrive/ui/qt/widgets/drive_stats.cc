@@ -65,18 +65,12 @@ void DriveStats::updateStats() {
     labels.distance_unit->setText(getDistanceUnit());
     labels.hours->setText(QString::number((int)(obj["minutes"].toDouble() / 60)));
   };
-/*
+
   QString dongleId = QString::fromStdString(Params().get("DongleId"));
   QString url = "https://api.retropilot.org/v1.1/devices/" + dongleId + "/stats";
   RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 30);
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);
-  */
- 
-  QJsonObject json = stats_.object();
-  update(json["all"].toObject(), all_);
-  update(json["week"].toObject(), week_);
-}
-
+  
 void DriveStats::parseResponse(const QString& response) {
   QJsonDocument doc = QJsonDocument::fromJson(response.trimmed().toUtf8());
   if (doc.isNull()) {
