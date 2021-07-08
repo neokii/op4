@@ -187,8 +187,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   //DELETE UI SCREEN RECORDINGS
   //ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
-    retrainingBtn = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
-    connect(retrainingBtn, &ButtonControl::released, [=]() {
+    delUIrecordings = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
+    connect(delUIrecordings, &ButtonControl::released, [=]() {
       if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       //run code here
         system("cd /storage/emulated/0/videos && rm *.*");
