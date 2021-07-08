@@ -315,7 +315,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   main_layout->addLayout(power_layout);
 }
-
+}
 SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   gitBranchLbl = new LabelControl("Git Branch");
   gitCommitLbl = new LabelControl("Git Commit");
