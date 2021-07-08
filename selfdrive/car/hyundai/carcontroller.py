@@ -195,7 +195,7 @@ class CarController():
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.scc_bus, CS.clu11, Buttons.RES_ACCEL, clu11_speed))
         self.resume_cnt += 1
 
-        if self.resume_cnt >= 5:
+        if self.resume_cnt >= 3:
           self.resume_cnt = 0
           self.resume_wait_timer = SccSmoother.get_wait_count() * 1
 
