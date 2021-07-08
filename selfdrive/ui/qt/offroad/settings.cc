@@ -348,12 +348,12 @@ QWidget * community_panel() {
     height: 140px;
     }
 )");
-  auto TEST = new ButtonControl("WiFi Settings", "OPEN");
+  auto TEST = new ButtonControl("TEST TEST", "test");
   QObject::connect(TEST, &ButtonControl::released, [=]() { 
     HardwareEon::launch_wifi(); 
     });
-  layout->addWidget(wifiBtn);
-  layout->addWidget(horizontal_line());
+  toggles_list->addWidget(TEST);
+  toggles_list->addWidget(horizontal_line());
 
   QListView* list = new QListView(supported_cars);
   list->setStyleSheet("QListView {padding: 40px; background-color: #393939; border-radius: 15px; height: 140px;} QListView::item{height: 100px}");
