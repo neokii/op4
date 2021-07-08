@@ -202,7 +202,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
     connect(retrainingBtn, &ButtonControl::released, [=]() {
-      if (ConfirmationDialog::confirm(Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
+      if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
       //run code here
         std::system("cd /data/openpilot/selfdrive && python ntune.py");
       // fix loading bug
