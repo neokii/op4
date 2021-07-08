@@ -360,13 +360,6 @@ QWidget * community_panel() {
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
     if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This lags.")) {
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      // fix loading bug
-      std::cout << "countdown:\n"; 
-      for (int i=2; i>0; --i) {
-        std::cout << i << std::endl;
-        std::this_thread::sleep_for (std::chrono::seconds(1));
-        }
-
       });
   toggles_list->addWidget(nTune);
   toggles_list->addWidget(horizontal_line());
