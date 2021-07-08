@@ -350,7 +350,7 @@ QWidget * community_panel() {
 )");
   auto DSUIR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(DSUIR, &ButtonControl::released, [=]() { 
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
       system("cd /storage/emulated/0/videos && rm *.*");
     });
   toggles_list->addWidget(DSUIR);
@@ -358,7 +358,7 @@ QWidget * community_panel() {
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral Autotune.", "Run nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This lags.", this)) {
+    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This lags.")) {
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
       // fix loading bug
       std::cout << "countdown:\n"; 
