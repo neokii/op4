@@ -348,22 +348,13 @@ QWidget * community_panel() {
     height: 140px;
     }
 )");
-  auto DSUIR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
-  QObject::connect(DSUIR, &ButtonControl::released, [=]() { 
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?")) {
-      system("cd /storage/emulated/0/videos && rm *.*");
+  auto TEST = new ButtonControl("WiFi Settings", "OPEN");
+  auto TEST = new ButtonControl("TEST TEST", "test");
+  QObject::connect(TEST, &ButtonControl::released, [=]() { 
+    HardwareEon::launch_wifi(); 
     });
-  toggles_list->addWidget(DSUIR);
+  toggles_list->addWidget(TEST);
   toggles_list->addWidget(horizontal_line());
-
-  auto nTune = new ButtonControl("Run nTune AutoTune for lateral Autotune.", "Run nTune");
-  QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This lags.")) {
-      std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      });
-  toggles_list->addWidget(nTune);
-  toggles_list->addWidget(horizontal_line());
-
   QListView* list = new QListView(supported_cars);
   list->setStyleSheet("QListView {padding: 40px; background-color: #393939; border-radius: 15px; height: 140px;} QListView::item{height: 100px}");
   supported_cars->setView(list);
