@@ -70,7 +70,7 @@ void DriveStats::updateStats() {
   QString url = "https://api.retropilot.org/v1.1/devices/" + dongleId + "/stats";
   RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 30);
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);
-  
+} 
 void DriveStats::parseResponse(const QString& response) {
   QJsonDocument doc = QJsonDocument::fromJson(response.trimmed().toUtf8());
   if (doc.isNull()) {
