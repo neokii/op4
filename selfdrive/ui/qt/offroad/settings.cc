@@ -475,7 +475,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());            
 //DELETE UI SCREEN RECORDINGS
   auto DUISR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This deletes all UI Screen Recordings saved to location /storage/emulated/0/videos");
-  connect(DUISR, &ButtonControl::released, [=]() {
+  AbstractControl::connect(DUISR, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)) {
       system("cd /storage/emulated/0/videos && rm *.*");
     }
@@ -484,7 +484,7 @@ QWidget * community_panel() {
  //Run Ntune.py
   ButtonControl *nTuneBtn = nullptr;
   nTuneBtn = new ButtonControl("Run nTune AutoTune for lateral.", "RUN AutoTune", "This runs nTune.py and will autotune Lateral.");
-  connect(nTuneBtn, &ButtonControl::released, [=]() {
+  AbstractControl::connect(nTuneBtn, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Run nTune? DO NOT USE THIS WHILE DRIVING, This laggs.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
@@ -501,7 +501,7 @@ QWidget * community_panel() {
 //Overide Boot Logo
   ButtonControl *OVKS = nullptr;
   OVKS = new ButtonControl("Overide boot logo to Stinger.", "Stinger", "This changes the boot logo.");
-  connect(OVKS, &ButtonControl::released, [=]() {
+  AbstractControl::connect(OVKS, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia Stinger?.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
@@ -512,7 +512,7 @@ QWidget * community_panel() {
 //Overide Boot Logo
   ButtonControl *OVH = nullptr;
   OVH = new ButtonControl("Overide boot logo to Hyundai.", "Hyundai", "This changes the boot logo.");
-  connect(OVH, &ButtonControl::released, [=]() {
+  AbstractControl::connect(OVH, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Hyundai logo?.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
@@ -523,7 +523,7 @@ QWidget * community_panel() {
 //Overide Boot Logo
   ButtonControl *OVG = nullptr;
   OVG = new ButtonControl("Overide boot logo to Genesis.", "Genesis", "This changes the boot logo.");
-  connect(OVG, &ButtonControl::released, [=]() {
+  AbstractControl::connect(OVG, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Genesis logo?.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
@@ -534,7 +534,7 @@ QWidget * community_panel() {
 //Overide Boot Logo
   ButtonControl *OVK = nullptr;
   OVK = new ButtonControl("Overide boot logo to Kia.", "Kia", "This changes the boot logo.");
-  connect(OVK, &ButtonControl::released, [=]() {
+  AbstractControl::connect(OVK, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Kia logo?.", this)) {
       //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
@@ -545,7 +545,7 @@ QWidget * community_panel() {
 //Overide Boot Logo
   ButtonControl *OVC = nullptr;
   OVC = new ButtonControl("Overide boot logo to Comma.", "Comma", "This changes the boot logo.");
-  connect(OVC, &ButtonControl::released, [=]() {
+  AbstractControl::connect(OVC, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Change Boot logo to Comma logo?.", this)) {
   //run code here
       std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
@@ -556,13 +556,13 @@ QWidget * community_panel() {
   //Open Android Settings adb shell am start -a android.settings.SETTINGS
   ButtonControl *APN = nullptr;
   APN = new ButtonControl("Open Android Settings", "SETTINGS", "This opens android settings to change APN name settings");
-  connect(APN, &ButtonControl::released, [=]() {
+  AbstractControl::connect(APN, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Sure you want too open android APN settings? Reboot required to exit.", this)) {
     //run code here
       std::system("am start -a android.settings.SETTINGS");
       }
     });
-    
+
   QWidget *widget = new QWidget;
   widget->setLayout(toggles_list);
   return widget;
