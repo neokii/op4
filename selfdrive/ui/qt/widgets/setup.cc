@@ -75,7 +75,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   mainLayout->addSpacing(100);
 
-  QLabel* commaPoints = new QLabel("COMMA POINTS");
+  QLabel* commaPoints = new QLabel("Driving POINTS");
   commaPoints->setStyleSheet(R"(
     color: #b8b8b8;
   )");
@@ -151,7 +151,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout(finishRegistration);
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("Pair your device with api.RetroPilot.Org");
+  QLabel* registrationDescription = new QLabel("Pair your device with api.RetroPilot.org/useradmin");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
