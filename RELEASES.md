@@ -1,5 +1,8 @@
 Version 0.8.6 (2021-8-7)
 ========================
+* New Car Selector for Force Recognition.
+* New Gap Indicator from Neokii
+* Fixed HyundaiCan.py Bugs
 * Fixed Button bugs.
 * Fixed outdated buttons.
 * Fixed 2017 Elantra bugs.
