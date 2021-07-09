@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-9-7)
 ========================
+* Fix QR Code
 * Fix RetroPilot on latest release.
 * Fixed Hotspot on car Start.
 * Appeared to fix brake fault bug. - (Calling too much brake quicker than car can apply brakes)
