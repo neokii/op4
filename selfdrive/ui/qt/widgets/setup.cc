@@ -84,13 +84,26 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   mainLayout->addWidget(username, 0, Qt::AlignTop);
 
-  mainLayout->addSpacing(100);
+  mainLayout->addSpacing(50);
 
-  QLabel* commaPoints = new QLabel("Driving POINTS");
+  QLabel* commaPoints = new QLabel("Welcome To The Community!");
   commaPoints->setStyleSheet(R"(
     color: #b8b8b8;
   )");
+
+  QLabel* discordMessage = new QLabel("Please Join Our Discord.");
+  discordMessage->setStyleSheet(R"(
+    color: #b8b8b8;
+  )");
+
+  QLabel* discordLink = new QLabel("https://discord.gg/zWSnqJ6rKD");
+  discordLink->setStyleSheet(R"(
+    color: #b8b8b8;
+  )");
+
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
+  mainLayout->addWidget(discordMessage, 0, Qt::AlignTop);
+  mainLayout->addWidget(discordLink, 0, Qt::AlignTop);
 
   points = new QLabel();
   mainLayout->addWidget(points, 0, Qt::AlignTop);
