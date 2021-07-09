@@ -490,6 +490,11 @@ FW_VERSIONS = {
       b'\xf1\x87SBLWAA4899564GG0VfvgUU\x85Xx\x88\x87\x88vfgf\x87wxwvO\xfb\xff\x97f\xb1\xffSB\xf1\x816W3E1051\x00\x00\xf1\x006W351_C2\x00\x006W3E1051\x00\x00TTM2G24NS7\x00\x00\x00\x00',
     ],
   },
+  CAR.STINGER: {
+    (Ecu.fwdRadar, 0x7d0, None): [
+      b'\xf1\x00CK__ SCC F_CUP      1.00 1.01 96400-J5100         \xf1\xa01.01',
+      b'\xf1\x00CK__ SCC F_CUP      1.00 1.03 96400-J5100         \xf1\xa01.03',
+    ],
     (Ecu.engine, 0x7e0, None): [
       b'\xf1\x81606DE051\x00\x00\x00\x00\x00\x00\x00\x00',
       b'\xf1\x81640E0051\x00\x00\x00\x00\x00\x00\x00\x00',
@@ -622,36 +627,6 @@ FW_VERSIONS = {
     (Ecu.fwdCamera, 0x7c4, None): [b'\xf1\x00OS9 LKAS AT USA LHD 1.00 1.00 95740-J9300 g21', ],
     (Ecu.transmission, 0x7e1, None): [b'\xf1\x816U2VE051\x00\x00\xf1\x006U2V0_C2\x00\x006U2VE051\x00\x00DOS4T16NS3\x00\x00\x00\x00', ],
   },
-  CAR.STINGER: {
-    (Ecu.fwdRadar, 0x7d0, None): [
-      b'\xf1\x00CK__ SCC F_CUP      1.00 1.01 96400-J5100         \xf1\xa01.01',
-      b'\xf1\x00CK__ SCC F_CUP      1.00 1.03 96400-J5100         \xf1\xa01.03',
-    ],
-    (Ecu.engine, 0x7e0, None): [
-      b'\xf1\x81606DE051\x00\x00\x00\x00\x00\x00\x00\x00',
-      b'\xf1\x81640E0051\x00\x00\x00\x00\x00\x00\x00\x00',
-      b'\xf1\x82CKJN3TMSDE0B\x00\x00\x00\x00',
-      b'\xf1\x82CKKN3TMD_H0A\x00\x00\x00\x00',
-    ],
-    (Ecu.eps, 0x7d4, None): [
-      b'\xf1\x00CK  MDPS R 1.00 1.04 57700-J5200 4C2CL104',
-      b'\xf1\x00CK  MDPS R 1.00 1.04 57700-J5220 4C2VL104',
-      b'\xf1\x00CK  MDPS R 1.00 1.04 57700-J5420 4C4VL104',
-      b'\xf1\x00CK  MDPS R 1.00 1.06 57700-J5420 4C4VL106',
-    ],
-    (Ecu.fwdCamera, 0x7c4, None): [
-      b'\xf1\x00CK  MFC  AT USA LHD 1.00 1.03 95740-J5000 170822',
-      b'\xf1\x00CK  MFC  AT USA LHD 1.00 1.04 95740-J5000 180504',
-    ],
-    (Ecu.transmission, 0x7e1, None): [
-      b'\xf1\x87VCJLE17622572DK0vd6D\x99\x98y\x97vwVffUfvfC%CuT&Dx\x87o\xff{\x1c\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00SCK0T33NB0\x88\xa2\xe6\xf0',
-      b'\xf1\x87VDHLG17000192DK2xdFffT\xa5VUD$DwT\x86wveVeeD&T\x99\xba\x8f\xff\xcc\x99\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00SCK0T33NB0\x88\xa2\xe6\xf0',
-      b'\xf1\x87VDHLG17000192DK2xdFffT\xa5VUD$DwT\x86wveVeeD&T\x99\xba\x8f\xff\xcc\x99\xf1\x89E21\x00\x00\x00\x00\x00\x00\x00\xf1\x82SCK0T33NB0',
-      b'\xf1\x87VDHLG17034412DK2vD6DfVvVTD$D\x99w\x88\x98EDEDeT6DgfO\xff\xc3=\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00SCK0T33NB0\x88\xa2\xe6\xf0',
-      b'\xf1\x87VDHLG17118862DK2\x8awWwgu\x96wVfUVwv\x97xWvfvUTGTx\x87o\xff\xc9\xed\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00SCK0T33NB0\x88\xa2\xe6\xf0',
-      b'\xf1\x87VDKLJ18675252DK6\x89vhgwwwwveVU\x88w\x87w\x99vgf\x97vXfgw_\xff\xc2\xfb\xf1\x89E25\x00\x00\x00\x00\x00\x00\x00\xf1\x82TCK0T33NB2',
-      b'\xf1\x87WAJTE17552812CH4vfFffvfVeT5DwvvVVdFeegeg\x88\x88o\xff\x1a]\xf1\x81E21\x00\x00\x00\x00\x00\x00\x00\xf1\x00bcsh8p54  E21\x00\x00\x00\x00\x00\x00\x00TCK2T20NB1\x19\xd2\x00\x94',
-    ],
   CAR.KONA_EV: {
     (Ecu.esp, 0x7D1, None): [
       b'\xf1\x00OS IEB \r 105\x18\t\x18 58520-K4000\xf1\xa01.05',
