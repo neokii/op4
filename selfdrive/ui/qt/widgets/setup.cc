@@ -63,7 +63,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout = new QVBoxLayout(this);
   mainLayout->setMargin(30);
 
-  QLabel* commaPrime = new QLabel("RetroPilot Services");
+  QLabel* commaPrime = new QLabel("RetroPilot Online");
   mainLayout->addWidget(commaPrime, 0, Qt::AlignTop);
 
   username = new QLabel();
@@ -123,9 +123,9 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
   main_layout->setMargin(30);
   main_layout->setSpacing(15);
 
-  main_layout->addWidget(new QLabel("Upgrade now"), 1, Qt::AlignTop);
+  main_layout->addWidget(new QLabel("RetroPilot is Down."), 1, Qt::AlignTop);
 
-  QLabel* description = new QLabel("Become a comma prime member at my.comma.ai and get premium features!");
+  QLabel* description = new QLabel("If you are seeing this somethings not right!");
   description->setStyleSheet(R"(
     font-size: 50px;
     color: #b8b8b8;
@@ -133,7 +133,7 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
   description->setWordWrap(true);
   main_layout->addWidget(description, 2, Qt::AlignTop);
 
-  QVector<QString> features = {"✓ REMOTE ACCESS", "✓ 14 DAYS OF STORAGE", "✓ DEVELOPER PERKS"};
+  QVector<QString> features = {"Not Right", "RetroPilot", "Services Down"};
   for (auto &f: features) {
     QLabel* feature = new QLabel(f);
     feature->setStyleSheet(R"(font-size: 40px;)");
@@ -151,7 +151,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout(finishRegistration);
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("Pair your device with the comma connect app");
+  QLabel* registrationDescription = new QLabel("Pair your device with api.RetroPilot.Org");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
