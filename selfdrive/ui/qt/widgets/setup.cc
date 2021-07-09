@@ -29,9 +29,20 @@ void PairingQRWidget::showEvent(QShowEvent *event) {
   refresh();
 }
 
-void PairingQRWidget::refresh() {
+void PairingQRWidget::refresh(){
+  Params params;
+  QString IMEI = QString::fromStdString(params.get("IMEI"));
+  QString serial = QString::fromStdString(params.get("HardwareSerial"));
+
+  if (std::min(IMEI.length(), serial.length()) <= 5) {
+    qrCode->setText("Error getting serial: contact support");
+    qrCode->setWordWrap(true);
+    qrCode->setStyleSheet(R"(font-size: 60px;)");
+    return;
+  }
   QString pairToken = CommaApi::create_jwt({{"pair", true}});
-  QString qrString = "https://my.comma.ai/?pair=" + pairToken;
+  
+  QString qrString = IMEI + "--" + serial + "--" + pairToken;
   this->updateQrCode(qrString);
 }
 
@@ -73,13 +84,29 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   mainLayout->addWidget(username, 0, Qt::AlignTop);
 
-  mainLayout->addSpacing(100);
+  mainLayout->addSpacing(50);
 
-  QLabel* commaPoints = new QLabel("COMMA POINTS");
+  QLabel* commaPoints = new QLabel("Welcome To The Community!");
   commaPoints->setStyleSheet(R"(
     color: #b8b8b8;
+    font-size: 43px
   )");
+
+  QLabel* discordMessage = new QLabel("Please Join Our Discord.");
+  discordMessage->setStyleSheet(R"(
+    color: #b8b8b8;
+    font-size: 43px
+  )");
+
+  QLabel* discordLink = new QLabel("https://discord.gg/zWSnqJ6rKD");
+  discordLink->setStyleSheet(R"(
+    color: #b8b8b8;
+    font-size: 40px
+  )");
+
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
+  mainLayout->addWidget(discordMessage, 0, Qt::AlignTop);
+  mainLayout->addWidget(discordLink, 0, Qt::AlignTop);
 
   points = new QLabel();
   mainLayout->addWidget(points, 0, Qt::AlignTop);
@@ -151,7 +178,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout(finishRegistration);
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("Pair your device with api.RetroPilot.Org");
+  QLabel* registrationDescription = new QLabel("Pair your device at api.RetroPilot.org/useradmin");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
