@@ -182,7 +182,7 @@ class CarController():
     else:
       can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 
-    # fix auto resume - by neokii, adjusted by JPR
+    # fix auto resume - by neokii
     if CS.out.cruiseState.standstill:
 
       if self.last_lead_distance == 0:
@@ -201,9 +201,9 @@ class CarController():
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.scc_bus, CS.clu11, Buttons.RES_ACCEL, clu11_speed))
         self.resume_cnt += 1
 
-        if self.resume_cnt >= 4:
+        if self.resume_cnt >= 8:
           self.resume_cnt = 0
-          self.resume_wait_timer = SccSmoother.get_wait_count() * 1
+          self.resume_wait_timer = SccSmoother.get_wait_count() * 2
 
     # reset lead distnce after the car starts moving
     elif self.last_lead_distance != 0:
