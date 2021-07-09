@@ -354,6 +354,14 @@ QWidget * community_panel() {
     });
   toggles_list->addWidget(SR);
   toggles_list->addWidget(horizontal_line());
+
+  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
+  QObject::connect(nTune, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive && python ntune.py");
+    });
+  toggles_list->addWidget(nTune);
+  toggles_list->addWidget(horizontal_line());
+
   QListView* list = new QListView(supported_cars);
   list->setStyleSheet("QListView {padding: 40px; background-color: #393939; border-radius: 15px; height: 140px;} QListView::item{height: 100px}");
   supported_cars->setView(list);
