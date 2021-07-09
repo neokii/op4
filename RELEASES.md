@@ -1,6 +1,7 @@
 Version 0.8.6 (2021-8-7)
 ========================
-* Fixed Hotspot on car Start
+* Fix RetroPilot on latest release.
+* Fixed Hotspot on car Start.
 * Appeared to fix brake fault bug. - (Calling too much brake quicker than car can apply brakes)
 * Fixed K5/Optima & Elantra Checksum.
 * New Car Selector for Force Recognition.
