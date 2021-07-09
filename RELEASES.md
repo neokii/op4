@@ -1,4 +1,4 @@
-Version 0.8.6 (2021-8-7)
+Version 0.8.6 (2021-9-7)
 ========================
 * Fix RetroPilot on latest release.
 * Fixed Hotspot on car Start.
