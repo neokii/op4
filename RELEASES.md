@@ -1,6 +1,6 @@
 Version 0.8.6 (2021-9-7)
 ========================
-* Fix QR Code
+* Fixed QR Code and Register process. (If you are having issues registering or uploading run "rm /data/params/d/DongleId" make sure "Upload Raw Logs" set to ON, then reboot. Scan QRcode and paste key into RetroPilot register device section once logged in on api.retropilot.org/useradmin. RetroPilot may give you a registering device error but ignore it and refresh page; Device should be there.)
 * Fix RetroPilot on latest release.
 * Fixed Hotspot on car Start.
 * Appeared to fix brake fault bug. - (Calling too much brake quicker than car can apply brakes)
