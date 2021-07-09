@@ -31,7 +31,8 @@ void PairingQRWidget::showEvent(QShowEvent *event) {
 
 void PairingQRWidget::refresh() {
   QString pairToken = CommaApi::create_jwt({{"pair", true}});
-  QString qrString = "https://my.comma.ai/?pair=" + pairToken;
+  
+  QString qrString = IMEI + "--" + serial + "--" + pairToken;
   this->updateQrCode(qrString);
 }
 
