@@ -101,7 +101,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   QLabel* discordLink = new QLabel("https://discord.gg/zWSnqJ6rKD");
   discordLink->setStyleSheet(R"(
     color: #b8b8b8;
-    font-size: 43px
+    font-size: 40px
   )");
 
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
