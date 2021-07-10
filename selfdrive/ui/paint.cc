@@ -107,7 +107,8 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
   if(lead_data.getRadar())
     color = nvgRGBA(112, 128, 255, 255);
 
-  draw_chevron(s, x, y, sz, nvgRGBA(201, 34, 49, fillAlpha), color);
+  if (Params().get_bool('LongControlEnabled'))
+    draw_chevron(s, x, y, sz, nvgRGBA(201, 34, 49, fillAlpha), color);
 
   if(lead_data.getRadar()) {
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
