@@ -348,17 +348,14 @@ FW_VERSIONS = {
     (Ecu.fwdRadar, 0x7d0, None): [
       b'\xf1\x00AEev SCC F-CUP      1.00 1.00 96400-G7000         ',
       b'\xf1\x00AEev SCC F-CUP      1.00 1.00 96400-G7100         ',
-      b'\xf1\x00AEev SCC F-CUP      1.00 1.00 96400-G7000         ',
     ],
     (Ecu.eps, 0x7d4, None): [
       b'\xf1\x00AE  MDPS C 1.00 1.02 56310G7300\x00 4AEEC102',
       b'\xf1\x00AE  MDPS C 1.00 1.04 56310/G7501 4AEEC104',
-      b'\xf1\x00AE  MDPS C 1.00 1.04 56310/G7301 4AEEC104',
     ],
     (Ecu.fwdCamera, 0x7c4, None): [
       b'\xf1\x00AEE MFC  AT EUR LHD 1.00 1.00 95740-G7200 160418',
       b'\xf1\x00AEE MFC  AT USA LHD 1.00 1.00 95740-G2400 180222',
-      b'\xf1\x00AEE MFC  AT EUR LHD 1.00 1.00 95740-G2400 180222',
     ],
   },
   CAR.SONATA: {
@@ -755,10 +752,10 @@ FW_VERSIONS = {
   }
 }
 
-CHECKSUM = { # FIXED JPR
+CHECKSUM = {
   "crc8": [CAR.SANTA_FE, CAR.SONATA, CAR.PALISADE, CAR.SONATA_HEV, CAR.SELTOS, CAR.ELANTRA_2021, CAR.ELANTRA_HEV_2021],
   "6B": [CAR.SORENTO, CAR.GENESIS],
-  #"7B": [CAR.STINGER, CAR.ELANTRA, CAR.K5], 
+  #"7B": [CAR.STINGER, CAR.ELANTRA, CAR.K5], #fix for 2017 Elantra
 }
 
 FEATURES = {
