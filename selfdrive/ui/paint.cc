@@ -107,7 +107,7 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
   if(lead_data.getRadar())
     color = nvgRGBA(112, 128, 255, 255);
 
-  if Params::Params(bool persistent_param = true) {
+  if Params::Params(bool LongControlEnabled = true) {
     draw_chevron(s, x, y, sz, nvgRGBA(201, 34, 49, fillAlpha), color);
   }
 
