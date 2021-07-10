@@ -364,7 +364,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(nTune);
   toggles_list->addWidget(horizontal_line());
 
-  auto OVKS = new ButtonControl("Override boot logo to Kia Stinger.", "Stinger");
+  auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
   QObject::connect(OVKS, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
     ConfirmationDialog::confirm("Successful");
@@ -372,7 +372,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(OVKS);
   toggles_list->addWidget(horizontal_line());
   
-  auto OVK = new ButtonControl("Override boot logo to Kia.", "Kia");
+  auto OVK = new ButtonControl("Override loading logo to Kia.", "Kia");
   QObject::connect(OVK, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
     ConfirmationDialog::confirm("Successful");
@@ -380,7 +380,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(OVK);
   toggles_list->addWidget(horizontal_line());
 
-  auto OVG = new ButtonControl("Override boot logo to Genesis.", "Genesis");
+  auto OVG = new ButtonControl("Override loading logo to Genesis.", "Genesis");
   QObject::connect(OVG, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
     ConfirmationDialog::confirm("Successful");
@@ -388,7 +388,7 @@ QWidget * community_panel() {
   toggles_list->addWidget(OVG);
   toggles_list->addWidget(horizontal_line());
 
-auto OVH = new ButtonControl("Override boot logo to Hyundai.", "Hyundai");
+auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVH, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
     ConfirmationDialog::confirm("Successful");
@@ -396,7 +396,7 @@ auto OVH = new ButtonControl("Override boot logo to Hyundai.", "Hyundai");
   toggles_list->addWidget(OVH);
   toggles_list->addWidget(horizontal_line());
 
-  auto OVC = new ButtonControl("Override boot logo to Kia.", "Kia");
+  auto OVC = new ButtonControl("Override loading logo to Comma.", "Comma");
   QObject::connect(OVC, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
     ConfirmationDialog::confirm("Successful");
