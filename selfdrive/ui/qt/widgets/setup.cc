@@ -86,6 +86,13 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   mainLayout->addSpacing(50);
 
+  github = new QLabel();
+  QLabel* GitHub = new QLabel("https://github.com/Circuit-Pro/openpilot");
+  mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
+  github->setStyleSheet("font-size: 40px;"); // TODO: fit width
+
+  mainLayout->addWidget(github, 0, Qt::AlignTop);
+
   QLabel* commaPoints = new QLabel("Welcome To The Community!");
   commaPoints->setStyleSheet(R"(
     color: #b8b8b8;
@@ -104,14 +111,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
     font-size: 40px
   )");
 
-  QLabel* githubLink = new QLabel("https://github.com/Circuit-Pro/openpilot/");
-  discordMessage->setStyleSheet(R"(
-    color: #b8b8b8;
-    font-size: 40px
-  )");
-
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
-  mainLayout->addWidget(githubLink, 0, Qt::AlignTop);
   mainLayout->addWidget(discordMessage, 0, Qt::AlignTop);
   mainLayout->addWidget(discordLink, 0, Qt::AlignTop);
 
