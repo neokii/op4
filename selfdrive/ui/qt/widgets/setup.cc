@@ -104,7 +104,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
     font-size: 40px
   )");
 
-  QLabel* githubLink = new QLabel("https://github.com/Circuit-Pro/openpilot");
+  QLabel* githubLink = new QLabel("https://github.com/Circuit-Pro/openpilot/");
   discordMessage->setStyleSheet(R"(
     color: #b8b8b8;
     font-size: 40px
