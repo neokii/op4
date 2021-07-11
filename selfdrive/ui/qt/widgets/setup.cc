@@ -105,15 +105,16 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   )");
 
   QLabel* githubLink = new QLabel("https://github.com/Circuit-Pro/openpilot");
-  discordLink->setStyleSheet(R"(
+  discordMessage->setStyleSheet(R"(
     color: #b8b8b8;
     font-size: 40px
   )");
 
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
+  mainLayout->addWidget(githubLink, 0, Qt::AlignTop);
   mainLayout->addWidget(discordMessage, 0, Qt::AlignTop);
   mainLayout->addWidget(discordLink, 0, Qt::AlignTop);
-  mainLayout->addWidget(githubLink, 0, Qt::AlignTop);
+
 
   setStyleSheet(R"(
     QLabel {
