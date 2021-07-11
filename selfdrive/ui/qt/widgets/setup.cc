@@ -88,7 +88,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   QLabel* GitHub = new QLabel("https://github.com/Circuit-Pro/openpilot");
   mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
-  github->setStyleSheet("font-size: 40px;"); // TODO: fit width
+  GitHub->setStyleSheet("font-size: 40px;"); // TODO: fit width
 
   mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
 
