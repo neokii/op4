@@ -86,12 +86,11 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   mainLayout->addSpacing(50);
 
-  github = new QLabel();
   QLabel* GitHub = new QLabel("https://github.com/Circuit-Pro/openpilot");
   mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
   github->setStyleSheet("font-size: 40px;"); // TODO: fit width
 
-  mainLayout->addWidget(github, 0, Qt::AlignTop);
+  mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
 
   QLabel* commaPoints = new QLabel("Welcome To The Community!");
   commaPoints->setStyleSheet(R"(
