@@ -439,8 +439,8 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("DisableUpdates",
-                                            "Disable Updates",
-                                            "This Disables Updates.",
+                                            "Disable Auto Updates",
+                                            "This Disables Auto Updates.",
                                             "../assets/offroad/icon_road.png"
                                               ));
 
