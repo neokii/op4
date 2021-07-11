@@ -90,7 +90,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
   GitHub->setStyleSheet("
   font-size: 30px;
-  color: #b8b8b8;
+  color: #b8b8b8
   "); // TODO: fit width
 
   mainLayout->addWidget(GitHub, 0, Qt::AlignTop);
