@@ -107,7 +107,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   QLabel* GitHubLink = new QLabel("https://github.com/Circuit-Pro/openpilot");
   discordLink->setStyleSheet(R"(
     color: #b8b8b8;
-    font-size: 40px
+    font-size: 20px
   )");
 
   mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
