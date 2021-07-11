@@ -120,7 +120,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   setStyleSheet(R"(
     QLabel {
-      font-size: 70px;
+      font-size: 50px;
       font-weight: 500;
     }
   )");
