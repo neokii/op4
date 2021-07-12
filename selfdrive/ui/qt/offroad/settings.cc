@@ -436,15 +436,13 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
     });
 
   toggles_list->addWidget(supported_cars);
-
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("DisableUpdates",
-                                            "Disable Auto Updates",
-                                            "This Disables Auto Updates.",
+                                            "Disables Updates",
+                                            "This Disables Updates.",
                                             "../assets/offroad/icon_road.png"
-                                              ));
-
-  toggles_list->addWidget(horizontal_line());
+                                            ));
+  toggles_list->addWidget(horizontal_line()); 
   toggles_list->addWidget(new ParamControl("UseClusterSpeed",
                                             "Use Cluster Speed",
                                             "Use cluster speed instead of wheel speed.",
