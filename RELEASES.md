@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-9-7)
 ========================
+* Some polishing Settings.
 * Fixed some G90 missing Finger Prints.
 * Disable Auto Update toggle in community.
 * Fixed all Loading Logos.
