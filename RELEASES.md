@@ -1,4 +1,4 @@
-Version 0.8.6 (2021-9-7)
+Version 0.8.6 (2021-13-7)
 ========================
 * Confirmation dialogs broken in this release. All features still run.
 * New driving model with improved laneless performance
