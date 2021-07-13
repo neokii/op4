@@ -336,7 +336,7 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
-  QVBoxLayout *toggles_list = new QVBoxLayout();
+  QVBoxLayout *toggles_list = new QVBoxLayout(this);
   //toggles_list->setMargin(50);
 
   QComboBox* supported_cars = new QComboBox();
