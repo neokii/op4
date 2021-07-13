@@ -31,6 +31,7 @@ class RadarInterface(RadarInterfaceBase):
     self.track_id = 0
     self.radar_off_can = CP.radarOffCan
 
+    self.frame = 0
     self.reset_v_rel()
 
   def reset_v_rel(self):
@@ -39,6 +40,7 @@ class RadarInterface(RadarInterfaceBase):
     self.v_rel_kf = None
 
   def update(self, can_strings):
+    self.frame += 1
     if self.radar_off_can:
       self.reset_v_rel()
       return super().update(None)
@@ -94,8 +96,9 @@ class RadarInterface(RadarInterfaceBase):
                                    C=[1.0, 0.0],
                                    K=[[0.12287673], [0.29666309]])
 
-            v_rel_x = self.v_rel_kf.update(v)
-            self.pts[ii].vRel = float(v_rel_x[0])
+            vRel = self.v_rel_kf.update(v)[0]
+            if abs(vRel) > abs(self.pts[ii].vRel):
+              self.pts[ii].vRel = vRel
 
         self.lastdRel = dRel
         self.lastTime = now

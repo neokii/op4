@@ -1,5 +1,22 @@
 Version 0.8.6 (2021-9-7)
 ========================
+* Confirmation dialogs broken in this release. All features still run.
+* New driving model with improved laneless performance
+  * Trained on 5000+ hours of diverse driving data from 3000+ users in 40+ countries
+  * Better anti-cheating methods during simulator training ensure the model hugs less when in laneless mode
+  * All new desire ground-truthing stack makes the model better at lane changes and keeps
+* Revamp lateral and longitudinal planners
+  * Refactor planner output API to be more readable and verbose
+  * Planners now output desired trajectories for speed, acceleration, curvature, and curvature rate
+  * Use MPC for longitudinal planning when no lead car is present, this replaces a mostly hardcoded policy and makes accel and deccel smoother
+* Remove "CHECK DRIVER FACE VISIBILITY" warning
+* Hyundai Elantra Hybrid 2021 support thanks to tecandrew!
+* Hyundai Ioniq PHEV 2020 support thanks to YawWashout!
+* Kia Niro Hybrid 2019 support thanks to jyoung8607!
+* Škoda Octavia RS 2016 support thanks to jyoung8607!
+* Toyota Alphard 2020 support thanks to belm0!
+* Volkswagen Golf SportWagen 2015 support thanks to jona96!
+* Volkswagen Touran 2017 support thanks to jyoung8607!
 * Some polishing Settings.
 * Fixed some G90 missing Finger Prints.
 * Disable Auto Update toggle in community.

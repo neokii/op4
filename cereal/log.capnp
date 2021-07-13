@@ -123,26 +123,37 @@ struct InitData {
 struct FrameData {
   frameId @0 :UInt32;
   encodeId @1 :UInt32; # DEPRECATED
-  timestampEof @2 :UInt64;
+
+  frameType @7 :FrameType;
   frameLength @3 :Int32;
+
+  # Timestamps
+  timestampEof @2 :UInt64;
+  timestampSof @8 :UInt64;
+
+  # Exposure
   integLines @4 :Int32;
-  globalGain @5 :Int32;
+  highConversionGain @20 :Bool;
+  gain @15 :Float32; # This includes highConversionGain if enabled
+  measuredGreyFraction @21 :Float32;
+  targetGreyFraction @22 :Float32;
+
+  # Focus
   lensPos @11 :Int32;
   lensSag @12 :Float32;
   lensErr @13 :Float32;
   lensTruePos @14 :Float32;
-  image @6 :Data;
-  gainFrac @15 :Float32;
   focusVal @16 :List(Int16);
   focusConf @17 :List(UInt8);
   sharpnessScore @18 :List(UInt16);
   recoverState @19 :Int32;
 
-  frameType @7 :FrameType;
-  timestampSof @8 :UInt64;
   transform @10 :List(Float32);
 
   androidCaptureResult @9 :AndroidCaptureResult;
+
+  image @6 :Data;
+  globalGainDEPRECATED @5 :Int32;
 
   enum FrameType {
     unknown @0;
@@ -798,34 +809,34 @@ struct AndroidLogEntry {
 }
 
 struct LongitudinalPlan @0xe00b5b3eba12876c {
-  mdMonoTime @9 :UInt64;
-  radarStateMonoTime @10 :UInt64;
-
-  vCruise @16 :Float32;
-  aCruise @17 :Float32;
-  vTarget @3 :Float32;
-  vTargetFuture @14 :Float32;
-  vMax @20 :Float32;
-  aTarget @18 :Float32;
-
-  vStart @26 :Float32;
-  aStart @27 :Float32;
-
+  modelMonoTime @9 :UInt64;
   hasLead @7 :Bool;
   fcw @8 :Bool;
   longitudinalPlanSource @15 :LongitudinalPlanSource;
-
   processingDelay @29 :Float32;
+  
+  # desired speed/accel over next 2.5s
+  accels @32 :List(Float32);
+  speeds @33 :List(Float32);
 
   enum LongitudinalPlanSource {
     cruise @0;
-    mpc1 @1;
-    mpc2 @2;
-    mpc3 @3;
-    model @4;
+    lead0 @1;
+    lead1 @2;
+    lead2 @3;
+    e2e @4;
   }
 
   # deprecated
+  vCruiseDEPRECATED @16 :Float32;
+  aCruiseDEPRECATED @17 :Float32;
+  vTargetDEPRECATED @3 :Float32;
+  vTargetFutureDEPRECATED @14 :Float32;
+  aTargetDEPRECATED @18 :Float32;
+  vStartDEPRECATED @26 :Float32;
+  aStartDEPRECATED @27 :Float32;
+  vMaxDEPRECATED @20 :Float32;
+  radarStateMonoTimeDEPRECATED @10 :UInt64;
   jerkFactorDEPRECATED @6 :Float32;
   hasLeftLaneDEPRECATED @23 :Bool;
   hasRightLaneDEPRECATED @24 :Bool;
@@ -1354,6 +1365,17 @@ struct ManagerState {
   }
 }
 
+struct RoadLimitSpeed {
+    active @0 :UInt16;
+    roadLimitSpeed @1 :UInt16;
+    isHighway @2 :Bool;
+    camType @3 :UInt16;
+    camLimitSpeedLeftDist @4 :UInt16;
+    camLimitSpeed @5 :UInt16;
+    sectionLimitSpeed @6 :UInt16;
+    sectionLeftDist @7 :UInt16;
+}
+
 struct Event {
   logMonoTime @0 :UInt64;  # nanoseconds
   valid @67 :Bool = true;
@@ -1381,8 +1403,6 @@ struct Event {
     longitudinalPlan @24 :LongitudinalPlan;
     lateralPlan @64 :LateralPlan;
     ubloxGnss @34 :UbloxGnss;
-    liveMpc @36 :LiveMpcData;
-    liveLongitudinalMpc @37 :LiveLongitudinalMpcData;
     ubloxRaw @39 :Data;
     gpsLocationExternal @48 :GpsLocationData;
     driverState @59 :DriverState;
@@ -1411,12 +1431,16 @@ struct Event {
     deviceState @6 :DeviceState;
     logMessage @18 :Text;
 
+    # neokii
+    roadLimitSpeed @79 :RoadLimitSpeed;
 
     # *********** debug ***********
     testJoystick @52 :Joystick;
 
     # *********** legacy + deprecated ***********
     model @9 :Legacy.ModelData; # TODO: rename modelV2 and mark this as deprecated
+    liveMpcDEPRECATED @36 :LiveMpcData;
+    liveLongitudinalMpcDEPRECATED @37 :LiveLongitudinalMpcData;
     liveLocationKalmanDEPRECATED @51 :Legacy.LiveLocationData;
     orbslamCorrectionDEPRECATED @45 :Legacy.OrbslamCorrection;
     liveUIDEPRECATED @14 :Legacy.LiveUI;
