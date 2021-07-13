@@ -18,7 +18,6 @@ Version 0.8.6 (2021-9-7)
 * Volkswagen Golf SportWagen 2015 support thanks to jona96!
 * Volkswagen Touran 2017 support thanks to jyoung8607!
 * Some polishing Settings.
-
 * Fixed some G90 missing Finger Prints.
 * Disable Auto Update toggle in community.
 * Fixed all Loading Logos.
