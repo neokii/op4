@@ -224,7 +224,7 @@ def uploader_fn(exit_event):
     if onroad and Params().get_bool('hotspot_on_boot'):
       os.system("service call wifi 37 i32 0 i32 1 &")
       
-    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and offroad)
+    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and offroad)
     if d is None:  # Nothing to upload
       if allow_sleep:
         time.sleep(60 if offroad else 5)
