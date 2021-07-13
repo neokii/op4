@@ -41,23 +41,23 @@ def manager_init():
     ("IsMetric", "0"),
 
     # HKG
-    ("UseClusterSpeed", "1"),
+    ("UseClusterSpeed", "0"),
     ("LongControlEnabled", "0"),
     ("MadModeEnabled", "0"),
     ("IsLdwsCar", "0"),
-    ("LaneChangeEnabled", "0"),
-    ("AutoLaneChangeEnabled", "0"),
+    ("LaneChangeEnabled", "1"),
+    ("AutoLaneChangeEnabled", "1"),
 
     ("SccSmootherSlowOnCurves", "0"),
-    ("SccSmootherSyncGasPressed", "0"),
+    ("SccSmootherSyncGasPressed", "1"),
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
-    ("hotspot_on_boot", "1"),
-    ("c_wifi_offroad", "1"),
+    ("hotspot_on_boot", "0"),
+    ("c_wifi_offroad", "0"),
     ("SSCOD", "0"),
     ("RVL", "0"),
-    ("FuseWithStockScc", "1"),
+    ("FuseWithStockScc", "0"),
     ("CustomLeadMark", "0"),
     ("DisableUpdates", "0")
   ]
