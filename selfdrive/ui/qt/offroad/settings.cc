@@ -352,7 +352,7 @@ QWidget * community_panel() {
   QObject::connect(SR, &ButtonControl::released, [=]() {
     //if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
     system("cd /storage/emulated/0/videos && rm *.*");
-    ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
+    //ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
     //}
   });
   toggles_list->addWidget(SR);
