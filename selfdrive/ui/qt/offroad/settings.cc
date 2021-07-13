@@ -406,8 +406,10 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
 
   auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
   QObject::connect(APN, &ButtonControl::released, [=]() { 
-    std::system("am start -a android.settings.SETTINGS");
-    });
+    if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.")) {
+      std::system("am start -a android.settings.SETTINGS");
+    }
+  });
   toggles_list->addWidget(APN);
   toggles_list->addWidget(horizontal_line());
 
