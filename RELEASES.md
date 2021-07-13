@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-9-7)
 ========================
+* Confirmation dialogs broken in this release. All features still run.
 * New driving model with improved laneless performance
   * Trained on 5000+ hours of diverse driving data from 3000+ users in 40+ countries
   * Better anti-cheating methods during simulator training ensure the model hugs less when in laneless mode
@@ -17,6 +18,7 @@ Version 0.8.6 (2021-9-7)
 * Volkswagen Golf SportWagen 2015 support thanks to jona96!
 * Volkswagen Touran 2017 support thanks to jyoung8607!
 * Some polishing Settings.
+
 * Fixed some G90 missing Finger Prints.
 * Disable Auto Update toggle in community.
 * Fixed all Loading Logos.
