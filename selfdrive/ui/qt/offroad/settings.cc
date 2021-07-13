@@ -336,6 +336,7 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
+  params = Params()
   QVBoxLayout *toggles_list = new QVBoxLayout();
   //toggles_list->setMargin(50);
 
