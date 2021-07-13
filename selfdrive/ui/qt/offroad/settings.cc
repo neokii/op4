@@ -352,7 +352,7 @@ QWidget * community_panel() {
   QObject::connect(SR, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       system("cd /storage/emulated/0/videos && rm *.*");
-      ConfirmationDialog::alert("Successfully Deleted All UI Screen Records", this);      
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
     }
   });
   toggles_list->addWidget(SR);
@@ -362,7 +362,7 @@ QWidget * community_panel() {
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      ConfirmationDialog::alert("nTune Ran Successfully", this);     
+      ConfirmationDialog::confirm("nTune Ran Successfully", this);     
     }
   });
   toggles_list->addWidget(nTune);
@@ -371,7 +371,7 @@ QWidget * community_panel() {
   auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
   QObject::connect(OVKS, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
-    ConfirmationDialog::alert("Successful", this);
+    ConfirmationDialog::confirm("Successful", this);
     });
   toggles_list->addWidget(OVKS);
   toggles_list->addWidget(horizontal_line());
@@ -379,7 +379,7 @@ QWidget * community_panel() {
   auto OVK = new ButtonControl("Override loading logo to Kia.", "Kia");
   QObject::connect(OVK, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
-    ConfirmationDialog::alert("Successful", this);
+    ConfirmationDialog::confirm("Successful", this);
     });
   toggles_list->addWidget(OVK);
   toggles_list->addWidget(horizontal_line());
@@ -387,7 +387,7 @@ QWidget * community_panel() {
   auto OVG = new ButtonControl("Override loading logo to Genesis.", "Genesis");
   QObject::connect(OVG, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
-    ConfirmationDialog::alert("Successful", this);
+    ConfirmationDialog::confirm("Successful", this);
     });
   toggles_list->addWidget(OVG);
   toggles_list->addWidget(horizontal_line());
@@ -395,7 +395,7 @@ QWidget * community_panel() {
 auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVH, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
-    ConfirmationDialog::alert("Successful", this;
+    ConfirmationDialog::confirm("Successful", this;
     });
   toggles_list->addWidget(OVH);
   toggles_list->addWidget(horizontal_line());
@@ -403,7 +403,7 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   auto OVC = new ButtonControl("Override loading logo to Comma.", "Comma");
   QObject::connect(OVC, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
-    ConfirmationDialog::alert("Successful", this);
+    ConfirmationDialog::confirm("Successful", this);
     });
   toggles_list->addWidget(OVC);
   toggles_list->addWidget(horizontal_line());
