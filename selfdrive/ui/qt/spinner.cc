@@ -19,9 +19,6 @@ TrackWidget::TrackWidget(QWidget *parent) : QWidget(parent) {
   setAutoFillBackground(true);
   setPalette(Qt::black);
 
-  //TODO Make this change based on make and model!
-  comma_img = QPixmap("../assets/img_spinner_comma.png").scaled(spinner_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  
   // pre-compute all the track imgs. make this a gif instead?
   QPixmap comma_img = QPixmap("../assets/img_spinner_comma.png").scaled(spinner_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   QTransform transform(1, 0, 0, 1, width() / 2, height() / 2);
@@ -114,3 +111,15 @@ int main(int argc, char *argv[]) {
   setMainWindow(&spinner);
   return a.exec();
 }
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
