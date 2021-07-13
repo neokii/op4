@@ -336,7 +336,6 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
-  params = Params()
   QVBoxLayout *toggles_list = new QVBoxLayout();
   //toggles_list->setMargin(50);
 
@@ -361,7 +360,7 @@ QWidget * community_panel() {
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (params.getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags.")){
+    if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags.")){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
       ConfirmationDialog::confirm("nTune Ran Successfully");     
     }
