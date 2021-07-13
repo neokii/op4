@@ -358,9 +358,11 @@ QWidget * community_panel() {
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
+    if (offroad && ConfirmationDialog::confirm("Run nTune? This Lags.")){
     std::system("cd /data/openpilot/selfdrive && python ntune.py");
-    ConfirmationDialog::confirm("nTune Ran Successfully");
-    });
+    ConfirmationDialog::confirm("nTune Ran Successfully");     
+    }
+  });
   toggles_list->addWidget(nTune);
   toggles_list->addWidget(horizontal_line());
 
