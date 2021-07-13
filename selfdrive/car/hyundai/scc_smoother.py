@@ -8,7 +8,7 @@ from selfdrive.car.hyundai.values import Buttons
 from common.params import Params
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_CRUISE_DELTA_KM, V_CRUISE_DELTA_MI
 from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
-from selfdrive.controls.lib.long_mpc import AUTO_TR_CRUISE_GAP
+from selfdrive.controls.lib.lead_mpc import AUTO_TR_CRUISE_GAP
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
 
 SYNC_MARGIN = 3.
@@ -375,7 +375,7 @@ class SccSmoother:
   def update_cruise_buttons(controls, CS, longcontrol):  # called by controlds's state_transition
 
     car_set_speed = CS.cruiseState.speed * CV.MS_TO_KPH
-    is_cruise_enabled = car_set_speed != 0 and car_set_speed != 255 and CS.cruiseState.enabled and controls.CP.enableCruise
+    is_cruise_enabled = car_set_speed != 0 and car_set_speed != 255 and CS.cruiseState.enabled and controls.CP.pcmCruise
 
     if is_cruise_enabled:
       if longcontrol:
