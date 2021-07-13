@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-13-7)
 ========================
+* Retune Stinger Acceleration.
 * Confirmation dialogs broken in this release. All features still run.
 * New driving model with improved laneless performance
   * Trained on 5000+ hours of diverse driving data from 3000+ users in 40+ countries
