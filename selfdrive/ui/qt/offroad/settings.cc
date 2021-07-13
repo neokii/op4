@@ -360,7 +360,7 @@ QWidget * community_panel() {
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (Params().getBool("IsOffroad"){
+    if (Params().getBool("IsOffroad")){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
       //ConfirmationDialog::confirm("nTune Ran Successfully");     
     }
