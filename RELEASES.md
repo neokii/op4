@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-13-7)
 ========================
+* Fix SMDPS code, min steer speeds, and set speeds.
 * Fix most slow frame times. Cause - uploader bug causing it to upload when onroad.
 * Retune Stinger Acceleration.
 * Confirmation dialogs broken in this release. All features still run.
