@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-13-7)
 ========================
+* Fixed some G90 missing Finger Prints.
 * Fix SMDPS code, min steer speeds, and set speeds.
 * Fix most slow frame times. Cause - uploader bug causing it to upload when onroad.
 * Retune Stinger Acceleration.
@@ -21,7 +22,6 @@ Version 0.8.6 (2021-13-7)
 * Volkswagen Golf SportWagen 2015 support thanks to jona96!
 * Volkswagen Touran 2017 support thanks to jyoung8607!
 * Some polishing Settings.
-* Fixed some G90 missing Finger Prints.
 * Disable Auto Update toggle in community.
 * Fixed all Loading Logos.
 * Fixed QR Code and Register process. (If you are having issues registering or uploading run "rm /data/params/d/DongleId" make sure "Upload Raw Logs" set to ON, then reboot. Scan QRcode and paste key into RetroPilot register device section once logged in on api.retropilot.org/useradmin. RetroPilot may give you a registering device error but ignore it and refresh page; Device should be there.)
