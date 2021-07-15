@@ -103,14 +103,24 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
+    if Params().get_bool('LongControlEnabled'):
+      min_set_speed = 0 * CV.KPH_TO_MS
+    else:
+      min_set_speed = 30 * CV.KPH_TO_MS
 
     # fix for Genesis hard fault at low speed
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
-      min_set_speed = 30 * CV.KPH_TO_MS
-      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS or self.car_fingerprint == CAR.GENESIS_G80 or self.car_fingerprint == CAR.NIRO_HEV and not CS.mdps_bus:
+      if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS or self.car_fingerprint == CAR.GENESIS_G80 and not CS.mdps_bus:
         lkas_active = False
+        min_set_speed = 30 * CV.KPH_TO_MS
+      if CS.out.vEgo < 16.09 * CV.KPH_TO_MS and self.car_fingerprint == CAR.NIRO_HEV and not CS.mdps_bus:
+        lkas_active = False
+        min_set_speed = 16.09 * CV.KPH_TO_MS
+      if CS.out.vEgo < 30 * CV.KPH_TO_MS and self.car_fingerprint == CAR.ELANTRA and not CS.mdps_bus:
+        lkas_active = False
+        min_set_speed = 30 * CV.KPH_TO_MS
         
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
