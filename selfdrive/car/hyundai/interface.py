@@ -397,7 +397,6 @@ class CarInterface(CarInterfaceBase):
     else:
       self.CC.turning_indicator_alert = False
       
-    events = self.create_common_events(ret)
 
     # low speed steer alert hysteresis logic (only for cars with steer cut off above 10 m/s)
     if ret.vEgo < (self.CP.minSteerSpeed + 2.) and self.CP.minSteerSpeed > 10.:
@@ -407,7 +406,7 @@ class CarInterface(CarInterfaceBase):
     if self.low_speed_alert:
       events.add(car.CarEvent.EventName.belowSteerSpeed)
 
-    ret.events = events.to_msg()
+
 
     buttonEvents = []
     if self.CS.cruise_buttons != self.CS.prev_cruise_buttons:
