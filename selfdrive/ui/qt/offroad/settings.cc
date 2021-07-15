@@ -85,6 +85,75 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                    "../assets/offroad/icon_road.png",
                                    this));
 
+ auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  QObject::connect(SR, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
+      system("cd /storage/emulated/0/videos && rm *.*");
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
+    }
+  });
+  toggles->addWidget(SR);
+  toggles->addWidget(horizontal_line());
+
+  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
+  QObject::connect(nTune, &ButtonControl::released, [=]() { 
+    if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
+      std::system("cd /data/openpilot/selfdrive && python ntune.py");
+      ConfirmationDialog::confirm("nTune Ran Successfully");     
+    }
+  });
+  toggles_list->addWidget(nTune);
+  toggles_list->addWidget(horizontal_line());
+
+  auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
+  QObject::connect(OVKS, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
+    //ConfirmationDialog::confirm("Successful");
+    });
+  toggles_list->addWidget(OVKS);
+  toggles_list->addWidget(horizontal_line());
+  
+  auto OVK = new ButtonControl("Override loading logo to Kia.", "Kia");
+  QObject::connect(OVK, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
+    //ConfirmationDialog::confirm("Successful", this);
+    });
+  toggles_list->addWidget(OVK);
+  toggles_list->addWidget(horizontal_line());
+
+  auto OVG = new ButtonControl("Override loading logo to Genesis.", "Genesis");
+  QObject::connect(OVG, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
+    //ConfirmationDialog::confirm("Successful", this);
+    });
+  toggles_list->addWidget(OVG);
+  toggles_list->addWidget(horizontal_line());
+
+auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
+  QObject::connect(OVH, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
+    //ConfirmationDialog::confirm("Successful", this;
+    });
+  toggles_list->addWidget(OVH);
+  toggles_list->addWidget(horizontal_line());
+
+  auto OVC = new ButtonControl("Override loading logo to Comma.", "Comma");
+  QObject::connect(OVC, &ButtonControl::released, [=]() { 
+    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
+    //ConfirmationDialog::confirm("Successful", this);
+    });
+  toggles_list->addWidget(OVC);
+  toggles_list->addWidget(horizontal_line());
+
+  auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
+  QObject::connect(APN, &ButtonControl::released, [=]() { 
+   //if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
+    std::system("am start -a android.settings.SETTINGS");
+    //}
+  });
+  toggles_list->addWidget(APN);
+  toggles_list->addWidget(horizontal_line());
+
   if (Hardware::TICI()) {
     toggles.append(new ParamControl("EnableWideCamera",
                                     "Enable use of Wide Angle Camera",
@@ -95,6 +164,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
       Params().remove("CalibrationParams");
     });
   }
+
 
   bool record_lock = Params().getBool("RecordFrontLock");
   record_toggle->setEnabled(!record_lock);
@@ -336,10 +406,10 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
-  QVBoxLayout *toggles_list = new QVBoxLayout(this);
+  QVBoxLayout *toggles_list = new QVBoxLayout();
   //toggles_list->setMargin(50);
 
-  QComboBox* supported_cars = new QComboBox(this);
+  QComboBox* supported_cars = new QComboBox();
   supported_cars->setStyleSheet(R"(
   QComboBox {
     background-color: #393939;
@@ -347,75 +417,7 @@ QWidget * community_panel() {
     padding-left: 40px
     height: 140px;
     }
-)");
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
-  QObject::connect(SR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
-      system("cd /storage/emulated/0/videos && rm *.*");
-      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
-    }
-  });
-  toggles_list->addWidget(SR);
-  toggles_list->addWidget(horizontal_line());
-
-  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
-  QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (Params().getBool("IsOffroad")){
-      std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      //ConfirmationDialog::confirm("nTune Ran Successfully");     
-    }
-  });
-  toggles_list->addWidget(nTune);
-  toggles_list->addWidget(horizontal_line());
-
-  auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
-  QObject::connect(OVKS, &ButtonControl::released, [=]() { 
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful");
-    });
-  toggles_list->addWidget(OVKS);
-  toggles_list->addWidget(horizontal_line());
-  
-  auto OVK = new ButtonControl("Override loading logo to Kia.", "Kia");
-  QObject::connect(OVK, &ButtonControl::released, [=]() { 
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
-    });
-  toggles_list->addWidget(OVK);
-  toggles_list->addWidget(horizontal_line());
-
-  auto OVG = new ButtonControl("Override loading logo to Genesis.", "Genesis");
-  QObject::connect(OVG, &ButtonControl::released, [=]() { 
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
-    });
-  toggles_list->addWidget(OVG);
-  toggles_list->addWidget(horizontal_line());
-
-auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
-  QObject::connect(OVH, &ButtonControl::released, [=]() { 
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this;
-    });
-  toggles_list->addWidget(OVH);
-  toggles_list->addWidget(horizontal_line());
-
-  auto OVC = new ButtonControl("Override loading logo to Comma.", "Comma");
-  QObject::connect(OVC, &ButtonControl::released, [=]() { 
-    std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
-    });
-  toggles_list->addWidget(OVC);
-  toggles_list->addWidget(horizontal_line());
-
-  auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
-  QObject::connect(APN, &ButtonControl::released, [=]() { 
-   //if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
-    std::system("am start -a android.settings.SETTINGS");
-    //}
-  });
-  toggles_list->addWidget(APN);
-  toggles_list->addWidget(horizontal_line());
+  )");
 
   QListView* list = new QListView(supported_cars);
   list->setStyleSheet("QListView {padding: 40px; background-color: #393939; border-radius: 15px; height: 140px;} QListView::item{height: 100px}");
