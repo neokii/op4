@@ -216,17 +216,13 @@ def uploader_fn(exit_event):
         time.sleep(60 if offroad else 5)
       continue
 
-
     on_wifi = network_type == NetworkType.wifi
-
     allow_raw_upload = params.get_bool("UploadRaw")
 
     if onroad and Params().get_bool('hotspot_on_boot'):
-      if network_type == NetworkType.wifi:
-        os.system("service call wifi 37 i32 0 i32 1 &")
+      os.system("service call wifi 37 i32 0 i32 1 &")
     if offroad and Params().get_bool('c_wifi_offroad'):
-      if network_type == NetworkType.cell2G or network_type == NetworkType.3G or network_type == NetworkType.4G:
-        os.system("service call wifi 37 i32 0 i32 0 &")
+      os.system("service call wifi 37 i32 0 i32 0 &")
       
     d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and offroad)
     if d is None:  # Nothing to upload
