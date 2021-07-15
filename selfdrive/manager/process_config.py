@@ -12,7 +12,7 @@ procs = [
   NativeProcess("clocksd", "selfdrive/clocksd", ["./clocksd"]),
   NativeProcess("dmonitoringmodeld", "selfdrive/modeld", ["./dmonitoringmodeld"], enabled=(not PC or WEBCAM), driverview=True),
   NativeProcess("logcatd", "selfdrive/logcatd", ["./logcatd"]),
-  if params.get_bool("LoggerEnabled"):
+  if params.get_bool("LoggerEnabled")
     NativeProcess("loggerd", "selfdrive/loggerd", ["./loggerd"]),
   NativeProcess("modeld", "selfdrive/modeld", ["./modeld"]),
   NativeProcess("proclogd", "selfdrive/proclogd", ["./proclogd"]),
@@ -34,7 +34,7 @@ procs = [
   PythonProcess("timezoned", "selfdrive.timezoned", enabled=TICI, persistent=True),
   PythonProcess("tombstoned", "selfdrive.tombstoned", enabled=not PC, persistent=True),
   PythonProcess("updated", "selfdrive.updated", enabled=not PC, persistent=True),
-  if params.get_bool("LoggerEnabled"):
+  if params.get_bool("LoggerEnabled")
     PythonProcess("uploader", "selfdrive.loggerd.uploader", persistent=True),
 ]
 
