@@ -336,10 +336,10 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
-  QVBoxLayout *toggles_list = new QVBoxLayout(this);
+  QVBoxLayout *toggles_list = new QVBoxLayout();
   //toggles_list->setMargin(50);
 
-  QComboBox* supported_cars = new QComboBox();
+  QComboBox* supported_cars = new QComboBox(this);
   supported_cars->setStyleSheet(R"(
   QComboBox {
     background-color: #393939;
