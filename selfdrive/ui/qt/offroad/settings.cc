@@ -208,7 +208,6 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
     }
   });
   main_layout->addWidget(APN);
-  main_layout->addWidget(horizontal_line());
 
 
   // offroad-only buttons
