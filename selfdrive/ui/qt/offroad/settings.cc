@@ -141,7 +141,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addLayout(reset_layout);
 
   // Settings
-   main_layout->addWidget(horizontal_line());
+  main_layout->addWidget(horizontal_line());
   auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(SR, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
