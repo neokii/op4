@@ -112,13 +112,12 @@ class CarController():
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
-      min_set_speed = 0 * CV.KPH_TO_MS
       if CS.out.vEgo < 55 * CV.KPH_TO_MS and self.car_fingerprint == CAR.GENESIS or self.car_fingerprint == CAR.GENESIS_G80 and not CS.mdps_bus:
         lkas_active = False
         min_set_speed = 30 * CV.KPH_TO_MS
       if CS.out.vEgo < 16.09 * CV.KPH_TO_MS and self.car_fingerprint == CAR.NIRO_HEV and not CS.mdps_bus:
         lkas_active = False
-        min_set_speed = 30 * CV.KPH_TO_MS
+        min_set_speed = 16.09 * CV.KPH_TO_MS
       if CS.out.vEgo < 30 * CV.KPH_TO_MS and self.car_fingerprint == CAR.ELANTRA and not CS.mdps_bus:
         lkas_active = False
         min_set_speed = 30 * CV.KPH_TO_MS
