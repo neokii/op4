@@ -336,7 +336,7 @@ QStringList get_list(const char* path)
 }
 
 QWidget * community_panel() {
-  QVBoxLayout *toggles_list = new QVBoxLayout();
+  QVBoxLayout *toggles_list = new QVBoxLayout(this);
   //toggles_list->setMargin(50);
 
   QComboBox* supported_cars = new QComboBox();
@@ -350,9 +350,9 @@ QWidget * community_panel() {
 )");
   auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(SR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", )){
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       system("cd /storage/emulated/0/videos && rm *.*");
-      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", );      
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
     }
   });
   toggles_list->addWidget(SR);
