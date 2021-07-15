@@ -188,7 +188,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVH, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
-    ConfirmationDialog::confirm("Successfully changed boot logo.", this;
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this);
     });
   main_layout->addWidget(OVH);
   main_layout->addWidget(horizontal_line());
