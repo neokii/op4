@@ -155,7 +155,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      ConfirmationDialog::confirm("nTune Ran Successfully");     
+      ConfirmationDialog::confirm("nTune Ran Successfully", this);     
     }
   });
   main_layout->addWidget(nTune);
@@ -164,7 +164,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
   QObject::connect(OVKS, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful");
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this);
     });
   main_layout->addWidget(OVKS);
   main_layout->addWidget(horizontal_line());
@@ -172,7 +172,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto OVK = new ButtonControl("Override loading logo to Kia.", "Kia");
   QObject::connect(OVK, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this);
     });
   main_layout->addWidget(OVK);
   main_layout->addWidget(horizontal_line());
@@ -180,7 +180,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto OVG = new ButtonControl("Override loading logo to Genesis.", "Genesis");
   QObject::connect(OVG, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this);
     });
   main_layout->addWidget(OVG);
   main_layout->addWidget(horizontal_line());
@@ -188,7 +188,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVH, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this;
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this;
     });
   main_layout->addWidget(OVH);
   main_layout->addWidget(horizontal_line());
@@ -196,16 +196,16 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   auto OVC = new ButtonControl("Override loading logo to Comma.", "Comma");
   QObject::connect(OVC, &ButtonControl::released, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
-    //ConfirmationDialog::confirm("Successful", this);
+    ConfirmationDialog::confirm("Successfully changed boot logo.", this);
     });
   main_layout->addWidget(OVC);
   main_layout->addWidget(horizontal_line());
 
   auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
   QObject::connect(APN, &ButtonControl::released, [=]() { 
-   //if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
+   if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
     std::system("am start -a android.settings.SETTINGS");
-    //}
+    }
   });
   main_layout->addWidget(APN);
   main_layout->addWidget(horizontal_line());

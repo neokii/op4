@@ -1,10 +1,11 @@
 Version 0.8.6 (2021-15-7)
 ========================
+* Fixed confirmation dialogue. 
+  * Moved All buttons in settings to 
 * Fixed Below Min Steer Speed Alert.
 * Update Kia Stinger Tune
 * Fixed Desired Steer Angle. 
 * Update minimum lane change speed to 15mph.
-
 
 
 Version 0.8.6 (2021-13-7)
