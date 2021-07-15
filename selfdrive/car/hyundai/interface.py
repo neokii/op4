@@ -287,7 +287,7 @@ class CarInterface(CarInterfaceBase):
       ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.brakeMaxV = [2.0, 1.5, 0.78]
       ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.gasMaxV = [0.65, 0.75, 0.70, 0.65, 0.55, 0.45]
+      ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
