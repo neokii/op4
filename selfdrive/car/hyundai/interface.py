@@ -108,6 +108,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1900. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
+      ret.minSteerSpeed = 60 * CV.KPH_TO_MS
 
     elif candidate == CAR.GENESIS_G70:
 
@@ -199,6 +200,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+      ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate == CAR.ELANTRA_2021:
       ret.mass = (2800. * CV.LB_TO_KG) + STD_CARGO_KG
       ret.wheelbase = 2.72
@@ -223,8 +225,8 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.385
-      #if candidate not in [CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
-      #  ret.minSteerSpeed = 32 * CV.MPH_TO_MS
+      if candidate not in [CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
+        ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.GRANDEUR_IG, CAR.GRANDEUR_IG_HEV]:
       tire_stiffness_factor = 0.8
       ret.mass = 1640. + STD_CARGO_KG
@@ -287,8 +289,6 @@ class CarInterface(CarInterfaceBase):
       ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.65, 0.65, 0.55, 0.45, 0.35, 0.25]
 
-
-
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
@@ -309,6 +309,8 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+      if candidate == CAR.KIA_NIRO_HEV:
+        ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
       tire_stiffness_factor = 0.7
       ret.mass = 1650. + STD_CARGO_KG
@@ -394,12 +396,18 @@ class CarInterface(CarInterfaceBase):
       self.CC.turning_indicator_alert = True
     else:
       self.CC.turning_indicator_alert = False
+      
+    events = self.create_common_events(ret)
 
     # low speed steer alert hysteresis logic (only for cars with steer cut off above 10 m/s)
     if ret.vEgo < (self.CP.minSteerSpeed + 0.2) and self.CP.minSteerSpeed > 10.:
       self.low_speed_alert = True
     if ret.vEgo > (self.CP.minSteerSpeed + 0.7):
       self.low_speed_alert = False
+    if self.low_speed_alert:
+      events.add(car.CarEvent.EventName.belowSteerSpeed)
+
+    ret.events = events.to_msg()
 
     buttonEvents = []
     if self.CS.cruise_buttons != self.CS.prev_cruise_buttons:
