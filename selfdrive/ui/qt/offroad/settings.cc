@@ -350,10 +350,10 @@ QWidget * community_panel() {
 )");
   auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(SR, &ButtonControl::released, [=]() {
-    //if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
-    system("cd /storage/emulated/0/videos && rm *.*");
-    //ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
-    //}
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", )){
+      system("cd /storage/emulated/0/videos && rm *.*");
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", );      
+    }
   });
   toggles_list->addWidget(SR);
   toggles_list->addWidget(horizontal_line());
