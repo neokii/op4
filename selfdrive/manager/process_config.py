@@ -36,7 +36,7 @@ if params.get_bool("LoggerEnabled"):
     PythonProcess("updated", "selfdrive.updated", enabled=not PC, persistent=True),
     PythonProcess("uploader", "selfdrive.loggerd.uploader", persistent=True),
   ]
-else
+else:
   procs = [
     DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
   # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
