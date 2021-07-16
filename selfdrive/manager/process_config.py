@@ -7,7 +7,7 @@ from common.params import Params
 WEBCAM = os.getenv("USE_WEBCAM") is not None
 params = Params()
 
-if params.get_bool("LoggerEnabled"):
+if params.get_bool('LoggerEnabled'):
   procs = [
     DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
   # due to qualcomm kernel bugs SIGKILLing camerad sometimes causes page table corruption
