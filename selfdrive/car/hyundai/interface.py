@@ -70,7 +70,7 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxV = [1.5]
 
    #Longitudinal Tune and logic for car tune
-    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80: #Tune for untuned cars
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80 or CAR.KONA_EV: #Tune for untuned cars
       # Donfyffe stock tune for untuned cars
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -221,6 +221,18 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+ #Tune To base Kona EV tune off of.
+      ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
+      ret.longitudinalTuning.kpV = [1.18, 1.1, 1.05, 1.0, 0.90, 0.80, 0.70]
+      ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.brakeMaxV = [2.5, 1.8, 0.78]
+      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
+
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
