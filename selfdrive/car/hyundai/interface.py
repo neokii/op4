@@ -92,7 +92,7 @@ class CarInterface(CarInterfaceBase):
     
     # longitudinal
       ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.brakeMaxV = [2.0, 1.5, 0.78]
+      ret.brakeMaxV = [2.5, 1.8, 0.78]
       ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
 
@@ -285,7 +285,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
       ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.brakeMaxV = [2.0, 1.5, 0.78]
+      ret.brakeMaxV = [2.5, 1.8, 0.78]
       ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
 
