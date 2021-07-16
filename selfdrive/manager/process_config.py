@@ -4,6 +4,7 @@ from selfdrive.manager.process import PythonProcess, NativeProcess, DaemonProces
 from selfdrive.hardware import EON, TICI, PC
 
 WEBCAM = os.getenv("USE_WEBCAM") is not None
+params = Params()
 
 if params.get_bool("LoggerEnabled"):
   procs = [
