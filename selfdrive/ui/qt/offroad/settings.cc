@@ -456,7 +456,7 @@ QWidget * community_panel() {
                                               ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LoggerEnabled",
-                                            "Enable Logger",
+                                            "Enable Logger / Uploader",
                                             "This causes slow frame time on weak hardware.",
                                             "../assets/offroad/icon_road.png"
                                               ));
