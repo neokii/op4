@@ -992,7 +992,7 @@ static void ui_draw_vision_header(UIState *s) {
 
   ui_draw_vision_maxspeed(s);
   ui_draw_vision_speed(s);
-  if (Params().getBool('CleanUI')){
+  if (Params().getBool("CleanUI")){
     ui_draw_vision_event(s);  
   }
   else{
