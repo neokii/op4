@@ -449,6 +449,12 @@ QWidget * community_panel() {
   toggles_list->addWidget(supported_cars);
 
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("LoggerEnabled",
+                                            "Enable Logger",
+                                            "This causes slow frame time on weak hardware.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("DisableUpdates",
                                             "Disable Auto Updates",
                                             "This Disables Auto Updates.",

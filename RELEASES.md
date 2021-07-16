@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-15-7)
 ========================
+* Added toggle to disable logging and uploading, which fixes slow frame time on weak hardware.
 * Fixed confirmation dialogue. 
   * Moved All buttons in settings to 
 * Fixed Below Min Steer Speed Alert.

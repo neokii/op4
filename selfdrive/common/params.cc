@@ -246,6 +246,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"c_wifi_offroad",PERSISTENT},
     {"SSCOD", PERSISTENT},
     {"RVL", PERSISTENT},
+    {"LoggerEnabled", PERSISTENT},
 };
 
 } // namespace

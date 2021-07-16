@@ -207,27 +207,25 @@ def uploader_fn(exit_event):
   backoff = 0.1
   while not exit_event.is_set():
     sm.update(0)
-    offroad = params.get_bool("IsOffroad")
-    onroad = not params.get_bool("IsOffroad")
 
     network_type = sm['deviceState'].networkType if not force_wifi else NetworkType.wifi
     if network_type == NetworkType.none:
       if allow_sleep:
-        time.sleep(60 if offroad else 5)
+        time.sleep(60 if params.get_bool("IsOffroad") else 5)
       continue
 
     on_wifi = network_type == NetworkType.wifi
     allow_raw_upload = params.get_bool("UploadRaw")
-
-    if onroad and Params().get_bool('hotspot_on_boot'):
+# reworked
+    if Params().get_bool('hotspot_on_boot') and not params.get_bool("IsOffroad"):
       os.system("service call wifi 37 i32 0 i32 1 &")
-    if offroad and Params().get_bool('c_wifi_offroad'):
+    if params.get_bool("IsOffroad") and Params().get_bool('c_wifi_offroad'):
       os.system("service call wifi 37 i32 0 i32 0 &")
       
-    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and offroad)
+    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and params.get_bool("IsOffroad"))
     if d is None:  # Nothing to upload
       if allow_sleep:
-        time.sleep(60 if offroad else 5)
+        time.sleep(60 if params.get_bool("IsOffroad") else 5)
       continue
 
     key, fn = d
