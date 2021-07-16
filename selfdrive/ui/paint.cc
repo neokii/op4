@@ -485,15 +485,6 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   }
 
 
-  //finally draw the frame
-  bb_h += 40;
-  nvgBeginPath(s->vg);
-    nvgRoundedRect(s->vg, bb_x, bb_y, bb_w, bb_h, 20);
-    nvgStrokeColor(s->vg, nvgRGBA(255,255,255,80));
-    nvgStrokeWidth(s->vg, 6);
-    nvgStroke(s->vg);
-}
-
 static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w ) {
   const UIScene *scene = &s->scene;
   int bb_rx = bb_x + (int)(bb_w/2);
@@ -641,6 +632,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   nvgStrokeWidth(s->vg, 6);
   nvgStroke(s->vg);
 }
+
 
 static void bb_ui_draw_basic_info(UIState *s)
 {
@@ -992,7 +984,7 @@ static void ui_draw_vision_header(UIState *s) {
 
   ui_draw_vision_maxspeed(s);
   ui_draw_vision_speed(s);
-  //ui_draw_vision_event(s);
+  ui_draw_vision_event(s);
   bb_ui_draw_UI(s);
   ui_draw_extras(s);
 }
