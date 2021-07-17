@@ -4,6 +4,7 @@ from common.realtime import DT_MDL
 from selfdrive.config import Conversions as CV
 from selfdrive.modeld.constants import T_IDXS
 from selfdrive.ntune import ntune_get
+from common.params import Params
 
 ButtonType = car.CarState.ButtonEvent.Type
 ButtonPrev = ButtonType.unknown
@@ -11,8 +12,11 @@ ButtonCnt = 0
 LongPressed = False
 
 # kph
-V_CRUISE_MAX = 135
-V_CRUISE_MIN = 30
+if Params().get_bool('LoggerEnabled'):
+  V_CRUISE_MAX = 135
+else:
+  V_CRUISE_MAX = 161
+V_CRUISE_MIN = 16
 V_CRUISE_DELTA_MI = 5 * CV.MPH_TO_KPH
 V_CRUISE_DELTA_KM = 10
 V_CRUISE_ENABLE_MIN = 30

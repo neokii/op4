@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-16-7)
 ========================
+* Allow higher max speed with logger off due to higher FPS.
 * Update to Neokii's nTune 1.3.4
 * Work on and add Kona EV Longitudinal tune.
 * Added Clean UI Toggle.
