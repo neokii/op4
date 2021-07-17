@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-15-7)
 ========================
+* Update to Neokii's nTune 1.3.4
 * Work on and add Kona EV Longitudinal tune.
 * Added Clean UI Toggle.
 * Added toggle to disable logging and uploading, which fixes slow frame time on weak hardware.
