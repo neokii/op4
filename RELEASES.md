@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-16-7)
 ========================
+* Update minimum lane change speed to 20mph.
 * Update Kona EV Longitudinal tune.
 * Allow higher max speed with logger off due to higher FPS.
 * Update to Neokii's nTune 1.3.4
@@ -11,7 +12,7 @@ Version 0.8.6 (2021-16-7)
 * Fixed Below Min Steer Speed Alert.
 * Update Kia Stinger Tune
 * Fixed Desired Steer Angle. 
-* Update minimum lane change speed to 15mph.
+
 
 
 Version 0.8.6 (2021-13-7)

@@ -46,7 +46,7 @@ class CarInterface(CarInterfaceBase):
       if fw.ecu == "eps" and b"," in fw.fwVersion:
         eps_modified = True
 
-    ret.maxSteeringAngleDeg = 160.
+    ret.maxSteeringAngleDeg = 200.
 
     # lateral LQR global hyundai
     #ret.lateralTuning.init('lqr')
