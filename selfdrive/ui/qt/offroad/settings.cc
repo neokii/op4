@@ -154,7 +154,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
-    if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
+    if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click once please be patient.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
       ConfirmationDialog::confirm("nTune Ran Successfully", this);     
     }
