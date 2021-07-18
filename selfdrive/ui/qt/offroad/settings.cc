@@ -152,18 +152,18 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
-
-  auto PC = new ButtonControl("DAW warning fix for 20 - 21 Sonata.", "Fix");
-  QObject::connect(PC, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
-      std::system("cd /data/openpilot && mv panda panda-neokii && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
-      if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
-        std::system("cd /data/openpilot/panda/board && make && reboot");
-      }  
-    }
-  });
-  main_layout->addWidget(PC);
-  main_layout->addWidget(horizontal_line());
+//
+ // auto PC = new ButtonControl("DAW warning fix for 20 - 21 Sonata.", "Fix");
+  //QObject::connect(PC, &ButtonControl::released, [=]() {
+    //if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
+    //  std::system("cd /data/openpilot && mv panda panda-neokii && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
+     // if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
+     //   std::system("cd /data/openpilot/panda/board && make && reboot");
+     // }  
+   // }
+ // });
+//  main_layout->addWidget(PC);
+ // main_layout->addWidget(horizontal_line());
 
     auto PC1 = new ButtonControl("Neokii Panda, This reverts DAW fix.", "Flash");
   QObject::connect(PC1, &ButtonControl::released, [=]() {
