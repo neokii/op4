@@ -2,6 +2,7 @@ Version 0.8.6 (2021-16-7)
 ========================
 * Update Stinger Tune
 * Update minimum lane change speed to 20mph.
+* Added Temporary button to fix 2021 Sonata DAW warning.
 * Update Kona EV Longitudinal tune.
 * Allow higher max speed with logger off due to higher FPS.
 * Update to Neokii's nTune 1.3.4

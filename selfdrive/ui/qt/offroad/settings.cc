@@ -141,8 +141,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addLayout(reset_layout);
 
   // Settings
+   
   main_layout->addWidget(horizontal_line());
-
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click once please be patient.", this)){
@@ -153,16 +153,26 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
 
+  auto PC = new ButtonControl("Panda DAW warning fix for 20 & 21 Sonata", "Fix");
+  QObject::connect(PC, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
+      system("cd /data/openpilot && rm -r panda && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
+      if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this));  
+      std::system("cd /data/openpilot/panda/board && make && reboot");  
+    }
+  });
+  main_layout->addWidget(PC);
+  main_layout->addWidget(horizontal_line());
+
   auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
   QObject::connect(SR, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
-      system("cd /storage/emulated/0/videos && rm *.*");
+      std::system("cd /storage/emulated/0/videos && rm *.*");
       ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
     }
   });
   main_layout->addWidget(SR);
   main_layout->addWidget(horizontal_line());
-
 
   auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
   QObject::connect(OVKS, &ButtonControl::released, [=]() { 
@@ -456,12 +466,14 @@ QWidget * community_panel() {
                                             "Removes most of the clutter.",
                                             "../assets/offroad/icon_road.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LoggerEnabled",
                                             "Enable Logger / Uploader",
                                             "This causes slow frame time on weak hardware.",
                                             "../assets/offroad/icon_road.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("DisableUpdates",
                                             "Disable Auto Updates",
@@ -482,48 +494,56 @@ QWidget * community_panel() {
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
                                             "../assets/offroad/icon_road.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("MadModeEnabled",
                                             "Enable HKG MAD mode",
                                             "Openpilot will engage when turn cruise control on",
                                             "../assets/offroad/icon_openpilot.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("IsLdwsCar",
                                             "LDWS",
                                             "If your car only supports LDWS, turn it on.",
                                             "../assets/offroad/icon_openpilot.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LaneChangeEnabled",
                                             "Enable Lane Change Assist",
                                             "Perform assisted lane changes with openpilot by checking your surroundings for safety, activating the turn signal and gently nudging the steering wheel towards your desired lane. openpilot is not capable of checking if a lane change is safe. You must continuously observe your surroundings to use this feature.",
                                             "../assets/offroad/icon_road.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AutoLaneChangeEnabled",
                                             "Enable Auto Lane Change(Nudgeless)",
                                             "warnings: it is beta, be careful!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves",
+                                            "Enable Slow On Curves with HKG Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSyncGasPressed",
                                             "Sync set speed on gas pressed",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("FuseWithStockScc",
-                                            "Use by fusion with stock scc",
+                                            "Use by fusion with stock scc with HGK Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("ShowDebugUI",
                                             "Show Debug UI",
@@ -533,36 +553,41 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CustomLeadMark",
-                                            "Use custom lead mark",
+                                            "Use custom lead mark for HKG Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseSMDPSHarness",
-                                            "Use SMDPS Harness",
+                                            "Use SMDPS or MDPS harness",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("hotspot_on_boot",
                                             "Hot Spot On Car Start",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("c_wifi_offroad",
                                             "WiFi On Offroad",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
+
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("SSCOD",
                                             "Stop Screen Capture on disengage",
                                             "Stop Screen Capture on disengage",
                                             "../assets/offroad/icon_road.png"
                                             ));
+                                            
   toggles_list->addWidget(horizontal_line());        
-    toggles_list->addWidget(new ParamControl("RVL",
+  toggles_list->addWidget(new ParamControl("RVL",
                                             "Bring Back my Lead Markers",
                                             "This is very misleading and can cause confusion, if HKG Long isn't on and working properly!DO NOT MISTAKE OP LEADS FOR WHAT YOUR CAR SEE'S. Please procceed with caution.",
                                             "../assets/offroad/icon_road.png"
