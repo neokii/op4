@@ -552,7 +552,7 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("FuseWithStockScc",
-                                            "Use by fusion with stock scc with HGK Long",
+                                            "Use by fusion with stock scc, HGK Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
