@@ -518,7 +518,7 @@ QWidget * community_panel() {
                                               ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves",
+                                            "Enable Slow On Curves with HKG Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
@@ -530,7 +530,7 @@ QWidget * community_panel() {
                                             ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("FuseWithStockScc",
-                                            "Use by fusion with stock scc",
+                                            "Use by fusion with stock scc with HGK Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
@@ -543,13 +543,13 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CustomLeadMark",
-                                            "Use custom lead mark",
+                                            "Use custom lead mark for HKG Long",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseSMDPSHarness",
-                                            "Use SMDPS Harness",
+                                            "Use SMDPS or MDPS harness",
                                             "",
                                             "../assets/offroad/icon_road.png"
                                             ));
