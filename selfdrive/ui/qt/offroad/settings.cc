@@ -141,17 +141,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addLayout(reset_layout);
 
   // Settings
+   
   main_layout->addWidget(horizontal_line());
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
-  QObject::connect(SR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
-      system("cd /storage/emulated/0/videos && rm *.*");
-      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
-    }
-  });
-  main_layout->addWidget(SR);
-  main_layout->addWidget(horizontal_line());
-
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click once please be patient.", this)){
@@ -160,6 +151,27 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
   main_layout->addWidget(nTune);
+  main_layout->addWidget(horizontal_line());
+
+  auto SR = new ButtonControl("Panda DAW warning fix for 2021 - 2020 Sonata", "Fix");
+  QObject::connect(SR, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
+      system("cd /data/openpilot && rm -r panda && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
+      ConfirmationDialog::confirm("Successfully Downloaded and Replaced Panda Firmware. Reboot and Flash?", this);  
+       std::system("cd /data/openpilot/panda/board && make && reboot");  
+    }
+  });
+  main_layout->addWidget(SR);
+  main_layout->addWidget(horizontal_line());
+
+  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  QObject::connect(SR, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
+      std::system("cd /storage/emulated/0/videos && rm *.*");
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
+    }
+  });
+  main_layout->addWidget(SR);
   main_layout->addWidget(horizontal_line());
 
   auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
