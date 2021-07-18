@@ -169,7 +169,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(PC1, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to flash neokii panda firmware?", this)){
       system("cd /data/openpilot && mv panda-neokii panda");
-      if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
+      if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Build, Reboot and Flash?", this)){
         std::system("cd /data/openpilot/panda/board && make && reboot");
       }  
     }
