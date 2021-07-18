@@ -165,7 +165,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(PC);
   main_layout->addWidget(horizontal_line());
 
-    auto PC1 = new ButtonControl("Neokii Panda", "Flash");
+    auto PC1 = new ButtonControl("Neokii Panda, This reverts DAW fix", "Flash");
   QObject::connect(PC1, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to flash neokii panda firmware?", this)){
       system("cd /data/openpilot && mv panda-neokii panda");
