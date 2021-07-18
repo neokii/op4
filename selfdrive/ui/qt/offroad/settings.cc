@@ -157,7 +157,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(PC, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
       system("cd /data/openpilot && rm -r panda && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
-      ConfirmationDialog::confirm("Successfully Downloaded and Replaced Panda Firmware. Reboot and Flash?", this);  
+      ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this);  
        std::system("cd /data/openpilot/panda/board && make && reboot");  
     }
   });
