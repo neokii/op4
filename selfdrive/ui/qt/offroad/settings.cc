@@ -156,7 +156,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto PC = new ButtonControl("DAW warning fix for 20 - 21 Sonata.", "Fix");
   QObject::connect(PC, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
-      system("cd /data/openpilot && mv panda panda-neokii && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
+      std::system("cd /data/openpilot && mv panda panda-neokii && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
       if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
         std::system("cd /data/openpilot/panda/board && make && reboot");
       }  
