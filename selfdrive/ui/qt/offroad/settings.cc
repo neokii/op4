@@ -552,8 +552,8 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("FuseWithStockScc",
-                                            "Use by fusion with stock scc, HGK Long",
-                                            "",
+                                            "Use by fusion with HGK Long",
+                                            "Stock SCC will control gas and OP will control braking, it will smooth out the late abrupt braking from stock SCC.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
