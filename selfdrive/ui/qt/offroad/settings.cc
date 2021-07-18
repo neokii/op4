@@ -142,15 +142,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   // Settings
   main_layout->addWidget(horizontal_line());
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
-  QObject::connect(SR, &ButtonControl::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
-      system("cd /storage/emulated/0/videos && rm *.*");
-      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
-    }
-  });
-  main_layout->addWidget(SR);
-  main_layout->addWidget(horizontal_line());
 
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
   QObject::connect(nTune, &ButtonControl::released, [=]() { 
@@ -161,6 +152,17 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
+
+  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  QObject::connect(SR, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
+      system("cd /storage/emulated/0/videos && rm *.*");
+      ConfirmationDialog::confirm("Successfully Deleted All UI Screen Records", this);      
+    }
+  });
+  main_layout->addWidget(SR);
+  main_layout->addWidget(horizontal_line());
+
 
   auto OVKS = new ButtonControl("Override loading logo to Kia Stinger.", "Stinger");
   QObject::connect(OVKS, &ButtonControl::released, [=]() { 
