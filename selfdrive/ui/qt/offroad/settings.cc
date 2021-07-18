@@ -156,13 +156,25 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   auto PC = new ButtonControl("Panda DAW warning fix for 20 & 21 Sonata", "Fix");
   QObject::connect(PC, &ButtonControl::released, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to flash custom panda firmware?", this)){
-      system("cd /data/openpilot && rm -r panda && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
+      system("cd /data/openpilot && mv panda panda-neokii && git clone https://github.com/xps-genesis/panda.git -b xps_panda_daw");
       if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
         std::system("cd /data/openpilot/panda/board && make && reboot");
       }  
     }
   });
   main_layout->addWidget(PC);
+  main_layout->addWidget(horizontal_line());
+
+    auto PC1 = new ButtonControl("Neokii Panda", "Flash");
+  QObject::connect(PC1, &ButtonControl::released, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to flash neokii panda firmware?", this)){
+      system("cd /data/openpilot && mv panda-neokii panda");
+      if (ConfirmationDialog::confirm("Successfully Replaced Panda Firmware. Reboot and Flash?", this)){
+        std::system("cd /data/openpilot/panda/board && make && reboot");
+      }  
+    }
+  });
+  main_layout->addWidget(PC1);
   main_layout->addWidget(horizontal_line());
 
   auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
