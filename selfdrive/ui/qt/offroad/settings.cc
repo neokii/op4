@@ -97,6 +97,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
     });
   }
 
+#ifdef ENABLE_MAPS
+  toggles.append(new ParamControl("NavSettingTime24h",
+                                  "Show ETA in 24h format",
+                                  "Use 24h format instead of am/pm",
+                                  "../assets/offroad/icon_metric.png",
+                                  this));
+#endif
 
   bool record_lock = Params().getBool("RecordFrontLock");
   record_toggle->setEnabled(!record_lock);
@@ -240,11 +247,11 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
 
   auto dcamBtn = new ButtonControl("Driver Camera", "PREVIEW",
                                         "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)");
-  connect(dcamBtn, &ButtonControl::released, [=]() { emit showDriverView(); });
+  connect(dcamBtn, &ButtonControl::clicked, [=]() { emit showDriverView(); });
 
   QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
   auto resetCalibBtn = new ButtonControl("Reset Calibration", "RESET", resetCalibDesc);
-  connect(resetCalibBtn, &ButtonControl::released, [=]() {
+  connect(resetCalibBtn, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
       Params().remove("CalibrationParams");
     }
@@ -274,7 +281,7 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   ButtonControl *retrainingBtn = nullptr;
   if (!params.getBool("Passive")) {
     retrainingBtn = new ButtonControl("Review Training Guide", "REVIEW", "Review the rules, features, and limitations of openpilot");
-    connect(retrainingBtn, &ButtonControl::released, [=]() {
+    connect(retrainingBtn, &ButtonControl::clicked, [=]() {
       if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
         Params().remove("CompletedTrainingVersion");
         emit reviewTrainingGuide();
@@ -283,7 +290,7 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   }
 
   auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
-  connect(uninstallBtn, &ButtonControl::released, [=]() {
+  connect(uninstallBtn, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
       Params().putBool("DoUninstall", true);
     }
@@ -302,18 +309,18 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   power_layout->setSpacing(30);
 
   QPushButton *reboot_btn = new QPushButton("Reboot");
-  reboot_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
+  reboot_btn->setStyleSheet("height: 120px;border-radius: 15px; background-color: #393939;");
   power_layout->addWidget(reboot_btn);
-  QObject::connect(reboot_btn, &QPushButton::released, [=]() {
+  QObject::connect(reboot_btn, &QPushButton::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
       Hardware::reboot();
     }
   });
 
   QPushButton *poweroff_btn = new QPushButton("Power Off");
-  poweroff_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #E22C2C;");
+  poweroff_btn->setStyleSheet("height: 120px;border-radius: 15px; background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
-  QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
+  QObject::connect(poweroff_btn, &QPushButton::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
       Hardware::poweroff();
     }
@@ -329,7 +336,7 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   versionLbl = new LabelControl("Version", "", QString::fromStdString(params.get("ReleaseNotes")).trimmed());
   lastUpdateLbl = new LabelControl("Last Update Check", "", "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
   updateBtn = new ButtonControl("Check for Update", "");
-  connect(updateBtn, &ButtonControl::released, [=]() {
+  connect(updateBtn, &ButtonControl::clicked, [=]() {
     if (params.getBool("IsOffroad")) {
       const QString paramsPath = QString::fromStdString(params.getParamsPath());
       fs_watch->addPath(paramsPath + "/d/LastUpdateTime");
@@ -348,8 +355,6 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
       main_layout->addWidget(horizontal_line());
     }
   }
-
-  setStyleSheet(R"(QLabel {font-size: 50px;})");
 
   fs_watch = new QFileSystemWatcher(this);
   QObject::connect(fs_watch, &QFileSystemWatcher::fileChanged, [=](const QString path) {
@@ -392,12 +397,12 @@ QWidget * network_panel(QWidget * parent) {
 
   // wifi + tethering buttons
   auto wifiBtn = new ButtonControl("WiFi Settings", "OPEN");
-  QObject::connect(wifiBtn, &ButtonControl::released, [=]() { HardwareEon::launch_wifi(); });
+  QObject::connect(wifiBtn, &ButtonControl::clicked, [=]() { HardwareEon::launch_wifi(); });
   layout->addWidget(wifiBtn);
   layout->addWidget(horizontal_line());
 
   auto tetheringBtn = new ButtonControl("Tethering Settings", "OPEN");
-  QObject::connect(tetheringBtn, &ButtonControl::released, [=]() { HardwareEon::launch_tethering(); });
+  QObject::connect(tetheringBtn, &ButtonControl::clicked, [=]() { HardwareEon::launch_tethering(); });
   layout->addWidget(tetheringBtn);
   layout->addWidget(horizontal_line());
 
@@ -629,18 +634,20 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   )");
 
   // close button
-  QPushButton *close_btn = new QPushButton("X");
+  QPushButton *close_btn = new QPushButton("×");
   close_btn->setStyleSheet(R"(
-    font-size: 90px;
+    font-size: 140px;
+    padding-bottom: 20px;
     font-weight: bold;
     border 1px grey solid;
     border-radius: 100px;
     background-color: #292929;
+    font-weight: 400;
   )");
   close_btn->setFixedSize(200, 200);
   sidebar_layout->addSpacing(45);
   sidebar_layout->addWidget(close_btn, 0, Qt::AlignCenter);
-  QObject::connect(close_btn, &QPushButton::released, this, &SettingsWindow::closeSettings);
+  QObject::connect(close_btn, &QPushButton::clicked, this, &SettingsWindow::closeSettings);
 
   // setup panels
   DevicePanel *device = new DevicePanel(this);
@@ -656,12 +663,11 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   };
 
 #ifdef ENABLE_MAPS
-  if (!Params().get("MapboxToken").empty()) {
-    auto map_panel = new MapPanel(this);
-    panels.push_back({"Navigation", map_panel});
-    QObject::connect(map_panel, &MapPanel::closeSettings, this, &SettingsWindow::closeSettings);
-  }
+  auto map_panel = new MapPanel(this);
+  panels.push_back({"Navigation", map_panel});
+  QObject::connect(map_panel, &MapPanel::closeSettings, this, &SettingsWindow::closeSettings);
 #endif
+
   const int padding = panels.size() > 3 ? 25 : 35;
 
   nav_btns = new QButtonGroup();
@@ -687,12 +693,13 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
     nav_btns->addButton(btn);
     sidebar_layout->addWidget(btn, 0, Qt::AlignRight);
 
-    panel->setContentsMargins(50, 25, 50, 25);
+    const int lr_margin = name != "Network" ? 50 : 0;  // Network panel handles its own margins
+    panel->setContentsMargins(lr_margin, 25, lr_margin, 25);
 
     ScrollView *panel_frame = new ScrollView(panel, this);
     panel_widget->addWidget(panel_frame);
 
-    QObject::connect(btn, &QPushButton::released, [=, w = panel_frame]() {
+    QObject::connect(btn, &QPushButton::clicked, [=, w = panel_frame]() {
       btn->setChecked(true);
       panel_widget->setCurrentWidget(w);
     });

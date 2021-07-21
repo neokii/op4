@@ -58,6 +58,8 @@
 #define COLOR_ENGAGEABLE nvgRGBA(23, 51, 73, 255)
 #define COLOR_ENGAGEABLE_ALPHA(x) nvgRGBA(23, 51, 73, x)
 
+typedef cereal::CarControl::HUDControl::AudibleAlert AudibleAlert;
+
 // TODO: this is also hardcoded in common/transformations/camera.py
 // TODO: choose based on frame input size
 const float y_offset = Hardware::TICI() ? 150.0 : 0.0;
@@ -73,6 +75,26 @@ typedef struct Rect {
     return px >= x && px < (x + w) && py >= y && py < (y + h);
   }
 } Rect;
+
+typedef struct Alert {
+  QString text1;
+  QString text2;
+  QString type;
+  cereal::ControlsState::AlertSize size;
+  AudibleAlert sound;
+  bool equal(Alert a2) {
+    return text1 == a2.text1 && text2 == a2.text2 && type == a2.type;
+  }
+} Alert;
+
+const Alert CONTROLS_WAITING_ALERT = {"openpilot Unavailable", "Waiting for controls to start",
+                                      "controlsWaiting", cereal::ControlsState::AlertSize::MID,
+                                      AudibleAlert::NONE};
+
+const Alert CONTROLS_UNRESPONSIVE_ALERT = {"TAKE CONTROL IMMEDIATELY", "Controls Unresponsive",
+                                           "controlsUnresponsive", cereal::ControlsState::AlertSize::FULL,
+                                           AudibleAlert::CHIME_WARNING_REPEAT};
+const int CONTROLS_TIMEOUT = 5;
 
 const int bdr_s = 20;
 const int header_h = 420;
@@ -112,10 +134,6 @@ typedef struct UIScene {
   int blinker_blinkingrate;
 
   cereal::PandaState::PandaType pandaType;
-  cereal::CarState::Reader car_state;
-  
-  // gps
-  int satelliteCount;
 
   // modelV2
   float lane_line_probs[4];
@@ -138,6 +156,7 @@ typedef struct UIScene {
   cereal::CarParams::Reader car_params;
   cereal::GpsLocationData::Reader gps_ext;
   cereal::LiveParametersData::Reader live_params;
+  int satelliteCount;
 
 } UIScene;
 

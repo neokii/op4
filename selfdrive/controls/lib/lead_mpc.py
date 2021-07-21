@@ -35,6 +35,10 @@ class LeadMpc():
     self.duration = 0
     self.status = False
 
+    self.v_solution = np.zeros(CONTROL_N)
+    self.a_solution = np.zeros(CONTROL_N)
+    self.j_solution = np.zeros(CONTROL_N)
+
   def reset_mpc(self):
     ffi, self.libmpc = libmpc_py.get_libmpc(self.lead_id)
     self.libmpc.init(MPC_COST_LONG.TTC, MPC_COST_LONG.DISTANCE,
@@ -57,11 +61,18 @@ class LeadMpc():
     if self.lead_id == 0:
       lead = radarstate.leadOne
     else:
-      lead = radarstate.leadOne
-    self.status = lead.status and lead.modelProb > .5
+      lead = radarstate.leadTwo
+    self.status = lead.status
 
     # Setup current mpc state
     self.cur_state[0].x_ego = 0.0
+
+    cruise_gap = int(clip(CS.cruiseGap, 1., 4.))
+
+    if AUTO_TR_ENABLED and cruise_gap == AUTO_TR_CRUISE_GAP:
+      TR = interp(v_ego, AUTO_TR_BP, AUTO_TR_V)
+    else:
+      TR = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
 
     if lead is not None and lead.status:
       x_lead = lead.dRel
@@ -74,7 +85,7 @@ class LeadMpc():
 
       self.a_lead_tau = lead.aLeadTau
       self.new_lead = False
-      if not self.prev_lead_status or abs(x_lead - self.prev_lead_x) > 2.5:
+      if not self.prev_lead_status: # or abs(x_lead - self.prev_lead_x) > 2.5:
         self.libmpc.init_with_simulation(v_ego, x_lead, v_lead, a_lead, self.a_lead_tau)
         self.new_lead = True
 
@@ -90,18 +101,12 @@ class LeadMpc():
       a_lead = 0.0
       self.a_lead_tau = _LEAD_ACCEL_TAU
 
-    cruise_gap = int(clip(CS.cruiseGap, 1., 4.))
-
-    if AUTO_TR_ENABLED and cruise_gap == AUTO_TR_CRUISE_GAP:
-      TR = interp(v_ego, AUTO_TR_BP, AUTO_TR_V)
-    else:
-      TR = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
-
     # Calculate mpc
     t = sec_since_boot()
     self.n_its = self.libmpc.run_mpc(self.cur_state, self.mpc_solution, self.a_lead_tau, a_lead, TR)
     self.v_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.v_ego)
     self.a_solution = interp(T_IDXS[:CONTROL_N], MPC_T, self.mpc_solution.a_ego)
+    self.j_solution = interp(T_IDXS[:CONTROL_N], MPC_T[:-1], self.mpc_solution.j_ego)
     self.duration = int((sec_since_boot() - t) * 1e9)
 
     # Reset if NaN or goes through lead car

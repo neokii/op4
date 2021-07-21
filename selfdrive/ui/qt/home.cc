@@ -25,14 +25,14 @@ HomeWindow::HomeWindow(QWidget* parent) : QWidget(parent) {
   slayout = new QStackedLayout();
   main_layout->addLayout(slayout);
 
+  home = new OffroadHome();
+  slayout->addWidget(home);
+
   onroad = new OnroadWindow(this);
   slayout->addWidget(onroad);
 
   QObject::connect(this, &HomeWindow::update, onroad, &OnroadWindow::update);
   QObject::connect(this, &HomeWindow::offroadTransitionSignal, onroad, &OnroadWindow::offroadTransitionSignal);
-
-  home = new OffroadHome();
-  slayout->addWidget(home);
 
   driver_view = new DriverViewWindow(this);
   connect(driver_view, &DriverViewWindow::done, [=] {
@@ -99,13 +99,13 @@ OffroadHome::OffroadHome(QWidget* parent) : QFrame(parent) {
   update_notif = new QPushButton("UPDATE");
   update_notif->setVisible(false);
   update_notif->setStyleSheet("background-color: #364DEF;");
-  QObject::connect(update_notif, &QPushButton::released, [=]() { center_layout->setCurrentIndex(1); });
+  QObject::connect(update_notif, &QPushButton::clicked, [=]() { center_layout->setCurrentIndex(1); });
   header_layout->addWidget(update_notif, 0, Qt::AlignHCenter | Qt::AlignRight);
 
   alert_notif = new QPushButton();
   alert_notif->setVisible(false);
   alert_notif->setStyleSheet("background-color: #E22C2C;");
-  QObject::connect(alert_notif, &QPushButton::released, [=] { center_layout->setCurrentIndex(2); });
+  QObject::connect(alert_notif, &QPushButton::clicked, [=] { center_layout->setCurrentIndex(2); });
   header_layout->addWidget(alert_notif, 0, Qt::AlignHCenter | Qt::AlignRight);
 
   header_layout->addWidget(new QLabel(getBrandVersion()), 0, Qt::AlignHCenter | Qt::AlignRight);

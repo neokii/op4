@@ -474,6 +474,7 @@ int main(int argc, char** argv) {
   if (do_exit.power_failure){
     LOGE("power failure");
     sync();
+    LOGE("sync done");
   }
 
   // messaging cleanup
