@@ -162,7 +162,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
 
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This Deletes all UI Screen recordings from /storage/emulated/0/videos.");
+  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This Deletes all UI Screen recordings from /storage/emulated/0/videos");
   QObject::connect(SR, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       std::system("cd /storage/emulated/0/videos && rm *.*");
