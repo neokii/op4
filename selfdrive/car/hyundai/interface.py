@@ -62,7 +62,6 @@ class CarInterface(CarInterfaceBase):
     # ret.lateralTuning.lqr.l = [0.33, 0.318]
 
 
-    ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.0
     ret.steerLimitTimer = 2.5
     ret.steerRateCost = 0.4
@@ -72,6 +71,8 @@ class CarInterface(CarInterfaceBase):
    #Longitudinal Tune and logic for car tune
     if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80 or CAR.KONA_EV: #Tune for untuned cars
       # Donfyffe stock tune for untuned cars
+      
+      ret.steerRatio = 16.5
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.1]
@@ -122,6 +123,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
       ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
+      ret.steerRatio = 13.56
       ret.mass = 1640. + STD_CARGO_KG
       ret.wheelbase = 2.84
       ret.centerToFront = ret.wheelbase * 0.4
@@ -137,7 +139,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1855. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
-
+      ret.steerRatio = 16.5
 
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -214,13 +216,22 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.KONA:
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
-      tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.385
+      ret.steerRatio = 13.73  # Spec
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
+      
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
       ret.mass = 1395. + STD_CARGO_KG
       ret.wheelbase = 2.6
-      tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+  #Tune for Lateral.
+      ret.steerRatio = 13.73  # Spec
+      tire_stiffness_factor = 0.385
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
+      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
+
  #Tune To base Kona EV tune off of.
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.20, 1.1, 1.05, 1.0, 0.95, 0.85, 0.80]
@@ -291,7 +302,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
       
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [1.18, 1.1, 1.05, 1.0, 0.95, 0.85, 0.75]
+      ret.longitudinalTuning.kpV = [1.18, 1.1, 1.05, 1.0, 0.95, 0.90, 0.85]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
