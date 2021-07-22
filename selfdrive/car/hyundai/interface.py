@@ -110,9 +110,10 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
 
     elif candidate == CAR.GENESIS_G70:
-
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.lateralTuning.init('indi')
       ret.lateralTuning.indi.innerLoopGainBP = [0.]
       ret.lateralTuning.indi.innerLoopGainV = [3.65]
@@ -136,6 +137,7 @@ class CarInterface(CarInterfaceBase):
       ret.gasMaxV = [0.85, 0.7, 0.45, 0.3, 0.2, 0.15]
 
     elif candidate == CAR.GENESIS_G80:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 1855. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
@@ -161,59 +163,71 @@ class CarInterface(CarInterfaceBase):
       ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
 
     elif candidate == CAR.GENESIS_EQ900:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2200
       ret.wheelbase = 3.15
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.GENESIS_EQ900_L:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2290
       ret.wheelbase = 3.45
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.GENESIS_G90:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2150
       ret.wheelbase = 3.16
       ret.centerToFront = ret.wheelbase * 0.4
     # hyundai
     elif candidate in [CAR.SANTA_FE]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1694 + STD_CARGO_KG
       ret.wheelbase = 2.766
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.SONATA, CAR.SONATA_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1513. + STD_CARGO_KG
       ret.wheelbase = 2.84
       ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 0.65
     elif candidate in [CAR.SONATA19, CAR.SONATA19_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 4497. * CV.LB_TO_KG
       ret.wheelbase = 2.804
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.SONATA_LF_TURBO:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1590. + STD_CARGO_KG
       ret.wheelbase = 2.805
       tire_stiffness_factor = 0.65
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.PALISADE:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1999. + STD_CARGO_KG
       ret.wheelbase = 2.90
       ret.centerToFront = ret.wheelbase * 0.4
       if eps_modified:
         ret.maxSteeringAngleDeg = 1000.
     elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate == CAR.ELANTRA_2021:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = (2800. * CV.LB_TO_KG) + STD_CARGO_KG
       ret.wheelbase = 2.72
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       tire_stiffness_factor = 0.65
     elif candidate == CAR.ELANTRA_HEV_2021:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = (3017. * CV.LB_TO_KG) + STD_CARGO_KG
       ret.wheelbase = 2.72
       ret.steerRatio = 13.27 * 1.15  # 15% higher at the center seems reasonable
       tire_stiffness_factor = 0.65
     elif candidate == CAR.KONA:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.centerToFront = ret.wheelbase * 0.4
@@ -223,6 +237,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
       
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1395. + STD_CARGO_KG
       ret.wheelbase = 2.6
       ret.centerToFront = ret.wheelbase * 0.4
@@ -245,29 +260,34 @@ class CarInterface(CarInterfaceBase):
       ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.385
       if candidate not in [CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.GRANDEUR_IG, CAR.GRANDEUR_IG_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       tire_stiffness_factor = 0.8
       ret.mass = 1640. + STD_CARGO_KG
       ret.wheelbase = 2.845
       ret.maxSteeringAngleDeg = 120.
       ret.centerToFront = ret.wheelbase * 0.385
     elif candidate in [CAR.GRANDEUR_IG_FL, CAR.GRANDEUR_IG_FL_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       tire_stiffness_factor = 0.8
       ret.mass = 1640. + STD_CARGO_KG
       ret.wheelbase = 2.845
       ret.maxSteeringAngleDeg = 120.
       ret.centerToFront = ret.wheelbase * 0.385
     elif candidate == CAR.VELOSTER:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       tire_stiffness_factor = 0.9
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.TUCSON_TL_SCC:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1594. + STD_CARGO_KG #1730
       ret.wheelbase = 2.67
       tire_stiffness_factor = 0.7
@@ -276,16 +296,19 @@ class CarInterface(CarInterfaceBase):
       ret.startAccel = 0.5
     # kia
     elif candidate == CAR.SORENTO:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.K5, CAR.K5_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.STINGER:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png")
       tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.906
@@ -313,21 +336,25 @@ class CarInterface(CarInterfaceBase):
       ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.FORTE:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.CEED:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1350. + STD_CARGO_KG
       ret.wheelbase = 2.65
       tire_stiffness_factor = 0.6
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.SPORTAGE:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1737. + STD_CARGO_KG
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.7
@@ -335,16 +362,19 @@ class CarInterface(CarInterfaceBase):
       if candidate == CAR.KIA_NIRO_HEV:
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       tire_stiffness_factor = 0.7
       ret.mass = 1650. + STD_CARGO_KG
       ret.wheelbase = 2.855
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.SELTOS:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1310. + STD_CARGO_KG
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.K9:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 2005. + STD_CARGO_KG
       ret.wheelbase = 3.15
       ret.centerToFront = ret.wheelbase * 0.4
