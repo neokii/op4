@@ -162,7 +162,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
 
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This Deletes all UI Screen recordings from /storage/emulated/0/videos.");
   QObject::connect(SR, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       std::system("cd /storage/emulated/0/videos && rm *.*");
@@ -172,7 +172,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(SR);
   main_layout->addWidget(horizontal_line());
 
-  auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
+  auto APN = new ButtonControl("Open Android Settings", "SETTINGS", "Opens Android Settings to adjust APN / Sim Card Settings");
   QObject::connect(APN, &ButtonControl::clicked, [=]() { 
    if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
     std::system("am start -a android.settings.SETTINGS");
