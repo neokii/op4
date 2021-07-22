@@ -1,6 +1,5 @@
 Version 0.8.6 (2021-21-7)
 ========================
-* Sounds and Alerts are broken in this release!
 * Better lanechanges.
 * Fix some more bugs.
 * Merge latest changes from Neokii and fix bugs.
