@@ -172,7 +172,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(SR);
   main_layout->addWidget(horizontal_line());
 
-  auto APN = new ButtonControl("Open Android Settings", "SETTINGS", "Opens Android Settings to adjust APN / Sim Card Settings");
+  auto APN = new ButtonControl("Open Android Settings", "SETTINGS", "Opens Android Settings to adjust APN / Sim Card Settings, to exit settings without reboot click on `Printers` in Android Settings");
   QObject::connect(APN, &ButtonControl::clicked, [=]() { 
    if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
     std::system("am start -a android.settings.SETTINGS");
