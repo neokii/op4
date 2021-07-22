@@ -1,3 +1,10 @@
+Version 0.8.6 (2021-21-7)
+========================
+* Better lanechanges.
+* Fix some more bugs.
+* Merge latest changes from Neokii and fix bugs.
+
+
 Version 0.8.6 (2021-16-7)
 ========================
 * Update Stinger Tune
