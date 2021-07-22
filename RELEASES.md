@@ -1,5 +1,7 @@
 Version 0.8.6 (2021-21-7)
 ========================
+* Update Kona, Kona EV lateral tune.
+* Update Kona EV Longitudinal tune.
 * Fixed Auto Update.
 * Better lanechanges.
 * Fix some more bugs.
