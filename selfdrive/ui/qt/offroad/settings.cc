@@ -155,7 +155,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click only ONCE please be patient.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
       if (ConfirmationDialog::confirm("nTune Ran Successfully. Reboot?", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     }
   });
@@ -176,7 +176,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(OVKS, &ButtonControl::clicked, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Stinger.png img_spinner_comma.png");
     if (ConfirmationDialog::confirm("Successfully changed boot logo.", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     });
   main_layout->addWidget(OVKS);
@@ -186,7 +186,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(OVK, &ButtonControl::clicked, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png");
     if (ConfirmationDialog::confirm("Successfully changed boot logo.", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     });
   main_layout->addWidget(OVK);
@@ -196,7 +196,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(OVG, &ButtonControl::clicked, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png");
     if (ConfirmationDialog::confirm("Successfully changed boot logo.", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     });
   main_layout->addWidget(OVG);
@@ -206,7 +206,7 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVH, &ButtonControl::clicked, [=]() { 
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png");
     if (ConfirmationDialog::confirm("Successfully changed boot logo.", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     });
   main_layout->addWidget(OVH);
@@ -216,7 +216,7 @@ auto OVH = new ButtonControl("Override loading logo to Hyundai.", "Hyundai");
   QObject::connect(OVC, &ButtonControl::clicked, [=]() {
     std::system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Comma.png img_spinner_comma.png");
     if (ConfirmationDialog::confirm("Successfully changed boot logo.", this)){
-        std::system("reboot")
+        std::system("reboot");
       }    
     });
   main_layout->addWidget(OVC);

@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-21-7)
 ========================
+* Update confirmation dialogs.
 * Update Stinger Longitudinal tune.
 * Update Kona, Kona EV lateral tune.
 * Update Kona EV Longitudinal tune.
