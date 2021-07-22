@@ -150,7 +150,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   // Settings
    
   main_layout->addWidget(horizontal_line());
-  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
+  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click only ONCE please be patient.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
