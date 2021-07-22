@@ -77,6 +77,14 @@ class CarController():
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
     self.ldws_opt = Params().get_bool('IsLdwsCar')
 
+    params = Params()
+    
+    if Params().get_bool('hotspot_on_boot') and not params.get_bool("IsOffroad"):
+      os.system("service call wifi 37 i32 0 i32 1 &")
+    if params.get_bool("IsOffroad") and Params().get_bool('c_wifi_offroad'):
+      os.system("service call wifi 37 i32 0 i32 0 &")
+ 
+
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
     self.scc_smoother = SccSmoother(gas_factor=1.0, brake_factor=1.0, curvature_factor=1.0)
