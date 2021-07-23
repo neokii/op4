@@ -327,6 +327,24 @@ void screen_toggle_lock() {
 }
 
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
+  int count = 0;
+
+  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
+      std::system("service call wifi 37 i32 0 i32 1 &");
+      ++count;
+  }
+  if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad")){
+      std::system("service call wifi 37 i32 0 i32 0 &");
+      int count = 0;
+  }
+  if (Params().getBool("AR") && Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
+    start_capture();
+    ++count2;
+  }
+   if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
+    stop_capture();
+    int count2 = 0;
+  }
   bool touched = false;
   screen_draw_button(s, touch_x, touch_y);
   if (screen_button_clicked(touch_x,touch_y)) {
@@ -356,24 +374,4 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   //s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
   
   return touched;
-  
-  int count = 0;
-  int count2 = 0;
-
-  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
-      std::system("service call wifi 37 i32 0 i32 1 &");
-      ++count;
-  }
-  if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad")){
-      std::system("service call wifi 37 i32 0 i32 0 &");
-      int count = 0;
-  }
-  if (Params().getBool("AR") && Params().getBool("IsOnroad") && count2 == 0) {
-    start_capture();
-    ++count2;
-  }
-   if (Params().getBool("AR") && Params().getBool("IsOffroad")) {
-    stop_capture();
-    int count2 = 0;
-  }
 }
