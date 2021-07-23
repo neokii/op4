@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "selfdrive/common/params.cc"
-#include "selfdrive/ui/qt/onroad.h"
+
 
 #define CAPTURE_STATE_NONE 0
 #define CAPTURE_STATE_CAPTURING 1
@@ -303,25 +303,6 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
   }
 }
-void AR() {   // Auto Record and Auto Hotspot/WiFi - JPR
-
-int count = 0;
-
-  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
-      std::system("service call wifi 37 i32 0 i32 1 &");
-      ++count;
-  }
-  if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad")){
-      std::system("service call wifi 37 i32 0 i32 0 &");
-      int count = 0;
-  }
-  if (Params().getBool("AR") && Params().getBool("IsOnroad")) {
-    start_capture();
-  }
-   if (Params().getBool("AR") && Params().getBool("IsOffroad")) {
-    stop_capture();
-  }
-}
 void screen_toggle_record_state(){
 
   if (captureState == CAPTURE_STATE_CAPTURING) {
@@ -345,9 +326,23 @@ void screen_toggle_lock() {
 }
 
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
+  int count = 0;
 
+  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
+      std::system("service call wifi 37 i32 0 i32 1 &");
+      ++count;
+  }
+  if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad")){
+      std::system("service call wifi 37 i32 0 i32 0 &");
+      int count = 0;
+  }
+  if (Params().getBool("AR") && Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
+    start_capture();
+  }
+   if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
+    stop_capture();
+  }
   bool touched = false;
-  AR();
   screen_draw_button(s, touch_x, touch_y);
   if (screen_button_clicked(touch_x,touch_y)) {
     click_elapsed_time = get_time() - click_time;
