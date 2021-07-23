@@ -147,7 +147,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(horizontal_line());
   main_layout->addLayout(reset_layout);
 
-  // Settings
+  // Settings and buttons - JPR
    
   main_layout->addWidget(horizontal_line());
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
@@ -416,7 +416,7 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(supported_cars);
 
-
+//settings - JPR
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AR",
                                             "Enables Auto Record",

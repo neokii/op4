@@ -303,7 +303,7 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
   }
 }
-
+// Auto Record - JPR
 void AR() {
   
   if (Params().getBool("AR") && (Params().getBool("IsOnroad")) {
