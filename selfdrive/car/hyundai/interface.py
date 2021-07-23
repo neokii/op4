@@ -32,9 +32,7 @@ class CarInterface(CarInterfaceBase):
     ret.openpilotLongitudinalControl = Params().get_bool('LongControlEnabled')
 
     ret.carName = "hyundai"
-    ret.safetyModel = car.CarParams.SafetyModel.hyundaiLegacy
-    if candidate in [CAR.SONATA]:
-      ret.safetyModel = car.CarParams.SafetyModel.hyundai
+    ret.safetyModel = car.CarParams.SafetyModel.hyundai
 
     # Most Hyundai car ports are community features for now
     ret.communityFeature = True
