@@ -416,6 +416,13 @@ QWidget * community_panel() {
 
   toggles_list->addWidget(supported_cars);
 
+
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("AR",
+                                            "Enables Auto Record",
+                                            "Starts recording on car start and stops on car off.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CleanUI",
                                             "Enables Cleaner UI",

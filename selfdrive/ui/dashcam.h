@@ -338,7 +338,15 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       touched = true;
     }
   }
+  bool offroad = !sm["deviceState"].getDeviceState().getStarted();
+  bool onroad = sm["deviceState"].getDeviceState().getStarted();
 
+  if (Params().getBool("AR") && onroad) {
+    start_capture();
+  }
+   if (Params().getBool("AR") && offroad) {
+    stop_capture();
+  }
   //if (screen_lock_button_clicked(touch_x,touch_y,lock_button)) {
   //  screen_toggle_lock();
   //  touched = true;
