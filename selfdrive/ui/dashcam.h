@@ -323,7 +323,14 @@ void screen_toggle_lock() {
     locked_files[captureNum] = 1;
   }
 }
-
+void OnroadWindow::offroadTransition(bool offroad) {
+  if (Params().getBool("AR") && !offroad) {
+    start_capture();
+  }
+   if (Params().getBool("AR") && offroad) {
+    stop_capture();
+  }
+}
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
 
   bool touched = false;
@@ -338,15 +345,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       touched = true;
     }
   }
-  bool offroad = !["deviceState"].getDeviceState().getStarted();
-  bool onroad = ["deviceState"].getDeviceState().getStarted();
-
-  if (Params().getBool("AR") && onroad) {
-    start_capture();
-  }
-   if (Params().getBool("AR") && offroad) {
-    stop_capture();
-  }
+  
   //if (screen_lock_button_clicked(touch_x,touch_y,lock_button)) {
   //  screen_toggle_lock();
   //  touched = true;
