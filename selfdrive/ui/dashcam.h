@@ -303,8 +303,8 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
   }
 }
-// Auto Record - JPR
-void AR() {
+void AR() {   // Auto Record and Auto Hotspot/WiFi - JPR
+
 
   if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad")){
       std::system("service call wifi 37 i32 0 i32 1 &");
