@@ -311,7 +311,7 @@ void screen_toggle_record_state::offroadTransition(bool offroad) {
    if (Params().getBool("AR") && offroad) {
     stop_capture();
   }
-}() {
+  
   if (captureState == CAPTURE_STATE_CAPTURING) {
     stop_capture();
     lock_current_video = false;
