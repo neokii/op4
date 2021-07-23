@@ -339,11 +339,9 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   }
   if (Params().getBool("AR") && Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
     start_capture();
-    ++count2;
   }
    if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
     stop_capture();
-    int count2 = 0;
   }
   bool touched = false;
   screen_draw_button(s, touch_x, touch_y);
