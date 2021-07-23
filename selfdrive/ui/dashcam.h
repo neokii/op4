@@ -315,7 +315,7 @@ int count2 = 0;
       std::system("service call wifi 37 i32 0 i32 0 &");
       int count = 0;
   }
-  if (Params().getBool("AR") && Params().getBool("IsOnroad")) {
+  if (Params().getBool("AR") && Params().getBool("IsOnroad") && count2 == 0) {
     start_capture();
     ++count2;
   }
