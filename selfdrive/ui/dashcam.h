@@ -306,13 +306,13 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
 // Auto Record - JPR
 void AR() {
   
-  if (Params().getBool("AR")) && (Params().getBool("IsOnroad")) {
+  if (Params().getBool("AR") && Params().getBool("IsOnroad")) {
     start_capture();
   }
-   if (Params().getBool("AR")) && (Params().getBool("IsOffroad")) {
+   if (Params().getBool("AR") && Params().getBool("IsOffroad")) {
     stop_capture();
   }
-
+}
 void screen_toggle_record_state(){
 
   if (captureState == CAPTURE_STATE_CAPTURING) {
