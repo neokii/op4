@@ -475,21 +475,21 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AutoLaneChangeEnabled",
                                             "Enable Auto Lane Change(Nudgeless)",
-                                            "warnings: it is beta, be careful!!",
+                                            "warnings: DO NOT TRUST BMS FOR ACCURATE BMS INFORMATION!!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves with HKG Long",
-                                            "",
+                                            "Enable Slow On Curves",
+                                            "Requires HKG Long: When activated with a properly setup car, The system will moderate speed around curves and corners.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSyncGasPressed",
                                             "Sync set speed on gas pressed",
-                                            "",
+                                            "Syncs the set speed with the cluster when gas is pressed.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
@@ -503,42 +503,42 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("ShowDebugUI",
                                             "Show Debug UI",
-                                            "",
+                                            "Shows Longitudinal Debug stats when `Clean UI` option is off.",
                                             "../assets/offroad/icon_shell.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CustomLeadMark",
                                             "Use custom lead mark for HKG Long",
-                                            "",
+                                            "A animated bulls eye lead marker.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseSMDPSHarness",
                                             "Use SMDPS or MDPS harness",
-                                            "",
+                                            "For use with cars that can't steer down to zero and have the appropriate hardware.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("hotspot_on_boot",
                                             "Hot Spot On Car Start",
-                                            "",
+                                            "Wi-Fi Hot Spot starts on car start.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("c_wifi_offroad",
                                             "WiFi On Offroad",
-                                            "",
+                                            "Wi-Fi automatically turns back on after you shut off car.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("SSCOD",
                                             "Stop Screen Capture on disengage",
-                                            "Stop Screen Capture on disengage",
+                                            "Stop Screen Capture on disengage, loss of steering, or any other event.",
                                             "../assets/offroad/icon_road.png"
                                             ));
                                             

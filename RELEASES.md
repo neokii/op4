@@ -1,5 +1,7 @@
 Version 0.8.6 (2021-21-7)
 ========================
+* Polish events and Settings.
+  * Settings now have descriptions that appear when you click on them.
 * Fixed Auto Hot-Spot and Auto WiFi.
 * Automatically Change Loading logo after vehicle identification on the first start. Changes on reboot.
 * Update confirmation dialogs.
