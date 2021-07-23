@@ -248,6 +248,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"RVL", PERSISTENT},
     {"LoggerEnabled", PERSISTENT},
     {"CleanUI", PERSISTENT},
+    {"AR", PERSISTENT},
 };
 
 } // namespace
