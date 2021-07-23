@@ -304,7 +304,7 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
   }
 }
 
-void AR {
+void AR() {
   
   if (Params().getBool("AR") && (Params().getBool("IsOnroad")) {
     start_capture();
@@ -338,7 +338,7 @@ void screen_toggle_lock() {
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
 
   bool touched = false;
-  offroadTransitionAR();
+  AR();
   screen_draw_button(s, touch_x, touch_y);
   if (screen_button_clicked(touch_x,touch_y)) {
     click_elapsed_time = get_time() - click_time;
