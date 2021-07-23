@@ -338,8 +338,8 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       touched = true;
     }
   }
-  bool offroad = !sm["deviceState"].getDeviceState().getStarted();
-  bool onroad = sm["deviceState"].getDeviceState().getStarted();
+  bool offroad = !["deviceState"].getDeviceState().getStarted();
+  bool onroad = ["deviceState"].getDeviceState().getStarted();
 
   if (Params().getBool("AR") && onroad) {
     start_capture();
