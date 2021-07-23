@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "selfdrive/common/params.cc"
+#include "selfdrive/ui/qt/onroad.h"
 
 #define CAPTURE_STATE_NONE 0
 #define CAPTURE_STATE_CAPTURING 1
@@ -303,7 +304,14 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
   }
 }
 
-void screen_toggle_record_state() {
+void screen_toggle_record_state::offroadTransition(bool offroad) {
+  if (Params().getBool("AR") && !offroad) {
+    start_capture();
+  }
+   if (Params().getBool("AR") && offroad) {
+    stop_capture();
+  }
+}() {
   if (captureState == CAPTURE_STATE_CAPTURING) {
     stop_capture();
     lock_current_video = false;
@@ -323,14 +331,7 @@ void screen_toggle_lock() {
     locked_files[captureNum] = 1;
   }
 }
-void OnroadWindow::offroadTransition(bool offroad) {
-  if (Params().getBool("AR") && !offroad) {
-    start_capture();
-  }
-   if (Params().getBool("AR") && offroad) {
-    stop_capture();
-  }
-}
+
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
 
   bool touched = false;
