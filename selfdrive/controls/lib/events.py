@@ -890,8 +890,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   
   EventName.turningIndicatorOn: {
     ET.WARNING: Alert(
-      "TAKE CONTROL",
-      "Steer Unavailable while Turning",
+      "Assisted Lane Change Unavailable Under 20MPH",
+      "Steer Unavailable while Turning with Blinker.",
       AlertStatus.userPrompt, AlertSize.small,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .0, .2),
   },

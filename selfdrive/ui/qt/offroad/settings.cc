@@ -150,7 +150,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   // Settings
    
   main_layout->addWidget(horizontal_line());
-  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune");
+  auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click only ONCE please be patient.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
@@ -162,7 +162,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(nTune);
   main_layout->addWidget(horizontal_line());
 
-  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE");
+  auto SR = new ButtonControl("Delete all UI Screen Recordings", "DELETE", "This Deletes all UI Screen recordings from /storage/emulated/0/videos");
   QObject::connect(SR, &ButtonControl::clicked, [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to delete all UI Screen Recordings?", this)){
       std::system("cd /storage/emulated/0/videos && rm *.*");
@@ -172,7 +172,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(SR);
   main_layout->addWidget(horizontal_line());
 
-  auto APN = new ButtonControl("Open Android Settings", "SETTINGS");
+  auto APN = new ButtonControl("Open Android Settings", "SETTINGS", "Opens Android Settings to adjust APN / Sim Card Settings, to exit settings without reboot click on `Printers` in Android Settings");
   QObject::connect(APN, &ButtonControl::clicked, [=]() { 
    if (ConfirmationDialog::confirm("Want to open Android Settings? Reboot required to exit.", this)) {
     std::system("am start -a android.settings.SETTINGS");
@@ -475,21 +475,21 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AutoLaneChangeEnabled",
                                             "Enable Auto Lane Change(Nudgeless)",
-                                            "warnings: it is beta, be careful!!",
+                                            "warnings: DO NOT TRUST BMS FOR ACCURATE BMS INFORMATION!!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves with HKG Long",
-                                            "",
+                                            "Enable Slow On Curves",
+                                            "Requires HKG Long: When activated with a properly setup car, The system will moderate speed around curves and corners.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSyncGasPressed",
                                             "Sync set speed on gas pressed",
-                                            "",
+                                            "Syncs the set speed with the cluster when gas is pressed.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
@@ -503,42 +503,42 @@ QWidget * community_panel() {
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("ShowDebugUI",
                                             "Show Debug UI",
-                                            "",
+                                            "Shows Longitudinal Debug stats when `Clean UI` option is off.",
                                             "../assets/offroad/icon_shell.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CustomLeadMark",
                                             "Use custom lead mark for HKG Long",
-                                            "",
+                                            "A animated bulls eye lead marker.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseSMDPSHarness",
                                             "Use SMDPS or MDPS harness",
-                                            "",
+                                            "For use with cars that can't steer down to zero and have the appropriate hardware.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("hotspot_on_boot",
                                             "Hot Spot On Car Start",
-                                            "",
+                                            "Wi-Fi Hot Spot starts on car start.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("c_wifi_offroad",
                                             "WiFi On Offroad",
-                                            "",
+                                            "Wi-Fi automatically turns back on after you shut off car.",
                                             "../assets/offroad/icon_road.png"
                                             ));
 
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("SSCOD",
                                             "Stop Screen Capture on disengage",
-                                            "Stop Screen Capture on disengage",
+                                            "Stop Screen Capture on disengage, loss of steering, or any other event.",
                                             "../assets/offroad/icon_road.png"
                                             ));
                                             
