@@ -1,13 +1,16 @@
 Version 0.8.6 (2021-21-7)
 ========================
+* Auto Start Recording with car start and car stop toggle.
+* Polish events and Settings.
+  * Settings now have descriptions that appear when you click on them.
 * Fixed Auto Hot-Spot and Auto WiFi.
-* Automatically Change Loading logo after vehicle identification on first start. Changes on reboot.
+* Automatically Change Loading logo after vehicle identification on the first start. Changes on reboot.
 * Update confirmation dialogs.
 * Update Stinger Longitudinal tune.
 * Update Kona, Kona EV lateral tune.
 * Update Kona EV Longitudinal tune.
 * Fixed Auto Update.
-* Better lanechanges.
+* Better lane changes.
 * Fix some more bugs.
 * Merge latest changes from Neokii and fix bugs.
 

@@ -421,3 +421,4 @@ void Device::updateWakefulness(const UIState &s) {
 
   setAwake(awake_timeout, should_wake);
 }
+

@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "selfdrive/common/params.cc"
+#include "selfdrive/ui/qt/onroad.h"
 
 #define CAPTURE_STATE_NONE 0
 #define CAPTURE_STATE_CAPTURING 1
@@ -302,8 +303,18 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
   }
 }
+// Auto Record - JPR
+void AR() {
+  
+  if (Params().getBool("AR") && Params().getBool("IsOnroad")) {
+    start_capture();
+  }
+   if (Params().getBool("AR") && Params().getBool("IsOffroad")) {
+    stop_capture();
+  }
+}
+void screen_toggle_record_state(){
 
-void screen_toggle_record_state() {
   if (captureState == CAPTURE_STATE_CAPTURING) {
     stop_capture();
     lock_current_video = false;
@@ -327,7 +338,7 @@ void screen_toggle_lock() {
 bool dashcam( UIState *s, int touch_x, int touch_y ) {
 
   bool touched = false;
-  
+  AR();
   screen_draw_button(s, touch_x, touch_y);
   if (screen_button_clicked(touch_x,touch_y)) {
     click_elapsed_time = get_time() - click_time;
@@ -338,7 +349,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       touched = true;
     }
   }
-
+  
   //if (screen_lock_button_clicked(touch_x,touch_y,lock_button)) {
   //  screen_toggle_lock();
   //  touched = true;
