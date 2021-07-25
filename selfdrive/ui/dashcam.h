@@ -329,14 +329,16 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   int count = 0;
   int count2= 0;
 
-  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
-      std::system("service call wifi 37 i32 0 i32 1 &");
-      ++count;
-  }
   if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad") && count > 0){
       std::system("service call wifi 37 i32 0 i32 0 &");
       int count = 0;
   }
+
+  if (Params().getBool("hotspot_on_boot") && !Params().getBool("IsOffroad") && count == 0){
+      std::system("service call wifi 37 i32 0 i32 1 &");
+      ++count;
+  }
+
   if (Params().getBool("AR") && Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING && count2 == 0) {
     start_capture();
     ++count2;

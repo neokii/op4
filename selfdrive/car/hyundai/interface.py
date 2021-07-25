@@ -245,7 +245,7 @@ class CarInterface(CarInterfaceBase):
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.lateralTuning.init('pid')
       ret.lateralTuning.pid.kf = 0.00005
-      ret.mass = 1685. + STD_CARGO_KG
+      ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.centerToFront = ret.wheelbase * 0.4
       ret.steerRatio = 13.73  # Spec
@@ -375,9 +375,15 @@ class CarInterface(CarInterfaceBase):
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1737. + STD_CARGO_KG
       ret.wheelbase = 2.7
-      tire_stiffness_factor = 0.7
+      ret.steerRatio = 13.73  # Spec
+      tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
       if candidate == CAR.KIA_NIRO_HEV:
+        ret.mass = 1737. + STD_CARGO_KG
+        ret.wheelbase = 2.7
+        ret.steerRatio = 13.73  # Spec
+        tire_stiffness_factor = 0.385
+        ret.centerToFront = ret.wheelbase * 0.4
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
