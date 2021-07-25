@@ -112,6 +112,23 @@ class CarInterface(CarInterfaceBase):
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
 
+      ret.lateralTuning.init('indi')
+      ret.lateralTuning.indi.innerLoopGainBP = [0.]
+      ret.lateralTuning.indi.innerLoopGainV = [3.1]
+      ret.lateralTuning.indi.outerLoopGainBP = [0.]
+      ret.lateralTuning.indi.outerLoopGainV = [2.5]
+      ret.lateralTuning.indi.timeConstantBP = [0.]
+      ret.lateralTuning.indi.timeConstantV = [1.4]
+      ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+      ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+
+    # longitudinal
+      ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.brakeMaxV = [3.5, 2.8, 1.78]
+      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
+
+
     elif candidate == CAR.GENESIS_G70:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.lateralTuning.init('indi')
@@ -227,6 +244,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.27 * 1.15  # 15% higher at the center seems reasonable
       tire_stiffness_factor = 0.65
     elif candidate == CAR.KONA:
+      ret.lateralTuning.init('pid')
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.lateralTuning.pid.kf = 0.00006
       ret.mass = 1685. + STD_CARGO_KG
@@ -238,6 +256,7 @@ class CarInterface(CarInterfaceBase):
       
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
+      ret.lateralTuning.init('pid')
       ret.lateralTuning.pid.kf = 0.00006
       ret.mass = 1685. + STD_CARGO_KG
       ret.wheelbase = 2.7
