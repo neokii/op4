@@ -9,7 +9,7 @@ class CarControllerParams:
   ACCEL_HYST_GAP = 0.02  # don't change accel command for small oscilalitons within this value
   ACCEL_MAX = 1.5
   ACCEL_MIN = -4.0
-  ACCEL_SCALE = 3.0  # max(ACCEL_MAX, -ACCEL_MIN)
+  ACCEL_SCALE = max(ACCEL_MAX, -ACCEL_MIN)
 
   STEER_MAX = 409   # 409 is the max, 255 is stock
   STEER_DELTA_UP = 3
