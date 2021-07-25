@@ -226,20 +226,23 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.65
     elif candidate == CAR.KONA:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
+      ret.lateralTuning.init('pid')
+      ret.lateralTuning.pid.kf = 0.00005
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.centerToFront = ret.wheelbase * 0.4
-      tire_stiffness_factor = 0.385
       ret.steerRatio = 13.73  # Spec
+      tire_stiffness_factor = 0.385
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
       
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
-      ret.mass = 1395. + STD_CARGO_KG
-      ret.wheelbase = 2.6
-      ret.centerToFront = ret.wheelbase * 0.4
-  #Tune for Lateral.
+      ret.lateralTuning.init('pid')
+      ret.lateralTuning.pid.kf = 0.00006
+      ret.mass = 1685. + STD_CARGO_KG
+      ret.wheelbase = 2.7
+      ret.centerToFront = ret.wheelbase * 0.4  
       ret.steerRatio = 13.73  # Spec
       tire_stiffness_factor = 0.385
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
