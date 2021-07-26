@@ -1,5 +1,6 @@
 Version 0.8.6 (2021-21-7)
 ========================
+* Stability Fixes.
 * Auto Start Recording with car start and car stop toggle.
 * Polish events and Settings.
   * Settings now have descriptions that appear when you click on them.
