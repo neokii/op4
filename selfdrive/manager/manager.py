@@ -59,7 +59,8 @@ def manager_init():
     ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
-    ("CleanUI", "1")
+    ("CleanUI", "1"),
+    ("AR", "0")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
