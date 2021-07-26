@@ -46,7 +46,7 @@ class CarState(CarStateBase):
     self.standstill = False
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
-	  self.spas_enabled = CP.spasEnabled
+    self.spas_enabled = CP.spasEnabled
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
 
   def update(self, cp, cp2, cp_cam):
