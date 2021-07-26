@@ -53,8 +53,6 @@ def manager_init():
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
-    ("hotspot_on_boot", "0"),
-    ("c_wifi_offroad", "0"),
     ("SSCOD", "0"),
     ("RVL", "0"),
     ("FuseWithStockScc", "0"),

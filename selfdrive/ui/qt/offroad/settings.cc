@@ -528,20 +528,6 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                             ));
 
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("hotspot_on_boot",
-                                            "Hot Spot On Car Start",
-                                            "Wi-Fi Hot Spot starts on car start.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
-
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("c_wifi_offroad",
-                                            "WiFi On Offroad",
-                                            "Wi-Fi automatically turns back on after you shut off car.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
-
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("SSCOD",
                                             "Stop Screen Capture on disengage",
