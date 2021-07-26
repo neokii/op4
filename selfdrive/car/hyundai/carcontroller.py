@@ -296,10 +296,10 @@ class CarController():
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
       elif CS.mdps_bus == 0:
         can_sends.append(create_hda_mfc(self.packer, activated_hda))
-		
-	if CS.spas_enabled:
-      if CS.mdps_bus:
-        can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
+      
+      if CS.spas_enabled:
+        if CS.mdps_bus:
+          can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
       # SPAS11 50hz
       if (frame % 2) == 0:
