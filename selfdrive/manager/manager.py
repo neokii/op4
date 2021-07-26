@@ -53,16 +53,13 @@ def manager_init():
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
-    ("hotspot_on_boot", "0"),
-    ("c_wifi_offroad", "0"),
     ("SSCOD", "0"),
     ("RVL", "0"),
     ("FuseWithStockScc", "0"),
     ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
-    ("CleanUI", "1"),
-    ("AR", "1")
+    ("CleanUI", "1")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
@@ -224,6 +221,19 @@ def main():
   if Params().get_bool("DoUninstall"):
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
+
+  count = 0
+  
+  if count == 0:
+    if Params().getBool('hotspot_on_boot') and Params().getBool('IsOnroad'):
+      os.system("service call wifi 37 i32 0 i32 1 &")
+      count = 1
+  if count > 0:
+    if Params().getBool('IsOffroad') and Params().getBool('c_wifi_offroad'):
+      os.system("service call wifi 37 i32 0 i32 0 &")
+      count = 0
+
+
 
 
 if __name__ == "__main__":
