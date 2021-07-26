@@ -418,12 +418,6 @@ QWidget * community_panel() {
 
 //settings - JPR
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("AR",
-                                            "Enable Auto Record",
-                                            "Starts recording on car start and stops on car off.",
-                                            "../assets/offroad/icon_road.png"
-                                              ));
-  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("CleanUI",
                                             "Enables Cleaner UI",
                                             "Removes most of the clutter.",
@@ -527,21 +521,6 @@ QWidget * community_panel() {
                                             "For use with cars that can't steer down to zero and have the appropriate hardware.",
                                             "../assets/offroad/icon_road.png"
                                             ));
-
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("hotspot_on_boot",
-                                            "Hot Spot On Car Start",
-                                            "Wi-Fi Hot Spot starts on car start.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
-
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("c_wifi_offroad",
-                                            "WiFi On Offroad",
-                                            "Wi-Fi automatically turns back on after you shut off car.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
-
   toggles_list->addWidget(horizontal_line());  
   toggles_list->addWidget(new ParamControl("SSCOD",
                                             "Stop Screen Capture on disengage",
