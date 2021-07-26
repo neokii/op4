@@ -3,7 +3,7 @@ from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
 from selfdrive.car import apply_std_steer_torque_limits
-from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
+from selfdrive.car.hyundai.hyundaican import create_ems11, create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
   create_mdps12, create_lfahda_mfc, create_hda_mfc, create_spas11, create_spas12
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
