@@ -242,13 +242,10 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"ShowDebugUI", PERSISTENT},
     {"CustomLeadMark", PERSISTENT},
     {"UseSMDPSHarness", PERSISTENT},
-    {"hotspot_on_boot", PERSISTENT},
-    {"c_wifi_offroad",PERSISTENT},
     {"SSCOD", PERSISTENT},
     {"RVL", PERSISTENT},
     {"LoggerEnabled", PERSISTENT},
     {"CleanUI", PERSISTENT},
-    {"AR", PERSISTENT},
 };
 
 } // namespace
