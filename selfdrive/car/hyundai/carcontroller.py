@@ -105,18 +105,6 @@ class CarController():
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
-    count = 0
-  
-    if count == 0:
-      if Params().getBool('hotspot_on_boot') and Params().getBool("IsOnroad"):
-        os.system("service call wifi 37 i32 0 i32 1 &")
-        count = 1
-    if count > 0:
-      if Params().getBool('IsOffroad') and Params().getBool('c_wifi_offroad'):
-        os.system("service call wifi 37 i32 0 i32 0 &")
-        count = 0
-
-
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     
     if Params().get_bool('LongControlEnabled'):
