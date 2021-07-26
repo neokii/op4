@@ -162,20 +162,15 @@ class CarInterface(CarInterfaceBase):
 
     elif candidate == CAR.GENESIS_EQ900:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
-      ret.mass = 2200
-      ret.wheelbase = 3.15
-      ret.centerToFront = ret.wheelbase * 0.4
-
+      ret.mass = 2060. + STD_CARGO_KG
+      ret.wheelbase = 3.01
       ret.steerRatio = 16.5
-      ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGainBP = [0.]
-      ret.lateralTuning.indi.innerLoopGainV = [3.1]
-      ret.lateralTuning.indi.outerLoopGainBP = [0.]
-      ret.lateralTuning.indi.outerLoopGainV = [2.5]
-      ret.lateralTuning.indi.timeConstantBP = [0.]
-      ret.lateralTuning.indi.timeConstantV = [1.4]
-      ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-      ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+      ret.lateralTuning.pid.kpBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
+      ret.lateralTuning.pid.kiBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kiV = [0.001, 0.0015, 0.002]
+      ret.lateralTuning.pid.kfBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kfV = [0.000015, 0.00002, 0.000025]
 
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
@@ -191,20 +186,15 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.GENESIS_G90:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
-      ret.mass = 2150
-      ret.wheelbase = 3.16
-      ret.centerToFront = ret.wheelbase * 0.4
-
+      ret.mass = 2060. + STD_CARGO_KG
+      ret.wheelbase = 3.01
       ret.steerRatio = 16.5
-      ret.lateralTuning.init('indi')
-      ret.lateralTuning.indi.innerLoopGainBP = [0.]
-      ret.lateralTuning.indi.innerLoopGainV = [3.1]
-      ret.lateralTuning.indi.outerLoopGainBP = [0.]
-      ret.lateralTuning.indi.outerLoopGainV = [2.5]
-      ret.lateralTuning.indi.timeConstantBP = [0.]
-      ret.lateralTuning.indi.timeConstantV = [1.4]
-      ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
-      ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
+      ret.lateralTuning.pid.kpBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
+      ret.lateralTuning.pid.kiBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kiV = [0.001, 0.0015, 0.002]
+      ret.lateralTuning.pid.kfBP = [0., 10., 30.]
+      ret.lateralTuning.pid.kfV = [0.000015, 0.00002, 0.000025]
 
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
