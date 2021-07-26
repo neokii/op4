@@ -355,32 +355,18 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   }
   //s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
   
-  
   int count = 0;
-  int count2= 0;
-  
+
   if (count == 0) {
-    if (Params().getBool("hotspot_on_boot") && Params().getBool("IsOnroad")){
-        std::system("service call wifi 37 i32 0 i32 1 &");
-        ++count;
+    if (Params().getBool("AR") && !Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
+      start_capture();
+      ++count;
     }
   }
   if (count > 0){
-    if (Params().getBool("IsOffroad") && Params().getBool("c_wifi_offroad")){
-        std::system("service call wifi 37 i32 0 i32 0 &");
-        count = 0;
-    }
-  }
-  if (count2 == 0) {
-    if (Params().getBool("AR") && !Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
-      start_capture();
-      ++count2;
-    }
-  }
-  if (count2 > 0){
     if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
       stop_capture();
-      count2 = 0;
+      count = 0;
     }
   }
   return touched;
