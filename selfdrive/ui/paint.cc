@@ -929,18 +929,18 @@ static void ui_draw_vision_speed(UIState *s) {
 
     if(s->scene.leftBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->fb_h + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->fb_h + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->fb_h + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->viz_rect.y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/1.4));
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
     }
     if(s->scene.rightBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->fb_h + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->fb_h + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->fb_h + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->viz_rect.y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/1.4));
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
