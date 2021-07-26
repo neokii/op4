@@ -1,6 +1,6 @@
-Version 0.8.6 (2021-21-7)
+Version 0.8.6 (2021-26-7)
 ========================
-* Removed Auto Hot-Spot and Auto WiFi and Auto Record due to stability issues.
+* Removed Auto Hot-Spot and Auto WiFi due to stability issues.
 * Stability Fixes.
 * Auto Start Recording with car start and car stop toggle.
 * Polish events and Settings.
