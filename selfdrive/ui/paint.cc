@@ -906,12 +906,12 @@ static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, (*s->sm)["controlsState"].getControlsState().getCluSpeedMs() * (s->scene.is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, s->scene.car_state.getBrakeLights()?nvgRGBA(255, 66, 66, 255):nvgRGBA(0, 204, 0, 255), "sans-bold");
-  ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
+  ui_draw_text(s, s->fb_w/2, 240, speed_str.c_str(), 96 * 2.5, s->scene.car_state.getBrakeLights()?nvgRGBA(255, 66, 66, 255):nvgRGBA(0, 204, 0, 255), "sans-bold");
+  ui_draw_text(s, s->fb_w/2, 320, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
 
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
-  const int viz_blinker_x = s->viz_rect.centerX() - 140;
+  const int viz_blinker_x = s->fb_w/2 - 140;
   const int viz_add = 50;
 
   if(s->scene.leftBlinker || s->scene.rightBlinker) {
@@ -929,18 +929,18 @@ static void ui_draw_vision_speed(UIState *s) {
 
     if(s->scene.leftBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->viz_rect.y + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->viz_rect.y + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->fb_y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset) - (viz_blinker_w/2), s->fb_y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x - (viz_add*offset)                    , s->fb_y + (header_h/1.4));
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
     }
     if(s->scene.rightBlinker) {
       nvgBeginPath(s->vg);
-      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/4.2));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->viz_rect.y + (header_h/2.1));
-      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->viz_rect.y + (header_h/1.4));
+      nvgMoveTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->fb_y + (header_h/4.2));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + (viz_blinker_w*1.5), s->fb_y + (header_h/2.1));
+      nvgLineTo(s->vg, viz_blinker_x + (viz_add*offset) + viz_blinker_w      , s->fb_y + (header_h/1.4));
       nvgClosePath(s->vg);
       nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
       nvgFill(s->vg);
