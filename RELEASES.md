@@ -1,3 +1,6 @@
+Version 0.8.7 (2021-)
+========================
+
 Version 0.8.6 (2021-26-7)
 ========================
 * Removed Auto Hot-Spot and Auto WiFi due to stability issues.

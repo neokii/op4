@@ -2,7 +2,7 @@
 
 https://github.com/xx979xx/openpilot
 
-It is open source and inherits MIT license. It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
+It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
 
 
 ------------------------------------------------------
@@ -214,6 +214,7 @@ Community Maintained Cars and Features
 | Volkswagen| Jetta 2018-20                 | Driver Assistance | Stock            | 0mph               | 0mph         |
 | Volkswagen| Jetta GLI 2021                | Driver Assistance | Stock            | 0mph               | 0mph         |
 | Volkswagen| Passat 2016-17<sup>2</sup>    | Driver Assistance | Stock            | 0mph               | 0mph         |
+| Volkswagen| T-Cross 2021                  | Driver Assistance | Stock            | 0mph               | 0mph         |
 | Volkswagen| Tiguan 2020                   | Driver Assistance | Stock            | 0mph               | 0mph         |
 | Volkswagen| Touran 2017                   | Driver Assistance | Stock            | 0mph               | 0mph         |
 
@@ -314,7 +315,7 @@ Safety and Testing
 ----
 
 * openpilot observes ISO26262 guidelines, see [SAFETY.md](SAFETY.md) for more details.
-* openpilot has software in the loop [tests](.github/workflows/test.yaml) that run on every commit.
+* openpilot has software in the loop [tests](.github/workflows/selfdrive_tests.yaml) that run on every commit.
 * The safety model code lives in panda and is written in C, see [code rigor](https://github.com/commaai/panda#code-rigor) for more details.
 * panda has software in the loop [safety tests](https://github.com/commaai/panda/tree/master/tests/safety).
 * Internally, we have a hardware in the loop Jenkins test suite that builds and unit tests the various processes.
