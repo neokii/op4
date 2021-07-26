@@ -361,7 +361,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       start_capture();
       ++count;
     }
-  }
+  
   if (count > 0){
     if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
       stop_capture();
