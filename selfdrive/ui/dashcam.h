@@ -311,7 +311,7 @@ void screen_toggle_record_state(){
     lock_current_video = false;
   }
   else {
-    //captureState = CAPTURE_STATE_CAPTURING;
+    captureState = CAPTURE_STATE_CAPTURING;
     start_capture();
   }
 }
