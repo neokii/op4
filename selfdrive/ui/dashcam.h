@@ -367,6 +367,6 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       stop_capture();
       count = 0;
     }
-  }
+  
   return touched;
 }
