@@ -357,13 +357,13 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   
   int count = 0;
 
-    if (Params().getBool("AR") && !Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
+    if (Params().getBool("AR") && !Params().getBool("IsOnroad") && count == 0 && captureState == CAPTURE_STATE_NOT_CAPTURING) {
       start_capture();
       ++count;
     }
   
-  if (count > 0){
-    if (Params().getBool("AR") && Params().getBool("IsOffroad") && captureState == CAPTURE_STATE_CAPTURING) {
+
+    if (Params().getBool("AR") && Params().getBool("IsOffroad") && count > 0 && captureState == CAPTURE_STATE_CAPTURING) {
       stop_capture();
       count = 0;
     }
