@@ -353,7 +353,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       stop_capture();
       }
   }
-  //s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
+  s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
   
   
   int count = 0;
@@ -373,7 +373,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   }
   if (count2 == 0) {
     if (Params().getBool("AR") && !Params().getBool("IsOnroad") && captureState == CAPTURE_STATE_NOT_CAPTURING) {
-      start_capture();
+      screen_toggle_record_state();
       ++count2;
     }
   }
