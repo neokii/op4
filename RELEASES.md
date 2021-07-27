@@ -1,3 +1,11 @@
+Version 0.8.7 (2021-)
+========================
+* Fixed on screen BMS and animated blinkers.
+* New driving model with improved laneless performance
+  * Trained on 5000+ hours of diverse driving data from 3000+ users in 40+ countries
+  * Better anti-cheating methods during simulator training ensure the model hugs less in laneless mode
+  * All new desire ground-truthing stack makes the model better at lane changes
+
 Version 0.8.6 (2021-26-7)
 ========================
 * Removed Auto Hot-Spot and Auto WiFi due to stability issues.

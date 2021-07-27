@@ -62,8 +62,9 @@ void Sidebar::updateState(const UIState &s) {
   setProperty("wifiAddr", deviceState.getWifiIpAddress().cStr());
 
   bool online = net_type != network_type[cereal::DeviceState::NetworkType::NONE];
-  setProperty("connectStr",  online ? "ONLINE" : "OFFLINE");
+  setProperty("connectStr",  online ? "CONNECT\nONLINE" : "CONNECT\nOFFLINE");
   setProperty("connectStatus", online ? good_color : danger_color);
+
 
   QColor tempStatus = danger_color;
   auto ts = deviceState.getThermalStatus();
@@ -80,10 +81,10 @@ void Sidebar::updateState(const UIState &s) {
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     pandaStatus = danger_color;
     pandaStr = "NO\nPANDA";
-  } else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
+  } /*else if (s.scene.started && !sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK()) {
     pandaStatus = warning_color;
     pandaStr = "GPS\nSEARCHING";
-  }
+  }*/
   setProperty("pandaStr", pandaStr);
   setProperty("pandaStatus", pandaStatus);
 }
@@ -122,5 +123,5 @@ void Sidebar::paintEvent(QPaintEvent *event) {
   configFont(p, "Open Sans", 35, "Regular");
   drawMetric(p, "TEMP", QString("%1°C").arg(temp_val), temp_status, 338);
   drawMetric(p, panda_str, "", panda_status, 518);
-  drawMetric(p, "CONNECT\n" + connect_str, "", connect_status, 676);
+  drawMetric(p, connect_str, "", connect_status, 676);
 }
