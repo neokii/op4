@@ -910,7 +910,7 @@ static void ui_draw_vision_speed(UIState *s) {
   ui_draw_text(s, s->fb_w/2, 290, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
 
   // turning blinker sequential crwusiz / mod by arne-fork Togo
-  const int viz_blinker_w = 280;
+  const int viz_blinker_w = 180;
   const int viz_blinker_x = s->viz_rect.centerX();
   const int viz_add = 50;
 
