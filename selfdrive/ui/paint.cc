@@ -970,7 +970,7 @@ static void ui_draw_vision_face(UIState *s) {
 static void ui_draw_vision_bsd_left(UIState *s) {
   const int radius = 85;
   const int bsd_x = (s->fb_w + radius + (bdr_s*25));
-  const int bsd_y = (s->fb_h) - footer_h * 1.8);
+  const int bsd_y = (s->fb_h - footer_h * 1.8);
   ui_draw_circle_image(s, bsd_x, bsd_y - (radius*2), radius, "bsd_l", s->scene.car_state.getLeftBlindspot());
 }
 
