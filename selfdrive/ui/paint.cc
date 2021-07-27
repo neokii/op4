@@ -911,7 +911,7 @@ static void ui_draw_vision_speed(UIState *s) {
 
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
-  const int viz_blinker_x = s->viz_rect.centerX() - 140;
+  const int viz_blinker_x = s->fb_w/2 - 140;
   const int viz_add = 50;
 
   if(s->scene.leftBlinker || s->scene.rightBlinker) {
@@ -970,14 +970,14 @@ static void ui_draw_vision_face(UIState *s) {
 static void ui_draw_vision_bsd_left(UIState *s) {
   const int radius = 85;
   const int bsd_x = (s->viz_rect.x + radius + (bdr_s*25));
-  const int bsd_y = (s->viz_rect.bottom() - footer_h * 1.8);
+  const int bsd_y = (s->fb_h - footer_h * 1.8);
   ui_draw_circle_image(s, bsd_x, bsd_y - (radius*2), radius, "bsd_l", s->scene.car_state.getLeftBlindspot());
 }
 
 static void ui_draw_vision_bsd_right(UIState *s) {
   const int radius = 85;
   const int bsd_x = (s->viz_rect.x + radius + (bdr_s*52));
-  const int bsd_y = (s->viz_rect.bottom() - footer_h * 1.8);
+  const int bsd_y = (s->fb_h - footer_h * 1.8);
   ui_draw_circle_image(s, bsd_x + (radius*2), bsd_y - (radius*2), radius, "bsd_r", s->scene.car_state.getRightBlindspot());
 }
 
