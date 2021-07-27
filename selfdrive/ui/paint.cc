@@ -100,8 +100,8 @@ static void draw_lead(UIState *s, const cereal::RadarState::LeadData::Reader &le
   }
 
   float sz = std::clamp((25 * 30) / (d_rel / 3 + 30), 15.0f, 30.0f) * 2.35;
-  x = std::clamp(x, 0.f, s->viz_rect.right() - sz / 2);
-  y = std::fmin(s->viz_rect.bottom() - sz * .6, y);
+  x = std::clamp(x, 0.f, s->fb_w - sz / 2);
+  y = std::fmin(s->fb_h - sz * .6, y);
 
   NVGcolor color = COLOR_YELLOW;
   if(lead_data.getRadar())
@@ -131,7 +131,7 @@ static void draw_lead_custom(UIState *s, const cereal::RadarState::LeadData::Rea
     float zoom = ZOOM / intrinsic_matrix.v[0];
 
     float sz = std::clamp((25 * 30) / (d_rel / 3 + 30), 15.0f, 30.0f) * zoom;
-    x = std::clamp(x, 0.f, s->viz_rect.right() - sz / 2);
+    x = std::clamp(x, 0.f, s->fb_w - sz / 2);
 
     if(d_rel < 30) {
       const float c = 0.7f;
@@ -140,8 +140,8 @@ static void draw_lead_custom(UIState *s, const cereal::RadarState::LeadData::Rea
         y = y * r;
     }
 
-    y = std::fmin(s->viz_rect.bottom() - sz * .6, y);
-    y = std::fmin(s->viz_rect.bottom() * 0.8f, y);
+    y = std::fmin(s->fb_h - sz * .6, y);
+    y = std::fmin(s->fb_h * 0.8f, y);
 
     float bg_alpha = 1.0f;
     float img_alpha = 1.0f;
@@ -670,8 +670,8 @@ static void bb_ui_draw_basic_info(UIState *s)
                                                         sccLogMessage.c_str()
                                                         );
 
-    int x = s->viz_rect.x + (bdr_s * 2);
-    int y = s->viz_rect.bottom() - 24;
+    int x = bdr_s * 2;
+    int y = s->fb_h - 24;
 
     nvgTextAlign(s->vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
 
@@ -688,7 +688,7 @@ static void bb_ui_draw_debug(UIState *s)
 
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
 
-    const int text_x = s->viz_rect.centerX() + s->viz_rect.w * 10 / 55;
+    const int text_x = s->fb_w/2 + s->fb_w * 10 / 55;
 
     auto controls_state = (*s->sm)["controlsState"].getControlsState();
     auto car_control = (*s->sm)["carControl"].getCarControl();
@@ -754,11 +754,11 @@ static void bb_ui_draw_debug(UIState *s)
 static void bb_ui_draw_UI(UIState *s)
 {
   const int bb_dml_w = 180;
-  const int bb_dml_x = (s->viz_rect.x + (bdr_is * 2));
+  const int bb_dml_x = bdr_is * 2;
   const int bb_dml_y = (box_y + (bdr_is * 1.5)) + UI_FEATURE_LEFT_Y;
 
   const int bb_dmr_w = 180;
-  const int bb_dmr_x = s->viz_rect.x + s->viz_rect.w - bb_dmr_w - (bdr_is * 2);
+  const int bb_dmr_x = s->fb_w - bb_dmr_w - (bdr_is * 2);
   const int bb_dmr_y = (box_y + (bdr_is * 1.5)) + UI_FEATURE_RIGHT_Y;
 
 #if UI_FEATURE_LEFT
@@ -785,8 +785,8 @@ static void ui_draw_vision_scc_gap(UIState *s) {
   int autoTrGap = scc_smoother.getAutoTrGap();
 
   const int radius = 96;
-  const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
-  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+  const int center_x = radius + (bdr_s * 2);
+  const int center_y = s->fb_h - footer_h / 2;
 
   NVGcolor color_bg = nvgRGBA(0, 0, 0, (255 * 0.1f));
 
@@ -823,8 +823,8 @@ static void ui_draw_vision_brake(UIState *s) {
   const UIScene *scene = &s->scene;
 
   const int radius = 96;
-  const int center_x = s->viz_rect.x + radius + (bdr_s * 2) + radius*2 + 60;
-  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+  const int center_x = radius + (bdr_s * 2) + radius*2 + 60;
+  const int center_y = s->fb_h - footer_h / 2;
 
   auto car_state = (*s->sm)["carState"].getCarState();
   bool brake_valid = car_state.getBrakeLights();
@@ -842,8 +842,8 @@ static void ui_draw_vision_autohold(UIState *s) {
     return;
 
   const int radius = 96;
-  const int center_x = s->viz_rect.x + radius + (bdr_s * 2) + (radius*2 + 60) * 2;
-  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+  const int center_x = radius + (bdr_s * 2) + (radius*2 + 60) * 2;
+  const int center_y = s->fb_h - footer_h / 2;
 
   float brake_img_alpha = autohold > 0 ? 1.0f : 0.15f;
   float brake_bg_alpha = autohold > 0 ? 0.3f : 0.1f;
@@ -866,7 +866,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 
   bool is_cruise_set = (cruiseRealMaxSpeed > 0 && cruiseRealMaxSpeed < 255);
 
-  const Rect rect = {s->viz_rect.x + (bdr_s * 2), int(s->viz_rect.y + (bdr_s * 1.5)), 184, 202};
+  const Rect rect = {bdr_s * 2, int(bdr_s * 1.5), 184, 202};
   ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(100), 30.);
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(100), 10, 20.);
 
@@ -882,23 +882,23 @@ static void ui_draw_vision_maxspeed(UIState *s) {
     else
         snprintf(str, sizeof(str), "%d", (int)(cruiseVirtualMaxSpeed*0.621371 + 0.5));
 
-    ui_draw_text(s, text_x, 100, str, 33 * 2.5, COLOR_WHITE, "sans-semibold");
+    ui_draw_text(s, text_x, 98+bdr_s, str, 33 * 2.5, COLOR_WHITE, "sans-semibold");
 
     if(s->scene.is_metric)
         snprintf(str, sizeof(str), "%d", (int)(cruiseRealMaxSpeed + 0.5));
     else
         snprintf(str, sizeof(str), "%d", (int)(cruiseRealMaxSpeed*0.621371 + 0.5));
 
-    ui_draw_text(s, text_x, 195, str, 48 * 2.5, COLOR_WHITE, "sans-bold");
+    ui_draw_text(s, text_x, 192+bdr_s, str, 48 * 2.5, COLOR_WHITE, "sans-bold");
   }
   else
   {
     if(longControl)
-        ui_draw_text(s, text_x, 100, "OP", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+        ui_draw_text(s, text_x, 98+bdr_s, "OP", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
     else
-        ui_draw_text(s, text_x, 100, "MAX", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+        ui_draw_text(s, text_x, 98+bdr_s, "MAX", 25 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
 
-    ui_draw_text(s, text_x, 195, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
+    ui_draw_text(s, text_x, 192+bdr_s, "N/A", 42 * 2.5, COLOR_WHITE_ALPHA(100), "sans-semibold");
   }
 }
 
@@ -906,8 +906,8 @@ static void ui_draw_vision_speed(UIState *s) {
   const float speed = std::max(0.0, (*s->sm)["controlsState"].getControlsState().getCluSpeedMs() * (s->scene.is_metric ? 3.6 : 2.2369363));
   const std::string speed_str = std::to_string((int)std::nearbyint(speed));
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  ui_draw_text(s, s->viz_rect.centerX(), 240, speed_str.c_str(), 96 * 2.5, s->scene.car_state.getBrakeLights()?nvgRGBA(255, 66, 66, 255):nvgRGBA(0, 204, 0, 255), "sans-bold");
-  ui_draw_text(s, s->viz_rect.centerX(), 320, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
+  ui_draw_text(s, s->fb_w/2, 210, speed_str.c_str(), 96 * 2.5, s->scene.car_state.getBrakeLights()?nvgRGBA(255, 66, 66, 255):nvgRGBA(0, 204, 0, 255), "sans-bold");
+  ui_draw_text(s, s->fb_w/2, 290, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
 
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
@@ -952,8 +952,8 @@ static void ui_draw_vision_event(UIState *s) {
   if (s->scene.engageable) {
     // draw steering wheel
     const int radius = 96;
-    const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
-    const int center_y = s->viz_rect.y + radius  + (bdr_s * 1.5);
+    const int center_x = s->fb_w - radius - bdr_s * 2;
+    const int center_y = radius  + (bdr_s * 1.5);
     const QColor &color = bg_colors[s->status];
     NVGcolor nvg_color = nvgRGBA(color.red(), color.green(), color.blue(), color.alpha());
     ui_draw_circle_image(s, center_x, center_y, radius, "wheel", nvg_color, 1.0f);
@@ -962,8 +962,8 @@ static void ui_draw_vision_event(UIState *s) {
 
 static void ui_draw_vision_face(UIState *s) {
   const int radius = 96;
-  const int center_x = s->viz_rect.x + radius + (bdr_s * 2);
-  const int center_y = s->viz_rect.bottom() - footer_h / 2;
+  const int center_x = radius + (bdr_s * 2);
+  const int center_y = s->fb_h - footer_h / 2;
   ui_draw_circle_image(s, center_x, center_y, radius, "driver_face", s->scene.dm_active);
 }
 
@@ -982,13 +982,9 @@ static void ui_draw_vision_bsd_right(UIState *s) {
 }
 
 static void ui_draw_vision_header(UIState *s) {
-  NVGpaint gradient = nvgLinearGradient(s->vg, s->viz_rect.x,
-                        s->viz_rect.y+(header_h-(header_h/2.5)),
-                        s->viz_rect.x, s->viz_rect.y+header_h,
-                        nvgRGBAf(0,0,0,0.45), nvgRGBAf(0,0,0,0));
-
-  ui_fill_rect(s->vg, {s->viz_rect.x, s->viz_rect.y, s->viz_rect.w, header_h}, gradient);
-
+  NVGpaint gradient = nvgLinearGradient(s->vg, 0, header_h - (header_h / 2.5), 0, header_h,
+                                        nvgRGBAf(0, 0, 0, 0.45), nvgRGBAf(0, 0, 0, 0));
+  ui_fill_rect(s->vg, {0, 0, s->fb_w , header_h}, gradient);
   ui_draw_vision_maxspeed(s);
   ui_draw_vision_speed(s);
   ui_draw_extras(s);
