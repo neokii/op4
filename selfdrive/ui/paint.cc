@@ -911,7 +911,7 @@ static void ui_draw_vision_speed(UIState *s) {
 
   // turning blinker sequential crwusiz / mod by arne-fork Togo
   const int viz_blinker_w = 280;
-  const int viz_blinker_x = s->fb_w/2 - 40;
+  const int viz_blinker_x = s->fb_w/2 - 140;
   const int viz_add = 50;
 
   if(s->scene.leftBlinker || s->scene.rightBlinker) {
