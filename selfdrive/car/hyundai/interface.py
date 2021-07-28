@@ -87,14 +87,11 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.07, 0.03]
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
-
-    
-    # longitudinal
-      ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.brakeMaxV = [3.5, 2.8, 1.78]
-      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
 
+    ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+    ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+    ret.brakeMaxV = [2.3, 1.5, 0.8]
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
 
@@ -157,7 +154,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.07, 0.03]
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
-      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
 
     elif candidate == CAR.GENESIS_EQ900:
@@ -283,9 +279,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.07, 0.03]
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
-      ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.brakeMaxV = [2.5, 1.8, 0.78]
-      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
@@ -360,9 +353,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [0.07, 0.03]
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
-      ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.brakeMaxV = [2.3, 1.5, 0.8]
-      ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.FORTE:
