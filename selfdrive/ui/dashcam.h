@@ -270,7 +270,7 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     int btn_w = 180;
     int btn_h = 180;
     int btn_x = s->fb_w - btn_w - (bdr_s * 2);
-    int btn_y = s->fb_h + (bdr_s * 2) - btn_h - 45;
+    int btn_y = s->fb_h - btn_h - 45;
     nvgBeginPath(s->vg);
     nvgRoundedRect(s->vg, btn_x, btn_y, btn_w, btn_h, 100);
     nvgStrokeColor(s->vg, nvgRGBA(255,255,255,80));
@@ -357,7 +357,7 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
   
   int count = 0;
 
-    if (Params().getBool("AR") && !Params().getBool("IsOnroad") && count == 0 && captureState == CAPTURE_STATE_NOT_CAPTURING) {
+    if (Params().getBool("AR") && !Params().getBool("IsOffroad") && count == 0 && captureState == CAPTURE_STATE_NOT_CAPTURING) {
       start_capture();
       ++count;
     }
