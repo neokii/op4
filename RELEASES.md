@@ -1,5 +1,6 @@
 Version 0.8.7 (2021-)
 ========================
+* Fixed Kia Niro 2019 HEV FW Fingerprint V2
 * Fixed on screen BMS and animated blinkers.
 * New driving model with improved laneless performance
   * Trained on 5000+ hours of diverse driving data from 3000+ users in 40+ countries
