@@ -438,7 +438,12 @@ QWidget * community_panel() {
                                             "Use cluster speed instead of wheel speed.",
                                             "../assets/offroad/icon_road.png"
                                               ));
-
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("UseLQR",
+                                            "Enable Linear Quadratic Ratio Lateral Control",
+                                            "Warning please run nTune after 15-20 miles of driving.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",
