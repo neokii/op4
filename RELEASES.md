@@ -7,7 +7,7 @@ Version 0.8.7 (2021-)
   * Better anti-cheating methods during simulator training ensure the model hugs less in laneless mode
   * All new desire ground-truthing stack makes the model better at lane changes
 
-Version 0.8.6 (2021-26-7)
+Version 0.8.6 (2021-7-26)
 ========================
 * Removed Auto Hot-Spot and Auto WiFi due to stability issues.
 * Stability Fixes.
@@ -26,7 +26,7 @@ Version 0.8.6 (2021-26-7)
 * Merge latest changes from Neokii and fix bugs.
 
 
-Version 0.8.6 (2021-16-7)
+Version 0.8.6 (2021-7-16)
 ========================
 * Update Stinger Tune
 * Update minimum lane change speed to 20mph.
@@ -45,7 +45,7 @@ Version 0.8.6 (2021-16-7)
 
 
 
-Version 0.8.6 (2021-13-7)
+Version 0.8.6 (2021-7-13)
 ========================
 * Fixed some G90 missing Finger Prints.
 * Fix SMDPS code, min steer speeds, and set speeds.
