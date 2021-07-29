@@ -82,7 +82,7 @@ class CarController():
       self.apply_steer_ang = 0.0
       self.en_spas = 3
       self.mdps11_stat_last = 0
-      self.spas_always = False
+      self.spas_always = Params().get_bool('spasAlways')
 
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
@@ -109,7 +109,7 @@ class CarController():
 
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_steer_ang_req = clip(actuators.steerAngle, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
+      apply_steer_ang_req = clip(actuators.steeringAngleDeg, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
       # SPAS limit angle rate for safety
       if abs(self.apply_steer_ang - apply_steer_ang_req) > STEER_ANG_MAX_RATE:
         if apply_steer_ang_req > self.apply_steer_ang:
