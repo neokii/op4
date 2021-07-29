@@ -191,7 +191,6 @@ class CarState(CarStateBase):
     self.ems11 = cp.vl["EMS11"]
     self.mdps11_strang = cp_mdps.vl["MDPS11"]["CR_Mdps_StrAng"]
     self.mdps11_stat = cp_mdps.vl["MDPS11"]["CF_Mdps_Stat"]
-
     self.lkas_error = cp_cam.vl["LKAS11"]["CF_Lkas_LdwsSysState"] == 7
     if not self.lkas_error and self.car_fingerprint not in [CAR.SONATA,CAR.PALISADE,
                     CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]:

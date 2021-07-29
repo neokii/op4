@@ -7,7 +7,7 @@ from selfdrive.car.hyundai.hyundaican import create_ems11, create_lkas11, create
   create_scc11, create_scc12, create_scc13, create_scc14, \
   create_mdps12, create_lfahda_mfc, create_hda_mfc, create_spas11, create_spas12
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
-from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams
+from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams, CHECKSUM
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
 from common.params import Params
@@ -121,7 +121,7 @@ class CarController():
           self.apply_steer_ang -= STEER_ANG_MAX_RATE
       else:
         self.apply_steer_ang = apply_steer_ang_req
-    spas_active = Params().get_bool('spasEnabled') and enabled and (self.spas_always or CS.out.vEgo < 7.0) # 25km/h
+    spas_active = Params().get_bool('spasEnabled') and enabled and (self.spas_always or CS.out.vEgo < 8.0) # 25km/h
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
@@ -318,12 +318,13 @@ class CarController():
       # activated_hda: 0 - off, 1 - main road, 2 - highway
       if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
+      if Params().get_bool('spasEnabled'):
+        if CS.mdps_bus:
+          can_sends.append(create_ems11(self.packer, CS.ems11, spas_active)) 
       elif CS.mdps_bus == 0:
         can_sends.append(create_hda_mfc(self.packer, activated_hda))
       
-      if Params().get_bool('spasEnabled'):
-        if CS.mdps_bus:
-          can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
+      
 
         # SPAS11 50hz
     if (self.cnt % 2) == 0 and not Params().get_bool('spasEnabled'):
@@ -347,7 +348,7 @@ class CarController():
 
       self.mdps11_stat_last = CS.mdps11_stat
       self.en_cnt += 1
-      can_sends.append(create_spas11(self.packer, (self.spas_cnt / 2), self.en_spas, self.apply_steer_ang, self.checksum))
+      can_sends.append(create_spas11(self.packer, (self.spas_cnt / 2), self.en_spas, self.apply_steer_ang, CHECKSUM))
     
     # SPAS12 20Hz
     if (self.cnt % 5) == 0 and not Params().get_bool('spasEnabled'):
