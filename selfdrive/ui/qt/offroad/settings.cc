@@ -142,8 +142,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click only ONCE please be patient.", this)){
       std::system("cd /data/openpilot/selfdrive && python ntune.py");
-      if (ConfirmationDialog::confirm("nTune Ran Successfully. Reboot?", this)){
-        std::system("reboot");
+      if (ConfirmationDialog::confirm("nTune Ran Successfully.", this)){
       }    
     }
   });
@@ -438,7 +437,12 @@ QWidget * community_panel() {
                                             "Use cluster speed instead of wheel speed.",
                                             "../assets/offroad/icon_road.png"
                                               ));
-
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("UseLQR",
+                                            "Enable LQR Lateral Control",
+                                            "For Linear Quadratic Ratio Control: Warning please run nTune after 15-20 miles of driving.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",
