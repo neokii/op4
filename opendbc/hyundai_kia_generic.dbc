@@ -1543,7 +1543,12 @@ BO_ 908 RSPA11: 8 RSPA
  SG_ CF_RSPA_AliveCounter : 52|4@1+ (1,0) [0|15] "" XXX
  SG_ CF_RSPA_CRC : 56|8@1+ (1,0) [0|255] "" XXX
 
-
+BO_ 914 S_MDPS11: 8 XXX
+ SG_ CF_Mdps_Stat : 0|4@1+ (1,0) [0|15] "" XXX
+ SG_ CR_Mdps_DrvTq : 8|12@1+ (1,0) [0|15] "" XXX
+ SG_ CR_Mdps_StrAng : 24|16@1- (1,0) [0|65535] "" XXX
+ SG_ CF_Mdps_AliveCnt : 47|8@0+ (1,0) [0|255] "" XXX
+ SG_ CF_Mdps_Chksum : 63|8@0+ (1,0) [0|255] "" XXX
 
 BO_ 357 S_MDPS12: 8 XXX
  SG_ NEW_SIGNAL_1 : 0|12@1+ (1,0) [0|4095] "" XXX
