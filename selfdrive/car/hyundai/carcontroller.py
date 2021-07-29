@@ -175,7 +175,7 @@ class CarController():
       self.lkas = True
     if not lkas_active:
       apply_steer = 0
-      
+
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
@@ -320,7 +320,7 @@ class CarController():
           can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
         # SPAS11 50hz
-    if (self.cnt % 2) == 0 and not self.spas_present:
+    if (self.cnt % 2) == 0 and not Params().get_bool('spasEnabled'):
       if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
         self.en_spas == 7
         self.en_cnt = 0
