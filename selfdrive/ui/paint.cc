@@ -1019,19 +1019,14 @@ static void ui_draw_vision(UIState *s) {
 }
 
 void ui_draw(UIState *s, int w, int h) {
-  s->viz_rect = Rect{bdr_s, bdr_s, w - 2 * bdr_s, h - 2 * bdr_s};
-
   const bool draw_vision = s->scene.started && s->vipc_client->connected;
 
-  // GL drawing functions
-  ui_draw_background(s);
+  glViewport(0, 0, s->fb_w, s->fb_h);
   if (draw_vision) {
     ui_draw_vision_frame(s);
   }
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glViewport(0, 0, s->fb_w, s->fb_h);
-
   // NVG drawing functions - should be no GL inside NVG frame
   nvgBeginFrame(s->vg, s->fb_w, s->fb_h, 1.0f);
   if (draw_vision) {
