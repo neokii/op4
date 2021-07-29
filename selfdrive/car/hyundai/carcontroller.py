@@ -134,7 +134,7 @@ class CarController():
       min_set_speed = 30 * CV.KPH_TO_MS
 
     # SPAS limit angle extremes for safety
-    apply_steer_ang_req = np.clip(actuators.steerAngle, -1*(SteerLimitParams.STEER_ANG_MAX), SteerLimitParams.STEER_ANG_MAX)
+    apply_steer_ang_req = clip(actuators.steerAngle, -1*(CS.CP.maxSteeringAngleDeg), CS.CP.maxSteeringAngleDeg)
     # SPAS limit angle rate for safety
     if abs(self.apply_steer_ang - apply_steer_ang_req) > 0.6:
       if apply_steer_ang_req > self.apply_steer_ang:
