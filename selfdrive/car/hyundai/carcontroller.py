@@ -118,17 +118,7 @@ class CarController():
           self.apply_steer_ang -= STEER_ANG_MAX_RATE
       else:
         self.apply_steer_ang = apply_steer_ang_req
-    spas_active = False
-    if CS.out.vEgo == 0:
-      spas_active = True
-    elif CS.out.vEgo > 2.5:
-      spas_active = False
-    elif CS.out.vEgo > 2.5 and spas_active == False:
-      spas_active = False
-    elif CS.out.vEgo <= 2.5 and spas_active == False:
-      spas_active = False
-    elif CS.out.vEgo < 2.5 and spas_active == True:
-      spas_active = True
+      spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 2.5) # 25km/h
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
@@ -310,7 +300,7 @@ class CarController():
       if CS.mdps_bus:
         can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
-      if (frame % 2) == 0:
+      if (frame % 2) == 0 and not Params().get_bool('spasEnabled'):
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
           self.en_spas = 7
           self.en_cnt = 0
@@ -334,7 +324,7 @@ class CarController():
         can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, self.apply_steer_ang, CS.mdps_bus))
 
       # SPAS12 20Hz
-      if (frame % 5) == 0:
+      if (frame % 5) == 0 and not Params().get_bool('spasEnabled'):
         can_sends.append(create_spas12(CS.mdps_bus))
 
     return can_sends
