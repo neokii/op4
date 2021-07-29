@@ -1000,6 +1000,7 @@ static void ui_draw_vision_header(UIState *s) {
   else{
     bb_ui_draw_UI(s);
   }
+}
 
 static void ui_draw_vision_frame(UIState *s) {
   // Draw video frames
