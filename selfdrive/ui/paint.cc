@@ -1019,6 +1019,7 @@ static void ui_draw_vision(UIState *s) {
 }
 
 void ui_draw(UIState *s, int w, int h) {
+  s->viz_rect = Rect{bdr_s, bdr_s, w - 2 * bdr_s, h - 2 * bdr_s};
   const bool draw_vision = s->scene.started && s->vipc_client->connected;
 
   glViewport(0, 0, s->fb_w, s->fb_h);
