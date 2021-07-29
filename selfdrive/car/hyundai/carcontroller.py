@@ -218,6 +218,12 @@ class CarController():
     self.scc12_cnt %= 0xF
 
     can_sends = []
+    
+    self.lkas11_cnt = self.cnt % 0x10
+    self.clu11_cnt = self.cnt % 0x10
+    self.mdps12_cnt = self.cnt % 0x100
+    self.spas_cnt = self.cnt % 0x200
+
     can_sends.append(create_lkas11(self.packer, frame, self.car_fingerprint, apply_steer, lkas_active,
                                    CS.lkas11, sys_warning, sys_state, enabled, left_lane, right_lane,
                                    left_lane_warning, right_lane_warning, 0))
@@ -344,7 +350,7 @@ class CarController():
       can_sends.append(create_spas11(self.packer, (self.spas_cnt / 2), self.en_spas, self.apply_steer_ang, self.checksum))
     
     # SPAS12 20Hz
-    if (self.cnt % 5) == 0 and not self.spas_present:
+    if (self.cnt % 5) == 0 and not Params().get_bool('spasEnabled'):
       can_sends.append(create_spas12(self.packer))
 
     return can_sends
