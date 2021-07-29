@@ -249,6 +249,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"CleanUI", PERSISTENT},
     {"AR", PERSISTENT},
     {"UseLQR", PERSISTENT},
+    {"spasEnabled", PERSISTENT},
 };
 
 } // namespace

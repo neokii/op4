@@ -407,7 +407,7 @@ class CarState(CarStateBase):
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50)) 
       
-    if CP.spasEnabled:
+    if Params().get_bool('spasEnabled'):
       if CP.mdpsBus == 1:
         signals += [
           ("SWI_IGK", "EMS11", 0),
@@ -468,7 +468,8 @@ class CarState(CarStateBase):
       checks += [
         ("MDPS12", 50)
       ]
-      if CP.spasEnabled:
+      if Params().get_bool('spasEnabled'):
+
         signals += [
           ("CR_Mdps_StrAng", "MDPS11", 0),
           ("CF_Mdps_Stat", "MDPS11", 0),

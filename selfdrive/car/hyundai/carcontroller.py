@@ -77,7 +77,8 @@ class CarController():
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
     self.accel_steady = 0
-    if CP.spasEnabled:
+    if Params().get_bool('spasEnabled'):
+
       self.en_cnt = 0
       self.apply_steer_ang = 0.0
       self.en_spas = 3
