@@ -425,6 +425,12 @@ class CarState(CarStateBase):
           ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
         ]
         checks += [("EMS11", 100)]
+      elif CP.mdpsBus == 0:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [("MDPS11", 100)]
     if CP.enableBsm:
       signals += [
         ("CF_Lca_IndLeft", "LCA11", 0),
