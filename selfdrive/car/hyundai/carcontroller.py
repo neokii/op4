@@ -171,7 +171,7 @@ class CarController():
       self.lkas = True
     elif CS.out.vEgo < 0.1:
       self.lkas = False
-    if Params().get_bool('spasEnabled'):
+    if self.spas_present:
       self.lkas = True
     if not lkas_active:
       apply_steer = 0
@@ -318,40 +318,36 @@ class CarController():
       # activated_hda: 0 - off, 1 - main road, 2 - highway
       if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
-      if Params().get_bool('spasEnabled'):
-        if CS.mdps_bus:
-          can_sends.append(create_ems11(self.packer, CS.ems11, spas_active)) 
+    
       elif CS.mdps_bus == 0:
         can_sends.append(create_hda_mfc(self.packer, activated_hda))
-      
-      
 
-        # SPAS11 50hz
-    if (self.cnt % 2) == 0 and not Params().get_bool('spasEnabled'):
-      if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
-        self.en_spas == 7
-        self.en_cnt = 0
+      if (frame % 2) == 0:
+        if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
+          self.en_spas = 7
+          self.en_cnt = 0
 
-      if self.en_spas == 7 and self.en_cnt >= 8:
-        self.en_spas = 3
-        self.en_cnt = 0
+        if self.en_spas == 7 and self.en_cnt >= 8:
+          self.en_spas = 3
+          self.en_cnt = 0
 
-      if self.en_cnt < 8 and enabled and not self.lkas:
-        self.en_spas = 4
-      elif self.en_cnt >= 8 and enabled and not self.lkas:
-        self.en_spas = 5
-      
-      if self.lkas or not enabled:
-        self.apply_steer_ang = CS.mdps11_strang
-        self.en_spas = 3
-        self.en_cnt = 0
+        if self.en_cnt < 8 and spas_active:
+          self.en_spas = 4
+        elif self.en_cnt >= 8 and spas_active:
+          self.en_spas = 5
 
-      self.mdps11_stat_last = CS.mdps11_stat
-      self.en_cnt += 1
-      can_sends.append(create_spas11(self.packer, (self.spas_cnt / 2), self.en_spas, self.apply_steer_ang, CHECKSUM))
-    
-    # SPAS12 20Hz
-    if (self.cnt % 5) == 0 and not Params().get_bool('spasEnabled'):
-      can_sends.append(create_spas12(self.packer))
+        if not spas_active:
+          self.apply_steer_ang = CS.mdps11_strang
+          self.en_spas = 3
+          self.en_cnt = 0
+
+        self.mdps11_stat_last = CS.mdps11_stat
+        self.en_cnt += 1
+        can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, self.apply_steer_ang, CS.mdps_bus))
+
+      # SPAS12 20Hz
+      if (frame % 5) == 0:
+        can_sends.append(create_spas12(CS.mdps_bus))
+
 
     return can_sends
