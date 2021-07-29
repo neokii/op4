@@ -3,9 +3,9 @@ from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
 from selfdrive.car import apply_std_steer_torque_limits
-from selfdrive.car.hyundai.hyundaican import create_ems11, create_lkas11, create_clu11, \
+from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
-  create_mdps12, create_lfahda_mfc, create_hda_mfc, create_spas11, create_spas12
+  create_mdps12, create_lfahda_mfc, create_hda_mfc, create_spas11, create_spas12, create_ems11
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
 from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams, CHECKSUM
 from opendbc.can.packer import CANPacker
@@ -77,15 +77,12 @@ class CarController():
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
     self.accel_steady = 0
-    if Params().get_bool('spasEnabled'):
-
+    if CP.spasEnabled:
       self.en_cnt = 0
       self.apply_steer_ang = 0.0
       self.en_spas = 3
       self.mdps11_stat_last = 0
       self.spas_always = False
-      self.spas_present = Params().get_bool('spasEnabled')
- 
 
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
@@ -111,8 +108,8 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
 
     # SPAS limit angle extremes for safety
-    if Params().get_bool('spasEnabled'):
-      apply_steer_ang_req = clip(actuators.steeringAngleDeg, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
+    if CS.spas_enabled:
+      apply_steer_ang_req = clip(actuators.steerAngle, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
       # SPAS limit angle rate for safety
       if abs(self.apply_steer_ang - apply_steer_ang_req) > STEER_ANG_MAX_RATE:
         if apply_steer_ang_req > self.apply_steer_ang:
@@ -121,7 +118,7 @@ class CarController():
           self.apply_steer_ang -= STEER_ANG_MAX_RATE
       else:
         self.apply_steer_ang = apply_steer_ang_req
-    spas_active = Params().get_bool('spasEnabled') and enabled and (self.spas_always or CS.out.vEgo < 8.0) # 25km/h
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 7.0) # 25km/h
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
@@ -132,18 +129,7 @@ class CarController():
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
-
-    # SPAS limit angle extremes for safety
-    apply_steer_ang_req = clip(actuators.steeringAngleDeg, -1*(CS.CP.maxSteeringAngleDeg), CS.CP.maxSteeringAngleDeg)
-    # SPAS limit angle rate for safety
-    if abs(self.apply_steer_ang - apply_steer_ang_req) > 0.6:
-      if apply_steer_ang_req > self.apply_steer_ang:
-        self.apply_steer_ang += 0.5
-      else:
-        self.apply_steer_ang -= 0.5
-    else:
-      self.apply_steer_ang = apply_steer_ang_req
-	
+    # fix for Genesis hard fault at low speed
 	# Use SMDPS and Min Steer Speed limits - JPR
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
@@ -166,13 +152,7 @@ class CarController():
       lkas_active = 0
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
-# Use LKAS or SPAS
-    if CS.mdps11_stat == 7 or CS.out.vEgo > 2.7:
-      self.lkas = True
-    elif CS.out.vEgo < 0.1:
-      self.lkas = False
-    if self.spas_present:
-      self.lkas = True
+
     if not lkas_active:
       apply_steer = 0
 
@@ -218,12 +198,6 @@ class CarController():
     self.scc12_cnt %= 0xF
 
     can_sends = []
-
-    self.lkas11_cnt = self.cnt % 0x10
-    self.clu11_cnt = self.cnt % 0x10
-    self.mdps12_cnt = self.cnt % 0x100
-    self.spas_cnt = self.cnt % 0x200
-
     can_sends.append(create_lkas11(self.packer, frame, self.car_fingerprint, apply_steer, lkas_active,
                                    CS.lkas11, sys_warning, sys_state, enabled, left_lane, right_lane,
                                    left_lane_warning, right_lane_warning, 0))
@@ -234,7 +208,7 @@ class CarController():
                                      left_lane_warning, right_lane_warning, 1))
 
     if frame % 2 and CS.mdps_bus: # send clu11 to mdps if it is not on bus 0
-      can_sends.append(create_clu11(self.packer, frame // 2 % 0x10, CS.mdps_bus, CS.clu11, Buttons.NONE, enabled_speed))
+      can_sends.append(create_clu11(self.packer, frame, CS.mdps_bus, CS.clu11, Buttons.NONE, enabled_speed))
 
     if pcm_cancel_cmd and (self.longcontrol and not self.mad_mode_enabled):
       can_sends.append(create_clu11(self.packer, frame % 0x10, CS.scc_bus, CS.clu11, Buttons.CANCEL, clu11_speed))
@@ -268,6 +242,9 @@ class CarController():
     elif self.last_lead_distance != 0:
       self.last_lead_distance = 0
 
+ if CS.mdps_bus: # send mdps12 to LKAS to prevent LKAS error
+      can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
+	  
     # scc smoother
     self.scc_smoother.update(enabled, can_sends, self.packer, CC, CS, frame, apply_accel, controls)
 
@@ -319,8 +296,9 @@ class CarController():
       if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
     
-      elif CS.mdps_bus == 0:
-        can_sends.append(create_hda_mfc(self.packer, activated_hda))
+    if CS.spas_enabled:
+      if CS.mdps_bus:
+        can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
       if (frame % 2) == 0:
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
@@ -348,6 +326,5 @@ class CarController():
       # SPAS12 20Hz
       if (frame % 5) == 0:
         can_sends.append(create_spas12(CS.mdps_bus))
-
-
+        
     return can_sends

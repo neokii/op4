@@ -188,9 +188,11 @@ class CarState(CarStateBase):
       self.scc13 = cp_scc.vl["SCC13"]
     if self.has_scc14:
       self.scc14 = cp_scc.vl["SCC14"]
-    self.ems11 = cp.vl["EMS11"]
-    self.mdps11_strang = cp_mdps.vl["MDPS11"]["CR_Mdps_StrAng"]
-    self.mdps11_stat = cp_mdps.vl["MDPS11"]["CF_Mdps_Stat"]
+    if self.spas_enabled:
+      self.ems11 = cp.vl["EMS11"]
+      self.mdps11_strang = cp_mdps.vl["MDPS11"]["CR_Mdps_StrAng"]
+      self.mdps11_stat = cp_mdps.vl["MDPS11"]["CF_Mdps_Stat"]
+
     self.lkas_error = cp_cam.vl["LKAS11"]["CF_Lkas_LdwsSysState"] == 7
     if not self.lkas_error and self.car_fingerprint not in [CAR.SONATA,CAR.PALISADE,
                     CAR.SONATA_HEV, CAR.SANTA_FE, CAR.KONA_EV, CAR.NIRO_EV, CAR.KONA]:
@@ -399,32 +401,35 @@ class CarState(CarStateBase):
         ("FCA_CmdAct", "FCA11", 0),
         ("CF_VSM_Warn", "FCA11", 0),
       ]
-
       if not CP.openpilotLongitudinalControl:
         checks += [("FCA11", 50)]
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
-      checks.remove(("TCS13", 50)) 
-    
-    if Params().get_bool('spasEnabled'):
-      signals += [
-        ("CR_Mdps_StrAng", "MDPS11", 0),
-        ("CF_Mdps_Stat", "MDPS11", 0),
-      ]
-      checks += [("MDPS11", 100)]
-    if CP.enableBsm:
-      signals += [
-        ("CF_Lca_IndLeft", "LCA11", 0),
-        ("CF_Lca_IndRight", "LCA11", 0),
-      ]
-      checks += [("LCA11", 50)]
-
-    if CP.enableAutoHold:
-      signals += [
-        ("AVH_STAT", "ESP11", 0),
-        ("LDM_STAT", "ESP11", 0),
-      ]
-      checks += [("ESP11", 50)]
+      checks.remove(("TCS13", 50))
+    if CP.spasEnabled:
+      if CP.mdpsBus == 1:
+        signals += [
+          ("SWI_IGK", "EMS11", 0),
+          ("F_N_ENG", "EMS11", 0),
+          ("ACK_TCS", "EMS11", 0),
+          ("PUC_STAT", "EMS11", 0),
+          ("TQ_COR_STAT", "EMS11", 0),
+          ("RLY_AC", "EMS11", 0),
+          ("F_SUB_TQI", "EMS11", 0),
+          ("TQI_ACOR", "EMS11", 0),
+          ("N", "EMS11", 0),
+          ("TQI", "EMS11", 0),
+          ("TQFR", "EMS11", 0),
+          ("VS", "EMS11", 0),
+          ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
+        ]
+        checks += [("EMS11", 100)]
+      elif CP.mdpsBus == 0:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [("MDPS11", 100)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
@@ -438,9 +443,9 @@ class CarState(CarStateBase):
         ("CF_Mdps_Def", "MDPS12", 0),
         ("CF_Mdps_ToiActive", "MDPS12", 0),
         ("CF_Mdps_ToiUnavail", "MDPS12", 0),
-        ("CF_Mdps_ToiFlt", "MDPS12", 0),
         ("CF_Mdps_MsgCount2", "MDPS12", 0),
         ("CF_Mdps_Chksum2", "MDPS12", 0),
+        ("CF_Mdps_ToiFlt", "MDPS12", 0),
         ("CF_Mdps_SErr", "MDPS12", 0),
         ("CR_Mdps_StrTq", "MDPS12", 0),
         ("CF_Mdps_FailStat", "MDPS12", 0),
@@ -449,6 +454,14 @@ class CarState(CarStateBase):
       checks += [
         ("MDPS12", 50)
       ]
+      if CP.spasEnabled:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [
+          ("MDPS11", 100),
+        ]
     if CP.sasBus == 1:
       signals += [
         ("SAS_Angle", "SAS11", 0),
@@ -536,7 +549,7 @@ class CarState(CarStateBase):
       ("CF_Lkas_MsgCount", "LKAS11", 0),
       ("CF_Lkas_FusionState", "LKAS11", 0),
       ("CF_Lkas_FcwOpt_USM", "LKAS11", 0),
-      ("CF_Lkas_LdwsOpt_USM", "LKAS11", 0)
+      ("CF_Lkas_LdwsOpt_USM", "LKAS11", 0),
     ]
 
     checks = [
