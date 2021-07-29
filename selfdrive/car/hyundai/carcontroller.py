@@ -68,7 +68,7 @@ class CarController():
     self.steer_rate_limited = False
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
-
+    self.cnt = 0
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
@@ -84,7 +84,7 @@ class CarController():
       self.en_spas = 3
       self.mdps11_stat_last = 0
       self.spas_always = False
-
+      self.spas_present = Params().get_bool('spasEnabled')
  
 
     # gas_factor, brake_factor
@@ -218,7 +218,7 @@ class CarController():
     self.scc12_cnt %= 0xF
 
     can_sends = []
-    
+
     self.lkas11_cnt = self.cnt % 0x10
     self.clu11_cnt = self.cnt % 0x10
     self.mdps12_cnt = self.cnt % 0x100
