@@ -133,7 +133,18 @@ class CarController():
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
 
-    # Use SMDPS and Min Steer Speed limits - JPR
+    # SPAS limit angle extremes for safety
+    apply_steer_ang_req = np.clip(actuators.steerAngle, -1*(SteerLimitParams.STEER_ANG_MAX), SteerLimitParams.STEER_ANG_MAX)
+    # SPAS limit angle rate for safety
+    if abs(self.apply_steer_ang - apply_steer_ang_req) > 0.6:
+      if apply_steer_ang_req > self.apply_steer_ang:
+        self.apply_steer_ang += 0.5
+      else:
+        self.apply_steer_ang -= 0.5
+    else:
+      self.apply_steer_ang = apply_steer_ang_req
+	
+	# Use SMDPS and Min Steer Speed limits - JPR
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
@@ -155,10 +166,17 @@ class CarController():
       lkas_active = 0
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
-
+# Use LKAS or SPAS
+    if CS.mdps11_stat == 7 or CS.v_wheel > 2.7:
+      self.lkas = True
+    elif CS.v_wheel < 0.1:
+      self.lkas = False
+    if self.spas_present:
+      self.lkas = True
     if not lkas_active:
       apply_steer = 0
-
+    if self.spas_present:
+      self.lkas = True
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
@@ -302,32 +320,32 @@ class CarController():
         if CS.mdps_bus:
           can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
-      # SPAS11 50hz
-      if (frame % 2) == 0:
-        if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
-          self.en_spas = 7
-          self.en_cnt = 0
+        # SPAS11 50hz
+    if (self.cnt % 2) == 0 and not self.spas_present:
+      if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
+        self.en_spas == 7
+        self.en_cnt = 0
 
-        if self.en_spas == 7 and self.en_cnt >= 8:
-          self.en_spas = 3
-          self.en_cnt = 0
+      if self.en_spas == 7 and self.en_cnt >= 8:
+        self.en_spas = 3
+        self.en_cnt = 0
 
-        if self.en_cnt < 8 and spas_active:
-          self.en_spas = 4
-        elif self.en_cnt >= 8 and spas_active:
-          self.en_spas = 5
+      if self.en_cnt < 8 and enabled and not self.lkas:
+        self.en_spas = 4
+      elif self.en_cnt >= 8 and enabled and not self.lkas:
+        self.en_spas = 5
+      
+      if self.lkas or not enabled:
+        self.apply_steer_ang = CS.mdps11_strang
+        self.en_spas = 3
+        self.en_cnt = 0
 
-        if not spas_active:
-          self.apply_steer_ang = CS.mdps11_strang
-          self.en_spas = 3
-          self.en_cnt = 0
-
-        self.mdps11_stat_last = CS.mdps11_stat
-        self.en_cnt += 1
-        can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, self.apply_steer_ang, CS.mdps_bus))
-
-      # SPAS12 20Hz
-      if (frame % 5) == 0:
-        can_sends.append(create_spas12(CS.mdps_bus))
+      self.mdps11_stat_last = CS.mdps11_stat
+      self.en_cnt += 1
+      can_sends.append(create_spas11(self.packer, (self.spas_cnt / 2), self.en_spas, self.apply_steer_ang, self.checksum))
+    
+    # SPAS12 20Hz
+    if (self.cnt % 5) == 0 and not self.spas_present:
+      can_sends.append(create_spas12(self.packer))
 
     return can_sends
