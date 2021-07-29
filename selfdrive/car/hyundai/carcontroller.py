@@ -7,7 +7,7 @@ from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
   create_mdps12, create_lfahda_mfc, create_hda_mfc, create_spas11, create_spas12, create_ems11
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
-from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams, CHECKSUM
+from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams, FEATURES
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
 from common.params import Params
@@ -109,7 +109,7 @@ class CarController():
 
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_steer_ang_req = clip(actuators.steerAngle, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
+      apply_steer_ang_req = clip(actuators.steeringAngleDeg, -1*(STEER_ANG_MAX), STEER_ANG_MAX)
       # SPAS limit angle rate for safety
       if abs(self.apply_steer_ang - apply_steer_ang_req) > STEER_ANG_MAX_RATE:
         if apply_steer_ang_req > self.apply_steer_ang:
@@ -242,7 +242,7 @@ class CarController():
     elif self.last_lead_distance != 0:
       self.last_lead_distance = 0
 
- if CS.mdps_bus: # send mdps12 to LKAS to prevent LKAS error
+    if CS.mdps_bus: # send mdps12 to LKAS to prevent LKAS error
       can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 	  
     # scc smoother
@@ -326,5 +326,5 @@ class CarController():
       # SPAS12 20Hz
       if (frame % 5) == 0:
         can_sends.append(create_spas12(CS.mdps_bus))
-        
+
     return can_sends
