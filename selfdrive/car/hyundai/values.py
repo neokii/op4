@@ -11,7 +11,7 @@ class CarControllerParams:
   ACCEL_MIN = -4.0
   ACCEL_SCALE = max(ACCEL_MAX, -ACCEL_MIN)
 
-  STEER_MAX = 409   # 409 is the max, 255 is stock
+  STEER_MAX = 509   # 409 is the max, 255 is stock
   STEER_DELTA_UP = 3
   STEER_DELTA_DOWN = 5
   STEER_DRIVER_ALLOWANCE = 50
