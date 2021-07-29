@@ -406,6 +406,21 @@ class CarState(CarStateBase):
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
+
+    if CP.enableBsm:
+      signals += [
+        ("CF_Lca_IndLeft", "LCA11", 0),
+        ("CF_Lca_IndRight", "LCA11", 0),
+      ]
+      checks += [("LCA11", 50)]
+
+    if CP.enableAutoHold:
+      signals += [
+        ("AVH_STAT", "ESP11", 0),
+        ("LDM_STAT", "ESP11", 0),
+      ]
+      checks += [("ESP11", 50)]
+	  
     if CP.spasEnabled:
       if CP.mdpsBus == 1:
         signals += [
@@ -549,7 +564,7 @@ class CarState(CarStateBase):
       ("CF_Lkas_MsgCount", "LKAS11", 0),
       ("CF_Lkas_FusionState", "LKAS11", 0),
       ("CF_Lkas_FcwOpt_USM", "LKAS11", 0),
-      ("CF_Lkas_LdwsOpt_USM", "LKAS11", 0),
+      ("CF_Lkas_LdwsOpt_USM", "LKAS11", 0)
     ]
 
     checks = [
