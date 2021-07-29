@@ -19,7 +19,7 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 # SPAS steering limits
 STEER_ANG_MAX = 360          # SPAS Max Angle
-STEER_ANG_MAX_RATE = 0.5    # SPAS Degrees per ms
+STEER_ANG_MAX_RATE = 0.1    # SPAS Degrees per ms
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
   if accel > accel_steady + CarControllerParams.ACCEL_HYST_GAP:
