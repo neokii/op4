@@ -300,7 +300,7 @@ class CarController():
       if CS.mdps_bus:
         can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
 
-      if (frame % 2) == 0 and not spas_active:
+      if (frame % 2) == 0:
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
           self.en_spas = 7
           self.en_cnt = 0
@@ -324,7 +324,7 @@ class CarController():
         can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, self.apply_steer_ang, CS.mdps_bus))
 
       # SPAS12 20Hz
-      if (frame % 5) == 0 and not spas_active:
+      if (frame % 5) == 0:
         can_sends.append(create_spas12(CS.mdps_bus))
 
     return can_sends
