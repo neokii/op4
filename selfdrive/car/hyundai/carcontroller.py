@@ -109,7 +109,7 @@ class CarController():
 
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_steer_ang_req = actuators.steer * 180 / 3.14
+      apply_steer_ang_req = CS.out.steeringAngleDeg #actuators.steer * 180 / 3.14
       # SPAS limit angle rate for safety
       if abs(self.apply_steer_ang - apply_steer_ang_req) > STEER_ANG_MAX_RATE:
         if apply_steer_ang_req > self.apply_steer_ang:
@@ -118,7 +118,15 @@ class CarController():
           self.apply_steer_ang -= STEER_ANG_MAX_RATE
       else:
         self.apply_steer_ang = apply_steer_ang_req
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 2.5) # 25km/h
+    spas_active = False
+    if CS.out.vEgo == 0:
+      spas_active = True
+    elif CS.out.vEgo > 2.5:
+      spas_active = False
+    elif CS.out.vEgo > 2.5 and spas_active == False:
+      spas_active = False
+    elif CS.out.vEgo <= 2.5 and spas_active == False:
+      spas_active = False
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
