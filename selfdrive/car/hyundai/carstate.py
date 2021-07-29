@@ -468,15 +468,15 @@ class CarState(CarStateBase):
       checks += [
         ("MDPS12", 50)
       ]
-      if Params().get_bool('spasEnabled'):
+    if Params().get_bool('spasEnabled'):
 
-        signals += [
-          ("CR_Mdps_StrAng", "MDPS11", 0),
-          ("CF_Mdps_Stat", "MDPS11", 0),
-        ]
-        checks += [
-          ("MDPS11", 100),
-        ]
+      signals += [
+        ("CR_Mdps_StrAng", "MDPS11", 0),
+        ("CF_Mdps_Stat", "MDPS11", 0),
+      ]
+      checks += [
+        ("MDPS11", 100),
+      ]
     if CP.sasBus == 1:
       signals += [
         ("SAS_Angle", "SAS11", 0),
