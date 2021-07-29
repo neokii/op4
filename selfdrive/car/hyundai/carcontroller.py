@@ -167,9 +167,9 @@ class CarController():
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
 # Use LKAS or SPAS
-    if CS.mdps11_stat == 7 or CS.v_wheel > 2.7:
+    if CS.mdps11_stat == 7 or CS.out.vEgo > 2.7:
       self.lkas = True
-    elif CS.v_wheel < 0.1:
+    elif CS.out.vEgo < 0.1:
       self.lkas = False
     if self.spas_present:
       self.lkas = True
