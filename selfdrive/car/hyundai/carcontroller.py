@@ -171,12 +171,11 @@ class CarController():
       self.lkas = True
     elif CS.out.vEgo < 0.1:
       self.lkas = False
-    if self.spas_present:
+    if Params().get_bool('spasEnabled'):
       self.lkas = True
     if not lkas_active:
       apply_steer = 0
-    if self.spas_present:
-      self.lkas = True
+      
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
