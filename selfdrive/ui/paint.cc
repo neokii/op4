@@ -185,7 +185,7 @@ static void ui_draw_line(UIState *s, const line_vertices_data &vd, NVGcolor *col
   nvgFill(s->vg);
 }
 
-static void draw_vision_frame(UIState *s) {
+static void draw_frame(UIState *s) {
   glBindVertexArray(s->frame_vao);
   mat4 *out_mat = &s->rear_frame_mat;
   glActiveTexture(GL_TEXTURE0);
@@ -237,7 +237,8 @@ static void ui_draw_vision_lane_lines(UIState *s) {
 
 // Draw all world space objects.
 static void ui_draw_world(UIState *s) {
-  nvgScissor(s->vg, 0, 0, s->fb_w, s->fb_h);
+  // Don't draw on top of sidebar
+  nvgScissor(s->vg, s->viz_rect.x, s->viz_rect.y, s->viz_rect.w, s->viz_rect.h);
 
   // Draw lane edges and vision/mpc tracks
   ui_draw_vision_lane_lines(s);
@@ -1195,12 +1196,13 @@ void ui_resize(UIState *s, int width, int height) {
     zoom *= 0.5;
   }
 
-  float zx = zoom * 2 * intrinsic_matrix.v[2] / width;
-  float zy = zoom * 2 * intrinsic_matrix.v[5] / height;
+  s->video_rect = Rect{bdr_s, bdr_s, s->fb_w - 2 * bdr_s, s->fb_h - 2 * bdr_s};
+  float zx = zoom * 2 * intrinsic_matrix.v[2] / s->video_rect.w;
+  float zy = zoom * 2 * intrinsic_matrix.v[5] / s->video_rect.h;
 
   const mat4 frame_transform = {{
     zx, 0.0, 0.0, 0.0,
-    0.0, zy, 0.0, -y_offset / height * 2,
+    0.0, zy, 0.0, -y_offset / s->video_rect.h * 2,
     0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, 0.0, 1.0,
   }};
@@ -1209,7 +1211,8 @@ void ui_resize(UIState *s, int width, int height) {
 
   // Apply transformation such that video pixel coordinates match video
   // 1) Put (0, 0) in the middle of the video
-  nvgTranslate(s->vg, width / 2, height / 2 + y_offset);
+  nvgTranslate(s->vg, s->video_rect.x + s->video_rect.w / 2, s->video_rect.y + s->video_rect.h / 2 + y_offset);
+
   // 2) Apply same scaling as video
   nvgScale(s->vg, zoom, zoom);
   // 3) Put (0, 0) in top left corner of video
