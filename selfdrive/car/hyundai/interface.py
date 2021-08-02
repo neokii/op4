@@ -279,8 +279,9 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1275. + STD_CARGO_KG
       ret.wheelbase = 2.7
       ret.steerRatio = 13.73 * 1.15  # Spec
-      tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.385
+      
       if not UseLQR:
         ret.lateralTuning.pid.kf = 0.00005
         ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
@@ -310,6 +311,7 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1490. + STD_CARGO_KG
+      ret.steerRatio = 13.73  # Spec
       ret.wheelbase = 2.7
       tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
