@@ -101,7 +101,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   pointsLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
   points = new QLabel("https://discord.gg/zWSnqJ6rKD");
-  points->setStyleSheet("font-size: 20x; font-weight: bold;");
+  points->setStyleSheet("font-size: 30x; font-weight: Inter SemiBold;");
   pointsLayout->addWidget(points, 0, Qt::AlignTop);
 
   mainLayout->addWidget(pointsWidget);
