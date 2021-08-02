@@ -303,6 +303,7 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
   }
 }
+
 void screen_toggle_record_state(){
 
   if (captureState == CAPTURE_STATE_CAPTURING) {
