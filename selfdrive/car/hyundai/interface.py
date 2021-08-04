@@ -531,6 +531,9 @@ class CarInterface(CarInterfaceBase):
         self.low_speed_alert = False
       if self.low_speed_alert:
         events.add(car.CarEvent.EventName.belowSteerSpeed)
+    
+    #TPMS Alerts - JPR
+    if 
 
     if self.CC.longcontrol and self.CS.cruise_unavail:
       events.add(EventName.brakeUnavailable)
