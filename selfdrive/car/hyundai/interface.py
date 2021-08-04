@@ -8,7 +8,7 @@ from cereal import car
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
-from selfdrive.car.interfaces import CarInterfaceBase, CarStateBase
+from selfdrive.car.interfaces import CarInterfaceBase, CarStateBase, CarState
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
 
@@ -543,9 +543,9 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     
-    if self.CS.tpmsFl or self.CS.tpmsFr < self.minFTP:
+    if CarState.CP.tpmsFl or CarState.CP.tpmsFr < self.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if self.CS.tpmsRl or self.CS.tpmsRr < self.minRTP:
+    if CarState.CP.tpmsRl or CarState.CP.tpmsRr < self.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
