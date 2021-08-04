@@ -146,7 +146,7 @@ class CarState(CarStateBase):
 
     #TPMS
     if cp.vl["TPMS11"]["UNIT"] == 0.0:
-      ret.CS.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
       ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
       ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
