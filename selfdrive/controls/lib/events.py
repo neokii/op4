@@ -564,7 +564,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
   EventName.FTMPS_Warning: {
-    ET.WARNING: FTMPS,
+    ET.WARNING: FTPMS,
   },
   EventName.RTMPS_Warning: {
     ET.WARNING: RTPMS,
