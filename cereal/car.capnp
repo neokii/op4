@@ -110,8 +110,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     localizerMalfunction @103;
     rTPMS @109;
     fTPMS @110;
-    minFTP @111;
-    minRTP @112;
+
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
@@ -159,6 +158,7 @@ struct CarState {
   # gas pedal, 0.0-1.0
   gas @3 :Float32;        # this is user + computer
   gasPressed @4 :Bool;    # this is user pedal only
+
 
   # brake pedal, 0.0-1.0
   brake @5 :Float32;      # this is user pedal only
@@ -209,6 +209,8 @@ struct CarState {
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
+  minFTP @111 :Float32;
+  minRTP @112 :Float32;
 
   cruiseGap @41 : Int32;
   autoHold @42 : Int32;
