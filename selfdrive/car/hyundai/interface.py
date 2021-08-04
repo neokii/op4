@@ -541,9 +541,9 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
     
     #TPMS Alerts - JPR
-    if self.CS.getTpmsFl or self.CS.getTpmsFr < self.minFTP:
+    if self.CS.TpmsFl or self.CS.TpmsFr < self.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if self.CS.getTpmsRl or self.CS.getTpmsRr < self.minRTP:
+    if self.CS.TpmsRl or self.CS.TpmsRr < self.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
