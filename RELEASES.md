@@ -1,7 +1,7 @@
 Version 0.8.7 (2021-)
 ========================
 * Add TPMS Alert. Send your cars make, model, and TPSM pressures to @JohnPR
-* Added Panda Tools to settings under device.
+* Added Panda Tools to settings under Device.
 * Comma Three support!
 * Navigation alpha for the comma three!
 * Volkswagen T-Cross 2021 support thanks to jyoung8607!
