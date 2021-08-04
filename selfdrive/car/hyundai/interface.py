@@ -480,7 +480,7 @@ class CarInterface(CarInterfaceBase):
     return ret
     
 
-  def update(self, c, can_strings):
+  def update(self, c, can_strings, CS):
     self.cp.update_strings(can_strings)
     self.cp2.update_strings(can_strings)
     self.cp_cam.update_strings(can_strings)
@@ -542,9 +542,9 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
   
     #TPMS Alerts - JPR
-    if CarState.update.tpmsFl or CarState.update.tpmsFr < self.minFTP:
+    if CS.tpmsFl or CS.tpmsFr < self.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if CarState.update.tpmsRl or CarState.update.tpmsRr < self.minRTP:
+    if CS.tpmsRl or CS.tpmsRr < self.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
