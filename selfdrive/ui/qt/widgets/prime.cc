@@ -92,8 +92,8 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   // comma points layout
   QWidget *pointsWidget = new QWidget;
   pointsWidget->setObjectName("primeWidget");
-  QVBoxLayout *discordLayout = new QVBoxLayout(discordWidget);
-  discordLayout->setMargin(0);
+  QVBoxLayout *pointsLayout = new QVBoxLayout(pointsWidget);
+  pointsLayout->setMargin(0);
   pointsWidget->setContentsMargins(60, 50, 60, 50);
 
   QLabel* commaPoints = new QLabel("Please Join Our Discord.");
@@ -101,11 +101,11 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   pointsLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
 
-  QLabel* Discord = new QLabel("https://discord.gg/bXGF7r8EPW");
-  Discord->setStyleSheet("font-size: 20px; font-family: Inter SemiBold;");
-  discordLayout->addWidget(Discord, 0, Qt::AlignTop);
+  QLabel* points = new QLabel("https://discord.gg/bXGF7r8EPW");
+  points->setStyleSheet("font-size: 91px; font-weight: bold;");
+  pointsLayout->addWidget(points, 0, Qt::AlignTop);
 
-  mainLayout->addWidget(discordWidget);
+  mainLayout->addWidget(pointsWidget);
 
   mainLayout->addStretch();
 
