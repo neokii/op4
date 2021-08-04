@@ -563,10 +563,10 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
-  EventName.FTMPS_Warning: {
+  EventName.FTPMS_Warning: {
     ET.WARNING: FTPMS,
   },
-  EventName.RTMPS_Warning: {
+  EventName.RTPMS_Warning: {
     ET.WARNING: RTPMS,
   },
   # Thrown when the fan is driven at >50% but is not rotating
