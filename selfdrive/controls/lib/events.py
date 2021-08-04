@@ -524,11 +524,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.fTPMS: {
-    ET.WARNING: FTPMS,
+    ET.WARNING: fTPMS,
   },
 
   EventName.rTPMS: {
-    ET.WARNING: RTPMS,
+    ET.WARNING: rTPMS,
   },
   
   EventName.preLaneChangeLeft: {
