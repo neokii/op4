@@ -192,6 +192,34 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
+#JPR
+def fTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  if CS.tpmsFl < CP.minFTP:
+    TPF = int(CS.tpmsFl)
+    tpms = "Front Left"
+  if CS.tpmsFr < CP.minFTP:
+    TPF = int(CS.tpmsFr)
+    tpms = "Front Right"
+  unit = "PSI"
+  return Alert(
+    "LOW FRONT TIRE PRESSURE",
+    "%s %d %s" % (tpms, TPF, unit),
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  if CS.tpmsRl < CP.tpmsRl:
+    TPR = int(CS.tpmsRl)
+    tpms = "Rear Left"
+  elif CS.tpmsRr < CP.minRTP:
+    TPR = int(CS.tpmsRr)
+    tpms = "Rear Right"
+  unit = "PSI"
+  return Alert(
+    "LOW REAR TIRE PRESSURE",
+    "%s %d %s" % (tpms, TPR, unit),
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
