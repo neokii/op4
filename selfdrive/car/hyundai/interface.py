@@ -393,6 +393,9 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.75
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+      #TPMS
+      ret.minFTP = 33
+      ret.minRTP = 33
     elif candidate == CAR.CEED:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1350. + STD_CARGO_KG
