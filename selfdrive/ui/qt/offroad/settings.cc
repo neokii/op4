@@ -163,14 +163,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
   main_layout->addWidget(pandarecoverbtn);
-
-  const char* addfunc = "cp -f /data/openpilot/installer/fonts/driver_monitor.py /data/openpilot/selfdrive/monitoring";
-  auto addfuncbtn = new ButtonControl("Add Function", "RUN");
-  QObject::connect(addfuncbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Process?", this)){
-      std::system(addfunc);
-      QTimer::singleShot(1000, []() { Hardware::reboot(); });
-    }
   });
   main_layout->addWidget(horizontal_line());
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
