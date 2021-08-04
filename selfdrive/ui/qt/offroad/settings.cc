@@ -134,6 +134,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
 
   // Settings and buttons - JPR
+  main_layout->addWidget(horizontal_line());
   const char* gitpull = "sh /data/openpilot/gitpull.sh";
   auto gitpullbtn = new ButtonControl("Git Fetch and Reset", "RUN");
   QObject::connect(gitpullbtn, &ButtonControl::clicked, [=]() {
