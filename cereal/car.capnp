@@ -209,8 +209,8 @@ struct CarState {
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
-  minFTP @111 :Float32;
-  minRTP @112 :Float32;
+  minFTP @43 :Float32;
+  minRTP @44 :Float32;
 
   cruiseGap @41 : Int32;
   autoHold @42 : Int32;
