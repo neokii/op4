@@ -524,6 +524,14 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
+  EventName.FTPMS: {
+    ET.WARNING: F_TPMS,
+  },
+
+  EventName.RTPMS: {
+    ET.WARNING: R_TPMS,
+  },
+  
   EventName.preLaneChangeLeft: {
     ET.WARNING: Alert(
       "Steer Left to Start Lane Change",
@@ -563,12 +571,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
-  EventName.FTPMS: {
-    ET.WARNING: F_TPMS,
-  },
-  EventName.RTPMS: {
-    ET.WARNING: R_TPMS,
-  },
+
   # Thrown when the fan is driven at >50% but is not rotating
   EventName.fanMalfunction: {
     ET.PERMANENT: NormalPermanentAlert("Fan Malfunction", "Contact Support"),
