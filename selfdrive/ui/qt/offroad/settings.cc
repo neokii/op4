@@ -137,7 +137,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* gitpull = "sh /data/openpilot/gitpull.sh";
   auto gitpullbtn = new ButtonControl("Git Fetch and Reset", "RUN");
   QObject::connect(gitpullbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Process?", w)){
+    if (ConfirmationDialog::confirm("Process?", this)){
       std::system(gitpull);
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
@@ -147,7 +147,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* panda_flash = "sh /data/openpilot/panda/board/flash.sh";
   auto pandaflashbtn = new ButtonControl("Panda Firmware Flash", "RUN");
   QObject::connect(pandaflashbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Process?", w)){
+    if (ConfirmationDialog::confirm("Process?", this)){
       std::system(panda_flash);
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
@@ -157,7 +157,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* panda_recover = "sh /data/openpilot/panda/board/recover.sh";
   auto pandarecoverbtn = new ButtonControl("Panda Firmware Recover", "RUN");
   QObject::connect(pandarecoverbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Process?", w)){
+    if (ConfirmationDialog::confirm("Process?", this)){
       std::system(panda_recover);
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
@@ -167,7 +167,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* addfunc = "cp -f /data/openpilot/installer/fonts/driver_monitor.py /data/openpilot/selfdrive/monitoring";
   auto addfuncbtn = new ButtonControl("Add Function", "RUN");
   QObject::connect(addfuncbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Process?", w)){
+    if (ConfirmationDialog::confirm("Process?", this)){
       std::system(addfunc);
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
