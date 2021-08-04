@@ -138,6 +138,8 @@ class SccSmoother:
     else:
       max_speed_clu = self.kph_to_clu(controls.v_cruise_kph)
 
+    self.active_cam = road_limit_speed > 0
+
     #max_speed_log = "{:.1f}/{:.1f}/{:.1f}".format(float(limit_speed),
     #                                              float(self.curve_speed_ms*self.speed_conv_to_clu),
     #                                              float(lead_speed))
@@ -145,7 +147,6 @@ class SccSmoother:
     max_speed_log = ""
 
     if limit_speed >= self.kph_to_clu(30):
-      self.active_cam = True
 
       if first_started:
         self.max_speed_clu = clu11_speed
@@ -164,7 +165,6 @@ class SccSmoother:
         self.slowing_down_alert = False
 
     else:
-      self.active_cam = False
       self.slowing_down_alert = False
       self.slowing_down = False
 
@@ -364,11 +364,8 @@ class SccSmoother:
 
     lead = self.get_lead(sm)
     if lead is not None:
-      wd = interp(lead.dRel, [4., 15.], [1.2, 1.0])
-      brake_factor *= interp(CS.out.vEgo, [0., 20.], [1., wd])
-
       if not lead.radar:
-        brake_factor *= 0.9
+        brake_factor *= 0.93
 
     if accel > 0:
       accel *= gas_factor

@@ -42,6 +42,7 @@ private:
   LabelControl *osVersionLbl;
   LabelControl *versionLbl;
   LabelControl *lastUpdateLbl;
+  LabelControl *TPMS;
   ButtonControl *updateBtn;
   ButtonControl *DUISR;
 
