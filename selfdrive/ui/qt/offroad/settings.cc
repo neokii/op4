@@ -172,8 +172,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
   });
-  main_layout->addWidget(addfuncbtn);
-
   main_layout->addWidget(horizontal_line());
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
