@@ -108,6 +108,9 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     driverCameraError @101;
     wideRoadCameraError @102;
     localizerMalfunction @103;
+    rTPMS @109;
+    fTPMS @110;
+
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
@@ -156,6 +159,7 @@ struct CarState {
   gas @3 :Float32;        # this is user + computer
   gasPressed @4 :Bool;    # this is user pedal only
 
+
   # brake pedal, 0.0-1.0
   brake @5 :Float32;      # this is user pedal only
   brakePressed @6 :Bool;  # this is user pedal only
@@ -200,8 +204,16 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
-  cruiseGap @37 : Int32;
-  autoHold @38 : Int32;
+  # tpms
+
+  tpmsFl @37 :Float32;
+  tpmsFr @38 :Float32;
+  tpmsRl @39 :Float32;
+  tpmsRr @40 :Float32;
+
+
+  cruiseGap @41 : Int32;
+  autoHold @42 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds
@@ -409,6 +421,9 @@ struct CarParams {
   brakeMaxBP @15 :List(Float32);
   brakeMaxV @16 :List(Float32);
 
+  #TPMS - JPR
+  minFTP @65 :Float32;
+  minRTP @66 :Float32;
   # things about the car in the manual
   mass @17 :Float32;            # [kg] curb weight: all fluids no cargo
   wheelbase @18 :Float32;       # [m] distance from rear axle to front axle

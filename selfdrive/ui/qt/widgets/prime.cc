@@ -97,11 +97,12 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   pointsWidget->setContentsMargins(60, 50, 60, 50);
 
   QLabel* commaPoints = new QLabel("Please Join Our Discord.");
-  commaPoints->setStyleSheet("font-size: 41px; font-family: Inter SemiBold;");
+  commaPoints->setStyleSheet("font-size: 50px; font-family: Inter SemiBold;");
   pointsLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
-  points = new QLabel("https://discord.gg/zWSnqJ6rKD");
-  points->setStyleSheet("font-size: 30x; font-weight: Inter SemiBold;");
+
+  QLabel* points = new QLabel("https://discord.gg/bXGF7r8EPW");
+  points->setStyleSheet("font-size: 45px; font-weight: bold;");
   pointsLayout->addWidget(points, 0, Qt::AlignTop);
 
   mainLayout->addWidget(pointsWidget);
@@ -125,7 +126,6 @@ void PrimeUserWidget::replyFinished(const QString &response) {
   }
 
   QJsonObject json = doc.object();
-  points->setText(QString::number(json["points"].toInt()));
 }
 
 PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QFrame(parent) {
