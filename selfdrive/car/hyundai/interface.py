@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from selfdrive.car.hyundai.carstate import CarState
 import numpy as np
 import os
 import shutil
@@ -7,7 +8,7 @@ from cereal import car
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
-from selfdrive.car.interfaces import CarInterfaceBase
+from selfdrive.car.interfaces import CarInterfaceBase, CarStateBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
 
@@ -378,7 +379,8 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
-      #TPMS
+
+      #TPMS - JPR
       ret.minFTP = 45
       ret.minRTP = 45
 
@@ -539,12 +541,12 @@ class CarInterface(CarInterfaceBase):
         self.low_speed_alert = False
       if self.low_speed_alert:
         events.add(car.CarEvent.EventName.belowSteerSpeed)
-    
+  
     #TPMS Alerts - JPR
-    if self.CS.getTpmsFl or self.CS.getTpmsFr < self.CP.minFTP:
-      events.add(car.CarEvent.EventName.FTMPS)
-    if self.CS.getTpmsRl or self.CS.getTpmsRr < self.CP.minRTP:
-      events.add(car.CarEvent.EventName.RTMPS)
+    if self.CS.tpmsFl or self.CS.tpmsFr < self.CP.minFTP:
+      events.add(car.CarEvent.EventName.fTPMS)
+    if self.CS.tpmsRl or self.CS.tpmsRr < self.CP.minRTP:
+      events.add(car.CarEvent.EventName.rTPMS)
 
 
     if self.CC.longcontrol and self.CS.cruise_unavail:
