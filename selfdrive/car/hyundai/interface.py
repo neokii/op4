@@ -480,7 +480,7 @@ class CarInterface(CarInterfaceBase):
     return ret
     
 
-  def update(self, c, can_strings, CS):
+  def update(self, c, can_strings, CS: CarState):
     self.cp.update_strings(can_strings)
     self.cp2.update_strings(can_strings)
     self.cp_cam.update_strings(can_strings)
