@@ -379,9 +379,25 @@ QWidget * ParametersPanel() {
   TP2 = int(CS.tpmsFr)
   TP3 = int(CS.tpmsRl)
   TP4 = int(CS.tpmsRr)
-  QLabel* TPMSFR = new QLabel("FLTPMS %d", TP1);
+  list->addWidget(horizontal_line());
+  QLabel* TPMSFL = new QLabel("FLTPMS %d", TP1);
+  TPMSFL->setStyleSheet("font-size: 40px; font-weight: bold;");
+  list->addWidget(TPMSFL, 0, Qt::AlignTop);
+  list->addWidget(horizontal_line());
+
+  QLabel* TPMSFR = new QLabel("FRTPMS %d", TP2);
   TPMSFR->setStyleSheet("font-size: 40px; font-weight: bold;");
   list->addWidget(TPMSFR, 0, Qt::AlignTop);
+  list->addWidget(horizontal_line());
+
+  QLabel* TPMSRL = new QLabel("RLTPMS %d", TP3);
+  TPMSRL->setStyleSheet("font-size: 40px; font-weight: bold;");
+  list->addWidget(TPMSRL, 0, Qt::AlignTop);
+  list->addWidget(horizontal_line());
+
+  QLabel* TPMSRR = new QLabel("RRTPMS %d", TP4);
+  TPMSRR->setStyleSheet("font-size: 40px; font-weight: bold;");
+  list->addWidget(TPMSRR, 0, Qt::AlignTop);
   list->addWidget(horizontal_line());
 }
 
