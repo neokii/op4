@@ -1,6 +1,6 @@
 Version 0.8.7 (2021-)
 ========================
-* Add TPMS Alert. Send your cars make, model, and TPSM pressures to @JohnPR
+* Add TPMS Alert. Send your car's make, model, and TPSM pressures to @JohnPR
 * Added Panda Tools to settings under Device.
 * Comma Three support!
 * Navigation alpha for the comma three!
