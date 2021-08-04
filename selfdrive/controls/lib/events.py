@@ -201,7 +201,7 @@ def fTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: 
   if CS.tpmsFr < CP.minFTP:
     TPF = int(CS.tpmsFr)
     tpms = "Front Right"
-  unit = "Bar" if metric else "PSI"
+  unit = "Bar" if CS.displayMetricUnits else "PSI"
   return Alert(
     "LOW FRONT TIRE PRESSURE",
     "%s %d %s" % (tpms, TPF, unit),
@@ -215,7 +215,7 @@ def rTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: 
   elif CS.tpmsRr < CP.minRTP:
     TPR = int(CS.tpmsRr)
     tpms = "Rear Right"
-  unit = "Bar" if metric else "PSI"
+  unit = "Bar" if CS.displayMetricUnits else "PSI"
   return Alert(
     "LOW REAR TIRE PRESSURE",
     "%s %d %s" % (tpms, TPR, unit),
