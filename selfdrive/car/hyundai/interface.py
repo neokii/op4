@@ -379,6 +379,9 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
+      #TPMS - JPR
+      ret.minFTP = 38
+      ret.minRTP = 40
 
     elif candidate == CAR.FORTE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
