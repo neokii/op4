@@ -1,10 +1,11 @@
 from cereal import car
-from selfdrive.car.hyundai.values import DBC, STEER_THRESHOLD, FEATURES, CAR, HYBRID_CAR, EV_CAR
-from selfdrive.car.interfaces import CarStateBase
-from opendbc.can.parser import CANParser
-from opendbc.can.can_define import CANDefine
-from selfdrive.config import Conversions as CV
 from common.params import Params
+from opendbc.can.can_define import CANDefine
+from opendbc.can.parser import CANParser
+from selfdrive.car.hyundai.values import (CAR, DBC, EV_CAR, FEATURES,
+                                          HYBRID_CAR, STEER_THRESHOLD)
+from selfdrive.car.interfaces import CarStateBase
+from selfdrive.config import Conversions as CV
 
 GearShifter = car.CarState.GearShifter
 
@@ -49,7 +50,7 @@ class CarState(CarStateBase):
 
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
 
-  def update(self, cp, cp2, cp_cam):
+  def update(self, cp, cp2, cp_cam, CS):
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
     cp_scc = cp2 if self.scc_bus == 1 else cp_cam if self.scc_bus == 2 else cp
@@ -145,20 +146,25 @@ class CarState(CarStateBase):
 
     #TPMS
     if cp.vl["TPMS11"]["UNIT"] == 0.0:
-      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
-      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
-      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
-      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
+      ret.CS.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
     elif cp.vl["TPMS11"]["UNIT"] == 1.0:
-      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] * 5 * 0.145038
-      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] * 5 * 0.145038
-      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] * 5 * 0.145038
-      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] * 5 * 0.145038
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] * 5 * 0.145038
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] * 5 * 0.145038
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] * 5 * 0.145038
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] * 5 * 0.145038
     elif cp.vl["TPMS11"]["UNIT"] == 2.0:
-      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] / 10 * 14.5038
-      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] / 10 * 14.5038
-      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
-      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] / 10 * 14.5038
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] / 10 * 14.5038
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
+    else:
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
