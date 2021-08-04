@@ -102,7 +102,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   D = "https://discord.gg/bXGF7r8EPW"
   Discord = new QLabel("D");
-  Discord->setStyleSheet("font-size: 10px; font-family: Inter SemiBold;");
+  Discord->setStyleSheet("font-size: 20px; font-family: Inter SemiBold;");
   discordLayout->addWidget(Discord, 0, Qt::AlignTop);
 
   mainLayout->addWidget(discordWidget);
