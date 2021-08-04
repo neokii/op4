@@ -205,12 +205,12 @@ struct CarState {
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
   # tpms
-  struct TPMS {
+
   tpmsFl @37 :Float32;
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
-  }
+
 
   cruiseGap @41 : Int32;
   autoHold @42 : Int32;
