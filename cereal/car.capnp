@@ -420,7 +420,7 @@ struct CarParams {
   brakeMaxBP @15 :List(Float32);
   brakeMaxV @16 :List(Float32);
 
-  #TPMS
+  #TPMS - JPR
   minFTP @43 :Bool;
   minRTP @44 :Bool;
   # things about the car in the manual

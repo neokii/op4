@@ -193,6 +193,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
+#JPR
 def FTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   if CS.tpmsFl < CP.minFTP:
     TPF = int(CS.tpmsFl)
