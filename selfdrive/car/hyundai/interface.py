@@ -542,9 +542,9 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     
-    if CarStateBase.tpmsFl or CarStateBase.tpmsFr < self.minFTP:
+    if CarStateBase.CP.tpmsFl or CarStateBase.CP.tpmsFr < self.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if CarStateBase.tpmsRl or CarStateBase.tpmsRr < self.minRTP:
+    if CarStateBase.CP.tpmsRl or CarStateBase.CP.tpmsRr < self.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
