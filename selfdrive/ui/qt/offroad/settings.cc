@@ -372,13 +372,13 @@ QStringList get_list(const char* path)
 
   return stringList;
 }
-QWidget * ParametersPanel() {
+QWidget * ParametersPanel(CP: car.CarParams, CS: car.CarState) {
   QVBoxLayout *list = new QVBoxLayout();
   //toggles_list->setMargin(50);
-  TP1 = int(CS.tpmsFl)
-  TP2 = int(CS.tpmsFr)
-  TP3 = int(CS.tpmsRl)
-  TP4 = int(CS.tpmsRr)
+  int TP1 = CS.tpmsFl
+  int TP2 = CS.tpmsFr
+  int TP3 = CS.tpmsRl
+  int TP4 = CS.tpmsRr
   list->addWidget(horizontal_line());
   QLabel* TPMSFL = new QLabel("FLTPMS %d", TP1);
   TPMSFL->setStyleSheet("font-size: 40px; font-weight: bold;");
