@@ -30,6 +30,8 @@
 #include "selfdrive/ui/qt/widgets/toggle.h"
 #include "selfdrive/ui/ui.h"
 #include "selfdrive/ui/qt/util.h"
+#include "selfdrive/ui/qt/qt_window.h"
+
 
 #include <QComboBox>
 #include <QAbstractItemView>
@@ -107,16 +109,14 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   Params params = Params();
-
-  QString dongle = QString::fromStdString(params.get("DongleId", false));
-  main_layout->addWidget(new LabelControl("Dongle ID", dongle));
+  main_layout->addWidget(new LabelControl("Dongle ID", getDongleId().value_or("N/A")));
   main_layout->addWidget(horizontal_line());
 
   QString serial = QString::fromStdString(params.get("HardwareSerial", false));
   main_layout->addWidget(new LabelControl("Serial", serial));
 
   QHBoxLayout *reset_layout = new QHBoxLayout();
-  reset_layout->setSpacing(30);
+  reset_layout->setSpacing(30); 
 
   // reset calibration button
   QPushButton *reset_calib_btn = new QPushButton("Reset Calibration and LiveParameters");
@@ -132,11 +132,40 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
 
-  main_layout->addWidget(horizontal_line());
-  main_layout->addLayout(reset_layout);
 
   // Settings and buttons - JPR
-   
+  main_layout->addWidget(horizontal_line());
+  const char* gitpull = "sh /data/openpilot/gitpull.sh";
+  auto gitpullbtn = new ButtonControl("Git Pull and Reboot", "RUN");
+  QObject::connect(gitpullbtn, &ButtonControl::clicked, [=]() {
+    std::system(gitpull);
+    if (ConfirmationDialog::confirm("Process completed successfully. Reboot?", this)){
+      QTimer::singleShot(1000, []() { Hardware::reboot(); });
+    }
+  });
+  main_layout->addWidget(gitpullbtn);
+  main_layout->addWidget(horizontal_line());
+
+  const char* panda_flash = "sh /data/openpilot/panda/board/flash.sh";
+  auto pandaflashbtn = new ButtonControl("Flash Panda Firmware", "RUN");
+  QObject::connect(pandaflashbtn, &ButtonControl::clicked, [=]() {
+    std::system(panda_flash);
+    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
+      QTimer::singleShot(1000, []() { Hardware::reboot(); });
+    }
+  });
+  main_layout->addWidget(pandaflashbtn);
+  main_layout->addWidget(horizontal_line());
+
+  const char* panda_recover = "sh /data/openpilot/panda/board/recover.sh";
+  auto pandarecoverbtn = new ButtonControl("Panda Recover Firmware", "RUN");
+  QObject::connect(pandarecoverbtn, &ButtonControl::clicked, [=]() {
+    std::system(panda_recover);
+    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
+      QTimer::singleShot(1000, []() { Hardware::reboot(); });
+    }
+  });
+  main_layout->addWidget(pandarecoverbtn);
   main_layout->addWidget(horizontal_line());
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
@@ -214,14 +243,16 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     });
   }
 
-  auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
-  connect(uninstallBtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
-      Params().putBool("DoUninstall", true);
-    }
-  });
+  ButtonControl *regulatoryBtn = nullptr;
+  if (Hardware::TICI()) {
+    regulatoryBtn = new ButtonControl("Regulatory", "VIEW", "");
+    connect(regulatoryBtn, &ButtonControl::clicked, [=]() {
+      const std::string txt = util::read_file(ASSET_PATH.toStdString() + "/offroad/fcc.html");
+      RichTextDialog::alert(QString::fromStdString(txt), this);
+    });
+  }
 
-  for (auto btn : {dcamBtn, resetCalibBtn, retrainingBtn, uninstallBtn}) {
+  for (auto btn : {dcamBtn, resetCalibBtn, retrainingBtn, regulatoryBtn}) {
     if (btn) {
       main_layout->addWidget(horizontal_line());
       connect(parent, SIGNAL(offroadTransition(bool)), btn, SLOT(setEnabled(bool)));
@@ -286,10 +317,17 @@ SoftwarePanel::SoftwarePanel(QWidget* parent) : QWidget(parent) {
   QWidget *widgets[] = {versionLbl, lastUpdateLbl, updateBtn, gitBranchLbl, gitCommitLbl, osVersionLbl};
   for (int i = 0; i < std::size(widgets); ++i) {
     main_layout->addWidget(widgets[i]);
-    if (i < std::size(widgets) - 1) {
-      main_layout->addWidget(horizontal_line());
-    }
+    main_layout->addWidget(horizontal_line());
   }
+
+  auto uninstallBtn = new ButtonControl("Uninstall " + getBrand(), "UNINSTALL");
+  connect(uninstallBtn, &ButtonControl::clicked, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
+      Params().putBool("DoUninstall", true);
+    }
+  });
+  connect(parent, SIGNAL(offroadTransition(bool)), uninstallBtn, SLOT(setEnabled(bool)));
+  main_layout->addWidget(uninstallBtn);
 
   fs_watch = new QFileSystemWatcher(this);
   QObject::connect(fs_watch, &QFileSystemWatcher::fileChanged, [=](const QString path) {
@@ -414,6 +452,10 @@ QWidget * community_panel() {
   toggles_list->addWidget(supported_cars);
 
 //settings - JPR
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("PutPrebuilt", "Prebuilt Enable",
+                                  "Create prebuilt files to speed bootup",
+                                  "../assets/offroad/icon_addon.png"));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AR",
                                             "Enable Auto Record",
