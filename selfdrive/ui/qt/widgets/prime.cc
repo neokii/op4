@@ -103,7 +103,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
 
   QLabel* points = new QLabel("https://discord.gg/bXGF7r8EPW");
-  points->setStyleSheet("font-size: 42px; font-weight: bold;");
+  points->setStyleSheet("font-size: 39px; font-weight: bold;");
   pointsLayout->addWidget(points, 0, Qt::AlignTop);
 
   mainLayout->addWidget(pointsWidget);
