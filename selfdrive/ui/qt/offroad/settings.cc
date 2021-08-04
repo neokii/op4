@@ -422,6 +422,9 @@ QWidget * community_panel() {
   toggles_list->addWidget(supported_cars);
 
 //settings - JPR
+  toggles_list->addWidget(new ParamControl("PutPrebuilt", "Prebuilt Enable",
+                                  "Create prebuilt files to speed bootup",
+                                  "../assets/offroad/icon_addon.png", this));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AR",
                                             "Enable Auto Record",
