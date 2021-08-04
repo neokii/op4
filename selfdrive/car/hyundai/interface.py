@@ -376,6 +376,9 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.4]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
+      #TPMS
+      ret.MIN_FTP = 38
+      ret.MIN_RTP = 39
 
     elif candidate == CAR.FORTE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
@@ -404,6 +407,9 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.73  # Spec
       tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
+      #TPMS
+      ret.MIN_FTP = 36
+      ret.MIN_RTP = 36
       if candidate == CAR.NIRO_HEV and not Params().get_bool('UseSMDPSHarness'):
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
@@ -533,7 +539,11 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
     
     #TPMS Alerts - JPR
-    if 
+    if self.CS.getTpmsFl or self.CS.getTpmsFr < self.MIN_FTP:
+      events.add(EventName.FTMPS_Warning)
+    if self.CS.getTpmsRl or self.CS.getTpmsRr < self.MIN_RTP:
+      events.add(EventName.RTMPS_Warning)
+
 
     if self.CC.longcontrol and self.CS.cruise_unavail:
       events.add(EventName.brakeUnavailable)
