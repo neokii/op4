@@ -193,7 +193,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def F_TPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def FTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   CP = car.CarParams
   if CS.tpmsFl < CP.MIN_FTP:
     TPF = int(CS.tpmsFl)
@@ -208,7 +208,7 @@ def F_TPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def R_TPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def RTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   CP = car.CarParams
   if CS.tpmsRl < CP.tpmsRl:
     TPR = int(CS.tpmsRl)
@@ -525,11 +525,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.FTPMS: {
-    ET.WARNING: F_TPMS,
+    ET.WARNING: FTPMS,
   },
 
   EventName.RTPMS: {
-    ET.WARNING: R_TPMS,
+    ET.WARNING: RTPMS,
   },
   
   EventName.preLaneChangeLeft: {
