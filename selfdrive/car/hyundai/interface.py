@@ -379,8 +379,8 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
       #TPMS
-      ret.MIN_FTP = 45
-      ret.MIN_RTP = 45
+      ret.minFTP = 45
+      ret.minRTP = 45
 
     elif candidate == CAR.FORTE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
@@ -410,8 +410,8 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
       #TPMS
-      ret.MIN_FTP = 36
-      ret.MIN_RTP = 36
+      ret.minFTP = 36
+      ret.minRTP = 36
       if candidate == CAR.NIRO_HEV and not Params().get_bool('UseSMDPSHarness'):
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
@@ -541,9 +541,9 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
     
     #TPMS Alerts - JPR
-    if self.CS.getTpmsFl or self.CS.getTpmsFr < self.CP.MIN_FTP:
+    if self.CS.getTpmsFl or self.CS.getTpmsFr < self.CP.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if self.CS.getTpmsRl or self.CS.getTpmsRr < self.CP.MIN_RTP:
+    if self.CS.getTpmsRl or self.CS.getTpmsRr < self.CP.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
