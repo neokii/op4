@@ -421,8 +421,8 @@ struct CarParams {
   brakeMaxV @16 :List(Float32);
 
   #TPMS - JPR
-  minFTP @65 :Bool;
-  minRTP @66 :Bool;
+  minFTP @65 :Float32;
+  minRTP @66 :Float32;
   # things about the car in the manual
   mass @17 :Float32;            # [kg] curb weight: all fluids no cargo
   wheelbase @18 :Float32;       # [m] distance from rear axle to front axle
