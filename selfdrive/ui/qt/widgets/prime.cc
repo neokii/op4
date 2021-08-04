@@ -101,7 +101,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   pointsLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
   D = "https://discord.gg/bXGF7r8EPW"
-  Discord = new QLabel("D");
+  Discord = new QLabel('D');
   Discord->setStyleSheet("font-size: 20px; font-family: Inter SemiBold;");
   discordLayout->addWidget(Discord, 0, Qt::AlignTop);
 
