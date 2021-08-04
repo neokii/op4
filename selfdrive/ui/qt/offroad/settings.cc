@@ -32,6 +32,7 @@
 #include "selfdrive/ui/qt/util.h"
 #include "selfdrive/ui/qt/qt_window.h"
 
+
 #include <QComboBox>
 #include <QAbstractItemView>
 #include <QScroller>
@@ -115,7 +116,20 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   main_layout->addWidget(new LabelControl("Serial", serial));
 
   QHBoxLayout *reset_layout = new QHBoxLayout();
-  reset_layout->setSpacing(30);
+  reset_layout->setSpacing(30); 
+
+  char tpmsFl[32];
+  char tpmsFr[32];
+  char tpmsRl[32];
+  char tpmsRr[32];
+  main_layout->addWidget(new LabelControl("FLTPMS", s->scene.tpmsFl));
+  main_layout->addWidget(horizontal_line());
+  main_layout->addWidget(new LabelControl("FRTPMS", s->scene.tpmsFr));
+  main_layout->addWidget(horizontal_line());
+  main_layout->addWidget(new LabelControl("RLTPMS", s->scene.tpmsRl));
+  main_layout->addWidget(horizontal_line());
+  main_layout->addWidget(new LabelControl("RRTPMS", s->scene.tpmsRr));
+  main_layout->addWidget(horizontal_line());
 
   // reset calibration button
   QPushButton *reset_calib_btn = new QPushButton("Reset Calibration and LiveParameters");
