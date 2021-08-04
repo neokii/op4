@@ -108,6 +108,8 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     driverCameraError @101;
     wideRoadCameraError @102;
     localizerMalfunction @103;
+    rTPMS @109;
+    fTPMS @110;
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
@@ -200,8 +202,14 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
-  cruiseGap @37 : Int32;
-  autoHold @38 : Int32;
+  # tpms
+  tpmsFl @37 :Float32;
+  tpmsFr @38 :Float32;
+  tpmsRl @39 :Float32;
+  tpmsRr @40 :Float32;
+
+  cruiseGap @41 : Int32;
+  autoHold @42 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds
