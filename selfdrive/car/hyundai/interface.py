@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from selfdrive.car.hyundai.carstate import CarState
 import numpy as np
 import os
 import shutil
@@ -542,9 +543,9 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     
-    if CarStateBase.CP.tpmsFl or CarStateBase.CP.tpmsFr < self.minFTP:
+    if CarState.tpmsFl or CarState.tpmsFr < self.minFTP:
       events.add(car.CarEvent.EventName.FTMPS)
-    if CarStateBase.CP.tpmsRl or CarStateBase.CP.tpmsRr < self.minRTP:
+    if CarState.tpmsRl or CarState.tpmsRr < self.minRTP:
       events.add(car.CarEvent.EventName.RTMPS)
 
 
