@@ -372,7 +372,6 @@ QStringList get_list(const char* path)
 
   return stringList;
 }
-QWidget * ParametersPanel(CP: car.CarParams, CS: car.CarState) {
 
 QWidget * community_panel() {
   QVBoxLayout *toggles_list = new QVBoxLayout();
