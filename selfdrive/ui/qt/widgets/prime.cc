@@ -97,12 +97,12 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   pointsWidget->setContentsMargins(60, 50, 60, 50);
 
   QLabel* commaPoints = new QLabel("Please Join Our Discord.");
-  commaPoints->setStyleSheet("font-size: 41px; font-family: Inter SemiBold;");
+  commaPoints->setStyleSheet("font-size: 50px; font-family: Inter SemiBold;");
   pointsLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
 
   QLabel* points = new QLabel("https://discord.gg/bXGF7r8EPW");
-  points->setStyleSheet("font-size: 30px; font-weight: bold;");
+  points->setStyleSheet("font-size: 45px; font-weight: bold;");
   pointsLayout->addWidget(points, 0, Qt::AlignTop);
 
   mainLayout->addWidget(pointsWidget);
