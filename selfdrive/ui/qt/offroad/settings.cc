@@ -149,8 +149,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* panda_flash = "sh /data/openpilot/panda/board/flash.sh";
   auto pandaflashbtn = new ButtonControl("Flash Panda Firmware", "RUN");
   QObject::connect(pandaflashbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Run Process and Reboot?", this)){
-      std::system(panda_flash);
+    std::system(panda_flash);
+    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
   });
@@ -160,8 +160,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   const char* panda_recover = "sh /data/openpilot/panda/board/recover.sh";
   auto pandarecoverbtn = new ButtonControl("Panda Recover Firmware", "RUN");
   QObject::connect(pandarecoverbtn, &ButtonControl::clicked, [=]() {
-    if (ConfirmationDialog::confirm("Run Process and Reboot?", this)){
-      std::system(panda_recover);
+    std::system(panda_recover);
+    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
       QTimer::singleShot(1000, []() { Hardware::reboot(); });
     }
   });
