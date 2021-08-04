@@ -118,19 +118,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QHBoxLayout *reset_layout = new QHBoxLayout();
   reset_layout->setSpacing(30); 
 
-  char tpmsFl[32];
-  char tpmsFr[32];
-  char tpmsRl[32];
-  char tpmsRr[32];
-  main_layout->addWidget(new LabelControl("FLTPMS", s->scene.tpmsFl));
-  main_layout->addWidget(horizontal_line());
-  main_layout->addWidget(new LabelControl("FRTPMS", s->scene.tpmsFr));
-  main_layout->addWidget(horizontal_line());
-  main_layout->addWidget(new LabelControl("RLTPMS", s->scene.tpmsRl));
-  main_layout->addWidget(horizontal_line());
-  main_layout->addWidget(new LabelControl("RRTPMS", s->scene.tpmsRr));
-  main_layout->addWidget(horizontal_line());
-
   // reset calibration button
   QPushButton *reset_calib_btn = new QPushButton("Reset Calibration and LiveParameters");
   reset_calib_btn->setStyleSheet("height: 120px;border-radius: 15px;background-color: #393939;");
@@ -145,8 +132,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
 
-  main_layout->addWidget(horizontal_line());
-  main_layout->addLayout(reset_layout);
 
   // Settings and buttons - JPR
    
@@ -438,7 +423,7 @@ QWidget * community_panel() {
 //settings - JPR
   toggles_list->addWidget(new ParamControl("PutPrebuilt", "Prebuilt Enable",
                                   "Create prebuilt files to speed bootup",
-                                  "../assets/offroad/icon_addon.png", this));
+                                  "../assets/offroad/icon_addon.png"));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("AR",
                                             "Enable Auto Record",
