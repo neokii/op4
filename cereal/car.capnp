@@ -110,6 +110,8 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     localizerMalfunction @103;
     rTPMS @109;
     fTPMS @110;
+    minFTP @111;
+    minRTP @112;
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;

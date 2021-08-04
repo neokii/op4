@@ -194,10 +194,10 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def FTPMS(CS, CP: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  if CS.tpmsFl < CP.MIN_FTP:
+  if CS.tpmsFl < CP.minFTP:
     TPF = int(CS.tpmsFl)
     tpms = "Front Left"
-  if CS.tpmsFr < CP.MIN_FTP:
+  if CS.tpmsFr < CP.minFTP:
     TPF = int(CS.tpmsFr)
     tpms = "Front Right"
   unit = "Bar" if metric else "PSI"
@@ -211,7 +211,7 @@ def RTPMS(CS, CP: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   if CS.tpmsRl < CP.tpmsRl:
     TPR = int(CS.tpmsRl)
     tpms = "Rear Left"
-  if CS.tpmsRr < CP.MIN_FTP:
+  if CS.tpmsRr < CP.minRTP:
     TPR = int(CS.tpmsRr)
     tpms = "Rear Right"
   unit = "Bar" if metric else "PSI"
