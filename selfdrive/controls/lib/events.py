@@ -194,7 +194,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 #JPR
-def fTPMS(CP: car.CarParams, CS: car.CarState) -> Alert:
+def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, CS: car.CarState) -> Alert:
   if CS.tpmsFl < CP.minFTP:
     TPF = int(CS.tpmsFl)
     tpms = "Front Left"
@@ -208,8 +208,8 @@ def fTPMS(CP: car.CarParams, CS: car.CarState) -> Alert:
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rTPMS(CP: car.CarParams, CS: car.CarState) -> Alert:
-  if CS.tpmsRl < CP.tpmsRl:
+def rTPMS(CP: car.CarParams, sm: messaging.SubMaster, CS: car.CarState) -> Alert:
+  if CS.tpmsRl < CP.minRTP:
     TPR = int(CS.tpmsRl)
     tpms = "Rear Left"
   elif CS.tpmsRr < CP.minRTP:
