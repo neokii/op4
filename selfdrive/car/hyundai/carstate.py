@@ -146,25 +146,25 @@ class CarState(CarStateBase):
 
     #TPMS
     if cp.vl["TPMS11"]["UNIT"] == 0.0:
-      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
-      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
-      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
-      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
+      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
+      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
+      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
     elif cp.vl["TPMS11"]["UNIT"] == 1.0:
-      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] * 5 * 0.145038
-      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] * 5 * 0.145038
-      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] * 5 * 0.145038
-      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] * 5 * 0.145038
+      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] * 5 * 0.145038
+      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] * 5 * 0.145038
+      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] * 5 * 0.145038
+      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] * 5 * 0.145038
     elif cp.vl["TPMS11"]["UNIT"] == 2.0:
-      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] / 10 * 14.5038
-      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] / 10 * 14.5038
-      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
-      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
+      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] / 10 * 14.5038
+      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] / 10 * 14.5038
+      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
+      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
     else:
-      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
-      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
-      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
-      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
+      self.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      self.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
+      self.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
+      self.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
