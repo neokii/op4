@@ -1,5 +1,8 @@
 Version 0.8.7 (2021-)
 ========================
+* Comma Three support!
+* Navigation alpha for the comma three!
+* Volkswagen T-Cross 2021 support thanks to jyoung8607!
 * Add TPMS Alert. Send your cars make, model, and TPSM pressures to @JohnPR
 * Added use LQR Toggle.
 * Work on broken tunes and tidy up code.
