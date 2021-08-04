@@ -1,6 +1,5 @@
 Version 0.8.7 (2021-)
 ========================
-* Add TPMS Alert. Send your cars make, model, and TPSM pressures to @JohnPR
 * Added use LQR Toggle.
 * Work on broken tunes and tidy up code.
 * Fixed Kia Niro 2019 HEV FW Fingerprint V2

@@ -1,12 +1,11 @@
 from enum import IntEnum
 from typing import Dict, Union, Callable, Any
-from common.params import Params
+
 from cereal import log, car
 import cereal.messaging as messaging
 from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.locationd.calibrationd import MIN_SPEED_FILTER
-
 
 AlertSize = log.ControlsState.AlertSize
 AlertStatus = log.ControlsState.AlertStatus
@@ -193,34 +192,6 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-#JPR
-def fTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  if CS.tpmsFl < CP.minFTP:
-    TPF = int(CS.tpmsFl)
-    tpms = "Front Left"
-  if CS.tpmsFr < CP.minFTP:
-    TPF = int(CS.tpmsFr)
-    tpms = "Front Right"
-  unit = "Bar" if metric else "PSI"
-  return Alert(
-    "LOW FRONT TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPF, unit),
-    AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
-
-def rTPMS(CP: car.CarParams, CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  if CS.tpmsRl < CP.tpmsRl:
-    TPR = int(CS.tpmsRl)
-    tpms = "Rear Left"
-  elif CS.tpmsRr < CP.minRTP:
-    TPR = int(CS.tpmsRr)
-    tpms = "Rear Right"
-  unit = "Bar" if metric else "PSI"
-  return Alert(
-    "LOW REAR TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPR, unit),
-    AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
@@ -523,14 +494,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
-  EventName.fTPMS: {
-    ET.WARNING: fTPMS,
-  },
-
-  EventName.rTPMS: {
-    ET.WARNING: rTPMS,
-  },
-  
   EventName.preLaneChangeLeft: {
     ET.WARNING: Alert(
       "Steer Left to Start Lane Change",
