@@ -373,33 +373,6 @@ QStringList get_list(const char* path)
   return stringList;
 }
 QWidget * ParametersPanel(CP: car.CarParams, CS: car.CarState) {
-  QVBoxLayout *list = new QVBoxLayout();
-  //toggles_list->setMargin(50);
-  int TP1 = CS.tpmsFl
-  int TP2 = CS.tpmsFr
-  int TP3 = CS.tpmsRl
-  int TP4 = CS.tpmsRr
-  list->addWidget(horizontal_line());
-  QLabel* TPMSFL = new QLabel("FLTPMS %d", TP1);
-  TPMSFL->setStyleSheet("font-size: 40px; font-weight: bold;");
-  list->addWidget(TPMSFL, 0, Qt::AlignTop);
-  list->addWidget(horizontal_line());
-
-  QLabel* TPMSFR = new QLabel("FRTPMS %d", TP2);
-  TPMSFR->setStyleSheet("font-size: 40px; font-weight: bold;");
-  list->addWidget(TPMSFR, 0, Qt::AlignTop);
-  list->addWidget(horizontal_line());
-
-  QLabel* TPMSRL = new QLabel("RLTPMS %d", TP3);
-  TPMSRL->setStyleSheet("font-size: 40px; font-weight: bold;");
-  list->addWidget(TPMSRL, 0, Qt::AlignTop);
-  list->addWidget(horizontal_line());
-
-  QLabel* TPMSRR = new QLabel("RRTPMS %d", TP4);
-  TPMSRR->setStyleSheet("font-size: 40px; font-weight: bold;");
-  list->addWidget(TPMSRR, 0, Qt::AlignTop);
-  list->addWidget(horizontal_line());
-}
 
 QWidget * community_panel() {
   QVBoxLayout *toggles_list = new QVBoxLayout();
@@ -625,9 +598,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
     {"Network", network_panel(this)},
     {"Toggles", new TogglesPanel(this)},
     {"Software", new SoftwarePanel(this)},
-    {"Parameters", new ParametersPanel(this)},
     {"Community", community_panel()},
-    
   };
 
 #ifdef ENABLE_MAPS
