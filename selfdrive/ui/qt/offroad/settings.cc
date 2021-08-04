@@ -372,6 +372,18 @@ QStringList get_list(const char* path)
 
   return stringList;
 }
+QWidget * ParametersPanel() {
+  QVBoxLayout *list = new QVBoxLayout();
+  //toggles_list->setMargin(50);
+  TP1 = int(CS.tpmsFl)
+  TP2 = int(CS.tpmsFr)
+  TP3 = int(CS.tpmsRl)
+  TP4 = int(CS.tpmsRr)
+  QLabel* TPMSFR = new QLabel("FLTPMS %d", TP1);
+  TPMSFR->setStyleSheet("font-size: 40px; font-weight: bold;");
+  list->addWidget(TPMSFR, 0, Qt::AlignTop);
+  list->addWidget(horizontal_line());
+}
 
 QWidget * community_panel() {
   QVBoxLayout *toggles_list = new QVBoxLayout();
@@ -597,7 +609,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
     {"Network", network_panel(this)},
     {"Toggles", new TogglesPanel(this)},
     {"Software", new SoftwarePanel(this)},
+    {"Parameters", new ParametersPanel(this)},
     {"Community", community_panel()},
+    
   };
 
 #ifdef ENABLE_MAPS
