@@ -209,8 +209,7 @@ struct CarState {
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
-  minFTP @43 :Bool;
-  minRTP @44 :Bool;
+
 
   cruiseGap @41 : Int32;
   autoHold @42 : Int32;
@@ -421,6 +420,9 @@ struct CarParams {
   brakeMaxBP @15 :List(Float32);
   brakeMaxV @16 :List(Float32);
 
+  #TPMS
+  minFTP @43 :Bool;
+  minRTP @44 :Bool;
   # things about the car in the manual
   mass @17 :Float32;            # [kg] curb weight: all fluids no cargo
   wheelbase @18 :Float32;       # [m] distance from rear axle to front axle
