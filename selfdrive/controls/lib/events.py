@@ -193,7 +193,7 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def FTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def F_TPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   CP = car.CarParams
   if CS.tpmsFl < CP.MIN_FTP:
     TPF = int(CS.tpmsFl)
@@ -208,7 +208,7 @@ def FTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def RTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def R_TPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   CP = car.CarParams
   if CS.tpmsRl < CP.tpmsRl:
     TPR = int(CS.tpmsRl)
@@ -564,10 +564,10 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
   EventName.FTPMS: {
-    ET.WARNING: FTPMS,
+    ET.WARNING: F_TPMS,
   },
   EventName.RTPMS: {
-    ET.WARNING: RTPMS,
+    ET.WARNING: R_TPMS,
   },
   # Thrown when the fan is driven at >50% but is not rotating
   EventName.fanMalfunction: {
