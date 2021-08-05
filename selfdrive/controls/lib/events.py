@@ -516,17 +516,17 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
-  EventName.flTPMS: {
+  EventName.fl: {
     ET.WARNING: flTPMS,
   },
-  EventName.frTPMS: {
+  EventName.fr: {
     ET.WARNING: frTPMS,
   },
 
-  EventName.rlTPMS: {
+  EventName.rl: {
     ET.WARNING: rlTPMS,
   },
-  EventName.rrTPMS: {
+  EventName.rr: {
     ET.WARNING: rrTPMS,
   },
   
