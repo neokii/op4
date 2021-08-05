@@ -274,7 +274,7 @@ def joystick_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> 
     Priority.LOW, VisualAlert.none, AudibleAlert.none, 0., 0., .1)
 
 
-EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, Any, messaging.SubMaster, bool], Alert]]]] = {
+EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, bool], Alert]]]] = {
   # ********** events with no alerts **********
 
   EventName.stockFcw: {},
