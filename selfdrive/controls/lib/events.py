@@ -195,42 +195,30 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
 def flTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  TPF = int(CS.tpmsFl)
-  tpms = "Front Left"
-  unit = "PSI"
   return Alert(
-    "LOW FRONT TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPF, unit),
+    "LOW FRONT LEFT TIRE PRESSURE",
+    CS.tpmsFl, "PSI",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def frTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  TPF = int(CS.tpmsFr)
-  tpms = "Front Right"
-  unit = "PSI"
   return Alert(
-    "LOW FRONT TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPF, unit),
+    "LOW FRONT RIGHT TIRE PRESSURE",
+    CS.tpmsFr, "PSI",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rlTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  TPR = int(CS.tpmsRl)
-  tpms = "Rear Left"
-  unit = "PSI"
   return Alert(
-    "LOW REAR TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPR, unit),
+    "LOW REAR LEFT TIRE PRESSURE",
+    CS.tpmsRl, "PSI",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rrTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-  TPR = int(CS.tpmsRr)
-  tpms = "Rear Right"
-  unit = "PSI"
   return Alert(
-    "LOW REAR TIRE PRESSURE",
-    "%s %d %s" % (tpms, TPR, unit),
+    "LOW REAR RIGHT TIRE PRESSURE",
+    CS.tpmsRr, "PSI",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
