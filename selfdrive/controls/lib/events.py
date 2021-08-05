@@ -1,11 +1,12 @@
 from enum import IntEnum
 from typing import Dict, Union, Callable, Any
-
+from common.params import Params
 from cereal import log, car
 import cereal.messaging as messaging
 from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.locationd.calibrationd import MIN_SPEED_FILTER
+
 
 AlertSize = log.ControlsState.AlertSize
 AlertStatus = log.ControlsState.AlertStatus
@@ -184,6 +185,7 @@ class NormalPermanentAlert(Alert):
 
 # ********** alert callback functions **********
 def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  
   speed = int(round(CP.minSteerSpeed * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH)))
   unit = "km/h" if metric else "mph"
   return Alert(
@@ -191,7 +193,38 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+#JPR
+def flTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TP = int(CS.tpmsFl)
+  return Alert(
+    "LOW FRONT LEFT TIRE PRESSURE",
+    "(%d) PSI" % TP,
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
+def frTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TP = int(CS.tpmsFr)
+  return Alert(
+    "LOW FRONT RIGHT TIRE PRESSURE",
+    "(%d) PSI" % TP,
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rlTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TP = int(CS.tpmsRl)
+  return Alert(  
+    "LOW REAR LEFT TIRE PRESSURE",
+    "(%d) PSI" % TP,
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rrTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TP = int(CS.tpmsRr)
+  return Alert(
+    "LOW REAR RIGHT TIRE PRESSURE",
+    "(%d) PSI" % TP,
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
@@ -247,6 +280,8 @@ def joystick_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> 
 
 EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, bool], Alert]]]] = {
   # ********** events with no alerts **********
+
+  EventName.stockFcw: {},
 
   # ********** events only containing alerts displayed in all states **********
 
@@ -363,15 +398,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.critical, AlertSize.full,
       Priority.HIGHEST, VisualAlert.fcw, AudibleAlert.none, 1., 2., 2.),
     ET.NO_ENTRY: NoEntryAlert("Stock AEB: Risk of Collision"),
-  },
-
-  EventName.stockFcw: {
-    ET.PERMANENT: Alert(
-      "BRAKE!",
-      "Stock FCW: Risk of Collision",
-      AlertStatus.critical, AlertSize.full,
-      Priority.HIGHEST, VisualAlert.fcw, AudibleAlert.none, 1., 2., 2.),
-    ET.NO_ENTRY: NoEntryAlert("Stock FCW: Risk of Collision"),
   },
 
   EventName.fcw: {
@@ -494,6 +520,20 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
+  EventName.fl: {
+    ET.WARNING: flTPMS,
+  },
+  EventName.fr: {
+    ET.WARNING: frTPMS,
+  },
+
+  EventName.rl: {
+    ET.WARNING: rlTPMS,
+  },
+  EventName.rr: {
+    ET.WARNING: rrTPMS,
+  },
+  
   EventName.preLaneChangeLeft: {
     ET.WARNING: Alert(
       "Steer Left to Start Lane Change",

@@ -10,6 +10,7 @@ from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness,
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
+from selfdrive.car.hyundai.carstate import CarStateBase, CarState
 
 
 GearShifter = car.CarState.GearShifter
@@ -87,8 +88,8 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
 
     ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
@@ -103,12 +104,12 @@ class CarInterface(CarInterfaceBase):
 
     # genesis
     if candidate == CAR.GENESIS:
+      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 1900. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
       ret.steerRatio = 16.5
-      os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
 
     elif candidate == CAR.GENESIS_G70:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -131,8 +132,8 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [0.6, 0.58, 0.55, 0.48, 0.45, 0.40, 0.35]
       ret.longitudinalTuning.kiBP = [0.]
       ret.longitudinalTuning.kiV = [0.015]
-      ret.longitudinalTuning.kfBP = [50. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [0.5, 0.3]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.85, 0.7, 0.45, 0.3, 0.2, 0.15]
 
     elif candidate == CAR.GENESIS_G80:
@@ -156,10 +157,10 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
-      ret.gasMaxV = [0.6, 0.41, 0.32, 0.24, 0.17, 0.13]
-
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
+      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
+      
     elif candidate == CAR.GENESIS_EQ900:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2060. + STD_CARGO_KG
@@ -178,8 +179,9 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
+      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.GENESIS_EQ900_L:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -205,8 +207,9 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
+      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
 
     # hyundai
     elif candidate in [CAR.SANTA_FE]:
@@ -294,9 +297,9 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.20, 1.1, 1.05, 1.0, 0.95, 0.90, 0.85]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
-      ret.gasMaxV = [0.65, 0.70, 0.65, 0.55, 0.45, 0.35]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
+      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
@@ -373,8 +376,8 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.185, 1.095, 1.0, 0.95, 0.90, 0.85, 0.80]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [0., 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.4]
+      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.FORTE:
@@ -479,6 +482,8 @@ class CarInterface(CarInterfaceBase):
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
 
+    #self.CS = CarState()
+
     if self.CP.pcmCruise and not self.CC.scc_live:
       self.CP.pcmCruise = False
     elif self.CC.scc_live and not self.CP.pcmCruise:
@@ -532,10 +537,22 @@ class CarInterface(CarInterfaceBase):
       if self.low_speed_alert:
         events.add(car.CarEvent.EventName.belowSteerSpeed)
 
+    #TPMS Alerts - JPR
+    minTP = 28
+    if self.CS.tpmsFl < minTP:
+      events.add(car.CarEvent.EventName.fl)
+    elif self.CS.tpmsFr < minTP:
+      events.add(car.CarEvent.EventName.fr)
+    elif self.CS.tpmsRl < minTP:
+      events.add(car.CarEvent.EventName.rl)
+    elif self.CS.tpmsRr < minTP:
+      events.add(car.CarEvent.EventName.rr)
+
+
     if self.CC.longcontrol and self.CS.cruise_unavail:
       events.add(EventName.brakeUnavailable)
-    #if abs(ret.steeringAngleDeg) > 90. and EventName.steerTempUnavailable not in events.events:
-    #  events.add(EventName.steerTempUnavailable)
+    if abs(ret.steeringAngleDeg) > self.CP.maxSteeringAngleDeg and EventName.steerSaturated not in events.events:
+      events.add(EventName.steerSaturated)
     if self.low_speed_alert and not self.CS.mdps_bus:
       events.add(EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
