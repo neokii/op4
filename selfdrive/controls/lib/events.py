@@ -194,14 +194,9 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
-def fTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
-
-  if CS.tpmsFl < car.minFTP:
-    TPF = int(CS.tpmsFr)
-    tpms = "Front Left"
-  elif CS.tpmsFr < car.minFTP:
-    TPF = int(CS.tpmsFr)
-    tpms = "Front Right"
+def flTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TPF = int(CS.tpmsFl)
+  tpms = "Front Left"
   unit = "PSI"
   return Alert(
     "LOW FRONT TIRE PRESSURE",
@@ -209,14 +204,29 @@ def fTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def frTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TPF = int(CS.tpmsFr)
+  tpms = "Front Right"
+  unit = "PSI"
+  return Alert(
+    "LOW FRONT TIRE PRESSURE",
+    "%s %d %s" % (tpms, TPF, unit),
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-  if CS.tpmsRl < car.minRTP:
-    TPR = int(CS.tpmsRl)
-    tpms = "Rear Left"
-  elif CS.tpmsRr < car.minRTP:
-    TPR = int(CS.tpmsRr)
-    tpms = "Rear Right"
+def rlTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TPR = int(CS.tpmsRl)
+  tpms = "Rear Left"
+  unit = "PSI"
+  return Alert(
+    "LOW REAR TIRE PRESSURE",
+    "%s %d %s" % (tpms, TPR, unit),
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rrTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+  TPR = int(CS.tpmsRr)
+  tpms = "Rear Right"
   unit = "PSI"
   return Alert(
     "LOW REAR TIRE PRESSURE",
@@ -518,12 +528,18 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
-  EventName.fTPMS: {
-    ET.WARNING: fTPMS,
+  EventName.flTPMS: {
+    ET.WARNING: flTPMS,
+  },
+  EventName.frTPMS: {
+    ET.WARNING: frTPMS,
   },
 
-  EventName.rTPMS: {
-    ET.WARNING: rTPMS,
+  EventName.rlTPMS: {
+    ET.WARNING: rlTPMS,
+  },
+  EventName.rrTPMS: {
+    ET.WARNING: rrTPMS,
   },
   
   EventName.preLaneChangeLeft: {
