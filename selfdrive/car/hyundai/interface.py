@@ -546,15 +546,15 @@ class CarInterface(CarInterfaceBase):
         self.low_speed_alert = False
       if self.low_speed_alert:
         events.add(car.CarEvent.EventName.belowSteerSpeed)
-  
+
     #TPMS Alerts - JPR
-    if CarState.tpmsFl < self.CP.minFTP:
+    if self.CS.tpmsFl < self.CP.minFTP:
       events.add(car.CarEvent.EventName.flTPMS)
-    elif CarState.tpmsFr < self.CP.minFTP:
+    elif self.CS.tpmsFr < self.CP.minFTP:
       events.add(car.CarEvent.EventName.frTPMS)
-    elif CarState.tpmsRl < self.CP.minRTP:
+    elif self.CS.tpmsRl < self.CP.minRTP:
       events.add(car.CarEvent.EventName.rlTPMS)
-    elif CarState.tpmsRr < self.CP.minRTP:
+    elif self.CS.tpmsRr < self.CP.minRTP:
       events.add(car.CarEvent.EventName.rrTPMS)
 
 
