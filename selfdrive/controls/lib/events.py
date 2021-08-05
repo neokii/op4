@@ -194,31 +194,31 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
-def flTPMS(CS, sm: messaging.SubMaster, metric: bool) -> Alert:
+def flTPMS(CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT LEFT TIRE PRESSURE",
-    "(%d) PSI" % CS.CarState.tpmsFl,
+    "(%d) PSI" % CarState.tpmsFl,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def frTPMS(CS, sm: messaging.SubMaster, metric: bool) -> Alert:
+def frTPMS(CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CS.CarState.tpmsFr,
+    "(%d) PSI" % CarState.tpmsFr,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rlTPMS(CS, sm: messaging.SubMaster, metric: bool) -> Alert:
+def rlTPMS(CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(  
     "LOW REAR LEFT TIRE PRESSURE",
-    "(%d) PSI" % CS.CarState.tpmsRl,
+    "(%d) PSI" % CarState.tpmsRl,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rrTPMS(CS, sm: messaging.SubMaster, metric: bool) -> Alert:
+def rrTPMS(CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW REAR RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CS.CarState.tpmsRr,
+    "(%d) PSI" % CarState.tpmsRr,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
