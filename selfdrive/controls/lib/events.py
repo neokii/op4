@@ -6,7 +6,6 @@ import cereal.messaging as messaging
 from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.locationd.calibrationd import MIN_SPEED_FILTER
-from selfdrive.car.hyundai.carstate import CarState
 
 AlertSize = log.ControlsState.AlertSize
 AlertStatus = log.ControlsState.AlertStatus
@@ -196,7 +195,10 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
 o
 #JPR
 def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  tpfl = sm['carState'].tpmsFl
+  #tpfl = sm['carState'].tpmsFl
+  #tpfr = sm['carState'].tpmsFR
+  #tprl = sm['carState'].tpmsRl
+  #tprr = sm['carState'].tpmsRr
   if car.tpmsFl < CP.minFTP:
     TPF = int(car.tpmsFr)
     tpms = "Front Left"
@@ -211,6 +213,10 @@ def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  #tpfl = sm['carState'].tpmsFl
+  #tpfr = sm['carState'].tpmsFR
+  #tprl = sm['carState'].tpmsRl
+  #tprr = sm['carState'].tpmsRr
   if car.tpmsRl < CP.minRTP:
     TPR = int(car.tpmsRl)
     tpms = "Rear Left"
