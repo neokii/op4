@@ -433,7 +433,7 @@ struct PandaState @0xa7649e2575e4591e {
     pedal @4;
     uno @5;
     dos @6;
-    redPanda @7;
+    red @7;
   }
 
   enum UsbPowerMode {

@@ -7,7 +7,6 @@
 
 #include "selfdrive/common/params.h"
 #include "selfdrive/ui/qt/request_repeater.h"
-#include "selfdrive/ui/qt/util.h"
 
 const double MILE_TO_KM = 1.60934;
 
@@ -47,9 +46,10 @@ DriveStats::DriveStats(QWidget* parent) : QFrame(parent) {
   main_layout->addStretch();
   add_stats_layouts("PAST WEEK", week_);
 
-   if (auto dongleId = getDongleId()) {
-    QString url = CommaApi::BASE_URL + "/v1.1/devices/" + *dongleId + "/stats";
-    RequestRepeater* repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 30);
+  std::string dongle_id = Params().get("DongleId");
+  if (util::is_valid_dongle_id(dongle_id)) {
+    std::string url = "https://api.retropilot.org/v1.1/devices/" + dongle_id + "/stats";
+    RequestRepeater* repeater = new RequestRepeater(this, QString::fromStdString(url), "ApiCache_DriveStats", 30);
     QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);
   }
 
@@ -58,6 +58,7 @@ DriveStats::DriveStats(QWidget* parent) : QFrame(parent) {
       background-color: #333333;
       border-radius: 10px;
     }
+
     QLabel[type="title"] { font-size: 51px; font-weight: 500; }
     QLabel[type="number"] { font-size: 78px; font-weight: 500; }
     QLabel[type="unit"] { font-size: 51px; font-weight: 300; color: #A0A0A0; }

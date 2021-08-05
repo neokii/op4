@@ -1,7 +1,5 @@
 #pragma once
 
-#include <optional>
-
 #include <QDateTime>
 #include <QLayout>
 #include <QMouseEvent>
@@ -11,7 +9,6 @@
 
 QString getBrand();
 QString getBrandVersion();
-std::optional<QString> getDongleId();
 void configFont(QPainter &p, const QString &family, int size, const QString &style);
 void clearLayout(QLayout* layout);
 void setQtSurfaceFormat();

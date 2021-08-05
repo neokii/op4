@@ -12,8 +12,7 @@ enum ParamKeyType {
   CLEAR_ON_PANDA_DISCONNECT = 0x08,
   CLEAR_ON_IGNITION_ON = 0x10,
   CLEAR_ON_IGNITION_OFF = 0x20,
-  DONT_LOG = 0x40,
-  ALL = 0x02 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40
+  ALL = 0x02 | 0x04 | 0x08 | 0x10 | 0x20
 };
 
 class Params {
@@ -25,7 +24,6 @@ public:
   Params(const std::string &path);
 
   bool checkKey(const std::string &key);
-  ParamKeyType getKeyType(const std::string &key);
 
   // Delete a value
   int remove(const char *key);
@@ -35,7 +33,7 @@ public:
   void clearAll(ParamKeyType type);
 
   // read all values
-  std::map<std::string, std::string> readAll();
+  int readAll(std::map<std::string, std::string> *params);
 
   // helpers for reading values
   std::string get(const char *key, bool block = false);

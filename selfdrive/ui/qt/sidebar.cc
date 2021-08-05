@@ -2,6 +2,7 @@
 
 #include <QMouseEvent>
 
+#include "selfdrive/ui/qt/qt_window.h"
 #include "selfdrive/common/util.h"
 #include "selfdrive/hardware/hw.h"
 #include "selfdrive/ui/qt/util.h"
@@ -40,9 +41,9 @@ Sidebar::Sidebar(QWidget *parent) : QFrame(parent) {
 
   connect(this, &Sidebar::valueChanged, [=] { update(); });
 
-  setAttribute(Qt::WA_OpaquePaintEvent);
-  setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
   setFixedWidth(300);
+  setMinimumHeight(vwp_h);
+  setStyleSheet("background-color: rgb(57, 57, 57);");
 }
 
 void Sidebar::mouseReleaseEvent(QMouseEvent *event) {
@@ -92,8 +93,6 @@ void Sidebar::paintEvent(QPaintEvent *event) {
   QPainter p(this);
   p.setPen(Qt::NoPen);
   p.setRenderHint(QPainter::Antialiasing);
-
-  p.fillRect(rect(), QColor(57, 57, 57));
 
   // static imgs
   p.setOpacity(0.65);

@@ -146,7 +146,7 @@ private:
 };
 
 std::unordered_map<std::string, uint32_t> keys = {
-    {"AccessToken", CLEAR_ON_MANAGER_START | DONT_LOG},
+    {"AccessToken", CLEAR_ON_MANAGER_START},
     {"ApiCache_DriveStats", PERSISTENT},
     {"ApiCache_Device", PERSISTENT},
     {"ApiCache_Owner", PERSISTENT},
@@ -191,7 +191,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"LastUpdateException", PERSISTENT},
     {"LastUpdateTime", PERSISTENT},
     {"LiveParameters", PERSISTENT},
-    {"MapboxToken", PERSISTENT | DONT_LOG},
+    {"MapboxToken", PERSISTENT},
     {"NavDestination", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_OFF},
     {"NavSettingTime24h", PERSISTENT},
     {"OpenpilotEnabledToggle", PERSISTENT},
@@ -249,7 +249,6 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"CleanUI", PERSISTENT},
     {"AR", PERSISTENT},
     {"UseLQR", PERSISTENT},
-    {"PutPrebuilt", PERSISTENT},
 };
 
 } // namespace
@@ -267,10 +266,6 @@ Params::Params(const std::string &path) : params_path(path) {
 
 bool Params::checkKey(const std::string &key) {
   return keys.find(key) != keys.end();
-}
-
-ParamKeyType Params::getKeyType(const std::string &key) {
-  return static_cast<ParamKeyType>(keys[key]);
 }
 
 int Params::put(const char* key, const char* value, size_t value_size) {
@@ -354,12 +349,12 @@ std::string Params::get(const char *key, bool block) {
   }
 }
 
-std::map<std::string, std::string> Params::readAll() {
+int Params::readAll(std::map<std::string, std::string> *params) {
   FileLock file_lock(params_path + "/.lock", LOCK_SH);
   std::lock_guard<FileLock> lk(file_lock);
 
   std::string key_path = params_path + "/d";
-  return util::read_files_in_dir(key_path);
+  return util::read_files_in_dir(key_path, params);
 }
 
 void Params::clearAll(ParamKeyType key_type) {

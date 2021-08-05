@@ -7,7 +7,6 @@
 
 namespace CommaApi {
 
-const QString BASE_URL = getenv("API_HOST") != nullptr ? getenv("API_HOST") : "api.retropilot.org";
 QByteArray rsa_sign(const QByteArray &data);
 QString create_jwt(const QJsonObject &payloads = {}, int expiry = 3600);
 
