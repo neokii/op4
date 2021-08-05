@@ -110,9 +110,6 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
       ret.steerRatio = 16.5
-      #TPMS
-      ret.minFTP = 33
-      ret.minRTP = 33
 
     elif candidate == CAR.GENESIS_G70:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -382,9 +379,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
-      #TPMS - JPR
-      ret.minFTP = 34.5
-      ret.minRTP = 34.5
 
     elif candidate == CAR.FORTE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
@@ -393,9 +387,6 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.75
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-      #TPMS
-      ret.minFTP = 33
-      ret.minRTP = 33
     elif candidate == CAR.CEED:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1350. + STD_CARGO_KG
@@ -416,9 +407,6 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.73  # Spec
       tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
-      #TPMS
-      ret.minFTP = 36
-      ret.minRTP = 36
       if candidate == CAR.NIRO_HEV and not Params().get_bool('UseSMDPSHarness'):
         ret.minSteerSpeed = 32 * CV.MPH_TO_MS
     elif candidate in [CAR.K7, CAR.K7_HEV]:
