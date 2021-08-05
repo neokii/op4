@@ -7,9 +7,10 @@ from cereal import car
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
-from selfdrive.car.interfaces import CarInterfaceBase, CarStateBase
+from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from common.params import Params
+from selfdrive.car.hyundai.carstate import CarStateBase, CarState
 
 
 GearShifter = car.CarState.GearShifter
@@ -485,7 +486,7 @@ class CarInterface(CarInterfaceBase):
     return ret
     
 
-  def update(self, c, can_strings):
+  def update(self, c, can_strings, CP):
     self.cp.update_strings(can_strings)
     self.cp2.update_strings(can_strings)
     self.cp_cam.update_strings(can_strings)
@@ -547,7 +548,7 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
   
     #TPMS Alerts - JPR
-
+    self.CS = CarState(CP)
     if self.CS.tpmsFl < self.CP.minFTP:
       events.add(car.CarEvent.EventName.flTPMS)
     elif self.CS.tpmsFr < self.CP.minFTP:
