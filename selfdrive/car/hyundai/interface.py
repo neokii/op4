@@ -494,6 +494,8 @@ class CarInterface(CarInterfaceBase):
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
 
+    #self.CS = CarState()
+
     if self.CP.pcmCruise and not self.CC.scc_live:
       self.CP.pcmCruise = False
     elif self.CC.scc_live and not self.CP.pcmCruise:
