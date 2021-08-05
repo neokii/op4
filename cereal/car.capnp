@@ -391,11 +391,8 @@ struct CarControl {
   steeringTorqueDEPRECATED @3 :Float32;
 }
 
-  #TPMS - JPR
-  minFTP @65 :Float32;
-  minRTP @66 :Float32;
+# ****** car param ******
 
-# ****** car param ******  
 struct CarParams {
   carName @0 :Text;
   carFingerprint @1 :Text;
@@ -422,6 +419,9 @@ struct CarParams {
   brakeMaxBP @15 :List(Float32);
   brakeMaxV @16 :List(Float32);
 
+  #TPMS - JPR
+  minFTP @65 :Float32;
+  minRTP @66 :Float32;
   # things about the car in the manual
   mass @17 :Float32;            # [kg] curb weight: all fluids no cargo
   wheelbase @18 :Float32;       # [m] distance from rear axle to front axle
