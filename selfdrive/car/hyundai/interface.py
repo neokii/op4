@@ -539,13 +539,13 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     minTP = 28
-    if self.CS.tpmsFl < minTP:
+    if ret.tpmsFl < minTP:
       events.add(car.CarEvent.EventName.fl)
-    elif self.CS.tpmsFr < minTP:
+    elif ret.tpmsFr < minTP:
       events.add(car.CarEvent.EventName.fr)
-    elif self.CS.tpmsRl < minTP:
+    elif ret.tpmsRl < minTP:
       events.add(car.CarEvent.EventName.rl)
-    elif self.CS.tpmsRr < minTP:
+    elif ret.tpmsRr < minTP:
       events.add(car.CarEvent.EventName.rr)
 
 
