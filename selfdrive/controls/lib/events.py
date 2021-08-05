@@ -194,14 +194,13 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
 def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  #tpfl = sm['carState'].tpmsFl
-  #tpfr = sm['carState'].tpmsFR
-  #tprl = sm['carState'].tpmsRl
-  #tprr = sm['carState'].tpmsRr
-  if car.tpmsFl < CP.minFTP:
+  tpfl = sm['carState'].tpmsFl
+  tpfr = sm['carState'].tpmsFR
+
+  if tpfl < CP.minFTP:
     TPF = int(car.tpmsFr)
     tpms = "Front Left"
-  elif car.tpmsFr < CP.minFTP:
+  elif tpfr < CP.minFTP:
     TPF = int(car.tpmsFr)
     tpms = "Front Right"
   unit = "PSI"
@@ -212,14 +211,12 @@ def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  #tpfl = sm['carState'].tpmsFl
-  #tpfr = sm['carState'].tpmsFR
-  #tprl = sm['carState'].tpmsRl
-  #tprr = sm['carState'].tpmsRr
-  if car.tpmsRl < CP.minRTP:
+  tprl = sm['carState'].tpmsRl
+  tprr = sm['carState'].tpmsRr
+  if tprl < CP.minRTP:
     TPR = int(car.tpmsRl)
     tpms = "Rear Left"
-  elif car.tpmsRr < CP.minRTP:
+  elif tprr < CP.minRTP:
     TPR = int(car.tpmsRr)
     tpms = "Rear Right"
   unit = "PSI"
