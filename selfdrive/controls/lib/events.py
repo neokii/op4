@@ -6,6 +6,7 @@ import cereal.messaging as messaging
 from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.locationd.calibrationd import MIN_SPEED_FILTER
+from selfdrive.car.hyundai.interface import CarInterface
 
 AlertSize = log.ControlsState.AlertSize
 AlertStatus = log.ControlsState.AlertStatus
@@ -193,15 +194,13 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
-def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  tpfl = sm['carState'].tpmsFl
-  tpfr = sm['carState'].tpmsFR
+def fTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
 
-  if tpfl < CP.minFTP:
-    TPF = int(car.tpmsFr)
+  if CS.tpmsFl < CarInterface.minFTP:
+    TPF = int(CS.tpmsFr)
     tpms = "Front Left"
-  elif tpfr < CP.minFTP:
-    TPF = int(car.tpmsFr)
+  elif CS.tpmsFr < CarInterface.minFTP:
+    TPF = int(CS.tpmsFr)
     tpms = "Front Right"
   unit = "PSI"
   return Alert(
@@ -210,14 +209,13 @@ def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  tprl = sm['carState'].tpmsRl
-  tprr = sm['carState'].tpmsRr
-  if tprl < CP.minRTP:
-    TPR = int(car.tpmsRl)
+def rTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+
+  if CS.tpmsRl < CarInterface.minRTP:
+    TPR = int(CS.tpmsRl)
     tpms = "Rear Left"
-  elif tprr < CP.minRTP:
-    TPR = int(car.tpmsRr)
+  elif CS.tpmsRr < CarInterface.minRTP:
+    TPR = int(CS.tpmsRr)
     tpms = "Rear Right"
   unit = "PSI"
   return Alert(
