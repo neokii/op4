@@ -185,6 +185,7 @@ class NormalPermanentAlert(Alert):
 
 # ********** alert callback functions **********
 def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  
   speed = int(round(CP.minSteerSpeed * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH)))
   unit = "km/h" if metric else "mph"
   return Alert(
@@ -192,14 +193,15 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
-
+o
 #JPR
 def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  if CarState.tpmsFl < CP.minFTP:
-    TPF = int(CarState.tpmsFr)
+  tpfl = sm['carState'].tpmsFl
+  if car.tpmsFl < CP.minFTP:
+    TPF = int(car.tpmsFr)
     tpms = "Front Left"
-  elif CarState.tpmsFr < CP.minFTP:
-    TPF = int(CarState.tpmsFr)
+  elif car.tpmsFr < CP.minFTP:
+    TPF = int(car.tpmsFr)
     tpms = "Front Right"
   unit = "PSI"
   return Alert(
@@ -209,11 +211,11 @@ def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  if CarState.tpmsRl < CP.minRTP:
-    TPR = int(CarState.tpmsRl)
+  if car.tpmsRl < CP.minRTP:
+    TPR = int(car.tpmsRl)
     tpms = "Rear Left"
-  elif CarState.tpmsRr < CP.minRTP:
-    TPR = int(CarState.tpmsRr)
+  elif car.tpmsRr < CP.minRTP:
+    TPR = int(car.tpmsRr)
     tpms = "Rear Right"
   unit = "PSI"
   return Alert(
