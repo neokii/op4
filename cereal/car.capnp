@@ -109,10 +109,10 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     wideRoadCameraError @102;
     localizerMalfunction @103;
 
-    flTPMS @109;
-    frTPMS @110;
-    rlTPMS @111;
-    rrTPMS @112;
+    fl @109;
+    fr @110;
+    rl @111;
+    rr @112;
 
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
