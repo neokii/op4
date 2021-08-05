@@ -1,5 +1,4 @@
 from enum import IntEnum
-from selfdrive.car.hyundai.carstate import CarState
 from typing import Dict, Union, Callable, Any
 from common.params import Params
 from cereal import log, car
