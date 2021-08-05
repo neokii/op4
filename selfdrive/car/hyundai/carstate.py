@@ -1,10 +1,11 @@
 from cereal import car
-from selfdrive.car.hyundai.values import DBC, STEER_THRESHOLD, FEATURES, CAR, HYBRID_CAR, EV_CAR
-from selfdrive.car.interfaces import CarStateBase
-from opendbc.can.parser import CANParser
-from opendbc.can.can_define import CANDefine
-from selfdrive.config import Conversions as CV
 from common.params import Params
+from opendbc.can.can_define import CANDefine
+from opendbc.can.parser import CANParser
+from selfdrive.car.hyundai.values import (CAR, DBC, EV_CAR, FEATURES,
+                                          HYBRID_CAR, STEER_THRESHOLD)
+from selfdrive.car.interfaces import CarStateBase
+from selfdrive.config import Conversions as CV
 
 GearShifter = car.CarState.GearShifter
 
@@ -321,6 +322,12 @@ class CarState(CarStateBase):
       ("SCCMode2", "SCC14", 0),
       ("ComfortBandUpper", "SCC14", 0),
       ("ComfortBandLower", "SCC14", 0),
+
+      ("UNIT", "TPMS11", 0),
+      ("PRESSURE_FL", "TPMS11", 0),
+      ("PRESSURE_FR", "TPMS11", 0),
+      ("PRESSURE_RL", "TPMS11", 0),
+      ("PRESSURE_RR", "TPMS11", 0),
     ]
 
     checks = [
