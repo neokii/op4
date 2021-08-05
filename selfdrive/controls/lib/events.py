@@ -192,7 +192,6 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
-o
 #JPR
 def fTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   #tpfl = sm['carState'].tpmsFl
