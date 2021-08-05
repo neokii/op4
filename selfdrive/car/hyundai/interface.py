@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from selfdrive.car.hyundai.carstate import CarState
 import numpy as np
 import os
 import shutil
