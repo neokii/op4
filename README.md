@@ -9,7 +9,7 @@ To get involved join us on discord or Contribute to the project with code or hel
 
 - https://discord.gg/zWSnqJ6rKD
 
-- Donating helps me dedicate more time, effort into this project and helping people.
+- Donating helps me dedicate more time and effort into this project. It also gives me more time to make for helping people.
 
 - **Help** me get a **Comma 3** without selling my **Comma 2**. **Reason:** I will need to support both **Comma 2** and **Comma 3** users. I will try to support **Comma 2** users for as long as I can!
 
