@@ -430,6 +430,12 @@ class CarInterface(CarInterfaceBase):
 
     ret.radarTimeStep = 0.05
     
+    #TPMS
+    ret.TPFL = ret.tpmsFl
+    ret.TPFR = ret.tpmsFr
+    ret.TPRL = ret.tpmsRl
+    ret.TPRR = ret.tpmsRr
+
 
 
     # TODO: get actual value, for now starting with reasonable value for

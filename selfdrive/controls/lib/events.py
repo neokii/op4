@@ -185,7 +185,6 @@ class NormalPermanentAlert(Alert):
 
 # ********** alert callback functions **********
 def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  
   speed = int(round(CP.minSteerSpeed * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH)))
   unit = "km/h" if metric else "mph"
   return Alert(
@@ -194,31 +193,31 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 #JPR
-def flTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def flTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT LEFT TIRE PRESSURE",
-    "(%d) PSI" % CS.update.tpmsFl,
+    "(%d) PSI" % CP.TPFL,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def frTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def frTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CS.update.tpmsFr,
+    "(%d) PSI" % CP.TPFR,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rlTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
+def rlTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(  
     "LOW REAR LEFT TIRE PRESSURE",
-    "(%d) PSI" % CS.update.tpmsRl,
+    "(%d) PSI" % CP.TPRL,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
-def rrTPMS(CS, sm: messaging.SubMaster, metric: bool) -> Alert:
+def rrTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW REAR RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CS.update.tpmsRr,
+    "(%d) PSI" % CP.TPRR,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
