@@ -535,7 +535,17 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     if CAR.STINGER:
-      minTP = 33 # Min TPMS Speed
+      minTP = 33 # Min TPMS Pressure
+    elif CAR.KONA_EV:
+      minTP = 34
+    elif CAR.ELANTRA_HEV_2021:
+      minTP = 30
+    elif CAR.K5:
+      minTP = 33
+    elif CAR.FORTE:
+      minTP = 30
+    elif CAR.GENESIS:
+      minTP = 30
     else:
       minTP = 28
 
