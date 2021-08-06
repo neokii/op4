@@ -9,6 +9,7 @@ from threading import Thread
 from cereal import messaging
 from common.params import Params
 from common.numpy_fast import interp
+from common.realtime import sec_since_boot
 
 
 CAMERA_SPEED_FACTOR = 1.05
@@ -126,13 +127,13 @@ class RoadLimitSpeedServer:
           try:
             if 'active' in json_obj:
               self.active = json_obj['active']
-              self.last_updated_active = time.monotonic()
+              self.last_updated_active = sec_since_boot()
           except:
             pass
 
           if 'road_limit' in json_obj:
             self.json_road_limit = json_obj['road_limit']
-            self.last_updated = time.monotonic()
+            self.last_updated = sec_since_boot()
 
         finally:
           self.lock.release()
@@ -148,7 +149,7 @@ class RoadLimitSpeedServer:
     return ret
 
   def check(self):
-    now = time.monotonic()
+    now = sec_since_boot()
     if now - self.last_updated > 20.:
       try:
         self.lock.acquire()
@@ -268,9 +269,9 @@ class RoadSpeedLimiter:
         diff_speed = v_ego * 3.6 - cam_limit_speed
 
         if self.longcontrol:
-          sec = interp(diff_speed, [10., 30.], [12., 17.])
+          sec = interp(diff_speed, [10., 30.], [13., 18.])
         else:
-          sec = interp(diff_speed, [10., 30.], [14., 19.])
+          sec = interp(diff_speed, [10., 30.], [15., 20.])
 
         if MIN_LIMIT <= cam_limit_speed <= MAX_LIMIT and (self.slowing_down or cam_limit_speed_left_dist < v_ego * sec):
 

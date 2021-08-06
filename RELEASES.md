@@ -1,3 +1,7 @@
+Version 0.8.8 (2021-08-XX)
+========================
+
+
 Version 0.8.7 (2021-8-4)
 ========================
 * Added Car TPMS parameters for Stinger, Kona, Elantra 21 HEV, K5, Forte, and Genesis 2015.
@@ -117,6 +121,7 @@ Version 0.8.5 (2021-7-7)
 Version 0.8.5 (2021-XX-XX)
 ========================
  * NEOS update: improved reliability and stability
+
  * Smart model-based Forward Collision Warning
  * Hyundai Elantra 2021 support thanks to CruiseBrantley!
  * Lexus UX Hybrid 2019-2020 support thanks to brianhaugen2!
