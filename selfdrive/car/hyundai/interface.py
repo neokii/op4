@@ -166,8 +166,9 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2060. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
+      ret.centerToFront = ret.wheelbase * 0.4
       if not UseLQR:
-        ret.centerToFront = ret.wheelbase * 0.4
+        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kpBP = [0., 10., 30.]
         ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
         ret.lateralTuning.pid.kiBP = [0., 10., 30.]
@@ -196,6 +197,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if not UseLQR:
+        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kpBP = [0., 10., 30.]
         ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
         ret.lateralTuning.pid.kiBP = [0., 10., 30.]
@@ -276,6 +278,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.385
       
       if not UseLQR:
+        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kf = 0.00005
         ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
@@ -288,6 +291,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.385
       ret.centerToFront = ret.wheelbase * 0.4
       if not UseLQR:
+        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kf = 0.00006
         ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0.]]
         ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.25], [0.05]]
@@ -545,6 +549,10 @@ class CarInterface(CarInterfaceBase):
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
+      minTP = 30
+    elif CAR.NIRO_EV:
+      minTP = 33
+    elif CAR.SANTA_FE:
       minTP = 30
     else:
       minTP = 28
