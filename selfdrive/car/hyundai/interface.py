@@ -557,7 +557,6 @@ class CarInterface(CarInterfaceBase):
       minTP = 33
     elif CAR.SANTA_FE:
       minTP = 30
-      minTP = 28
     elif CAR.GENESIS_G80:
       minTP = 28
     else:
