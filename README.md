@@ -50,7 +50,7 @@ Make sure "Upload Raw Logs" and "Enable Logger / Uploader" are both ON for this 
 
 **Hardware**
 ------------
-The **Comma 3** should have significant performance improvements over Comma 2. Comma 3 is untested on this fork. I currently do not own a Comma 3. Help me reach my goal of rasing enough money for a Comma 3 to support users who upgraded. 
+The **Comma 3** should have significant performance improvements over Comma 2. **Comma 3 is untested** on this fork. I currently do not own a Comma 3 or have one on order. Help me reach my goal of rasing enough money for a Comma 3 to support users who upgraded. 
 
 <a href="https://www.paypal.com/donate?business=NRFAJ6FYRLT2Y&no_recurring=0&item_name=Contribute+to+help+progress+JPR%27s+HKG+Fork&currency_code=USD" 
 target="_blank">
