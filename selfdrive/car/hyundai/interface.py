@@ -479,10 +479,6 @@ class CarInterface(CarInterfaceBase):
 
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
-    ret.TPFL = ret.tpmsFl
-    ret.TPFR = ret.tpmsFr
-    ret.TPRL = ret.tpmsRl
-    ret.TPRR = ret.tpmsRr
 
     if self.CP.pcmCruise and not self.CC.scc_live:
       self.CP.pcmCruise = False
@@ -540,12 +536,16 @@ class CarInterface(CarInterfaceBase):
     #TPMS Alerts - JPR
     minTP = 40
     if ret.tpmsFl < minTP:
+      TP = int(ret.tpmsFl)
       events.add(car.CarEvent.EventName.fl)
     elif ret.tpmsFr < minTP:
+      TP = int(ret.tpmsFr)
       events.add(car.CarEvent.EventName.fr)
     elif ret.tpmsRl < minTP:
+      TP = int(ret.tpmsRl)
       events.add(car.CarEvent.EventName.rl)
     elif ret.tpmsRr < minTP:
+      TP = int(ret.tpmsRr)
       events.add(car.CarEvent.EventName.rr)
 
 
