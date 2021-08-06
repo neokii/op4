@@ -153,6 +153,7 @@ struct CarState {
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
+
   # car speed
   vEgo @1 :Float32;         # best estimate of speed
   aEgo @16 :Float32;        # best estimate of acceleration
@@ -471,6 +472,7 @@ struct CarParams {
   hasScc13 @62 :Bool;
   hasScc14 @63 :Bool;
   hasEms @64 :Bool;
+  tP @ 37 :Float32;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);

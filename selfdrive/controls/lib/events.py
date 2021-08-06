@@ -1,5 +1,4 @@
 from enum import IntEnum
-from selfdrive.car.hyundai.interface import CarInterface
 from typing import Dict, Union, Callable, Any
 from common.params import Params
 from cereal import log, car
@@ -197,28 +196,28 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
 def flTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT LEFT TIRE PRESSURE",
-    "(%d) PSI" % CarInterface.update.TP,
+    "(%d) PSI" % CP.update.tP,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def frTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CarInterface.update.TP,
+    "(%d) PSI" % CP.update.tP,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rlTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(  
     "LOW REAR LEFT TIRE PRESSURE",
-    "(%d) PSI" % CarInterface.update.TP,
+    "(%d) PSI" % CP.update.tP,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rrTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW REAR RIGHT TIRE PRESSURE",
-    "(%d) PSI" % CarInterface.update.TP,
+    "(%d) PSI" % CP.update.tP,
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
