@@ -430,17 +430,6 @@ class CarInterface(CarInterfaceBase):
 
     ret.radarTimeStep = 0.05
 
-    #TPMS Alerts - JPR
-    minTP = 40 # dont forget about second value
-    if ret.tpmsFl < minTP:
-      ret.tP = int(ret.tpmsFl)
-    elif ret.tpmsFr < minTP:
-      ret.tP = int(ret.tpmsFr)
-    elif ret.tpmsRl < minTP:
-      ret.tP = int(ret.tpmsRl)
-    elif ret.tpmsRr < minTP:
-      ret.tP = int(ret.tpmsRr)
-
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase
     ret.rotationalInertia = scale_rot_inertia(ret.mass, ret.wheelbase)
