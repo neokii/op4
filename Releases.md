@@ -1,6 +1,6 @@
 Version 0.8.7 (2021-8-4)
 ========================
-* Add TPMS Alert. Send your cars make, model, and TPSM pressures to @johnpr
+* Added and Fixed TPMS Alert. Send your cars make, model, and TPSM pressures to @johnpr
 * Added Panda Tools to settings under Device.
 * Added use LQR Toggle.
 * Work on broken tunes and tidy up code.
