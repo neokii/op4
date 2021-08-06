@@ -153,10 +153,10 @@ struct CarState {
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
-  tPFL @41 :Float32;
-  tPFR @42 :Float32;
-  tPRL @43 :Float32;
-  tPRR @44 :Float32;
+  TPFL @41 :Float32;
+  TPFR @42 :Float32;
+  TPRL @43 :Float32;
+  TPRR @44 :Float32;
 
   # car speed
   vEgo @1 :Float32;         # best estimate of speed
