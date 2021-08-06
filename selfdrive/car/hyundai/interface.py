@@ -70,7 +70,7 @@ class CarInterface(CarInterfaceBase):
     ret.steerMaxV = [1.5]
 
    #Longitudinal Tune and logic for car tune
-    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80 or CAR.KONA_EV or CAR.GENESIS_EQ900 or CAR.GENESIS_G90: #Tune for untuned cars
+    if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80 or CAR.KONA or CAR.KONA_EV or CAR.GENESIS_EQ900 or CAR.GENESIS_G90: #Tune for untuned cars
       # Donfyffe stock tune for untuned cars
       
       if not UseLQR:
@@ -87,7 +87,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kiV = [0.03, 0.02]
       ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
@@ -375,7 +375,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpBP = [0, 10. * CV.KPH_TO_MS, 20. * CV.KPH_TO_MS, 40. * CV.KPH_TO_MS, 70. * CV.KPH_TO_MS, 100. * CV.KPH_TO_MS, 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.185, 1.095, 1.0, 0.95, 0.90, 0.85, 0.80]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kiV = [0.07, 0.03]
+      ret.longitudinalTuning.kiV = [0.03, 0.02]
       ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
