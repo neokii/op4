@@ -443,10 +443,9 @@ void hardware_control_thread() {
     if (sm.updated("driverCameraState")) {
       auto event = sm["driverCameraState"];
       int cur_integ_lines = event.getDriverCameraState().getIntegLines();
-      float cur_gain = event.getDriverCameraState().getGain();
 
       if (Hardware::TICI()) {
-        cur_integ_lines = integ_lines_filter.update(cur_integ_lines * cur_gain);
+        cur_integ_lines = integ_lines_filter.update(cur_integ_lines);
       }
       last_front_frame_t = event.getLogMonoTime();
 

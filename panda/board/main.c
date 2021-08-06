@@ -12,13 +12,7 @@
 #include "power_saving.h"
 #include "safety.h"
 
-#include "drivers/can_common.h"
-
-#ifdef STM32H7
-  #include "drivers/fdcan.h"
-#else
-  #include "drivers/bxcan.h"
-#endif
+#include "drivers/can.h"
 
 #include "obj/gitversion.h"
 
@@ -470,7 +464,6 @@ int usb_cb_control_msg(USB_Setup_TypeDef *setup, uint8_t *resp, bool hardwired) 
     // **** 0xde: set can bitrate
     case 0xde:
       if (setup->b.wValue.w < BUS_MAX) {
-        // TODO: add sanity check, ideally check if value is correct(from array of correct values)
         can_speed[setup->b.wValue.w] = setup->b.wIndex.w;
         bool ret = can_init(CAN_NUM_FROM_BUS_NUM(setup->b.wValue.w));
         UNUSED(ret);
@@ -624,15 +617,6 @@ int usb_cb_control_msg(USB_Setup_TypeDef *setup, uint8_t *resp, bool hardwired) 
       heartbeat_disabled = true;
       break;
 #endif
-    // **** 0xde: set CAN FD data bitrate
-    case 0xf9:
-      if (setup->b.wValue.w < CAN_MAX) {
-        // TODO: add sanity check, ideally check if value is correct(from array of correct values)
-        can_data_speed[setup->b.wValue.w] = setup->b.wIndex.w;
-        bool ret = can_init(CAN_NUM_FROM_BUS_NUM(setup->b.wValue.w));
-        UNUSED(ret);
-      }
-      break;
     default:
       puts("NO HANDLER ");
       puth(setup->b.bRequest);

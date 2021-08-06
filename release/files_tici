@@ -1,3 +1,5 @@
+installer/continue_openpilot.sh
+
 phonelibs/mapbox-gl-native-qt/include/*
 
 selfdrive/timezoned.py

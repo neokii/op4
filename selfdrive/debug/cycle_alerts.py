@@ -24,13 +24,16 @@ def cycle_alerts(duration=2000, is_metric=False):
   sm = messaging.SubMaster(['deviceState', 'pandaState', 'roadCameraState', 'modelV2', 'liveCalibration',
                             'driverMonitoringState', 'longitudinalPlan', 'lateralPlan', 'liveLocationKalman'])
 
-  pm = messaging.PubMaster(['controlsState', 'pandaState', 'deviceState'])
+  controls_state = messaging.pub_sock('controlsState')
+  deviceState = messaging.pub_sock('deviceState')
+
+  idx, last_alert_millis = 0, 0
 
   events = Events()
   AM = AlertManager()
 
   frame = 0
-  idx, last_alert_millis = 0, 0
+
   while 1:
     if frame % duration == 0:
       idx = (idx + 1) % len(alerts)
@@ -47,6 +50,7 @@ def cycle_alerts(duration=2000, is_metric=False):
 
     dat = messaging.new_message()
     dat.init('controlsState')
+
     dat.controlsState.alertText1 = AM.alert_text_1
     dat.controlsState.alertText2 = AM.alert_text_2
     dat.controlsState.alertSize = AM.alert_size
@@ -54,18 +58,14 @@ def cycle_alerts(duration=2000, is_metric=False):
     dat.controlsState.alertBlinkingRate = AM.alert_rate
     dat.controlsState.alertType = AM.alert_type
     dat.controlsState.alertSound = AM.audible_alert
-    pm.send('controlsState', dat)
+    controls_state.send(dat.to_bytes())
 
     dat = messaging.new_message()
     dat.init('deviceState')
     dat.deviceState.started = True
-    pm.send('deviceState', dat)
+    deviceState.send(dat.to_bytes())
 
-    dat = messaging.new_message()
-    dat.init('pandaState')
-    dat.pandaState.ignitionLine = True
-    pm.send('pandaState', dat)
-
+    frame += 1
     time.sleep(0.01)
 
 if __name__ == '__main__':

@@ -566,13 +566,15 @@ struct ControlsState @0x97ff69c53601abf1 {
   angleSteers @60 :Float32;
   cluSpeedMs @61 :Float32;
   applyAccel @62 :Float32;
-  aReqValue @63 :Float32;
-  aReqValueMin @64 :Float32;
-  aReqValueMax @65 :Float32;
+  fusedAccel @63 :Float32;
+  leadDist @64 :Float32;
+  aReqValue @65 :Float32;
+  aReqValueMin @66 :Float32;
+  aReqValueMax @67 :Float32;
 
-  steerRatio @66 :Float32;
-  steerRateCost @67 :Float32;
-  steerActuatorDelay @68 :Float32;
+  steerRatio @68 :Float32;
+  steerRateCost @69 :Float32;
+  steerActuatorDelay @70 :Float32;
 
   enum OpenpilotState @0xdbe58b96d2d1ac61 {
     disabled @0;
@@ -949,7 +951,7 @@ struct LiveLocationKalman {
   angularVelocityDevice @8 : Measurement;
 
   # orientationNEDCalibrated transforms to rot matrix: NED_from_calibrated
-  calibratedOrientationNED @9 : Measurement;
+  orientationNEDCalibrated @9 : Measurement;
 
   # Calibrated frame is simply device frame
   # aligned with the vehicle
