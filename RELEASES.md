@@ -1,5 +1,6 @@
 Version 0.8.7 (2021-8-4)
 ========================
+* Added Car TPMS parameters for Stinger, Kona, Elantra 21 HEV, K5, Forte, and Genesis 2015.
 * Added and Fixed TPMS Alert. Send your cars make, model, and TPSM pressures to @johnpr
 * Added Panda Tools to settings under Device.
 * Added use LQR Toggle.
