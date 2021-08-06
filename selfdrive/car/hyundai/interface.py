@@ -168,7 +168,6 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 16.5
       ret.centerToFront = ret.wheelbase * 0.4
       if not UseLQR:
-        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kpBP = [0., 10., 30.]
         ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
         ret.lateralTuning.pid.kiBP = [0., 10., 30.]
@@ -558,6 +557,9 @@ class CarInterface(CarInterfaceBase):
       minTP = 33
     elif CAR.SANTA_FE:
       minTP = 30
+      minTP = 28
+    elif CAR.GENESIS_G80:
+      minTP = 28
     else:
       minTP = 28
 
@@ -573,8 +575,8 @@ class CarInterface(CarInterfaceBase):
 
     if self.CC.longcontrol and self.CS.cruise_unavail:
       events.add(EventName.brakeUnavailable)
-    if abs(ret.steeringAngleDeg) > self.CP.maxSteeringAngleDeg and EventName.steerSaturated not in events.events:
-      events.add(EventName.steerSaturated)
+    #if abs(ret.steeringAngleDeg) > self.CP.maxSteeringAngleDeg and EventName.steerSaturated not in events.events:
+    #  events.add(EventName.steerSaturated)
     if self.low_speed_alert and not self.CS.mdps_bus:
       events.add(EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
