@@ -535,7 +535,7 @@ class CarInterface(CarInterfaceBase):
 
     #TPMS Alerts - JPR
     if CAR.STINGER:
-      minTP = 40 # Min TPMS Speed
+      minTP = 33 # Min TPMS Speed
     else:
       minTP = 28
 
