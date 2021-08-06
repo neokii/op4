@@ -545,11 +545,16 @@ class CarInterface(CarInterfaceBase):
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
-      minTP = 28
+      minTP = 30
+    elif CAR.NIRO_EV:
+      minTP = 33
+    elif CAR.SANTA_FE:
+      minTP = 30
     elif CAR.GENESIS_G80:
       minTP = 28
     else:
       minTP = 28
+
 
     if ret.tpmsFl < minTP:
       events.add(car.CarEvent.EventName.fl)
