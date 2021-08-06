@@ -198,28 +198,28 @@ def flTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
     "LOW FRONT LEFT TIRE PRESSURE",
     "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def frTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT RIGHT TIRE PRESSURE",
     "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rlTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(  
     "LOW REAR LEFT TIRE PRESSURE",
     "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def rrTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW REAR RIGHT TIRE PRESSURE",
     "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
