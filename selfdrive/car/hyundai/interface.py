@@ -429,8 +429,6 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.8
 
     ret.radarTimeStep = 0.05
-    
-
 
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase
@@ -481,8 +479,6 @@ class CarInterface(CarInterfaceBase):
 
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
-
-    #self.CS = CarState()
 
     if self.CP.pcmCruise and not self.CC.scc_live:
       self.CP.pcmCruise = False
@@ -538,14 +534,18 @@ class CarInterface(CarInterfaceBase):
         events.add(car.CarEvent.EventName.belowSteerSpeed)
 
     #TPMS Alerts - JPR
-    minTP = 28
-    if self.CS.tpmsFl < minTP:
+    if CAR.STINGER:
+      minTP = 40 # Min TPMS Speed
+    else:
+      minTP = 28
+
+    if ret.tpmsFl < minTP:
       events.add(car.CarEvent.EventName.fl)
-    elif self.CS.tpmsFr < minTP:
+    elif ret.tpmsFr < minTP:
       events.add(car.CarEvent.EventName.fr)
-    elif self.CS.tpmsRl < minTP:
+    elif ret.tpmsRl < minTP:
       events.add(car.CarEvent.EventName.rl)
-    elif self.CS.tpmsRr < minTP:
+    elif ret.tpmsRr < minTP:
       events.add(car.CarEvent.EventName.rr)
 
 
