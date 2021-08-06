@@ -429,14 +429,6 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.8
 
     ret.radarTimeStep = 0.05
-    
-    #TPMS
-    ret.TPFL = ret.tpmsFl
-    ret.TPFR = ret.tpmsFr
-    ret.TPRL = ret.tpmsRl
-    ret.TPRR = ret.tpmsRr
-
-
 
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase
@@ -488,7 +480,12 @@ class CarInterface(CarInterfaceBase):
     ret = self.CS.update(self.cp, self.cp2, self.cp_cam)
     ret.canValid = self.cp.can_valid and self.cp2.can_valid and self.cp_cam.can_valid
 
-    #self.CS = CarState()
+
+     #TPMS
+    ret.TPFL = ret.tpmsFl
+    ret.TPFR = ret.tpmsFr
+    ret.TPRL = ret.tpmsRl
+    ret.TPRR = ret.tpmsRr
 
     if self.CP.pcmCruise and not self.CC.scc_live:
       self.CP.pcmCruise = False
