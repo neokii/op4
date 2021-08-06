@@ -549,7 +549,9 @@ class CarInterface(CarInterfaceBase):
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
-      minTP = 30
+      minTP = 28
+    elif CAR.GENESIS_G80:
+      minTP = 28
     else:
       minTP = 28
 
