@@ -198,7 +198,7 @@ def flTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   TP = int(CS.tpmsFl)
   return Alert(
     "LOW FRONT LEFT TIRE PRESSURE",
-    "(%d) PSI" % TP,
+    "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
@@ -206,7 +206,7 @@ def frTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   TP = int(CS.tpmsFr)
   return Alert(
     "LOW FRONT RIGHT TIRE PRESSURE",
-    "(%d) PSI" % TP,
+    "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
@@ -214,7 +214,7 @@ def rlTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   TP = int(CS.tpmsRl)
   return Alert(  
     "LOW REAR LEFT TIRE PRESSURE",
-    "(%d) PSI" % TP,
+    "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
@@ -222,7 +222,7 @@ def rrTPMS(CS: car.CarState, sm: messaging.SubMaster, metric: bool) -> Alert:
   TP = int(CS.tpmsRr)
   return Alert(
     "LOW REAR RIGHT TIRE PRESSURE",
-    "(%d) PSI" % TP,
+    "Please Check",
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
