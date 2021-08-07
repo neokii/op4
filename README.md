@@ -60,6 +60,10 @@ title="PayPal – The safer, easier way to pay online!" border="0" />
 
 The **Comma 2** has **POOR** performance with logging and uploader enabled so it's disabled by default. You can change that in `Settings` under `Community`.
 
+**MDPS Harnesses** are availaible for sale if you have the newer style plug. Contact johnpr#5623 on discord for more information.
+
+**Radar Harnesses** for Kia Stinger & G70 are for sale. Contact johnpr#5623 on discord for more information.
+
 **Notes**
 ---------
 
