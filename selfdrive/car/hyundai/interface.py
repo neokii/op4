@@ -196,6 +196,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if not UseLQR:
+        ret.lateralTuning.init('pid')
         ret.lateralTuning.pid.kpBP = [0., 10., 30.]
         ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
         ret.lateralTuning.pid.kiBP = [0., 10., 30.]
