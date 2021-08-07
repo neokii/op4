@@ -417,7 +417,7 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.75
       tire_stiffness_factor = 0.6
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate == CAR.SPORTAGE:
+    elif candidate == CAR.SPORTAGE_S_LKAS:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1985. + STD_CARGO_KG
       ret.wheelbase = 2.78
