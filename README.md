@@ -1,4 +1,4 @@
-**OpenPilot H.K.G. 0.8.8**
+**OpenPilot HKG 0.8.8**
 ------------------
 
 **This fork is Community Supported!**
@@ -9,9 +9,9 @@ To get involved join us on discord or Contribute to the project with code or hel
 
 - https://discord.gg/zWSnqJ6rKD
 
-- Donating helps me dedicate more time, effort into this project and helping people.
+- Donating helps me dedicate more time and effort into this project. It also gives me more time to make for helping people.
 
-- Help me get a Comma 3 without selling my Comma 2. Reason: I will need to support both Comma 2 and Comma 3. I will try to support Comma 2 users for as long as I can!
+- **Help** me get a **Comma 3** without selling my **Comma 2**. **Reason:** I will need to support both **Comma 2** and **Comma 3** users. I will try to support **Comma 2** users for as **long** as I can even if comma drops support!
 
 <a href="https://www.paypal.com/donate?business=NRFAJ6FYRLT2Y&no_recurring=0&item_name=Contribute+to+help+progress+JPR%27s+HKG+Fork&currency_code=USD" 
 target="_blank">
@@ -29,7 +29,7 @@ https://discord.gg/zWSnqJ6rKD
 **Longitudinal Info**
 ----------------------
 
-This fork has full long control for all HKG and Harnessless for older 2015 & 2016 & 2017 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control. Test out HKG Long even if you don't have a harness. It might work and let me know if it works and your car isn't on this list.
+This fork has full long control for all HKG and Harnessless for older 2015 & 2016 & 2017 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
 **Reach out to johnpr#5623 on discord too buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
 
@@ -50,7 +50,7 @@ Make sure "Upload Raw Logs" and "Enable Logger / Uploader" are both ON for this 
 
 **Hardware**
 ------------
-The **Comma 3** should have significant performance improvements over Comma 2. Comma 3 is untested on this fork. I currently do not own a Comma 3. Help me reach my goal of rasing enough money for a Comma 3 to support users who upgraded. 
+The **Comma 3** should have significant performance improvements over Comma 2. **Comma 3 is untested** on this fork. I currently do not own a Comma 3 or have one on order. Help me reach my goal of rasing enough money for a Comma 3 to support users who upgraded. 
 
 <a href="https://www.paypal.com/donate?business=NRFAJ6FYRLT2Y&no_recurring=0&item_name=Contribute+to+help+progress+JPR%27s+HKG+Fork&currency_code=USD" 
 target="_blank">
@@ -59,6 +59,10 @@ title="PayPal – The safer, easier way to pay online!" border="0" />
 </a>
 
 The **Comma 2** has **POOR** performance with logging and uploader enabled so it's disabled by default. You can change that in `Settings` under `Community`.
+
+- **MDPS Harnesses** are availaible for sale if you have the newer style plug. Contact johnpr#5623 on discord for more information.
+
+- **Radar Harnesses** for Kia Stinger & G70 are for sale. Contact johnpr#5623 on discord for more information.
 
 **Notes**
 ---------
@@ -150,10 +154,10 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 ***Install***
 ------------
 
-***0.8.7 From Setup***
+***0.8.8 From Setup***
 ---------------------
 
-**Test** - 0.8.8
+**Test**
 
 Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test`
 
@@ -161,10 +165,10 @@ Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test`
 
 Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable`
 
-***0.8.7 From SSH***
+***0.8.8 From SSH***
 ---------------------
 
-**Test** - 0.8.8
+**Test**
 
 `git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout test && reboot`
 
@@ -228,7 +232,7 @@ RJ45 black panda and comma power adapter
 - https://github.com/Circuit-Pro/openpilot/blob/main/C50DC3FD-B803-4B67-A435-AA857EF2396B.png
 
 
-It is open source and inherits MIT license. It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
+It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.  <b>Use at your own risk.</b>
 ------------------------------------------------------
 
 
