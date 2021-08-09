@@ -13,7 +13,7 @@ CRUISE_GAP_BP = [1., 2., 3., 4.]
 CRUISE_GAP_V = [1.3, 1.4, 1.8, 2.2]
 
 AUTO_TR_BP = [20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
+
 
 AUTO_TR_ENABLED = True
 AUTO_TR_CRUISE_GAP = 2
@@ -63,6 +63,14 @@ class LeadMpc():
     else:
       lead = radarstate.leadTwo
     self.status = lead.status
+
+    #e2e Long JPR
+    if lead < 0:
+      AUTO_TR_V = [2., 2.1, 2.2, 2.3]
+    if lead > 1:
+      t = sec_since_boot()
+    if lead > 1 and (sec_since_boot() - t) == 5:
+      AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
 
     # Setup current mpc state
     self.cur_state[0].x_ego = 0.0
