@@ -69,7 +69,7 @@ class LeadMpc():
       AUTO_TR_V = [2., 2.1, 2.2, 2.3]
     if lead == 1:
       t = sec_since_boot()
-    if lead > 1 and (sec_since_boot() - t) == 6:
+    if lead == 1 and (sec_since_boot() - t) == 6:
       AUTO_TR_V = [1.2, 1.5, 1.7, 2.0]
       t = 0
     else:
