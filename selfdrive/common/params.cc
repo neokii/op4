@@ -245,6 +245,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"AR", PERSISTENT},
     {"UseLQR", PERSISTENT},
     {"PutPrebuilt", PERSISTENT},
+    {"TPMS_Alerts", PERSISTENT},
 };
 
 } // namespace

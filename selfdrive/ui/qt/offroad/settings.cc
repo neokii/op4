@@ -501,7 +501,12 @@ QWidget * community_panel() {
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
                                             "../assets/offroad/icon_road.png"
                                               ));
-
+  toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("TPMS_Alerts",
+                                            "Enable TPMS Alerts",
+                                            "Enables Tire Pressure Monitoring System Alerts for Low Tire Pressure.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("MadModeEnabled",
                                             "Enable HKG MAD mode",

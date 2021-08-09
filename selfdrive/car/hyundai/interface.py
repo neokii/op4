@@ -579,13 +579,13 @@ class CarInterface(CarInterfaceBase):
       minTP = 28
 
 
-    if ret.tpmsFl < minTP:
+    if ret.tpmsFl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fl)
-    elif ret.tpmsFr < minTP:
+    elif ret.tpmsFr < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fr)
-    elif ret.tpmsRl < minTP:
+    elif ret.tpmsRl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.rl)
-    elif ret.tpmsRr < minTP:
+    elif ret.tpmsRr < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.rr)
 
 
