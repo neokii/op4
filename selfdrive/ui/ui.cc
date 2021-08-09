@@ -322,7 +322,8 @@ QUIState::QUIState(QObject *parent) : QObject(parent) {
     "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "roadCameraState",
     "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "liveLocationKalman",
     "gpsLocationExternal", "roadCameraState",
-    "carControl", "liveParameters", "ubloxGnss"});
+    "carControl", "liveParameters", "ubloxGnss", "longitudinalPlan",
+	});
 
   ui_state.fb_w = vwp_w;
   ui_state.fb_h = vwp_h;

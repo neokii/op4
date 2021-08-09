@@ -62,8 +62,8 @@ def manager_init():
     ("AR", "0"),
     ("UseLQR", "0"),
     ("PutPrebuilt", "0"),
-    ("TPMS_Alerts", "1")
-
+    ("TPMS_Alerts", "1"),
+    ("TurnVisionControl", "1")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
@@ -225,19 +225,6 @@ def main():
   if Params().get_bool("DoUninstall"):
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
-
-  count = 0
-  
-  if count == 0:
-    if Params().getBool('hotspot_on_boot') and Params().getBool('IsOnroad'):
-      os.system("service call wifi 37 i32 0 i32 1 &")
-      count = 1
-  if count > 0:
-    if Params().getBool('IsOffroad') and Params().getBool('c_wifi_offroad'):
-      os.system("service call wifi 37 i32 0 i32 0 &")
-      count = 0
-
-
 
 
 if __name__ == "__main__":
