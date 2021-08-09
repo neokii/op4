@@ -287,7 +287,7 @@ static void update_status(UIState *s) {
     } else {
       s->vipc_client->connected = false;
     }
-
+  }
   started_prev = s->scene.started;
 }
 static void update_extras(UIState *s)
