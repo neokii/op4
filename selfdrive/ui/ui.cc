@@ -263,7 +263,7 @@ static void update_status(UIState *s) {
     if (s->scene.started) {
       s->status = STATUS_DISENGAGED;
       s->scene.started_frame = s->sm->frame;
-
+      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       s->scene.end_to_end = Params().getBool("EndToEndToggle");
       s->wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
 
@@ -276,7 +276,7 @@ static void update_status(UIState *s) {
       if (s->wide_camera) {
         s->vipc_client = s->vipc_client_wide;
       
-      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
+      
       } else {
         s->vipc_client = s->vipc_client_rear;
       }
