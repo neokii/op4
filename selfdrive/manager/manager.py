@@ -62,7 +62,7 @@ def manager_init():
     ("AR", "0"),
     ("UseLQR", "0"),
     ("PutPrebuilt", "0"),
-    ("TPMS_Alerts", "0")
+    ("TPMS_Alerts", "1")
 
   ]
   if not PC:
