@@ -61,7 +61,8 @@ def manager_init():
     ("CleanUI", "1"),
     ("AR", "0"),
     ("UseLQR", "0"),
-    ("PutPrebuilt", "0")
+    ("PutPrebuilt", "0"),
+    ("TPMS_Alerts", "0")
 
   ]
   if not PC:
