@@ -255,7 +255,6 @@ static void update_status(UIState *s) {
       s->status = controls_state.getEnabled() ? STATUS_ENGAGED : STATUS_DISENGAGED;
     }
   }
-}
 
   // Handle onroad/offroad transition
   static bool started_prev = false;
@@ -266,7 +265,9 @@ static void update_status(UIState *s) {
       s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       s->scene.end_to_end = Params().getBool("EndToEndToggle");
       s->wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
-
+      s->scene.speed_limit_control_enabled = Params().getBool("SpeedLimitControl");
+      s->scene.speed_limit_perc_offset = Params().getBool("SpeedLimitPercOffset");
+      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       // Update intrinsics matrix after possible wide camera toggle change
       if (s->vg) {
         ui_resize(s, s->fb_w, s->fb_h);
@@ -275,21 +276,16 @@ static void update_status(UIState *s) {
       // Choose vision ipc client
       if (s->wide_camera) {
         s->vipc_client = s->vipc_client_wide;
-      
-      
       } else {
         s->vipc_client = s->vipc_client_rear;
       }
-
-      s->scene.speed_limit_control_enabled = Params().getBool("SpeedLimitControl");
-      s->scene.speed_limit_perc_offset = Params().getBool("SpeedLimitPercOffset");
-      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
     } else {
       s->vipc_client->connected = false;
     }
   }
   started_prev = s->scene.started;
 }
+
 static void update_extras(UIState *s)
 {
    UIScene &scene = s->scene;
