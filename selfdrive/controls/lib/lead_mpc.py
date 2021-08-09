@@ -75,7 +75,7 @@ class LeadMpc():
       t = sec_since_boot()
     elif lead == 1 and (sec_since_boot() - t) > 4:
       AUTO_TR_V = [1.5, 1.6, 1.7, 1.8]
-    elif lead == 1 and (sec_since_boot() - t) > 8:
+    elif lead == 1 and (sec_since_boot() - t) > 6:
       AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
       t = 0
       ts = 1
