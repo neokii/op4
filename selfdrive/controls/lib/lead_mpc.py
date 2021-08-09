@@ -71,6 +71,7 @@ class LeadMpc():
       t = sec_since_boot()
     if lead > 1 and (sec_since_boot() - t) == 5:
       AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
+      t = 0
 
     # Setup current mpc state
     self.cur_state[0].x_ego = 0.0
