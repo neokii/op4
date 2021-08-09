@@ -140,6 +140,9 @@ typedef struct UIScene {
   bool leftBlinker, rightBlinker;
   bool leftblindspot, rightblindspot;
   int blinker_blinkingrate;
+  
+    // Debug UI
+  bool show_debug_ui;
 
   cereal::PandaState::PandaType pandaType;
   cereal::CarState::Reader car_state;

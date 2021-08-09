@@ -274,6 +274,8 @@ static void update_status(UIState *s) {
       // Choose vision ipc client
       if (s->wide_camera) {
         s->vipc_client = s->vipc_client_wide;
+      }
+      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       } else {
         s->vipc_client = s->vipc_client_rear;
       }

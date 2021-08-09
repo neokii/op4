@@ -50,7 +50,12 @@ def manager_init():
 
     ("SccSmootherSlowOnCurves", "0"),
     ("SccSmootherSyncGasPressed", "1"),
-    ("ShowDebugUI", "0"),
+    ("ShowDebugUI", "1"),
+    ("SpeedLimitControl", "1"),
+    ("SpeedLimitPercOffset", "1"),
+    ("SpeedLimitDelayIncrease", "1"),
+    ("TurnSpeedControl", "1"),
+    ("TurnVisionControl", "1"),
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
@@ -62,8 +67,7 @@ def manager_init():
     ("AR", "0"),
     ("UseLQR", "0"),
     ("PutPrebuilt", "0"),
-    ("TPMS_Alerts", "1"),
-    ("TurnVisionControl", "1")
+    ("TPMS_Alerts", "1")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
