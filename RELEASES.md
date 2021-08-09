@@ -1,6 +1,7 @@
 Version 0.8.8 (2021-08-XX)
 ========================
 * Added TPMS Toggle.
+* Added better longitudinal logic for Auto gap setting.
 
 Version 0.8.7 (2021-8-4)
 ========================
