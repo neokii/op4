@@ -114,6 +114,10 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     rl @111;
     rr @112;
 
+    speedLimitActive @113;
+    speedLimitDecrease @114;
+    speedLimitIncrease @115;
+    
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -229,6 +233,7 @@ struct CarState {
     speedOffset @3 :Float32;
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
+    speedLimit @6 :Float32;
   }
 
   enum GearShifter {
