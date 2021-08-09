@@ -1090,6 +1090,8 @@ static void ui_draw_vision_event(UIState *s) {
   auto visionTurnControllerState = longitudinal_plan.getVisionTurnControllerState();
   if (visionTurnControllerState > cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED && s->scene.engageable) {
     if (s->scene.show_debug_ui && visionTurnControllerState > cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED && s->scene.engageable) {
+      const Rect rect = {s->fb_w - size - bdr_s, int(bdr_s * 1.5), size, size};
+      ui_fill_rect(s->vg, rect, COLOR_BLACK_ALPHA(100), 30.);
       auto source = longitudinal_plan.getLongitudinalPlanSource();
       const int alpha = source == cereal::LongitudinalPlan::LongitudinalPlanSource::TURN ? 255 : 100;
       const QColor &color = tcs_colors[int(visionTurnControllerState)];

@@ -255,6 +255,7 @@ static void update_status(UIState *s) {
       s->status = controls_state.getEnabled() ? STATUS_ENGAGED : STATUS_DISENGAGED;
     }
   }
+}
 
   // Handle onroad/offroad transition
   static bool started_prev = false;
