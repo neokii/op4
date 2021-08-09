@@ -70,10 +70,9 @@ class LeadMpc():
     if lead == 1:
       AUTO_TR_V = [1.6, 1.7, 1.8, 2.0]
       t = sec_since_boot()
-    if lead == 1 and (sec_since_boot() - t) == 4:
+    if lead == 1 and (sec_since_boot() - t) > 4:
       AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
-      t = 0
-    else:
+    if lead == 1 and (sec_since_boot() - t) > 8:
       AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
 
     # Setup current mpc state
