@@ -1374,4 +1374,4 @@ void ui_resize(UIState *s, int width, int height) {
   nvgCurrentTransform(s->vg, s->car_space_transform);
   nvgResetTransform(s->vg);
 }
-}
+
