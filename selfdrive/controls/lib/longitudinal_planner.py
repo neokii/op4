@@ -15,6 +15,9 @@ from selfdrive.controls.lib.lead_mpc import LeadMpc
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, CONTROL_N
 from selfdrive.controls.lib.vision_turn_controller import VisionTurnController
+from selfdrive.controls.lib.speed_limit_controller import SpeedLimitController, SpeedLimitResolver
+from selfdrive.controls.lib.turn_speed_controller import TurnSpeedController
+from selfdrive.controls.lib.events import Events
 from selfdrive.swaglog import cloudlog
 
 LON_MPC_STEP = 0.2  # first step is 0.2s
@@ -67,6 +70,9 @@ class Planner():
     self.a_desired_trajectory = np.zeros(CONTROL_N)
 
     self.vision_turn_controller = VisionTurnController(CP)
+    self.speed_limit_controller = SpeedLimitController()
+    self.events = Events()
+    self.turn_speed_controller = TurnSpeedController()
 
   def update(self, sm, CP):
     cur_time = sec_since_boot()
