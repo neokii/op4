@@ -1102,6 +1102,7 @@ static void ui_draw_vision_event(UIState *s) {
     ui_draw_circle_image(s, center_x, center_y, radius, "wheel", nvg_color, 1.0f);
   }
 }
+}
 
 static void ui_draw_vision_face(UIState *s) {
   const int radius = 96;
