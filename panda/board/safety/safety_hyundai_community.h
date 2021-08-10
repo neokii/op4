@@ -222,7 +222,7 @@ static int hyundai_community_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_f
   int addr = GET_ADDR(to_fwd);
   int fwd_to_bus1 = -1;
   //if (HKG_forward_bus1 || HKG_forward_obd){fwd_to_bus1 = 1;}
-  if ((HKG_forward_bus1 || HKG_forward_obd) && (addr == 1265 || addr == 915 || addr == 593 || addr == 897 || addr == 1265 || addr ==  399|| addr == 688 || addr == 356 || addr == 608 || addr == 1345 || addr == 832 || addr == 544 || addr == 790 || addr == 273 || addr == 1292 || addr == 1136 || addr < 750)){fwd_to_bus1 = 1;}
+  if ((HKG_forward_bus1 || HKG_forward_obd) && (addr == 1265 || addr == 915 || addr == 593 || addr == 897 || addr == 1265 || addr ==  399|| addr == 688 || addr == 356 || addr == 608 || addr == 1345 || addr == 832 || addr == 544 || addr == 790 || addr == 273 || addr == 1292 || addr == 1136 || addr < 800)){fwd_to_bus1 = 1;}
   // forward cam to ccan and viceversa, except lkas cmd
   if (HKG_forward_bus2) {
     if (bus_num == 0) {
