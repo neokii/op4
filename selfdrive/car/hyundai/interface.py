@@ -564,7 +564,7 @@ class CarInterface(CarInterfaceBase):
     elif CAR.ELANTRA_HEV_2021:
       minTP = 30
     elif CAR.K5:
-      minTP = 33
+      minTP = 30
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
