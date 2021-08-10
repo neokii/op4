@@ -420,31 +420,55 @@ class CarState(CarStateBase):
         ("LDM_STAT", "ESP11", 0),
       ]
       checks += [("ESP11", 50)]
-	  
-    if CP.spasEnabled:
-      if CP.mdpsBus == 1:
-        signals += [
-          ("SWI_IGK", "EMS11", 0),
-          ("F_N_ENG", "EMS11", 0),
-          ("ACK_TCS", "EMS11", 0),
-          ("PUC_STAT", "EMS11", 0),
-          ("TQ_COR_STAT", "EMS11", 0),
-          ("RLY_AC", "EMS11", 0),
-          ("F_SUB_TQI", "EMS11", 0),
-          ("TQI_ACOR", "EMS11", 0),
-          ("N", "EMS11", 0),
-          ("TQI", "EMS11", 0),
-          ("TQFR", "EMS11", 0),
-          ("VS", "EMS11", 0),
-          ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
-        ]
-        checks += [("EMS11", 100)]
-      elif CP.mdpsBus == 0:
-        signals += [
-          ("CR_Mdps_StrAng", "MDPS11", 0),
-          ("CF_Mdps_Stat", "MDPS11", 0),
-        ]
-        checks += [("MDPS11", 100)]
+    if CAR.STINGER:
+      if CP.spasEnabled:
+        if CP.mdpsBus == 1:
+          signals += [
+            ("SWI_IGK", "EMS11", 0),
+            ("F_N_ENG", "EMS11", 0),
+            ("ACK_TCS", "EMS11", 0),
+            ("PUC_STAT", "EMS11", 0),
+            ("TQ_COR_STAT", "EMS11", 0),
+            ("RLY_AC", "EMS11", 0),
+            ("F_SUB_TQI", "EMS11", 0),
+            ("TQI_ACOR", "EMS11", 0),
+            ("N", "EMS11", 0),
+            ("TQI", "EMS11", 0),
+            ("TQFR", "EMS11", 0),
+            ("VS", "EMS11", 0),
+            ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
+          ]
+        elif CP.mdpsBus == 0:
+          signals += [
+            ("CR_Mdps_StrAng", "MDPS11", 0),
+            ("CF_Mdps_Stat", "MDPS11", 0),
+          ]
+          checks += [("MDPS11", 100)]
+    else:
+      if CP.spasEnabled:
+        if CP.mdpsBus == 1:
+          signals += [
+            ("SWI_IGK", "EMS11", 0),
+            ("F_N_ENG", "EMS11", 0),
+            ("ACK_TCS", "EMS11", 0),
+            ("PUC_STAT", "EMS11", 0),
+            ("TQ_COR_STAT", "EMS11", 0),
+            ("RLY_AC", "EMS11", 0),
+            ("F_SUB_TQI", "EMS11", 0),
+            ("TQI_ACOR", "EMS11", 0),
+            ("N", "EMS11", 0),
+            ("TQI", "EMS11", 0),
+            ("TQFR", "EMS11", 0),
+            ("VS", "EMS11", 0),
+            ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
+          ]
+          checks += [("EMS11", 100)]
+        elif CP.mdpsBus == 0:
+          signals += [
+            ("CR_Mdps_StrAng", "MDPS11", 0),
+            ("CF_Mdps_Stat", "MDPS11", 0),
+          ]
+          checks += [("MDPS11", 100)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
