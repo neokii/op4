@@ -242,7 +242,7 @@ static int hyundai_community_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_f
         bus_fwd = 2; // EON create CLU12 for MDPS
         OP_CLU_live -= 1;
       }
-    }addr ==  399|| 
+    }
     if (bus_num == 1 && (HKG_forward_bus1 || HKG_forward_obd)) {
       if (!OP_MDPS_live || addr != 593) {
         if (!OP_SCC_live || (addr != 1056 && addr != 1057 && addr != 1290 && addr != 905)) {
