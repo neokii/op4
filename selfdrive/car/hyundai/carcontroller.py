@@ -77,6 +77,8 @@ class CarController():
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
     self.accel_steady = 0
+    self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+
     if CP.spasEnabled:
       self.en_cnt = 0
       self.apply_steer_ang = 0.0
