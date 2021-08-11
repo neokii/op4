@@ -182,6 +182,8 @@ class CarState(CarStateBase):
     self.steer_state = cp_mdps.vl["MDPS12"]['CF_Mdps_ToiActive'] #0 NOT ACTIVE, 1 ACTIVE
     self.cruise_unavail_cnt += 1 if cp.vl["TCS13"]['CF_VSM_Avail'] != 1 and cp.vl["TCS13"]['ACCEnable'] != 0 else -self.cruise_unavail_cnt
     self.cruise_unavail = self.cruise_unavail_cnt > 100
+    if self.spas_enabled:
+      self.ems_366 = cp.vl["EMS_366"]
 
     self.lead_distance = cp_scc.vl["SCC11"]['ACC_ObjDist'] if not self.no_radar else 0
     if self.has_scc13:
@@ -420,55 +422,21 @@ class CarState(CarStateBase):
         ("LDM_STAT", "ESP11", 0),
       ]
       checks += [("ESP11", 50)]
-    if CAR.STINGER:
-      if CP.spasEnabled:
-        if CP.mdpsBus == 1:
-          signals += [
-            ("SWI_IGK", "EMS11", 0),
-            ("F_N_ENG", "EMS11", 0),
-            ("ACK_TCS", "EMS11", 0),
-            ("PUC_STAT", "EMS11", 0),
-            ("TQ_COR_STAT", "EMS11", 0),
-            ("RLY_AC", "EMS11", 0),
-            ("F_SUB_TQI", "EMS11", 0),
-            ("TQI_ACOR", "EMS11", 0),
-            ("N", "EMS11", 0),
-            ("TQI", "EMS11", 0),
-            ("TQFR", "EMS11", 0),
-            ("VS", "EMS11", 0),
-            ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
-          ]
-        elif CP.mdpsBus == 0:
-          signals += [
-            ("CR_Mdps_StrAng", "MDPS11", 0),
-            ("CF_Mdps_Stat", "MDPS11", 0),
-          ]
-          checks += [("MDPS11", 100)]
-    else:
-      if CP.spasEnabled:
-        if CP.mdpsBus == 1:
-          signals += [
-            ("SWI_IGK", "EMS11", 0),
-            ("F_N_ENG", "EMS11", 0),
-            ("ACK_TCS", "EMS11", 0),
-            ("PUC_STAT", "EMS11", 0),
-            ("TQ_COR_STAT", "EMS11", 0),
-            ("RLY_AC", "EMS11", 0),
-            ("F_SUB_TQI", "EMS11", 0),
-            ("TQI_ACOR", "EMS11", 0),
-            ("N", "EMS11", 0),
-            ("TQI", "EMS11", 0),
-            ("TQFR", "EMS11", 0),
-            ("VS", "EMS11", 0),
-            ("RATIO_TQI_BAS_MAX_STND", "EMS11", 0),
-          ]
-          checks += [("EMS11", 100)]
-        elif CP.mdpsBus == 0:
-          signals += [
-            ("CR_Mdps_StrAng", "MDPS11", 0),
-            ("CF_Mdps_Stat", "MDPS11", 0),
-          ]
-          checks += [("MDPS11", 100)]
+    if CP.spasEnabled:
+      if CP.mdpsBus == 1:
+        signals += [
+          ("TQI_1", "EMS_366", 0),
+          ("N", "EMS_366", 0),
+          ("TQI_2", "EMS_366", 0),
+          ("VS", "EMS_366", 0),
+          ("SWI_IGK", "EMS_366", 0),
+        ]
+      elif CP.mdpsBus == 0:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [("MDPS11", 100)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
