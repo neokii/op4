@@ -299,7 +299,7 @@ class CarController():
     
     if CS.spas_enabled:
       if CS.mdps_bus:
-        can_sends.append(create_ems11(self.packer, CS.ems11, spas_active))
+        can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active))
 
       if (frame % 2) == 0:
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
