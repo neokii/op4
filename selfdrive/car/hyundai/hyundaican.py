@@ -187,5 +187,5 @@ def create_spas12(bus):
 def create_ems_366(packer, ems_366, enabled):
   values = ems_366
   if enabled:
-    values["VS"] = 0
+    values["VS"] = 1
   return packer.make_can_msg("EMS_366", 1, values)
