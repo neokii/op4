@@ -558,7 +558,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     }
     snprintf(val_str, sizeof(val_str), "%.1f°", ambientTemp);
     snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "AMBIENT",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "PCB Temp",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
@@ -695,8 +695,6 @@ static void bb_ui_draw_debug(UIState *s)
     auto car_control = (*s->sm)["carControl"].getCarControl();
 
     float applyAccel = controls_state.getApplyAccel();
-    float fusedAccel = controls_state.getFusedAccel();
-    float leadDist = controls_state.getLeadDist();
 
     float aReqValue = controls_state.getAReqValue();
     float aReqValueMin = controls_state.getAReqValueMin();
@@ -739,11 +737,7 @@ static void bb_ui_draw_debug(UIState *s)
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
 
     y += height;
-    snprintf(str, sizeof(str), "LeadDist: %.3f", leadDist);
-    ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
-
-    y += height;
-    snprintf(str, sizeof(str), "Accel: %.3f/%.3f/%.3f", applyAccel, fusedAccel, aReqValue);
+    snprintf(str, sizeof(str), "Accel: %.3f/%.3f", applyAccel, aReqValue);
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
 
     y += height;

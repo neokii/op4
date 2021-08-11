@@ -60,7 +60,6 @@ class SccSmoother:
     self.slow_on_curves = Params().get_bool('SccSmootherSlowOnCurves')
     self.sync_set_speed_while_gas_pressed = Params().get_bool('SccSmootherSyncGasPressed')
     self.is_metric = Params().get_bool('IsMetric')
-    self.fuse_with_stock = Params().get_bool('FuseWithStockScc')
 
     self.speed_conv_to_ms = CV.KPH_TO_MS if self.is_metric else CV.MPH_TO_MS
     self.speed_conv_to_clu = CV.MS_TO_KPH if self.is_metric else CV.MS_TO_MPH
@@ -85,6 +84,7 @@ class SccSmoother:
     self.slowing_down = False
     self.slowing_down_alert = False
     self.slowing_down_sound_alert = False
+    self.active_cam = False
 
     self.max_speed_clu = 0.
     self.limited_lead = False
@@ -136,6 +136,8 @@ class SccSmoother:
       max_speed_clu = min(controls.v_cruise_kph * CV.KPH_TO_MS, self.curve_speed_ms) * self.speed_conv_to_clu
     else:
       max_speed_clu = self.kph_to_clu(controls.v_cruise_kph)
+
+    self.active_cam = road_limit_speed > 0
 
     #max_speed_log = "{:.1f}/{:.1f}/{:.1f}".format(float(limit_speed),
     #                                              float(self.curve_speed_ms*self.speed_conv_to_clu),
@@ -338,22 +340,6 @@ class SccSmoother:
       error = max_speed - self.max_speed_clu
       self.max_speed_clu = self.max_speed_clu + error * kp
 
-  def get_fused_accel(self, apply_accel, stock_accel, sm):
-
-    dRel = 0.
-    lead = self.get_lead(sm)
-    if lead is not None:
-      dRel = lead.dRel
-
-      if self.fuse_with_stock and lead.radar:
-        if stock_accel > 0.:
-          stock_weight = interp(dRel, [4., 25.], [0.7, 0.])
-        else:
-          stock_weight = interp(dRel, [4., 25.], [1., 0.])
-        apply_accel = apply_accel * (1. - stock_weight) + stock_accel * stock_weight
-
-    return apply_accel, dRel
-
   def get_accel(self, CS, sm, accel):
 
     gas_factor = clip(self.gas_factor, 0.7, 1.3)
@@ -361,8 +347,8 @@ class SccSmoother:
 
     lead = self.get_lead(sm)
     if lead is not None:
-      wd = interp(lead.dRel, [4., 15.], [1.2, 1.0])
-      brake_factor *= interp(CS.out.vEgo, [0., 20.], [1., wd])
+      if not lead.radar:
+        brake_factor *= 0.93
 
     if accel > 0:
       accel *= gas_factor

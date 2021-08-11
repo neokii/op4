@@ -1,11 +1,12 @@
 from enum import IntEnum
 from typing import Dict, Union, Callable, Any
-
+from common.params import Params
 from cereal import log, car
 import cereal.messaging as messaging
 from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.locationd.calibrationd import MIN_SPEED_FILTER
+
 
 AlertSize = log.ControlsState.AlertSize
 AlertStatus = log.ControlsState.AlertStatus
@@ -191,7 +192,34 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
     Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
+#JPR
+def flTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  return Alert(
+    "LOW FRONT LEFT TIRE PRESSURE",
+    "Please Check",
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
+def frTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  return Alert(
+    "LOW FRONT RIGHT TIRE PRESSURE",
+    "Please Check",
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rlTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  return Alert(  
+    "LOW REAR LEFT TIRE PRESSURE",
+    "Please Check",
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
+
+def rrTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  return Alert(
+    "LOW REAR RIGHT TIRE PRESSURE",
+    "Please Check",
+    AlertStatus.userPrompt, AlertSize.mid,
+    Priority.MID, VisualAlert.none, AudibleAlert.chimePrompt, 0., 0.4, .3)
 
 def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
@@ -247,6 +275,8 @@ def joystick_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> 
 
 EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, bool], Alert]]]] = {
   # ********** events with no alerts **********
+
+  EventName.stockFcw: {},
 
   # ********** events only containing alerts displayed in all states **********
 
@@ -363,15 +393,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.critical, AlertSize.full,
       Priority.HIGHEST, VisualAlert.fcw, AudibleAlert.none, 1., 2., 2.),
     ET.NO_ENTRY: NoEntryAlert("Stock AEB: Risk of Collision"),
-  },
-
-  EventName.stockFcw: {
-    ET.PERMANENT: Alert(
-      "BRAKE!",
-      "Stock FCW: Risk of Collision",
-      AlertStatus.critical, AlertSize.full,
-      Priority.HIGHEST, VisualAlert.fcw, AudibleAlert.none, 1., 2., 2.),
-    ET.NO_ENTRY: NoEntryAlert("Stock FCW: Risk of Collision"),
   },
 
   EventName.fcw: {
@@ -494,36 +515,50 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
     ET.WARNING: below_steer_speed_alert,
   },
 
+  EventName.fl: {
+    ET.WARNING: flTPMS,
+  },
+  EventName.fr: {
+    ET.WARNING: frTPMS,
+  },
+
+  EventName.rl: {
+    ET.WARNING: rlTPMS,
+  },
+  EventName.rr: {
+    ET.WARNING: rrTPMS,
+  },
+  
   EventName.preLaneChangeLeft: {
     ET.WARNING: Alert(
-      "Steer Left to Start Lane Change",
-      "Monitor Other Vehicles",
-      AlertStatus.normal, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
+      "Steer Left to Start Lane Change Once Safe",
+      "",
+      AlertStatus.normal, AlertSize.small,
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
 
   EventName.preLaneChangeRight: {
     ET.WARNING: Alert(
-      "Steer Right to Start Lane Change",
-      "Monitor Other Vehicles",
-      AlertStatus.normal, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
+      "Steer Right to Start Lane Change Once Safe",
+      "",
+      AlertStatus.normal, AlertSize.small,
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
 
   EventName.laneChangeBlocked: {
     ET.WARNING: Alert(
       "Car Detected in Blindspot",
-      "Monitor Other Vehicles",
-      AlertStatus.userPrompt, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, .1, .1, .1),
+      "",
+      AlertStatus.userPrompt, AlertSize.small,
+      Priority.LOW, VisualAlert.none, AudibleAlert.chimePrompt, .1, .1, .1),
   },
 
   EventName.laneChange: {
     ET.WARNING: Alert(
-      "Changing Lane",
-      "Monitor Other Vehicles",
-      AlertStatus.normal, AlertSize.mid,
-      Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1),
+      "Changing Lanes",
+      "",
+      AlertStatus.normal, AlertSize.small,
+      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .1, .1),
   },
 
   EventName.steerSaturated: {

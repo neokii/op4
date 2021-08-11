@@ -36,9 +36,6 @@ openpilot/tools/mac_setup.sh
 cd openpilot && scons -j$(nproc)
 ```
 
-- If you get `ModuleNotFoundError: No module named 'numpy':` run `sudo pip3 install -U numpy`
-
-
 4. Try out some tools!
 
 

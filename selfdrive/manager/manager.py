@@ -55,7 +55,6 @@ def manager_init():
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
     ("RVL", "0"),
-    ("FuseWithStockScc", "0"),
     ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
@@ -63,7 +62,10 @@ def manager_init():
     ("AR", "0"),
     ("UseLQR", "0"),
     ("spasEnabled","0"),
-    ("spasAlways", "0")
+    ("spasAlways", "0"),
+    ("PutPrebuilt", "0"),
+    ("TPMS_Alerts", "1")
+
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))

@@ -1,10 +1,11 @@
 from cereal import car
-from selfdrive.car.hyundai.values import DBC, STEER_THRESHOLD, FEATURES, CAR, HYBRID_CAR, EV_CAR
-from selfdrive.car.interfaces import CarStateBase
-from opendbc.can.parser import CANParser
-from opendbc.can.can_define import CANDefine
-from selfdrive.config import Conversions as CV
 from common.params import Params
+from opendbc.can.can_define import CANDefine
+from opendbc.can.parser import CANParser
+from selfdrive.car.hyundai.values import (CAR, DBC, EV_CAR, FEATURES,
+                                          HYBRID_CAR, STEER_THRESHOLD)
+from selfdrive.car.interfaces import CarStateBase
+from selfdrive.config import Conversions as CV
 
 GearShifter = car.CarState.GearShifter
 
@@ -142,6 +143,24 @@ class CarState(CarStateBase):
     if self.CP.hasEms:
       ret.gas = cp.vl["EMS12"]['PV_AV_CAN'] / 100.
       ret.gasPressed = bool(cp.vl["EMS16"]["CF_Ems_AclAct"])
+
+    #TPMS
+    if cp.vl["TPMS11"]["UNIT"] == 0.0:
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"]
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"]
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"]
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"]
+    elif cp.vl["TPMS11"]["UNIT"] == 1.0:
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] * 5 * 0.145038
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] * 5 * 0.145038
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] * 5 * 0.145038
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] * 5 * 0.145038
+    elif cp.vl["TPMS11"]["UNIT"] == 2.0:
+      ret.tpmsFl = cp.vl["TPMS11"]["PRESSURE_FL"] / 10 * 14.5038
+      ret.tpmsFr = cp.vl["TPMS11"]["PRESSURE_FR"] / 10 * 14.5038
+      ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
+      ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
+
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
@@ -309,6 +328,12 @@ class CarState(CarStateBase):
       ("SCCMode2", "SCC14", 0),
       ("ComfortBandUpper", "SCC14", 0),
       ("ComfortBandLower", "SCC14", 0),
+
+      ("UNIT", "TPMS11", 0),
+      ("PRESSURE_FL", "TPMS11", 0),
+      ("PRESSURE_FR", "TPMS11", 0),
+      ("PRESSURE_RL", "TPMS11", 0),
+      ("PRESSURE_RR", "TPMS11", 0),
     ]
 
     checks = [

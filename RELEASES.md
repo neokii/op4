@@ -1,6 +1,15 @@
-Version 0.8.7 (2021-)
+Version 0.8.8 (2021-08-XX)
 ========================
-* Attemped to fix SPAS.
+* Fixed SPAS.
+* Added TPMS Toggle.
+
+Version 0.8.7 (2021-8-4)
+========================
+* Added Car TPMS parameters for Stinger, Kona, Elantra 21 HEV, K5, Forte, and Genesis 2015.
+* Added and Fixed TPMS Alert. Send your cars make, model, and TPSM pressures to @johnpr
+* Added Panda Tools to settings under Device.
+* Added use LQR Toggle.
+* Work on broken tunes and tidy up code.
 * Fixed Kia Niro 2019 HEV FW Fingerprint V2
 * Fixed on screen BMS and animated blinkers.
 * New driving model with improved laneless performance
@@ -113,6 +122,7 @@ Version 0.8.5 (2021-7-7)
 Version 0.8.5 (2021-XX-XX)
 ========================
  * NEOS update: improved reliability and stability
+
  * Smart model-based Forward Collision Warning
  * Hyundai Elantra 2021 support thanks to CruiseBrantley!
  * Lexus UX Hybrid 2019-2020 support thanks to brianhaugen2!

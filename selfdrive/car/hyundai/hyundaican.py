@@ -93,7 +93,7 @@ def create_hda_mfc(packer, active):
   values = {
     "HDA_USM": 2,
     "HDA_Active": 1 if active > 0 else 0,
-    "HDA_Icon_State": 1 if active > 0 else 0,
+    "HDA_Icon_State": 2 if active > 0 else 0,
   }
 
   return packer.make_can_msg("LFAHDA_MFC", 0, values)
@@ -111,9 +111,13 @@ def create_mdps12(packer, frame, mdps12):
 
   return packer.make_can_msg("MDPS12", 2, values)
 
-def create_scc11(packer, frame, enabled, set_speed, lead_visible, scc_live, scc11):
+def create_scc11(packer, frame, enabled, set_speed, lead_visible, scc_live, scc11, active_cam):
   values = copy.copy(scc11)
   values["AliveCounterACC"] = frame // 2 % 0x10
+
+  values["Navi_SCC_Camera_Act"] = 2 if active_cam else 0
+  values["Navi_SCC_Camera_Status"] = 2 if active_cam else 0
+
   if not scc_live:
     values["MainMode_ACC"] = 1
     values["VSetDis"] = set_speed

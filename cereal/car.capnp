@@ -109,6 +109,11 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     wideRoadCameraError @102;
     localizerMalfunction @103;
 
+    fl @109;
+    fr @110;
+    rl @111;
+    rr @112;
+
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -143,6 +148,11 @@ struct CarEvent @0x9b1657f34caf3ad3 {
 
 struct CarState {
   events @13 :List(CarEvent);
+  # tpms
+  tpmsFl @37 :Float32;
+  tpmsFr @38 :Float32;
+  tpmsRl @39 :Float32;
+  tpmsRr @40 :Float32;
 
   # car speed
   vEgo @1 :Float32;         # best estimate of speed
@@ -155,6 +165,7 @@ struct CarState {
   # gas pedal, 0.0-1.0
   gas @3 :Float32;        # this is user + computer
   gasPressed @4 :Bool;    # this is user pedal only
+
 
   # brake pedal, 0.0-1.0
   brake @5 :Float32;      # this is user pedal only
@@ -200,8 +211,8 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
-  cruiseGap @37 : Int32;
-  autoHold @38 : Int32;
+  cruiseGap @41 : Int32;
+  autoHold @42 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds

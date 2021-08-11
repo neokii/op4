@@ -7,6 +7,7 @@
 
 namespace CommaApi {
 
+const QString BASE_URL = getenv("API_HOST") != nullptr ? getenv("API_HOST") : "api.retropilot.org";
 QByteArray rsa_sign(const QByteArray &data);
 QString create_jwt(const QJsonObject &payloads = {}, int expiry = 3600);
 
@@ -20,8 +21,10 @@ class HttpRequest : public QObject {
   Q_OBJECT
 
 public:
+  enum class Method {GET, DELETE};
+
   explicit HttpRequest(QObject* parent, bool create_jwt = true, int timeout = 20000);
-  void sendRequest(const QString &requestURL);
+  void sendRequest(const QString &requestURL, const Method method = Method::GET);
   bool active();
 
 protected:
