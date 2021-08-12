@@ -122,7 +122,7 @@ class CarController():
       else:
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
-      apply_angle = (clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) * 0.90)
+      apply_angle = (clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) * 0.98)
 
       self.last_apply_angle = apply_angle
 
