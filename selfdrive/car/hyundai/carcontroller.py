@@ -1,3 +1,4 @@
+from common.numpy_fast import clip, interp
 import os
 from cereal import car
 from common.realtime import DT_CTRL
