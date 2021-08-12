@@ -21,7 +21,7 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 220          # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 5., 15.]		# speed m/s
-ANGLE_DELTA_V = [1., .2, .4]     # windup limit
+ANGLE_DELTA_V = [1., .2, .2]     # windup limit
 ANGLE_DELTA_VU = [3., 1.5, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 300
 
