@@ -23,7 +23,7 @@ STEER_ANG_MAX = 220          # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 5., 15.]		# speed m/s
 ANGLE_DELTA_V = [5., .6, .8]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 150
+DRIVER_TORQUE_THRESHOLD = 250
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
