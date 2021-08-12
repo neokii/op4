@@ -23,7 +23,7 @@ STEER_ANG_MAX = 220          # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 5., 15.]		# speed m/s
 ANGLE_DELTA_V = [1., .2, .4]     # windup limit
 ANGLE_DELTA_VU = [3., 1.5, 0.2]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 250
+DRIVER_TORQUE_THRESHOLD = 300
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
@@ -159,11 +159,13 @@ class CarController():
       self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = 0
+      spas_active = False
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
 
     if not lkas_active:
       apply_steer = 0
+      
 
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
