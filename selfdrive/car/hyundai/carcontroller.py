@@ -118,7 +118,7 @@ class CarController():
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
       apply_angle = actuators.steeringAngleDeg
-      if self.last_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_angle):
+      if self.apply_steer_last * apply_angle > 0. and abs(apply_angle) > abs(self.apply_steer_last):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
@@ -126,7 +126,6 @@ class CarController():
       apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
 
       self.last_apply_angle = apply_angle
-      self.last_angle = CS.out.steeringAngleDeg
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if CS.out.steeringPressed: #TODO: allow driver to take over momentarly by including driver torque  
