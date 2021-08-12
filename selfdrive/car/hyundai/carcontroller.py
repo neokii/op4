@@ -89,7 +89,7 @@ class CarController():
       self.last_apply_angle = 0.0
       self.en_spas = 3
       self.mdps11_stat_last = 0
-      self.spas_always = Params().get_bool('spasAlways')
+      self.spas_always = Params().get_bool('spasEnabled')
 
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3

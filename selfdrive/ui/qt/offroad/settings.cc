@@ -502,12 +502,7 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("spasAlways",
-                                            "Enable SPAS Always.",
-                                            "Enable Send Parking Assist Messages always. Warning: It is beta, be careful!!",
-                                            "../assets/offroad/icon_road.png"
-                                              ));
-  toggles_list->addWidget(horizontal_line());
+
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",

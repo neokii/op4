@@ -62,7 +62,6 @@ def manager_init():
     ("AR", "0"),
     ("UseLQR", "0"),
     ("spasEnabled","0"),
-    ("spasAlways", "0"),
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1")
 
