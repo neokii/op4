@@ -20,9 +20,9 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 # SPAS steering limits
 STEER_ANG_MAX = 220          # SPAS Max Angle
 # nissan limits values
-ANGLE_DELTA_BP = [0., 5., 15.]		# speed m/s
+ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.3, .2, .1]     # windup limit
-ANGLE_DELTA_VU = [1., 0.8, 0.2]   # unwind limit
+ANGLE_DELTA_VU = [0.3, 0.2, 0.1]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
 
 def accel_hysteresis(accel, accel_steady):
