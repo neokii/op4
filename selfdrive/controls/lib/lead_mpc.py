@@ -16,7 +16,7 @@ AUTO_TR_BP = [20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 130.*CV.KPH_
 
 
 AUTO_TR_ENABLED = True
-AUTO_TR_CRUISE_GAP = 2
+AUTO_TR_CRUISE_GAP = 1
 
 MPC_T = list(np.arange(0,1.,.2)) + list(np.arange(1.,10.6,.6))
 
@@ -70,7 +70,7 @@ class LeadMpc():
     AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
     if lead == 0:
       ts = 0
-      AUTO_TR_V = [1.9, 2.0, 2.1, 2.3]
+      AUTO_TR_V = [1.9, 2.3, 2.6, 2.8]
     elif lead == 1 and ts == 0:
       t = sec_since_boot()
     elif lead == 1 and (sec_since_boot() - t) > 4:
