@@ -1,7 +1,6 @@
 import os
 from cereal import car
 from common.realtime import DT_CTRL
-from common.numpy_fast import clip
 from selfdrive.car import apply_std_steer_torque_limits
 from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
@@ -125,11 +124,11 @@ class CarController():
 
       apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
 
-    	self.last_apply_angle = apply_angle
+      self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-		if CS.out.steeringPressed: #TODO: allow driver to take over momentarly by including driver torque  
-			spas_active = False
+    if CS.out.steeringPressed: #TODO: allow driver to take over momentarly by including driver torque  
+      spas_active = False
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
