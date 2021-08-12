@@ -63,7 +63,7 @@ def manager_init():
     ("UseLQR", "0"),
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1"),
-    ("LowSpeed_Alerts", "1")
+    ("LowSpeedAlerts", "1")
 
   ]
   if not PC:
