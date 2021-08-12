@@ -19,7 +19,13 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 # SPAS steering limits
 STEER_ANG_MAX = 220          # SPAS Max Angle
-STEER_ANG_MAX_RATE = 0.1    # SPAS Degrees per ms
+# nissan limits values
+ANGLE_DELTA_BP = [0., 5., 15.]		# speed m/s
+ANGLE_DELTA_V = [5., .8, .15]     # windup limit
+ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
+LKAS_MAX_TORQUE = 1               # A value of 1 is easy to overpower
+STEER_THRESHOLD = 1.0
+
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
   if accel > accel_steady + CarControllerParams.ACCEL_HYST_GAP:
@@ -81,7 +87,7 @@ class CarController():
 
     if CP.spasEnabled:
       self.en_cnt = 0
-      self.apply_steer_ang = 0.0
+      self.last_apply_angle = 0.0
       self.en_spas = 3
       self.mdps11_stat_last = 0
       self.spas_always = Params().get_bool('spasAlways')
@@ -111,16 +117,19 @@ class CarController():
 
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_steer_ang_req = actuators.steer * 180 / 3.14
-      # SPAS limit angle rate for safety
-      if abs(self.apply_steer_ang - apply_steer_ang_req) > STEER_ANG_MAX_RATE:
-        if apply_steer_ang_req > self.apply_steer_ang:
-          self.apply_steer_ang += STEER_ANG_MAX_RATE
-        else:
-          self.apply_steer_ang -= STEER_ANG_MAX_RATE
+      apply_angle = actuators.steeringAngleDeg
+      if self.last_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_angle):
+        rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
-        self.apply_steer_ang = apply_steer_ang_req
+        rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
+
+      apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
+
+    	self.last_apply_angle = apply_angle
+
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
+		if CS.out.steeringPressed: #TODO: allow driver to take over momentarly by including driver torque  
+			spas_active = False
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
@@ -313,13 +322,13 @@ class CarController():
           self.en_spas = 5
 
         if not spas_active:
-          self.apply_steer_ang = CS.mdps11_strang
+          apply_angle = CS.mdps11_strang
           self.en_spas = 3
           self.en_cnt = 0
 
         self.mdps11_stat_last = CS.mdps11_stat
         self.en_cnt += 1
-        can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, self.apply_steer_ang, CS.mdps_bus))
+        can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, apply_angle, CS.mdps_bus))
 
       # SPAS12 20Hz
       if (frame % 5) == 0:
