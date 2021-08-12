@@ -81,7 +81,7 @@ class CarController():
 
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
-    self.scc_smoother = SccSmoother(gas_factor=1.0, brake_factor=1.0, curvature_factor=1.0)
+    self.scc_smoother = SccSmoother()
 
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls):
@@ -198,7 +198,7 @@ class CarController():
       can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 
     # fix auto resume - by neokii
-    if CS.out.cruiseState.standstill:
+    if CS.out.cruiseState.standstill and not CS.out.gasPressed:
 
       if self.last_lead_distance == 0:
         self.last_lead_distance = CS.lead_distance
