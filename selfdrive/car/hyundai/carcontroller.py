@@ -123,10 +123,11 @@ class CarController():
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
       
       clip1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
-
-      apply_angle = sum(clip1, self.last_apply_angle) / len(clip1, self.last_apply_angle)
+      last_apply_angle = 0
+      apply_angle = sum(clip1, last_apply_angle) / len(clip1, last_apply_angle)
 
       self.last_apply_angle = apply_angle
+      last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if CS.out.steeringTorque > DRIVER_TORQUE_THRESHOLD: #TODO: allow driver to take over momentarly by including driver torque  
