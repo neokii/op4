@@ -553,7 +553,7 @@ class CarInterface(CarInterfaceBase):
     # low speed steer alert hysteresis logic (only for cars with steer cut off above 10 m/s)
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     
-    if UseSMDPS == False:
+    if UseSMDPS == False and Params().get_bool('LowSpeedAlerts'):
       if ret.vEgo < (self.CP.minSteerSpeed + 2.) and self.CP.minSteerSpeed > 10.:
         self.low_speed_alert = True
       if ret.vEgo > (self.CP.minSteerSpeed + 4.):
@@ -598,7 +598,7 @@ class CarInterface(CarInterfaceBase):
       events.add(EventName.brakeUnavailable)
     #if abs(ret.steeringAngleDeg) > self.CP.maxSteeringAngleDeg and EventName.steerSaturated not in events.events:
     #  events.add(EventName.steerSaturated)
-    if self.low_speed_alert and Params().get_bool('LowSpeedAlerts') and not self.CS.mdps_bus:
+    if self.low_speed_alert and not self.CS.mdps_bus:
       events.add(EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
       events.add(EventName.turningIndicatorOn)
