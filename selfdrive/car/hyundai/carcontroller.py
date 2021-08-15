@@ -18,11 +18,11 @@ from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 # SPAS steering limits
-STEER_ANG_MAX = 220          # SPAS Max Angle
+STEER_ANG_MAX = 200         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
-ANGLE_DELTA_V = [0.15, .1, .05]     # windup limit
-ANGLE_DELTA_VU = [0.2, 0.15, 0.1]   # unwind limit
+ANGLE_DELTA_V = [0.3, .2, .1]     # windup limit
+ANGLE_DELTA_VU = [0.6, 0.4, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
 
 def accel_hysteresis(accel, accel_steady):
