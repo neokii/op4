@@ -265,25 +265,70 @@ static void ui_draw_world(UIState *s) {
   // Draw lane edges and vision/mpc tracks
   ui_draw_vision_lane_lines(s);
 
-  // Draw lead indicators if openpilot is handling longitudinal
-  //if (s->scene.longitudinal_control) {
+  if (Params().getBool("RVL") == true) {
+    if (s->scene.longitudinal_control) {
+      auto lead_one = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[0];
+      auto lead_two = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[1];
+      if (lead_one.getProb() > .5) {
+        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+      }
+      if (lead_two.getProb() > .5 && (std::abs(lead_one.getX()[0] - lead_two.getX()[0]) > 3.0)) {
+        draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+      }
 
-    auto lead_one = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[0];
-    auto lead_two = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[1];
-    if (lead_one.getProb() > .5) {
-      draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+      auto radar_state = (*s->sm)["radarState"].getRadarState();
+      auto lead_radar = radar_state.getLeadOne();
+      if (lead_radar.getStatus() && lead_radar.getRadar()) {
+        if (s->custom_lead_mark)
+          draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
+        else
+          draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
+      }
     }
-    if (lead_two.getProb() > .5 && (std::abs(lead_one.getX()[0] - lead_two.getX()[0]) > 3.0)) {
-      draw_lead(s, lead_two, s->scene.lead_vertices[1]);
-    }
+  }
+  else if ((Params().getBool("LongControlEnabled") == true))
+  {
+    if (s->scene.longitudinal_control) {
+      auto lead_one = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[0];
+      auto lead_two = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[1];
+      if (lead_one.getProb() > .5) {
+        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+      }
+      if (lead_two.getProb() > .5 && (std::abs(lead_one.getX()[0] - lead_two.getX()[0]) > 3.0)) {
+        draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+      }
 
-    auto radar_state = (*s->sm)["radarState"].getRadarState();
-    auto lead_radar = radar_state.getLeadOne();
-    if (lead_radar.getStatus() && lead_radar.getRadar()) {
-      if (s->custom_lead_mark)
-        draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
-      else
-        draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
+      auto radar_state = (*s->sm)["radarState"].getRadarState();
+      auto lead_radar = radar_state.getLeadOne();
+      if (lead_radar.getStatus() && lead_radar.getRadar()) {
+        if (s->custom_lead_mark)
+          draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
+        else
+          draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
+        }
+      }
+    }
+   else
+   {
+     if ((Params().getBool("LongControlEnabled") == true)) {
+      auto lead_one = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[0];
+      auto lead_two = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[1];
+      if (lead_one.getProb() > .5) {
+        draw_lead(s, lead_one, s->scene.lead_vertices[0]);
+      }
+      if (lead_two.getProb() > .5 && (std::abs(lead_one.getX()[0] - lead_two.getX()[0]) > 3.0)) {
+        draw_lead(s, lead_two, s->scene.lead_vertices[1]);
+      }
+
+      auto radar_state = (*s->sm)["radarState"].getRadarState();
+      auto lead_radar = radar_state.getLeadOne();
+      if (lead_radar.getStatus() && lead_radar.getRadar()) {
+        if (s->custom_lead_mark)
+          draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
+        else
+          draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
+        }
+      }
     }
   nvgResetScissor(s->vg);
 }
