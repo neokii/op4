@@ -134,6 +134,8 @@ class CarController():
       spas_active = False
     elif enabled and spas_active == False and not bool(CS.out.steeringPressed):
       spas_active = True
+    else:
+      spas_active = False
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
