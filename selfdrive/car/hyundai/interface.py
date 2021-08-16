@@ -25,7 +25,7 @@ class CarInterface(CarInterfaceBase):
 
   @staticmethod
   def compute_gb(accel, speed):
-    return float(accel) / 3.0
+    return float(accel) / 4.0
 
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=[]):  # pylint: disable=dangerous-default-value
@@ -37,8 +37,6 @@ class CarInterface(CarInterfaceBase):
 
     # Most Hyundai car ports are community features for now
     ret.communityFeature = True
-
-    tire_stiffness_factor = 1.
 
     eps_modified = False
     for fw in car_fw:
@@ -66,7 +64,7 @@ class CarInterface(CarInterfaceBase):
 
     ret.steerActuatorDelay = 0.0
     ret.steerLimitTimer = 2.5
-    ret.steerRateCost = 0.4
+    ret.steerRateCost = 0.5
     ret.steerMaxBP = [0.]
     ret.steerMaxV = [1.5]
 
@@ -496,7 +494,7 @@ class CarInterface(CarInterfaceBase):
     ret.spasEnabled = Params().get_bool('spasEnabled')
     if Params().get_bool('spasEnabled'):
       ret.steerControlType = car.CarParams.SteerControlType.angle
-      ret.steerActuatorDelay = 0.1
+      ret.steerActuatorDelay = 0.15
     
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
