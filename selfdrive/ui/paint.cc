@@ -500,7 +500,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
         val_color = nvgRGBA(255, 255, 255, 200);
       }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg * (180/3.14) );
+      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg);
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
