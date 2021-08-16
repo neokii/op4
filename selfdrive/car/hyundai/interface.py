@@ -49,8 +49,9 @@ class CarInterface(CarInterfaceBase):
     # SPAS
     ret.spasEnabled = Params().get_bool('spasEnabled')
     if Params().get_bool('spasEnabled'):
-      ret.steerControlType = car.CarParams.SteerControlType.angle
       ret.steerActuatorDelay = 0.2
+      ret.steerControlType = car.CarParams.SteerControlType.angle
+      
 
     # lateral LQR global hyundai
     if UseLQR:
