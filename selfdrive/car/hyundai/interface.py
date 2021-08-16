@@ -499,8 +499,6 @@ class CarInterface(CarInterfaceBase):
     # SPAS
     ret.spasEnabled = Params().get_bool('spasEnabled')
     if Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.2
-      ret.steerRatio = 13.56
       ret.steerControlType = car.CarParams.SteerControlType.angle
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
