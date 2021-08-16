@@ -456,13 +456,6 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 0.8
     
-    # SPAS
-    ret.spasEnabled = Params().get_bool('spasEnabled')
-    if Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.2
-      ret.steerRatio = 13.56
-      ret.steerControlType = car.CarParams.SteerControlType.angle
-
     ret.radarTimeStep = 0.05
 
     if ret.centerToFront == 0:
@@ -503,6 +496,12 @@ class CarInterface(CarInterfaceBase):
 
     ret.radarOffCan = ret.sccBus == -1
     ret.pcmCruise = not ret.radarOffCan
+    # SPAS
+    ret.spasEnabled = Params().get_bool('spasEnabled')
+    if Params().get_bool('spasEnabled'):
+      ret.steerActuatorDelay = 0.2
+      ret.steerRatio = 13.56
+      ret.steerControlType = car.CarParams.SteerControlType.angle
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
