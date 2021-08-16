@@ -128,11 +128,11 @@ class CarController():
 
       apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
 
-      #Fix high speed wobble may need tuning per vehicle- JPR
+      #Fix SPAS high speed wobble may need tuning per vehicle- JPR
       if Params().get_bool('SteerDeadBand'):
-        if CS.out.vEgo > (38 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = apply_angle * 0.80
-        elif CS.out.vEgo > (38 * CV.MPH_TO_MS):
+        if CS.out.vEgo > (40 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
+          apply_angle = apply_angle * 0.85
+        elif CS.out.vEgo > (40 * CV.MPH_TO_MS):
           apply_angle = apply_angle * 0.96
 
       self.last_apply_angle = apply_angle
@@ -152,7 +152,7 @@ class CarController():
     else:
       min_set_speed = 30 * CV.KPH_TO_MS
     # fix for Genesis hard fault at low speed
-	# Use SMDPS and Min Steer Speed limits - JPR
+	  # Use SMDPS and Min Steer Speed limits - JPR
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
