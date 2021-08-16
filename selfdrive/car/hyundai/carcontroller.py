@@ -134,7 +134,7 @@ class CarController():
       #print (live_parameters)
       #apply_angle = apply_angle * live_parameters
       if CS.out.vEgo > 38 * CV.MPH_TO_MS and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-        apply_angle = apply_angle * 0.85
+        apply_angle = apply_angle * 0.88
       elif CS.out.vEgo > 38 * CV.MPH_TO_MS:
         apply_angle = apply_angle * 0.96
 
