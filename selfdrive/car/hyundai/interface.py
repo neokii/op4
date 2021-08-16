@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
+from selfdrive.controls.controlsd import Controls
 import numpy as np
 import os
 import shutil
 from os import path
-from cereal import car
+from cereal import car, messaging
+from common.params import Params, put_nonblocking
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
-from common.params import Params
 from selfdrive.car.hyundai.carstate import CarStateBase, CarState
 
 
@@ -496,6 +497,7 @@ class CarInterface(CarInterfaceBase):
 
     ret.radarOffCan = ret.sccBus == -1
     ret.pcmCruise = not ret.radarOffCan
+
     # SPAS
     ret.spasEnabled = Params().get_bool('spasEnabled')
     if Params().get_bool('spasEnabled'):
