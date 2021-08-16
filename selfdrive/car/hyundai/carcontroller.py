@@ -130,9 +130,9 @@ class CarController():
 
       #Fix high speed wobble may need tuning per vehicle- JPR
       if Params().get_bool('SteerDeadBand'):
-        if CS.out.vEgo > 38 * CV.MPH_TO_MS and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
+        if CS.out.vEgo > (38 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle = apply_angle * 0.88
-        elif CS.out.vEgo > 38 * CV.MPH_TO_MS:
+        elif CS.out.vEgo > (38 * CV.MPH_TO_MS):
           apply_angle = apply_angle * 0.96
 
       self.last_apply_angle = apply_angle
