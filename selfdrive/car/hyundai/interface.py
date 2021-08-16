@@ -46,14 +46,6 @@ class CarInterface(CarInterfaceBase):
     ret.maxSteeringAngleDeg = 350.
     UseLQR = Params().get_bool('UseLQR')
 
-    # SPAS
-    ret.spasEnabled = Params().get_bool('spasEnabled')
-    if Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.2
-      ret.steerRatio = 13.56
-      ret.steerControlType = car.CarParams.SteerControlType.angle
-      
-
     # lateral LQR global hyundai
     if UseLQR:
       ret.lateralTuning.init('lqr')
@@ -70,6 +62,7 @@ class CarInterface(CarInterfaceBase):
 
     if not Params().get_bool('spasEnabled'):
       ret.steerActuatorDelay = 0.0
+
     ret.steerLimitTimer = 2.5
     ret.steerRateCost = 0.5
     ret.steerMaxBP = [0.]
@@ -462,6 +455,13 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.15
       ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 0.8
+    
+    # SPAS
+    ret.spasEnabled = Params().get_bool('spasEnabled')
+    if Params().get_bool('spasEnabled'):
+      ret.steerActuatorDelay = 0.2
+      ret.steerRatio = 13.56
+      ret.steerControlType = car.CarParams.SteerControlType.angle
 
     ret.radarTimeStep = 0.05
 
