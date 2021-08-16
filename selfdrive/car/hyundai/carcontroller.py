@@ -126,8 +126,10 @@ class CarController():
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
       apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
-      if 1.5 >= apply_angle >= -1.5:
-        apply_angle = apply_angle * 0.95
+      #Fix high speed wobble - JPR
+      apply_angle = apply_angle * 0.97
+      #if 1.5 >= apply_angle >= -1.5:
+      #  apply_angle = apply_angle * 0.95
 
       self.last_apply_angle = apply_angle
 
