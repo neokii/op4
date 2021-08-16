@@ -24,7 +24,7 @@ ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1, .5, .1]     # windup limit
 ANGLE_DELTA_VU = [1.5, 1.0, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
-STEER_DEADBAND = 1.5 # For Wobbly Steering at high speed
+STEER_DEADBAND = 1.8 # For Wobbly Steering at high speed
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
@@ -131,7 +131,7 @@ class CarController():
       #Fix high speed wobble may need tuning per vehicle- JPR
       if Params().get_bool('SteerDeadBand'):
         if CS.out.vEgo > (38 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = apply_angle * 0.88
+          apply_angle = apply_angle * 0.80
         elif CS.out.vEgo > (38 * CV.MPH_TO_MS):
           apply_angle = apply_angle * 0.96
 
