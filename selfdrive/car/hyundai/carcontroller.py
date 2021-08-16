@@ -127,10 +127,11 @@ class CarController():
 
       apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
       #Fix high speed wobble - JPR
-      params = controls.sm['liveParameters']
-      live_parameters = max(params.stiffnessFactor, 0.1) / 100
-      print (live_parameters)
-      apply_angle = apply_angle * live_parameters
+      #params = controls.sm['liveParameters']
+      #live_parameters = max(params.stiffnessFactor, 0.1) / 100
+      #print (live_parameters)
+      #apply_angle = apply_angle * live_parameters
+      apply_angle = apply_angle * 0.97
       #if 1.5 >= apply_angle >= -1.5:
       #  apply_angle = apply_angle * 0.95
 
