@@ -24,6 +24,7 @@ ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1, .5, .1]     # windup limit
 ANGLE_DELTA_VU = [1.5, 1.0, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
+STEER_DEADBAND = 1.5 # For Wobbly Steering at high speed
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
@@ -133,8 +134,8 @@ class CarController():
       #print (live_parameters)
       #apply_angle = apply_angle * live_parameters
       apply_angle = apply_angle * 0.96
-      #if 1.5 >= apply_angle >= -1.5:
-      #  apply_angle = apply_angle * 0.94
+      if STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
+        apply_angle = apply_angle * 0.94
 
       self.last_apply_angle = apply_angle
 
