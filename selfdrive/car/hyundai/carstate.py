@@ -54,7 +54,7 @@ class CarState(CarStateBase):
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
-    cp_scc = cp2 if self.scc_bus == 1 else cp_cam if self.scc_bus == 2 else cp
+    cp_scc = cp2 if self.scc_bus == 1 else cp_cam if ((self.CP.sccBus == 2) or self.CP.radarOffCan) else cp
 
     self.prev_cruise_buttons = self.cruise_buttons
     self.prev_cruise_main_button = self.cruise_main_button
@@ -422,8 +422,8 @@ class CarState(CarStateBase):
         ("CF_VSM_Warn", "FCA11", 0),
       ]
 
-      if not CP.openpilotLongitudinalControl:
-        checks += [("FCA11", 50)]
+      # if not CP.openpilotLongitudinalControl:
+      #   checks += [("FCA11", 50)]
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
