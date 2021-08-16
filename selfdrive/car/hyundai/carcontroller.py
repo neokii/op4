@@ -23,7 +23,7 @@ STEER_ANG_MAX = 200         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1, .5, .1]     # windup limit
 ANGLE_DELTA_VU = [1.5, 1.0, 0.2]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 350
+DRIVER_TORQUE_THRESHOLD = 100
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
@@ -130,7 +130,11 @@ class CarController():
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-    if CS.out.steeringTorque > DRIVER_TORQUE_THRESHOLD: #TODO: allow driver to take over momentarly by including driver torque  
+    if CS.steeringTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+      spas_active = False
+    elif enabled and not spas_active:
+      spas_active = True
+    else:
       spas_active = False
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
