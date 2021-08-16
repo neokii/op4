@@ -132,9 +132,9 @@ class CarController():
       #live_parameters = max(params.stiffnessFactor, 0.1) / 100
       #print (live_parameters)
       #apply_angle = apply_angle * live_parameters
-      apply_angle = apply_angle * 0.97
+      apply_angle = apply_angle * 0.96
       #if 1.5 >= apply_angle >= -1.5:
-      #  apply_angle = apply_angle * 0.95
+      #  apply_angle = apply_angle * 0.94
 
       self.last_apply_angle = apply_angle
 
