@@ -331,20 +331,19 @@ class CarController():
     if CS.spas_enabled:
       if CS.mdps_bus:
         can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active))
-      if spas_active:
-        if (frame % 2) == 0:
-          if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
-            self.en_spas == 7
-            self.en_cnt = 0
+      if (frame % 2) == 0:
+        if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
+          self.en_spas == 7
+          self.en_cnt = 0
 
-          if self.en_spas == 7 and self.en_cnt >= 8:
-            self.en_spas = 3
-            self.en_cnt = 0
+        if self.en_spas == 7 and self.en_cnt >= 8:
+          self.en_spas = 3
+          self.en_cnt = 0
 
-          if self.en_cnt < 8 and spas_active:
-            self.en_spas = 4
-          elif self.en_cnt >= 8 and spas_active:
-            self.en_spas = 5
+        if self.en_cnt < 8 and spas_active:
+          self.en_spas = 4
+        elif self.en_cnt >= 8 and spas_active:
+          self.en_spas = 5
 
         if not spas_active:
           apply_angle = CS.mdps11_strang
