@@ -50,6 +50,7 @@ class CarInterface(CarInterfaceBase):
     ret.spasEnabled = Params().get_bool('spasEnabled')
     if Params().get_bool('spasEnabled'):
       ret.steerActuatorDelay = 0.2
+      ret.steerRatio = 13.56
       ret.steerControlType = car.CarParams.SteerControlType.angle
       
 
@@ -67,8 +68,8 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.k = [-110., 451.]
       ret.lateralTuning.lqr.l = [0.33, 0.318]
 
-
-    ret.steerActuatorDelay = 0.0
+    if not Params().get_bool('spasEnabled'):
+      ret.steerActuatorDelay = 0.0
     ret.steerLimitTimer = 2.5
     ret.steerRateCost = 0.5
     ret.steerMaxBP = [0.]
