@@ -24,11 +24,11 @@ STEER_ANG_MAX = 225         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1., .8, .5]     # windup limit
 ANGLE_DELTA_VU = [2.0, 1.1, 0.8]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 300
+DRIVER_TORQUE_THRESHOLD = 280
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.817, 0.818, 0.8195, 0.8205, 0.8215, 0.8225, 0.8235, 0.8245, 0.8255, 0.8265]
+RATIO = [1, 0.817, 0.818, 0.82, 0.821, 0.822, 0.823, 0.824, 0.825, 0.826, 0.827]
 STEER_DEADBAND = 3.5 # For wobbly steering at high speed.
 
 def accel_hysteresis(accel, accel_steady):
