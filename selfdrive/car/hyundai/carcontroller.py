@@ -134,7 +134,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_angle = actuators.steeringAngleDeg #* 182 / 200)
+      apply_angle = (actuators.steeringAngleDeg * 182 / 200)
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
@@ -164,7 +164,7 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if 30 <= apply_angle <= -30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque >= (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
       spas_active = False
-    elif bool(CS.out.steeringPressed) and CS.out.steeringTorque > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    elif bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     
     if enabled and not bool(CS.out.steeringPressed):
