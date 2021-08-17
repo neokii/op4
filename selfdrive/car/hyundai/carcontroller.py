@@ -130,9 +130,9 @@ class CarController():
       if Params().get_bool('SteerDeadBand'):
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
         if CS.out.vEgo > (80 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.885)
+          apply_angle = (apply_angle1 * 0.92)
         if CS.out.vEgo > (70 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.875)
+          apply_angle = (apply_angle1 * 0.89)
         elif CS.out.vEgo > (60 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle = (apply_angle1 * 0.865)
         elif CS.out.vEgo > (50 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
