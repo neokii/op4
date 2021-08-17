@@ -25,7 +25,7 @@ ANGLE_DELTA_V = [1., .8, .3]     # windup limit
 ANGLE_DELTA_VU = [1.5, 1.0, 0.6]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
 
-#JPR 
+#Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
 RATIO = [1, 0.815, 0.820, 0.828, 0.832, 0.891, 0.915, 0.94, 0.95, 0.98, 1]
 STEER_DEADBAND = 3.0 # For Wobbly Steering at high speed
