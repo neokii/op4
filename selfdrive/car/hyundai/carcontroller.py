@@ -28,7 +28,7 @@ DRIVER_TORQUE_THRESHOLD = 350
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.815, 0.820, 0.825, 0.830, 0.835, 0.84, 0.845, 0.85, 0.86, 0.865]
+RATIO = [1, 0.815, 0.820, 0.825, 0.830, 0.833, 0.838, 0.842, 0.848, 0.852, 0.855]
 STEER_DEADBAND = 3.2 # For wobbly steering at high speed.
 
 def accel_hysteresis(accel, accel_steady):
@@ -128,7 +128,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_angle = (actuators.steeringAngleDeg * 181 / 200)
+      apply_angle = (actuators.steeringAngleDeg * 182 / 200)
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
