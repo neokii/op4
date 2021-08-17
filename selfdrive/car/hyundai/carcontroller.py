@@ -136,35 +136,13 @@ class CarController():
 
       #Fix SPAS high speed wobble may need tuning per vehicle- JPR
       if Params().get_bool('SteerDeadBand'):
-        apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
-        if CS.out.vEgo > (85 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 + self.last_apply_angle) / 2
-        elif CS.out.vEgo > (80 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.98)
-        elif CS.out.vEgo > (75 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.95)
-        elif CS.out.vEgo > (70 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.94)
-        elif CS.out.vEgo > (65 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.915)
-        elif CS.out.vEgo > (60 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.891)
-        elif CS.out.vEgo > (55 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.832)
-        elif CS.out.vEgo > (50 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.828)
-        elif CS.out.vEgo > (45 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.820)
-        elif CS.out.vEgo > (40 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 * 0.815)
-        elif STEER_DEADBAND <= apply_angle <= -STEER_DEADBAND:
-          apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6
-        else:
-          apply_angle = (apply_angle1 + self.last_apply_angle) / 2
-      else:
-        apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
+        apply_angle1 = (apply_angle1 + self.last_apply_angle) / 2
         CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
         apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6) * CAL_STEER
+      else:
+        apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
+        CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
+        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6
 
       self.last_apply_angle = apply_angle
       self.LA1 = self.last_apply_angle
