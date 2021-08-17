@@ -150,7 +150,7 @@ class CarController():
       else:
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
-     ####Fixed SPAS high speed wobble may need tuning per vehicle- JPR####
+     ####Fixed SPAS high speed wobble may need tuning per vehicle. - JPR####
       if Params().get_bool('SteerDeadBand'):
         if STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle1 = apply_angle
