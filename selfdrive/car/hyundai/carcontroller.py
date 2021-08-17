@@ -119,7 +119,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_angle = (actuators.steeringAngleDeg * 175 / 200)
+      apply_angle = (actuators.steeringAngleDeg * 180 / 200)
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
@@ -128,8 +128,11 @@ class CarController():
       #Fix SPAS high speed wobble may need tuning per vehicle- JPR
       if Params().get_bool('SteerDeadBand'):
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
-        if CS.out.vEgo > (40 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
+        if CS.out.vEgo > (65 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
+          apply_angle = (apply_angle1 * 0.80)
+        elif CS.out.vEgo > (40 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle = (apply_angle1 * 0.84)
+
         else:
           apply_angle = apply_angle1
 
