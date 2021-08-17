@@ -28,7 +28,7 @@ DRIVER_TORQUE_THRESHOLD = 3.2 # Nm is unit of measure for wheel torque.
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.810, 0.818, 0.826, 0.831, 0.836, 0.839, 0.842, 0.845, 0.847, 0.849]
+RATIO = [1, 0.810, 0.818, 0.826, 0.829, 0.836, 0.839, 0.842, 0.845, 0.847, 0.849]
 STEER_DEADBAND = 3.5 # For wobbly steering at high speed.
 
 def accel_hysteresis(accel, accel_steady):
