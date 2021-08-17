@@ -161,10 +161,10 @@ class CarState(CarStateBase):
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
 
     #Parking Sensors - JPR
-    ret.ParkFrontRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
-    ret.ParkFrontLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
-    ret.ParkRearRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
-    ret.ParkRearLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkFrontRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkFrontLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkRearRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkRearLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
 
 
     # TODO: refactor gear parsing in function
