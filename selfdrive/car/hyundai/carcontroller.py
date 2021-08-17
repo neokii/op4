@@ -22,13 +22,13 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 225         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
-ANGLE_DELTA_V = [1.5, 1., .5]     # windup limit
-ANGLE_DELTA_VU = [2.0, 1.5, 1.0]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 350
+ANGLE_DELTA_V = [1., .8, .5]     # windup limit
+ANGLE_DELTA_VU = [2.0, 1.1, 0.8]   # unwind limit
+DRIVER_TORQUE_THRESHOLD = 300
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.815, 0.820, 0.823, 0.824, 0.825, 0.826, 0.827, 0.828, 0.829, 0.83]
+RATIO = [1, 0.815, 0.820, 0.822, 0.823, 0.824, 0.825, 0.826, 0.827, 0.828, 0.829]
 STEER_DEADBAND = 3.2 # For wobbly steering at high speed.
 
 def accel_hysteresis(accel, accel_steady):
