@@ -186,7 +186,6 @@ class CarController():
       spas_active = False
     elif bool(CS.out.steeringPressed) and CS.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-    CS.
     if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) > 3:
       spas_active = False
       lkas_active = True
