@@ -462,12 +462,13 @@ class Controls:
     # Update VehicleModel
     params = self.sm['liveParameters']
     x = max(params.stiffnessFactor, 0.1)
-    #sr = max(params.steerRatio, 0.1)
-
-    if ntune_common_enabled('useLiveSteerRatio'):
+    if Params().get_bool('spasEnabled'):
       sr = max(params.steerRatio, 0.1)
     else:
-      sr = max(ntune_common_get('steerRatio'), 0.1)
+      if ntune_common_enabled('useLiveSteerRatio'):
+        sr = max(params.steerRatio, 0.1)
+      else:
+        sr = max(ntune_common_get('steerRatio'), 0.1)
 
     self.VM.update_params(x, sr)
 
