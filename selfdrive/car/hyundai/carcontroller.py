@@ -80,6 +80,12 @@ class CarController():
     self.LA2 = 0
     self.LA3 = 0
     self.LA4 = 0
+    self.LA5 = 0
+    self.LA6 = 0
+    self.LA7 = 0
+    self.LA8 = 0
+    self.LA9 = 0
+    self.LA10 = 0
     self.steer_rate_limited = False
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
@@ -134,21 +140,26 @@ class CarController():
       else:
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
-      #Fix SPAS high speed wobble may need tuning per vehicle- JPR
+     ####Fixed SPAS high speed wobble may need tuning per vehicle- JPR####
       if Params().get_bool('SteerDeadBand'):
         if STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
-          apply_angle1 = (apply_angle + self.last_apply_angle) / 2
+          apply_angle1 = apply_angle
           CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
-          apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6) * CAL_STEER
+          apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10) / 12) * CAL_STEER
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6
-
+        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10) / 12
       self.last_apply_angle = apply_angle
       self.LA1 = self.last_apply_angle
       self.LA2 = self.LA1
       self.LA3 = self.LA1
       self.LA4 = self.LA3
+      self.LA5 = self.LA4
+      self.LA6 = self.LA5
+      self.LA7 = self.LA6
+      self.LA8 = self.LA7
+      self.LA9 = self.LA8
+      self.LA410= self.LA9
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if 30 <= apply_angle <= -30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque >= (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
