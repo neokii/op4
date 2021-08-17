@@ -163,8 +163,8 @@ class CarController():
           apply_angle = (apply_angle1 + self.last_apply_angle) / 2
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        np.interp(CS.out.vEgo, SPEED, RATIO)
-        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6
+        CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
+        apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4) / 6) * CAL_STEER
 
       self.last_apply_angle = apply_angle
       self.LA1 = self.last_apply_angle
