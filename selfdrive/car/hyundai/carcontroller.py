@@ -141,9 +141,9 @@ class CarController():
         elif CS.out.vEgo > (70 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
           apply_angle = (apply_angle1 * 0.94)
         elif CS.out.vEgo > (65 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.918)
+          apply_angle = (apply_angle1 * 0.915)
         elif CS.out.vEgo > (60 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
-          apply_angle = (apply_angle1 * 0.895)
+          apply_angle = (apply_angle1 * 0.891)
         elif CS.out.vEgo > (55 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle = (apply_angle1 * 0.832)
         elif CS.out.vEgo > (50 * CV.MPH_TO_MS) and STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
