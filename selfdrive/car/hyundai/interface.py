@@ -110,6 +110,8 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
       ret.steerRatio = 16.5
+      tire_stiffness_factor = 0.65
+      
 
     elif candidate == CAR.GENESIS_G70:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -124,6 +126,7 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
         ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
+      tire_stiffness_factor = 0.65
       ret.steerRatio = 13.56
       ret.mass = 1640. + STD_CARGO_KG
       ret.wheelbase = 2.84
@@ -153,6 +156,7 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
         ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
+      tire_stiffness_factor = 0.85
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
@@ -167,6 +171,8 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
+
       if not UseLQR:
         ret.lateralTuning.init('indi')
         ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -191,12 +197,15 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2290
       ret.wheelbase = 3.45
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
+
     elif candidate == CAR.GENESIS_G90:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2060. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
 
       if not UseLQR:
         ret.lateralTuning.init('indi')
@@ -224,6 +233,8 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.766
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.65
+
     elif candidate in [CAR.SONATA, CAR.SONATA_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1513. + STD_CARGO_KG
