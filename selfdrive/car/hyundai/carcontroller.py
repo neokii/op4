@@ -159,7 +159,7 @@ class CarController():
       self.LA7 = self.LA6
       self.LA8 = self.LA7
       self.LA9 = self.LA8
-      self.LA10= self.LA9
+      self.LA10 = self.LA9
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if 30 <= apply_angle <= -30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque >= (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
