@@ -24,7 +24,7 @@ STEER_ANG_MAX = 225         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.9, .7, .5]     # windup limit
 ANGLE_DELTA_VU = [1.4, 1.0, 0.8]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 20
+DRIVER_TORQUE_THRESHOLD = 0.8 # Nm is unit of measure for wheel torque.
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
@@ -159,7 +159,7 @@ class CarController():
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20) / 22
-      self.last_apply_angle = apply_angle
+      self.last_apply_angle = apply_angle1
       self.LA1 = self.last_apply_angle
       self.LA2 = self.LA1
       self.LA3 = self.LA1
@@ -182,15 +182,17 @@ class CarController():
       self.LA20 = self.LA19
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-    if bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    if bool(CS.out.steeringPressed) and -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-    if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) >= 3:
+      apply_angle = 0
+    if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringWheelTorque - actuators.steeringAngleDeg) >= 3:
       spas_active = False
       lkas_active = True
+      apply_angle = 0
       if spas_active == False:
         lkas_active = False
         spas_active = True
-
+        apply_angle = self.last_apply_angle
 
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
