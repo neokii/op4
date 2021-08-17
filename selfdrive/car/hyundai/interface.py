@@ -455,7 +455,6 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.15
       ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 0.8
-    
     ret.radarTimeStep = 0.05
 
     if ret.centerToFront == 0:
