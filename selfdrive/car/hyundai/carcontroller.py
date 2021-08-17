@@ -152,7 +152,9 @@ class CarController():
       self.LA2 = self.LA1
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-    if bool(CS.out.steeringPressed) and CS.out.steeringTorque > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    if apply_angle >= 30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque > (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
+      spas_active = False
+    elif bool(CS.out.steeringPressed) and CS.out.steeringTorque > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     elif enabled and not bool(CS.out.steeringPressed):
       spas_active = True
