@@ -28,7 +28,7 @@ STEER_DEADBAND = 3.0 # For Wobbly Steering at high speed
 STEER_DEADBAND2 = 4.0# For Wobbly Steering at high speed
 
 #JPR 
-SPEED = [39, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85]
+SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
 RATIO = [1, 0.815, 0.820, 0.828, 0.832, 0.891, 0.915, 0.94, 0.95, 0.98, 1]
 
 def accel_hysteresis(accel, accel_steady):
