@@ -18,7 +18,7 @@ from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 # SPAS steering limits
-STEER_ANG_MAX = 200         # SPAS Max Angle
+STEER_ANG_MAX = 225         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1., .8, .3]     # windup limit
