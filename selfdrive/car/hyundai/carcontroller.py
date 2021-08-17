@@ -29,7 +29,7 @@ DRIVER_TORQUE_THRESHOLD = 300
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
 RATIO = [1, 0.817, 0.818, 0.8195, 0.8205, 0.8215, 0.8225, 0.8235, 0.8245, 0.8255, 0.8265]
-STEER_DEADBAND = 3.2 # For wobbly steering at high speed.
+STEER_DEADBAND = 3.5 # For wobbly steering at high speed.
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
