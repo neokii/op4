@@ -26,8 +26,8 @@ ANGLE_DELTA_VU = [1.5, 1.0, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
 STEER_DEADBAND1 = 3.0 # For Wobbly Steering at high speed 40mph
 STEER_DEADBAND2 = 3.0 # For Wobbly Steering at high speed 50mph
-STEER_DEADBAND3 = 2.8 # For Wobbly Steering at high speed 65mph
-STEER_DEADBAND4 = 2.6 # For Wobbly Steering at high speed 75mph
+STEER_DEADBAND3 = 3.0 # For Wobbly Steering at high speed 65mph
+STEER_DEADBAND4 = 3.0 # For Wobbly Steering at high speed 75mph
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
   if accel > accel_steady + CarControllerParams.ACCEL_HYST_GAP:
@@ -131,11 +131,11 @@ class CarController():
       if Params().get_bool('SteerDeadBand'):
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
         if CS.out.vEgo > (75 * CV.MPH_TO_MS) and STEER_DEADBAND4 >= apply_angle >= -STEER_DEADBAND4:
-          apply_angle = (apply_angle1 * 0.82)
-        elif CS.out.vEgo > (65 * CV.MPH_TO_MS) and STEER_DEADBAND3 >= apply_angle >= -STEER_DEADBAND3:
-          apply_angle = (apply_angle1 * 0.83)
-        elif CS.out.vEgo > (50 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
           apply_angle = (apply_angle1 * 0.84)
+        elif CS.out.vEgo > (65 * CV.MPH_TO_MS) and STEER_DEADBAND3 >= apply_angle >= -STEER_DEADBAND3:
+          apply_angle = (apply_angle1 * 0.84)
+        elif CS.out.vEgo > (50 * CV.MPH_TO_MS) and STEER_DEADBAND2 >= apply_angle >= -STEER_DEADBAND2:
+          apply_angle = (apply_angle1 * 0.85)
         elif CS.out.vEgo > (40 * CV.MPH_TO_MS) and STEER_DEADBAND1 >= apply_angle >= -STEER_DEADBAND1:
           apply_angle = (apply_angle1 * 0.85)
         elif STEER_DEADBAND1 <= apply_angle <= -STEER_DEADBAND1:
