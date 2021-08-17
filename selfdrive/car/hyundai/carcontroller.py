@@ -191,6 +191,10 @@ class CarController():
         lkas_active = False
         spas_active = True
         apply_angle = apply_angle1
+        self.en_cnt = 0
+        self.last_apply_angle = 0.0
+        self.en_spas = 3
+        self.mdps11_stat_last = 0
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
