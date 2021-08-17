@@ -24,8 +24,8 @@ ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [1, .5, .1]     # windup limit
 ANGLE_DELTA_VU = [1.5, 1.0, 0.2]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 350
-STEER_DEADBAND1 = 2.5 # For Wobbly Steering at high speed
-STEER_DEADBAND2 = 2.0 # For Wobbly Steering at high speed
+STEER_DEADBAND1 = 2.0 # For Wobbly Steering at high speed
+STEER_DEADBAND2 = 1.8 # For Wobbly Steering at high speed
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
