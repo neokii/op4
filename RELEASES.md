@@ -2,6 +2,9 @@ Version 0.8.8 (2021-08-XX)
 ========================
 * Fixed SPAS.
 * Added TPMS Toggle.
+* Add High Speed Steer Dead Band toggle.
+* Tune Steering Deadband toggle.
+* Fixed wobbles for Kia Stinger.
 
 Version 0.8.7 (2021-8-4)
 ========================
