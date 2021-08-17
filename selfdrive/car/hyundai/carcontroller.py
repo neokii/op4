@@ -24,7 +24,7 @@ STEER_ANG_MAX = 225         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.9, .7, .5]     # windup limit
 ANGLE_DELTA_VU = [1.4, 1.0, 0.8]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 50
+DRIVER_TORQUE_THRESHOLD = 25
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
@@ -182,9 +182,7 @@ class CarController():
       self.LA20 = self.LA19
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-    if 30 <= apply_angle <= -30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque >= (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
-      spas_active = False
-    elif bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    if bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) >= 3:
       spas_active = False
