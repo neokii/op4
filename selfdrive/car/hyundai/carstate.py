@@ -160,6 +160,12 @@ class CarState(CarStateBase):
       ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
 
+    #Parking Sensors - JPR
+    ret.ParkFrontRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    ret.ParkFrontLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    ret.ParkRearRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    ret.ParkRearLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
