@@ -171,6 +171,7 @@ class CarController():
       spas_active = False
       lkas_active = True
       if spas_active == False:
+        lkas_active = False
         spas_active = True
 
 
