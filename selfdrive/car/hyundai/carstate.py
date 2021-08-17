@@ -38,6 +38,7 @@ class CarState(CarStateBase):
     self.cruise_unavail_cnt = 0
 
     self.apply_steer = 0.
+    self.steeringTorqueEps = 0
 
     # scc smoother
     self.acc_mode = False
