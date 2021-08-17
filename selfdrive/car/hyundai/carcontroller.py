@@ -142,7 +142,7 @@ class CarController():
         elif STEER_DEADBAND <= apply_angle <= -STEER_DEADBAND:
           apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.lA2) / 4
         else:
-          apply_angle = apply_angle1
+          apply_angle = (apply_angle1 + self.last_apply_angle) / 2
 
       if not Params().get_bool('SteerDeadBand'):
         apply_angle = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
