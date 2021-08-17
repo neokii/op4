@@ -24,7 +24,7 @@ STEER_ANG_MAX = 225         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.9, .7, .5]     # windup limit
 ANGLE_DELTA_VU = [1.4, 1.0, 0.8]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 2.5 # Nm is unit of measure for wheel torque.
+DRIVER_TORQUE_THRESHOLD = 3.2 # Nm is unit of measure for wheel torque.
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [39, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
