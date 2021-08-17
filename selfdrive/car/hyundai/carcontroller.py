@@ -167,8 +167,13 @@ class CarController():
     elif bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     
-    if enabled and not bool(CS.out.steeringPressed):
-      spas_active = True
+    if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) > 10:
+      spas_active = False
+      lkas_active = True
+      if spas_active == False:
+        spas_active = True
+
+
 
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
