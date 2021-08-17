@@ -90,8 +90,7 @@ class CarState(CarStateBase):
 
     ret.standstill = ret.vEgoRaw < 0.1
 
-    steeringAngleDeg = cp_sas.vl["SAS11"]['SAS_Angle']
-    ret.steeringAngleDeg = steeringAngleDeg * 182 / 200
+    ret.steeringAngleDeg = cp_sas.vl["SAS11"]['SAS_Angle']
     ret.steeringRateDeg = cp_sas.vl["SAS11"]['SAS_Speed']
     
     ret.yawRate = cp.vl["ESP12"]['YAW_RATE']

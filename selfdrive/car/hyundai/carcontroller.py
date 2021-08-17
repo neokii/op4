@@ -86,6 +86,16 @@ class CarController():
     self.LA8 = 0
     self.LA9 = 0
     self.LA10 = 0
+    self.LA11 = 0 
+    self.LA12 = 0
+    self.LA13 = 0
+    self.LA14 = 0
+    self.LA15 = 0
+    self.LA16 = 0
+    self.LA17 = 0
+    self.LA18 = 0
+    self.LA19 = 0
+    self.LA20 = 0
     self.steer_rate_limited = False
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
@@ -134,7 +144,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_angle = (actuators.steeringAngleDeg * 182 / 200)
+      apply_angle = (actuators.steeringAngleDeg * 182) / 200
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
@@ -145,10 +155,10 @@ class CarController():
         if STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle1 = apply_angle
           CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
-          apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10) / 12) * CAL_STEER
+          apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20) / 22) * CAL_STEER
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10) / 12
+        apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20) / 22
       self.last_apply_angle = apply_angle
       self.LA1 = self.last_apply_angle
       self.LA2 = self.LA1
@@ -160,14 +170,24 @@ class CarController():
       self.LA8 = self.LA7
       self.LA9 = self.LA8
       self.LA10 = self.LA9
+      self.LA11 = self.LA10
+      self.LA12 = self.LA11
+      self.LA13 = self.LA12
+      self.LA14 = self.LA13
+      self.LA15 = self.LA14
+      self.LA16 = self.LA15
+      self.LA17 = self.LA16
+      self.LA18 = self.LA17
+      self.LA19 = self.LA18
+      self.LA20 = self.LA19
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if 30 <= apply_angle <= -30 and bool(CS.out.steeringPressed) and CS.out.steeringTorque >= (DRIVER_TORQUE_THRESHOLD + 50) and enabled: #Fixed by JPR
       spas_active = False
-    elif bool(CS.out.steeringPressed) and CS.out.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    elif bool(CS.out.steeringPressed) and CS.steeringTorqueEps > DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-    
-    if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) > 10:
+    CS.
+    if enabled and not bool(CS.out.steeringPressed) and (CS.out.steeringAngleDeg - actuators.steeringAngleDeg) > 3:
       spas_active = False
       lkas_active = True
       if spas_active == False:
