@@ -62,12 +62,14 @@ class CarInterface(CarInterfaceBase):
 
     if not Params().get_bool('spasEnabled'):
       ret.steerActuatorDelay = 0.0
+    else:
+      ret.steerActuatorDelay = 0.1
 
+    tire_stiffness_factor = 1.
     ret.steerLimitTimer = 2.5
     ret.steerRateCost = 0.5
     ret.steerMaxBP = [0.]
     ret.steerMaxV = [1.5]
-    tire_stiffness_factor = 0.85
 
    #Longitudinal Tune and logic for car tune
     if candidate is not CAR.GENESIS_G70 or CAR.STINGER or CAR.GENESIS or CAR.GENESIS_G80 or CAR.KONA or CAR.KONA_EV or CAR.GENESIS_EQ900 or CAR.GENESIS_G90: #Tune for untuned cars
