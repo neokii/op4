@@ -26,7 +26,9 @@ STEER_ANG_MAX = 300         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.8, .65, .5]     # windup limit
 ANGLE_DELTA_VU = [1.2, 0.8, 0.8]   # unwind limit
-DRIVER_TORQUE_THRESHOLD = 2.8 # Nm is unit of measure for wheel torque.
+DRIVER_TORQUE_THRESHOLD = 2.8 # Nm is unit of measure for wheel 
+SPAS_SWITCH = 48 #MPH
+
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [20, 35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
@@ -471,7 +473,7 @@ class CarController():
       self.LA149 = self.LA148
       self.LA150 = self.LA149
 
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 43 * CV.MPH_TO_MS) # 45MPH
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH * CV.MPH_TO_MS) # 45MPH
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     if not lkas_active:
       apply_steer = 0
