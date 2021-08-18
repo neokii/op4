@@ -309,7 +309,7 @@ class CarController():
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     
-    if CarInterface.CS.steerSaturated:
+    if bool(CarInterface.steerSaturated):
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
