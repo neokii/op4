@@ -27,7 +27,7 @@ ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
-DRIVER_TORQUE_THRESHOLD = 2.8 # Nm is unit of measure for wheel 
+DRIVER_TORQUE_THRESHOLD = 2.3 # Nm is unit of measure for wheel 
 SPAS_SWITCH = 43 #MPH
 
 
