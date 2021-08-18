@@ -31,10 +31,6 @@ DRIVER_TORQUE_THRESHOLD = 1.8 # Nm is unit of measure for wheel
 SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
 SPAS_SWITCH_DEADBAND = 3 * CV.MPH_TO_MS #MPH
 
-#Speed based steer dead band / numbing. JPR
-SPEED = [20, 35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1.1, 1.0, 1.0, 1.00, 0.819, 0.8205, 0.8218, 0.8225, 0.8235, 0.8265, 0.828, 0.830]
-
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
   if accel > accel_steady + CarControllerParams.ACCEL_HYST_GAP:
