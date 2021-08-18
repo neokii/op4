@@ -28,7 +28,7 @@ DRIVER_TORQUE_THRESHOLD = 3.2 # Nm is unit of measure for wheel torque.
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.808, 0.813, 0.826, 0.829, 0.836, 0.839, 0.842, 0.845, 0.847, 0.849]
+RATIO = [1, 0.808, 0.812, 0.824, 0.827, 0.83, 0.832, 0.834, 0.836, 0.838, 0.84]
 STEER_DEADBAND = 3.5 # Take in account for natural slop for using SPAS at higher speeds than it was designed.
 
 def accel_hysteresis(accel, accel_steady):
