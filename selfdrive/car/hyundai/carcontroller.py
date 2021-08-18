@@ -1,3 +1,4 @@
+import math
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
 from common.numpy_fast import clip, interp
 import numpy as np
@@ -256,7 +257,7 @@ class CarController():
     self.scc_smoother = SccSmoother()
   
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
-             left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls, steers_des):
+             left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls):
 
     # *** compute control surfaces ***
 
@@ -275,7 +276,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      apply_angle = steers_des
+      apply_angle = actuators.steeringAngleDeg*math.pi/180.
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
