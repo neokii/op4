@@ -499,6 +499,7 @@ class Controls:
       actuators.steer, actuators.steeringAngleDeg, lac_log = self.LaC.update(self.active, CS, self.CP, self.VM, params,
                                                                              desired_curvature, desired_curvature_rate)
       actuators.steeringAngleDeg = (math.degrees(self.VM.get_steer_from_curvature(-desired_curvature, CS.vEgo)) * 181) / 200
+      actuators.steeringAngleDeg += params.angleOffsetDeg
     else:
       lac_log = log.ControlsState.LateralDebugState.new_message()
       if self.sm.rcv_frame['testJoystick'] > 0 and self.active:
