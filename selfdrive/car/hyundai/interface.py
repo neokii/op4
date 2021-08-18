@@ -110,6 +110,8 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.minSteerSpeed = 60 * CV.KPH_TO_MS
       ret.steerRatio = 16.5
+      tire_stiffness_factor = 0.65
+      
 
     elif candidate == CAR.GENESIS_G70:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -124,6 +126,7 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
         ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
+      tire_stiffness_factor = 0.65
       ret.steerRatio = 13.56
       ret.mass = 1640. + STD_CARGO_KG
       ret.wheelbase = 2.84
@@ -153,6 +156,7 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
         ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
+      tire_stiffness_factor = 0.85
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
@@ -167,13 +171,18 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
+
       if not UseLQR:
-        ret.lateralTuning.pid.kpBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
-        ret.lateralTuning.pid.kiBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kiV = [0.001, 0.0015, 0.002]
-        ret.lateralTuning.pid.kfBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kfV = [0.000015, 0.00002, 0.000025]
+        ret.lateralTuning.init('indi')
+        ret.lateralTuning.indi.innerLoopGainBP = [0.]
+        ret.lateralTuning.indi.innerLoopGainV = [3.1]
+        ret.lateralTuning.indi.outerLoopGainBP = [0.]
+        ret.lateralTuning.indi.outerLoopGainV = [2.5]
+        ret.lateralTuning.indi.timeConstantBP = [0.]
+        ret.lateralTuning.indi.timeConstantV = [1.4]
+        ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+        ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
@@ -188,21 +197,26 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2290
       ret.wheelbase = 3.45
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
+
     elif candidate == CAR.GENESIS_G90:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2060. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.steerRatio = 16.5
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.85
 
       if not UseLQR:
-        ret.lateralTuning.init('pid')
-        ret.lateralTuning.pid.kpBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kpV = [0.01, 0.02, 0.03]
-        ret.lateralTuning.pid.kiBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kiV = [0.001, 0.0015, 0.002]
-        ret.lateralTuning.pid.kfBP = [0., 10., 30.]
-        ret.lateralTuning.pid.kfV = [0.000015, 0.00002, 0.000025]
+        ret.lateralTuning.init('indi')
+        ret.lateralTuning.indi.innerLoopGainBP = [0.]
+        ret.lateralTuning.indi.innerLoopGainV = [3.1]
+        ret.lateralTuning.indi.outerLoopGainBP = [0.]
+        ret.lateralTuning.indi.outerLoopGainV = [2.5]
+        ret.lateralTuning.indi.timeConstantBP = [0.]
+        ret.lateralTuning.indi.timeConstantV = [1.4]
+        ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
+        ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
       ret.longitudinalTuning.kpBP = [0, 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
@@ -219,6 +233,8 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.766
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
+      tire_stiffness_factor = 0.65
+
     elif candidate in [CAR.SONATA, CAR.SONATA_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1513. + STD_CARGO_KG
@@ -548,7 +564,7 @@ class CarInterface(CarInterfaceBase):
     # low speed steer alert hysteresis logic (only for cars with steer cut off above 10 m/s)
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     
-    if UseSMDPS == False:
+    if UseSMDPS == False and Params().get_bool('LowSpeedAlerts'):
       if ret.vEgo < (self.CP.minSteerSpeed + 2.) and self.CP.minSteerSpeed > 10.:
         self.low_speed_alert = True
       if ret.vEgo > (self.CP.minSteerSpeed + 4.):
@@ -579,13 +595,13 @@ class CarInterface(CarInterfaceBase):
       minTP = 28
 
 
-    if ret.tpmsFl < minTP:
+    if ret.tpmsFl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fl)
-    elif ret.tpmsFr < minTP:
+    elif ret.tpmsFr < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fr)
-    elif ret.tpmsRl < minTP:
+    elif ret.tpmsRl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.rl)
-    elif ret.tpmsRr < minTP:
+    elif ret.tpmsRr < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.rr)
 
 
