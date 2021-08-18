@@ -309,7 +309,7 @@ class CarController():
       spas_active = False
       if not self.turning_indicator_alert:
         count = count + 1
-      if count = 20 and enabled
+      if count == 20 and enabled
         spas_active = True
         count = 0
     if self.turning_signal_timer > 0:
