@@ -196,15 +196,14 @@ class CarController():
           apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) + 1.3
           CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
           apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
-                      + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40
-                      + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60) / 62) * CAL_STEER
-          self.last_apply_angle = apply_angle
+                      + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40) / 42) * CAL_STEER
+          self.last_apply_angle = apply_angle1
+
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
-                      + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40
-                      + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60) / 62
-        self.last_apply_angle = apply_angle
+                      + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40) / 42
+        self.last_apply_angle = apply_angle1
       self.LA1 = self.last_apply_angle
       self.LA2 = self.LA1
       self.LA3 = self.LA1
@@ -245,26 +244,7 @@ class CarController():
       self.LA38 = self.LA37
       self.LA39 = self.LA38
       self.LA40 = self.LA39
-      self.LA41 = self.LA40
-      self.LA42 = self.LA41
-      self.LA43 = self.LA42
-      self.LA44 = self.LA43
-      self.LA45 = self.LA44
-      self.LA46 = self.LA45
-      self.LA47 = self.LA46
-      self.LA48 = self.LA47
-      self.LA49 = self.LA48
-      self.LA50 = self.LA49
-      self.LA51 = self.LA50
-      self.LA52 = self.LA51
-      self.LA53 = self.LA52
-      self.LA54 = self.LA53
-      self.LA55 = self.LA54
-      self.LA56 = self.LA55
-      self.LA57 = self.LA56
-      self.LA58 = self.LA57
-      self.LA59 = self.LA58
-      self.LA60 = self.LA59
+
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
