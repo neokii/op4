@@ -27,14 +27,12 @@ ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
-DRIVER_TORQUE_THRESHOLD = 2.3 # Nm is unit of measure for wheel 
+DRIVER_TORQUE_THRESHOLD = 1.8 # Nm is unit of measure for wheel 
 SPAS_SWITCH = 43 #MPH
-
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [20, 35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
 RATIO = [1.1, 1.0, 1.0, 1.00, 0.819, 0.8205, 0.8218, 0.8225, 0.8235, 0.8265, 0.828, 0.830]
-STEER_DEADBAND = 4 # Take in account for natural slop for using SPAS at higher speeds than it was designed.
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
