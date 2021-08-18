@@ -291,7 +291,7 @@ class CarController():
                       + self.LA61 + self.LA62 + self.LA63 + self.LA64 + self.LA65 + self.LA66 + self.LA67 + self.LA68 + self.LA69 + self.LA70 + self.LA71 + self.LA72 + self.LA73 + self.LA74 + self.LA75 + self.LA76 + self.LA77 + self.LA78 + self.LA79 + self.LA80
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
                       + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122) * CAL_STEER
-          self.last_apply_angle = apply_angle1
+          self.last_apply_angle = apply_angle
         else:
           apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
           apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
@@ -300,7 +300,7 @@ class CarController():
                       + self.LA61 + self.LA62 + self.LA63 + self.LA64 + self.LA65 + self.LA66 + self.LA67 + self.LA68 + self.LA69 + self.LA70 + self.LA71 + self.LA72 + self.LA73 + self.LA74 + self.LA75 + self.LA76 + self.LA77 + self.LA78 + self.LA79 + self.LA80
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
                       + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122
-          self.last_apply_angle = apply_angle1
+          self.last_apply_angle = apply_angle
 
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
@@ -311,7 +311,7 @@ class CarController():
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
                       + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122
 
-        self.last_apply_angle = apply_angle1
+        self.last_apply_angle = apply_angle
       self.LA1 = self.last_apply_angle
       self.LA2 = self.LA1
       self.LA3 = self.LA1
