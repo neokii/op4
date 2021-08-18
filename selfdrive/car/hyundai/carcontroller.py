@@ -280,6 +280,7 @@ class CarController():
         apply_angle = actuators.steeringAngleDeg*math.pi/180.
       else:
         apply_angle = actuators.steer
+        print(actuators.steeringAngleDeg)
       if self.last_apply_angle * apply_angle > 0. and abs(apply_angle) > abs(self.last_apply_angle):
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_V)
       else:
