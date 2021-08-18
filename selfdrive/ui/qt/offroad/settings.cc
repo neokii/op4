@@ -508,10 +508,11 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("SteerDeadBand",
+  toggles_list->addWidget(new ParamControl("steerDeadBand",
                                             "Enable SPAS H.S. Steer Dead Band.",
-                                            "Fixes high speed steering wobble with a numbing deadband. May need to be tuned per car."
-                                            ));
+                                            "Fixes high speed steering wobble with a numbing deadband. May need to be tuned per car.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",

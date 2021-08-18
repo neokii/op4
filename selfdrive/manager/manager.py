@@ -66,7 +66,7 @@ def manager_init():
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1"),
     ("spasAlways", "0"),
-    ("SteerDeadBand", "0")
+    ("steerDeadBand", "0")
 
   ]
   if not PC:
