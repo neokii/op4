@@ -1,4 +1,6 @@
 import math
+from selfdrive.car.hyundai.interface import CarInterface
+from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
 from common.numpy_fast import clip, interp
 import numpy as np
@@ -294,12 +296,12 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH * CV.MPH_TO_MS)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
-    if spas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
-      spas_active = False
-      lkas_active = True
+    #if spas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
+    #  spas_active = False
+    #  lkas_active = True
 
-    if lkas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
-      spas_active = True
+    #if lkas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
+    #  spas_active = True
 
     if not lkas_active:
       apply_steer = 0
@@ -307,7 +309,7 @@ class CarController():
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     
-    if self.CI.steerSaturated:
+    if CarInterface.CS.steerSaturated:
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')

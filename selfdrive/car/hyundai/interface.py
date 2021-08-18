@@ -618,7 +618,8 @@ class CarInterface(CarInterfaceBase):
       events.add(EventName.brakeUnavailable)
     if abs(ret.steeringAngleDeg) > self.CP.maxSteeringAngleDeg and EventName.steerSaturated not in events.events:
       events.add(EventName.steerSaturated)
-      self.steerSaturated = True
+      self.steerSaturated = ret.steerSaturated
+      ret.steerSaturated = True
     if self.low_speed_alert and not self.CS.mdps_bus:
       events.add(EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
