@@ -27,7 +27,7 @@ ANGLE_DELTA_BP = [0., 16., 36.]		# speed m/s
 ANGLE_DELTA_V = [0.8, .65, .5]     # windup limit
 ANGLE_DELTA_VU = [1.2, 0.8, 0.8]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 2.8 # Nm is unit of measure for wheel 
-SPAS_SWITCH = 48 #MPH
+SPAS_SWITCH = 43 #MPH
 
 
 #Speed based steer dead band / numbing. JPR
