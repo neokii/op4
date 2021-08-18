@@ -1,6 +1,5 @@
 import math
 from selfdrive.car.hyundai.interface import CarInterface
-from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
 from common.numpy_fast import clip, interp
 import numpy as np
@@ -309,7 +308,7 @@ class CarController():
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
     
-    if CarInterface.CS.steerSaturated:
+    if CS.CI.steerSaturated:
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
