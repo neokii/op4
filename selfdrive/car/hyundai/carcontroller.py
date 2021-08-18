@@ -28,7 +28,8 @@ ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
 DRIVER_TORQUE_THRESHOLD = 1.8 # Nm is unit of measure for wheel 
-SPAS_SWITCH = 43 #MPH
+SPAS_SWITCH = 43 * CV.MPH_TO_MS #MPH
+SPAS_SWITCH_DEADBAND = 3 * CV.MPH_TO_MS #MPH
 
 #Speed based steer dead band / numbing. JPR
 SPEED = [20, 35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
@@ -295,6 +296,14 @@ class CarController():
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH * CV.MPH_TO_MS)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
+
+    if spas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
+      spas_active = False
+      lkas_active = True
+
+    if lkas_active and (CS.out.vEgo - SPAS_SWITCH) <= SPAS_SWITCH_DEADBAND <= -(CS.out.vEgo - SPAS_SWITCH):
+      spas_active = True
+
     if not lkas_active:
       apply_steer = 0
 
