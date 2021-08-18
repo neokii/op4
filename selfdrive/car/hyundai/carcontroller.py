@@ -278,7 +278,7 @@ class CarController():
       count1 = 0
       if not spas_active:
         count1 = count1 + 1
-        if count1 >= 20:
+        if count1 >= 60:
           spas_active = True
           count1 = 0
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
