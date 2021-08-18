@@ -277,7 +277,7 @@ class CarController():
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
       if Params().get_bool('spasAlways'):
-        apply_angle = (actuators.steeringAngleDeg * math.pi) / 180.
+        apply_angle = actuators.steeringAngleDeg
       else:
         apply_angle = actuators.steer
         print(actuators.steeringAngleDeg)
