@@ -267,7 +267,7 @@ class CarController():
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
 
     # Steering Torque
-    new_steer = int(round( * CarControllerParams.STEER_MAX))
+    new_steer = int(round(actuators.steer * CarControllerParams.STEER_MAX))
     apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque,
                                                 CarControllerParams)
 
