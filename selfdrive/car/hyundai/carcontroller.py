@@ -273,11 +273,8 @@ class CarController():
       if not spas_active:
         count1 = count1 + 1
         if count1 >= 20:
-          self.en_cnt = 0
-          self.last_apply_angle = 0.0
-          self.en_spas = 3
-          self.mdps11_stat_last = 0
           spas_active = True
+          count1 = 0
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
@@ -398,7 +395,6 @@ class CarController():
       elif abs(CS.lead_distance - self.last_lead_distance) > 0.01:
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.scc_bus, CS.clu11, Buttons.RES_ACCEL, clu11_speed))
         self.resume_cnt += 1
-
         if self.resume_cnt >= 8:
           self.resume_cnt = 0
           self.resume_wait_timer = SccSmoother.get_wait_count() * 2
