@@ -44,7 +44,7 @@ class CarInterface(CarInterfaceBase):
         eps_modified = True
 
     ret.maxSteeringAngleDeg = 350.
-    UseLQR = Params().get_bool('UseLQR')
+    UseLQR = Params().get_bool('UseLQR') or Params().get_bool('spasEnabled')
 
     # lateral LQR global hyundai
     if UseLQR:
