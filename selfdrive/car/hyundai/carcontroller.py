@@ -143,7 +143,6 @@ class CarController():
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
-    count = 0
 
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
@@ -271,12 +270,11 @@ class CarController():
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
       if spas_active == False:
-        spas_active = True
         self.en_cnt = 0
         self.last_apply_angle = 0.0
         self.en_spas = 3
         self.mdps11_stat_last = 0
-
+        spas_active = True
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
@@ -307,9 +305,10 @@ class CarController():
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = 0
       spas_active = False
+      count = 0
       if not self.turning_indicator_alert:
         count = count + 1
-      if count == 20 and enabled
+      if count >= 20 and enabled:
         spas_active = True
         count = 0
     if self.turning_signal_timer > 0:
