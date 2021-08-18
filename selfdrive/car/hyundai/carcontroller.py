@@ -245,7 +245,7 @@ class CarController():
       self.last_apply_angle = 0.0
       self.en_spas = 3
       self.mdps11_stat_last = 0
-      self.spas_always = Params().get_bool('spasEnabled')
+      self.spas_always = Params().get_bool('spasAlways')
       
     self.ldws_opt = Params().get_bool('IsLdwsCar')
     self.stock_navi_decel_enabled = Params().get_bool('StockNaviDecelEnabled')
@@ -254,6 +254,36 @@ class CarController():
     # Adjust it in the range of 0.7 to 1.3
     self.scc_smoother = SccSmoother()
 
+    ###### PID controller for KLAS ######
+  def PID(Kp, Ki, Kd, MV_bar=0):
+    # initialize stored data
+    e_prev = 0
+    t_prev = -100
+    I = 0
+    
+    # initial control
+    MV = MV_bar
+    
+    while True:
+        # yield MV, wait for new t, PV, SP
+        t, PV, SP = yield MV
+
+        # PID calculations. SP = set point, MV = output, PV = Measure
+        e = SP - PV
+        
+        P = Kp*e
+        I = I + Ki*e*(t - t_prev)
+        D = Kd*(e - e_prev)/(t - t_prev)
+        
+        MV = MV_bar + P + I + D
+        
+        # update stored data for next iteration
+        e_prev = e
+        t_prev = t
+
+  controller = PID(0.25, 0.05, 0.00005)        # create pid control with kia stinger tune
+  controller.send(None)              # initialize
+  
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls):
 
@@ -267,7 +297,11 @@ class CarController():
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
 
     # Steering Torque
-    new_steer = int(round(actuators.steer * CarControllerParams.STEER_MAX))
+    MV = 0
+    self.PID.PV = CS.steeringAngleDeg
+    self.PID.SP = actuators.steeringAngleDeg
+    self.PID.MV = MV
+    new_steer = int(round(MV * CarControllerParams.STEER_MAX))
     apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque,
                                                 CarControllerParams)
 
@@ -469,19 +503,21 @@ class CarController():
       self.LA149 = self.LA148
       self.LA150 = self.LA149
 
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 45 * CV.MPH_TO_MS) # 45MPH
+    lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
+    
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
+      lkas_active = True
       count1 = 0
       if not spas_active:
         count1 = count1 + 1
         if count1 >= 120:
           spas_active = True
+          lkas_active = False
           count1 = 0
-    # disable if steer angle reach 90 deg, otherwise mdps fault in some models
-    lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
+
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
-    
     if Params().get_bool('LongControlEnabled'):
       min_set_speed = 0 * CV.KPH_TO_MS
     else:

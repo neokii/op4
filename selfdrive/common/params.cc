@@ -249,7 +249,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"spasEnabled", PERSISTENT},
     {"PutPrebuilt", PERSISTENT},
     {"TPMS_Alerts", PERSISTENT},
-    {"SteerDeadBand", PERSISTENT},
+    {"spasAlways", PERSISTENT},
 };
 
 } // namespace
