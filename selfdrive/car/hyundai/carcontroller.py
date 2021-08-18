@@ -473,7 +473,8 @@ class CarController():
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 43 * CV.MPH_TO_MS) # 45MPH
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
-    
+    if not lkas_active:
+      apply_steer = 0
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
       lkas_active = True
