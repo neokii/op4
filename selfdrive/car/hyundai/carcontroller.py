@@ -477,10 +477,6 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     if not lkas_active:
       apply_steer = 0
-    if spas_active:
-      apply_steer = 0
-    else:
-      lkas_active = True
 
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
