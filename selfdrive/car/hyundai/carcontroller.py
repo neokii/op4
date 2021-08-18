@@ -203,6 +203,7 @@ class CarController():
           apply_angle = (apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
                         + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40
                         + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60) / 62
+          self.last_apply_angle = apply_angle1
 
       else:
         apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
