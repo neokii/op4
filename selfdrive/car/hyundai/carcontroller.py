@@ -143,6 +143,7 @@ class CarController():
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
+    count = 0
 
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
@@ -267,9 +268,8 @@ class CarController():
       self.LA60 = self.LA59
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
-    if bool(CS.out.steeringPressed) and -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-      apply_angle = 0
       if spas_active == False:
         spas_active = True
         self.en_cnt = 0
@@ -307,6 +307,11 @@ class CarController():
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = 0
       spas_active = False
+      if not self.turning_indicator_alert:
+        count = count + 1
+      if count = 5 and enabled
+        spas_active = True
+        count = 0
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
 
