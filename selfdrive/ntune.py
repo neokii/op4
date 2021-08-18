@@ -7,6 +7,12 @@ import numpy as np
 CONF_PATH = '/data/ntune/'
 CONF_LQR_FILE = '/data/ntune/lat_lqr.json'
 
+ntunes = {}
+
+def file_watch_handler(signum, frame):
+  global ntunes
+  for ntune in ntunes.values():
+    ntune.handle()
 
 class nTune():
   def __init__(self, CP=None, controller=None, group=None):
@@ -34,7 +40,7 @@ class nTune():
     self.read()
 
     try:
-      signal.signal(signal.SIGIO, self.handler)
+      signal.signal(signal.SIGIO, file_watch_handler)
       fd = os.open(CONF_PATH, os.O_RDONLY)
       fcntl.fcntl(fd, fcntl.F_SETSIG, 0)
       fcntl.fcntl(fd, fcntl.F_NOTIFY, fcntl.DN_MODIFY | fcntl.DN_CREATE | fcntl.DN_MULTISHOT)
@@ -42,19 +48,19 @@ class nTune():
       print("exception", ex)
       pass
 
-  def handler(self, signum, frame):
+  def handle(self):
     try:
-      if os.path.isfile(self.file):
+      if os.path.getsize(self.file) > 0:
         with open(self.file, 'r') as f:
           self.config = json.load(f)
-          if self.checkValid():
-            self.write_config(self.config)
 
-    except Exception as ex:
-      print("exception", ex)
+        if self.checkValid():
+          self.write_config(self.config)
+
+        self.invalidated = True
+
+    except:
       pass
-
-    self.invalidated = True
 
   def check(self):  # called by LatControlLQR.update
     if self.invalidated:
@@ -62,27 +68,29 @@ class nTune():
       self.update()
 
   def read(self):
-
+    success = False
     try:
-      if os.path.isfile(self.file):
+      if os.path.getsize(self.file) > 0:
         with open(self.file, 'r') as f:
           self.config = json.load(f)
 
         if self.checkValid():
           self.write_config(self.config)
-
           self.update()
-      else:
-        self.write_default()
+        success = True
+    except:
+      pass
 
+    if not success:
+      try:
+        self.write_default()
         with open(self.file, 'r') as f:
           self.config = json.load(f)
           if self.checkValid():
             self.write_config(self.config)
           self.update()
-
-    except:
-      self.write_default()
+      except:
+        pass
 
   def checkValue(self, key, min_, max_, default_):
     updated = False
@@ -222,7 +230,6 @@ class nTune():
       except:
         pass
 
-ntunes = {}
 def ntune_get(group, key):
   global ntunes
   if group not in ntunes:
