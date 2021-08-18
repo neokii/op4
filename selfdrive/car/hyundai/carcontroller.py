@@ -269,12 +269,15 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < 25 * CV.MPH_TO_MS) # 25km/h
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-      if spas_active == False:
-        self.en_cnt = 0
-        self.last_apply_angle = 0.0
-        self.en_spas = 3
-        self.mdps11_stat_last = 0
-        spas_active = True
+      count1 = 0
+      if not spas_active:
+        count1 = count1 + 1
+        if count1 >= 20:
+          self.en_cnt = 0
+          self.last_apply_angle = 0.0
+          self.en_spas = 3
+          self.mdps11_stat_last = 0
+          spas_active = True
     # disable if steer angle reach 90 deg, otherwise mdps fault in some models
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
