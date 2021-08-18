@@ -27,8 +27,8 @@ ANGLE_DELTA_VU = [1.4, 1.0, 0.8]   # unwind limit
 DRIVER_TORQUE_THRESHOLD = 3.0 # Nm is unit of measure for wheel torque.
 
 #Speed based steer dead band / numbing. JPR
-SPEED = [35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
-RATIO = [1, 0.808, 0.812, 0.822, 0.824, 0.826, 0.828, 0.83, 0.832, 0.834, 0.836]
+SPEED = [20, 35, 40.00, 45.00, 50.00, 55.00, 60.00, 65.00, 70.0, 75.0, 80.0, 85]
+RATIO = [1.1, 1, 0.808, 0.812, 0.822, 0.824, 0.826, 0.828, 0.83, 0.832, 0.834, 0.836]
 STEER_DEADBAND = 3.5 # Take in account for natural slop for using SPAS at higher speeds than it was designed.
 
 def accel_hysteresis(accel, accel_steady):
@@ -285,14 +285,12 @@ class CarController():
         if STEER_DEADBAND >= apply_angle >= -STEER_DEADBAND:
           apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit)
           CAL_STEER = np.interp(CS.out.vEgo, SPEED, RATIO)
-          apply_angle = ((apply_angle1 * CAL_STEER) + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
+          apply_angle = ((apply_angle1 + self.last_apply_angle + self.LA1 + self.LA2 + self.LA3 + self.LA4 + self.LA5 + self.LA6 + self.LA7 + self.LA8 + self.LA9 + self.LA10 + self.LA11 + self.LA12 + self.LA13 + self.LA14 + self.LA15 + self.LA16 + self.LA17 + self.LA18 + self.LA19 + self.LA20
                       + self.LA21 + self.LA22 + self.LA23 + self.LA24 + self.LA25 + self.LA26 + self.LA27 + self.LA28 + self.LA29 + self.LA30 + self.LA31 + self.LA32 + self.LA33 + self.LA34 + self.LA35 + self.LA36 + self.LA37 + self.LA38 + self.LA39 + self.LA40
                       + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60
                       + self.LA61 + self.LA62 + self.LA63 + self.LA64 + self.LA65 + self.LA66 + self.LA67 + self.LA68 + self.LA69 + self.LA70 + self.LA71 + self.LA72 + self.LA73 + self.LA74 + self.LA75 + self.LA76 + self.LA77 + self.LA78 + self.LA79 + self.LA80
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
-                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120
-                      + self.LA121 + self.LA122 + self.LA123 + self.LA124 + self.LA125 + self.LA126 + self.LA127 + self.LA128 + self.LA129 + self.LA130 + self.LA131 + self.LA132 + self.LA133 + self.LA134 + self.LA135 + self.LA136 + self.LA137 + self.LA138 + self.LA139 + self.LA140 
-                      + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
+                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122) * CAL_STEER
           self.last_apply_angle = apply_angle1
         else:
           apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
@@ -301,9 +299,7 @@ class CarController():
                       + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60
                       + self.LA61 + self.LA62 + self.LA63 + self.LA64 + self.LA65 + self.LA66 + self.LA67 + self.LA68 + self.LA69 + self.LA70 + self.LA71 + self.LA72 + self.LA73 + self.LA74 + self.LA75 + self.LA76 + self.LA77 + self.LA78 + self.LA79 + self.LA80
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
-                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120
-                      + self.LA121 + self.LA122 + self.LA123 + self.LA124 + self.LA125 + self.LA126 + self.LA127 + self.LA128 + self.LA129 + self.LA130 + self.LA131 + self.LA132 + self.LA133 + self.LA134 + self.LA135 + self.LA136 + self.LA137 + self.LA138 + self.LA139 + self.LA140 
-                      + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
+                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122
           self.last_apply_angle = apply_angle1
 
       else:
@@ -313,9 +309,7 @@ class CarController():
                       + self.LA41 + self.LA42 + self.LA43 + self.LA44 + self.LA45 + self.LA46 + self.LA47 + self.LA48 + self.LA49 + self.LA50 + self.LA51 + self.LA52 + self.LA53 + self.LA54 + self.LA55 + self.LA56 + self.LA57 + self.LA58 + self.LA59 + self.LA60
                       + self.LA61 + self.LA62 + self.LA63 + self.LA64 + self.LA65 + self.LA66 + self.LA67 + self.LA68 + self.LA69 + self.LA70 + self.LA71 + self.LA72 + self.LA73 + self.LA74 + self.LA75 + self.LA76 + self.LA77 + self.LA78 + self.LA79 + self.LA80
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
-                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120
-                      + self.LA121 + self.LA122 + self.LA123 + self.LA124 + self.LA125 + self.LA126 + self.LA127 + self.LA128 + self.LA129 + self.LA130 + self.LA131 + self.LA132 + self.LA133 + self.LA134 + self.LA135 + self.LA136 + self.LA137 + self.LA138 + self.LA139 + self.LA140 
-                      + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
+                      + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120) / 122
 
         self.last_apply_angle = apply_angle1
       self.LA1 = self.last_apply_angle
