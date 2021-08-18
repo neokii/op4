@@ -253,36 +253,6 @@ class CarController():
     # gas_factor, brake_factor
     # Adjust it in the range of 0.7 to 1.3
     self.scc_smoother = SccSmoother()
-
-    ###### PID controller for KLAS ######
-  def PID(Kp, Ki, Kd, MV_bar=0):
-    # initialize stored data
-    e_prev = 0
-    t_prev = -100
-    I = 0
-    
-    # initial control
-    MV = MV_bar
-    
-    while True:
-        # yield MV, wait for new t, PV, SP
-        t, PV, SP = yield MV
-
-        # PID calculations. SP = set point, MV = output, PV = Measure
-        e = SP - PV
-        
-        P = Kp*e
-        I = I + Ki*e*(t - t_prev)
-        D = Kd*(e - e_prev)/(t - t_prev)
-        
-        MV = MV_bar + P + I + D
-        
-        # update stored data for next iteration
-        e_prev = e
-        t_prev = t
-
-  controller = PID(0.25, 0.05, 0.00005)        # create pid control with kia stinger tune
-  controller.send(None)              # initialize
   
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, controls):
@@ -297,11 +267,7 @@ class CarController():
                        CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
 
     # Steering Torque
-    MV = 0
-    self.PID.PV = CS.steeringAngleDeg
-    self.PID.SP = actuators.steeringAngleDeg
-    self.PID.MV = MV
-    new_steer = int(round(MV * CarControllerParams.STEER_MAX))
+    new_steer = int(round( * CarControllerParams.STEER_MAX))
     apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque,
                                                 CarControllerParams)
 
