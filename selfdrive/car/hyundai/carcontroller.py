@@ -276,7 +276,7 @@ class CarController():
     self.steer_rate_limited = new_steer != apply_steer
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
-      if Params().get_bool('spas_always'):
+      if Params().get_bool('spasAlways'):
         apply_angle = actuators.steeringAngleDeg*math.pi/180.
       else:
         apply_angle = actuators.steer
