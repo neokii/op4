@@ -83,9 +83,6 @@ class CarController():
     self.accel_steady = 0
     self.apply_steer_last = 0
 
-    self.COUNT = 0
-    self.COUNT1 = 0
-
     self.LA1 = 0 
     self.LA2 = 0
     self.LA3 = 0
