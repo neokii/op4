@@ -99,7 +99,7 @@ class CarState(CarStateBase):
                                                             cp.vl["CGW1"]['CF_Gway_TurnSigRh'])
     ret.steeringTorque = cp_mdps.vl["MDPS12"]['CR_Mdps_StrColTq']
     ret.steeringTorqueEps = cp_mdps.vl["MDPS12"]['CR_Mdps_OutTq']
-    ret.steeringWheelTorque = cp_mdps.vl["MDPS11"]['CR_Mdps_DrvTq'] # torque sensor between steering wheel and steering column. JPR
+    self.steeringWheelTorque = cp_mdps.vl["MDPS11"]['CR_Mdps_DrvTq'] # torque sensor between steering wheel and steering column. JPR
 
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
 
