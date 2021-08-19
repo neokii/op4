@@ -29,9 +29,9 @@ ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
-DRIVER_TORQUE_THRESHOLD = 1.8 # Nm is unit of measure for wheel 
+STEER = (0, 30, 60, 90, 120) # Steering angle
+TQ = (1.0, 1.5, 2.0, 2.5, 3.0) # Nm is unit of measure for wheel 
 SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
-SPAS_SWITCH_DEADBAND = 3 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
 EventName = car.CarEvent.EventName
