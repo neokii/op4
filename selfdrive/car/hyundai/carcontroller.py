@@ -234,6 +234,26 @@ class CarController():
     self.LA148 = 0
     self.LA149 = 0
     self.LA150 = 0
+    self.LA151 = 0
+    self.LA152 = 0
+    self.LA153 = 0
+    self.LA154 = 0
+    self.LA155 = 0
+    self.LA156 = 0
+    self.LA157 = 0
+    self.LA158 = 0
+    self.LA159 = 0
+    self.LA160 = 0
+    self.LA161 = 0
+    self.LA162 = 0
+    self.LA163 = 0
+    self.LA164 = 0
+    self.LA165 = 0
+    self.LA166 = 0
+    self.LA167 = 0
+    self.LA168 = 0
+    self.LA169 = 0
+    self.LA170 = 0
     self.steer_rate_limited = False
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
@@ -295,7 +315,8 @@ class CarController():
                       + self.LA81 + self.LA82 + self.LA83 + self.LA84 + self.LA85 + self.LA86 + self.LA87 + self.LA88 + self.LA89 + self.LA90 + self.LA91 + self.LA92 + self.LA93 + self.LA94 + self.LA95 + self.LA96 + self.LA97 + self.LA98 + self.LA99 + self.LA100 
                       + self.LA101 + self.LA102 + self.LA103 + self.LA104 + self.LA105 + self.LA106 + self.LA107 + self.LA108 + self.LA109 + self.LA110 + self.LA111 + self.LA112 + self.LA113 + self.LA114 + self.LA115 + self.LA116 + self.LA117 + self.LA118 + self.LA119 + self.LA120
                       + self.LA121 + self.LA122 + self.LA123 + self.LA124 + self.LA125 + self.LA126 + self.LA127 + self.LA128 + self.LA129 + self.LA130 + self.LA131 + self.LA132 + self.LA133 + self.LA134 + self.LA135 + self.LA136 + self.LA137 + self.LA138 + self.LA139 + self.LA140 
-                      + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
+                      + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150 + self.LA151 + self.LA152 + self.LA153 + self.LA154 + self.LA155 + self.LA156 + self.LA156 + self.LA157 + self.LA158 + self.LA159 
+                      + self.LA160 + self.LA161 + self.LA162 + self.LA163 + self.LA164 + self.LA165 + self.LA166 + self.LA167 + self.LA168 + self.LA169 + self.LA170) / 172
         self.last_apply_angle = apply_angle1
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
@@ -685,5 +706,25 @@ class CarController():
       self.LA148 = self.LA147
       self.LA149 = self.LA148
       self.LA150 = self.LA149
+      self.LA151 = self.LA150
+      self.LA152 = self.LA151
+      self.LA153 = self.LA152
+      self.LA154 = self.LA153
+      self.LA155 = self.LA154
+      self.LA156 = self.LA155
+      self.LA157 = self.LA156
+      self.LA158 = self.LA157
+      self.LA159 = self.LA158
+      self.LA160 = self.LA159
+      self.LA161 = self.LA160
+      self.LA162 = self.LA161
+      self.LA163 = self.LA162
+      self.LA164 = self.LA163
+      self.LA165 = self.LA164
+      self.LA166 = self.LA165
+      self.LA167 = self.LA166
+      self.LA168 = self.LA167
+      self.LA169 = self.LA168
+      self.LA170 = self.LA169
 
     return can_sends
