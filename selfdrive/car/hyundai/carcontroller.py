@@ -300,7 +300,8 @@ class CarController():
                       + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
         self.last_apply_angle = apply_angle1
 
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH * CV.MPH_TO_MS)
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH
+)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
     if not lkas_active:
@@ -309,8 +310,8 @@ class CarController():
     Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
     if enabled and -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled:
       spas_active = False
-    elif enabled:
-      spas_active = True
+    #elif enabled and self.spas_always or CS.out.vEgo < SPAS_SWITCH:
+      #spas_active = True
     if enabled and abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
       spas_active = True
 
