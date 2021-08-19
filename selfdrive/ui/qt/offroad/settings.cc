@@ -132,6 +132,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
 
+  main_layout->addWidget(horizontal_line());
+  main_layout->addLayout(reset_layout);
 
   // Settings and buttons - JPR
   main_layout->addWidget(horizontal_line());
