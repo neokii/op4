@@ -110,7 +110,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1900. + STD_CARGO_KG
       ret.wheelbase = 3.01
       ret.centerToFront = ret.wheelbase * 0.4
-      ret.minSteerSpeed = 60 * CV.KPH_TO_MS
+      ret.minSteerSpeed = 37 * CV.MPH_TO_MS
       ret.steerRatio = 16.5
       tire_stiffness_factor = 0.85
 
