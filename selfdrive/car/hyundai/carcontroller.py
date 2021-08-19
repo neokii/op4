@@ -307,10 +307,10 @@ class CarController():
       apply_steer = 0
 
     Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
-    if -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled: #Fixed by JPR
+    if -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled:
       spas_active = False
     
-    if abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
+    if enabled and abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
