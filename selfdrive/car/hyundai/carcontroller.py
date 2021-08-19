@@ -30,7 +30,7 @@ ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
 STEER = (0, 30, 60, 90, 120) # Steering angle
-TQ = (1.2, 1.7, 2.2, 2.7, 3.2) # Nm is unit of measure for wheel 
+TQ = (1.5, 2, 2.5, 3.0, 3.5) # Nm is unit of measure for wheel 
 SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
