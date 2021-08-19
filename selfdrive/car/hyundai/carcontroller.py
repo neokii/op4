@@ -305,11 +305,11 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
     Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
-    if enabled and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold and enabled:
+    if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold and enabled:
       spas_active = FALSE
       #self.DO = True    
       
-    elif enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold or spas_always and enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold:
+    elif enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold or self.spas_always and enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold:
       #self.DO = False
       spas_active = True
 
