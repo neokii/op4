@@ -515,6 +515,10 @@ class CarController():
           self.en_spas = 2 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
 
+        if self.en_spas == 2:
+          self.en_spas = 3 # we need to change from starting a new request with state 2 to a spas ready state which is state 3. JPR
+          self.en_cnt = 0
+
         if self.en_cnt < 8 and spas_active:
           self.en_spas = 4
         elif self.en_cnt >= 8 and spas_active:
