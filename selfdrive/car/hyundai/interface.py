@@ -603,6 +603,8 @@ class CarInterface(CarInterfaceBase):
     else:
       minTP = 28
 
+    if self.CS.DO:
+      events.add(EventName.pedalPressed)
 
     if ret.tpmsFl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fl)
