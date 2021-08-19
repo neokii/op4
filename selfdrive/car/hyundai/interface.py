@@ -603,7 +603,7 @@ class CarInterface(CarInterfaceBase):
     else:
       minTP = 28
 
-    if self.CC.DO:
+    #if self.CC.DO:
       
 
     if ret.tpmsFl < minTP and Params().get_bool('TPMS_Alerts'):
