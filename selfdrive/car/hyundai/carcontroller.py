@@ -307,9 +307,10 @@ class CarController():
       apply_steer = 0
 
     Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
-    if -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled:
+    if enabled and -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled:
       spas_active = False
-    
+    elif enabled:
+      spas_active = True
     if enabled and abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
       spas_active = True
 
