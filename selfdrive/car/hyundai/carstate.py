@@ -499,6 +499,7 @@ class CarState(CarStateBase):
         signals += [
           ("CR_Mdps_StrAng", "MDPS11", 0),
           ("CF_Mdps_Stat", "MDPS11", 0),
+          ("CR_Mdps_DrvTq", "MDPS11", 0),
         ]
         checks += [
           ("MDPS11", 100),
