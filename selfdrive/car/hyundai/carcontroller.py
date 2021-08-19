@@ -311,8 +311,8 @@ class CarController():
 
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-    events = self.create_common_events(CarInterfaceBase.get_std_params())
-    if EventName.steerSaturated in events.events:
+    
+    if abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
