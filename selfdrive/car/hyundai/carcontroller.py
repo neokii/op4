@@ -82,6 +82,10 @@ class CarController():
     self.packer = CANPacker(dbc_name)
     self.accel_steady = 0
     self.apply_steer_last = 0
+
+    self.COUNT = 0
+    self.COUNT1 = 0
+
     self.LA1 = 0 
     self.LA2 = 0
     self.LA3 = 0
@@ -342,12 +346,15 @@ class CarController():
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = False
       spas_active = False
-      count = 0
+      self.COUNT = 0
       if not self.turning_indicator_alert:
-        count = count + 1
-    if count >= 20 and enabled:
+        self.COUNT1 = 1
+    if not self.turning_indicator_alert and self.COUNT1 == 1:
+        self.COUNT = self.COUNT + 1
+    if self.COUNT >= 20 and enabled:
       spas_active = True
-      count = 0
+      self.COUNT = 0
+      self.COUNT1 = 0
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
 
