@@ -44,7 +44,7 @@ class CarInterface(CarInterfaceBase):
         eps_modified = True
 
     ret.maxSteeringAngleDeg = 350.
-    UseLQR = Params().get_bool('UseLQR') or Params().get_bool('spasEnabled')
+    UseLQR = Params().get_bool('UseLQR')
 
     # lateral LQR global hyundai
     if UseLQR:
@@ -61,7 +61,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.l = [0.33, 0.318]
 
     if not Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.0
+      ret.steerActuatorDelay = 0.1
     else:
       ret.steerActuatorDelay = 0.1
 
@@ -397,7 +397,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.78
-      ret.steerRatio = 14.4 * 1.15 # 15% higher at the center seems reasonable
+      ret.steerRatio = 14.4 # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
       if not UseLQR:
         ret.lateralTuning.init('indi')
