@@ -512,7 +512,7 @@ class CarController():
           self.en_cnt = 0
 
         if self.en_spas == 7 and self.en_cnt >= 8:
-          self.en_spas = 3
+          self.en_spas = 2 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
 
         if self.en_cnt < 8 and spas_active:
