@@ -1,4 +1,5 @@
 import math
+from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.car.hyundai.interface import CarInterface
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
 from common.numpy_fast import clip, interp
@@ -32,6 +33,9 @@ DRIVER_TORQUE_THRESHOLD = 1.8 # Nm is unit of measure for wheel
 SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
 SPAS_SWITCH_DEADBAND = 3 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
+
+EventName = car.CarEvent.EventName
+
 
 def accel_hysteresis(accel, accel_steady):
   # for small accel oscillations within ACCEL_HYST_GAP, don't change the accel command
@@ -307,8 +311,8 @@ class CarController():
 
     if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
       spas_active = False
-    
-    if CS.CI.steerSaturated:
+    events = self.create_common_events(CarInterfaceBase.get_std_params())
+    if EventName.steerSaturated in events.events:
       spas_active = True
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
@@ -336,14 +340,14 @@ class CarController():
     if CS.out.leftBlinker or CS.out.rightBlinker:
       self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
     if self.turning_indicator_alert: # set and clear by interface
-      lkas_active = 0
+      lkas_active = False
       spas_active = False
       count = 0
       if not self.turning_indicator_alert:
         count = count + 1
-      if count >= 20 and enabled:
-        spas_active = True
-        count = 0
+    if count >= 20 and enabled:
+      spas_active = True
+      count = 0
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1
 
