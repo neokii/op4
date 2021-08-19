@@ -300,8 +300,7 @@ class CarController():
                       + self.LA141 + self.LA142 + self.LA143 + self.LA144 + self.LA145 + self.LA146 + self.LA147 + self.LA148 + self.LA149 + self.LA150) / 152
         self.last_apply_angle = apply_angle1
 
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH
-)
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
     Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
@@ -315,8 +314,7 @@ class CarController():
 
     elif not lkas_active:
       apply_steer = 0
-    elif not spas_active:
-      apply_angle = 0
+ 
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     if Params().get_bool('LongControlEnabled'):
