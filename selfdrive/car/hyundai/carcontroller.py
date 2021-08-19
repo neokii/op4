@@ -515,7 +515,7 @@ class CarController():
           self.en_spas = 2 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
 
-        if CS.mdps11_stat == 2:
+        if CS.mdps11_stat == 2: # when MDPS stat change to 2, it's processed new request state and ready to move to state 3 SPAS ready.
           self.en_spas = 3 # we need to change from starting a new request with state 2 to a spas ready state which is state 3. JPR
           self.en_cnt = 0
 
