@@ -313,7 +313,8 @@ class CarController():
     if not lkas_active:
       apply_steer = 0
 
-    if -DRIVER_TORQUE_THRESHOLD <= CS.out.steeringWheelTorque >= DRIVER_TORQUE_THRESHOLD and enabled: #Fixed by JPR
+    Driver_Torque_Threshold = np.interp(CS.out.steeringAngleDeg, STEER, TQ)
+    if -Driver_Torque_Threshold <= CS.out.steeringWheelTorque >= Driver_Torque_Threshold and enabled: #Fixed by JPR
       spas_active = False
     
     if abs(CS.out.steeringAngleDeg) > CS.CP.maxSteeringAngleDeg:
@@ -346,7 +347,6 @@ class CarController():
     if self.turning_indicator_alert: # set and clear by interface
       lkas_active = False
       spas_active = False
-      self.COUNT = 0
       if not self.turning_indicator_alert:
         spas_active = True
 
