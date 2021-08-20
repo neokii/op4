@@ -388,12 +388,12 @@ class CarController():
           self.en_spas = 7
           self.en_cnt + 1
 
-        if CS.mdps11_stat == 7 and self.en_cnt >= 8:
+        if CS.mdps11_stat == 7 and self.en_cnt >= 20:
           self.en_spas = 3
           self.en_cnt = 0
           self.en_cnt + 1
         
-        if CS.mdps11_stat == 3 and self.en_cnt == 1:
+        if CS.mdps11_stat == 3 and self.en_cnt >= 20:
           self.en_spas = 3
           self.en_cnt = 0
 
