@@ -130,6 +130,7 @@ class CarController():
                                                 CarControllerParams)
 
     self.steer_rate_limited = new_steer != apply_steer
+
     # SPAS limit angle extremes for safety
     if CS.spas_enabled:
       apply_angle = actuators.steeringAngleDeg
@@ -143,8 +144,7 @@ class CarController():
       total = apply_angle1
       for x in self.LA:
         total += x
-      average = total / len(self.LA)
-      apply_angle = average / (len(self.LA) + 1)
+      apply_angle = total / (len(self.LA) + 1)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
@@ -156,7 +156,7 @@ class CarController():
       lkas_active = False
       #self.DO = True    
       
-    elif enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold or self.spas_always and enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold:
+    if enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold or self.spas_always and enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold:
       #self.DO = False
       spas_active = True
 
@@ -385,7 +385,7 @@ class CarController():
           self.en_spas = 3 # get Ready to Assist and steer.
           self.en_cnt = 0
         
-        if self.en_spas == 2 and enabled:
+        if CS.mdps11_stat == 2 and enabled:
           self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
         
         if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
