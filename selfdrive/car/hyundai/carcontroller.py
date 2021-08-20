@@ -31,7 +31,7 @@ ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
 #STEER = (0, 30, 60, 90, 120) # Steering angle
 #TQ = (2.5, 3.0, 3.5, 4.0, 4.5)
-TQ = 200 # Nm * 100 is unit of measure for wheel.
+TQ = 150 # Nm * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
@@ -152,14 +152,11 @@ class CarController():
 
     Driver_Torque_Threshold = TQ #np.interp(CS.out.steeringAngleDeg, STEER, TQ)
     if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold and enabled:
+      self.en_spas = 7
       spas_active = False
       lkas_active = False
       #self.DO = True    
       
-    if enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold or self.spas_always and enabled and -Driver_Torque_Threshold > CS.out.steeringWheelTorque < Driver_Torque_Threshold:
-      #self.DO = False
-      spas_active = True
-
     elif not lkas_active:
       apply_steer = 0
  
@@ -376,6 +373,8 @@ class CarController():
       if (frame % 2) == 0:
         if CS.mdps11_stat == 2 and spas_active:
           self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
+          self.en_cnt = 0
+
 
         if CS.mdps11_stat == 3 and spas_active:
           self.en_spas = 4
@@ -384,10 +383,14 @@ class CarController():
           self.en_spas = 5
 
         if CS.mdps11_stat == 5 and not spas_active:
-          self.en_spas = 2
+          self.en_spas = 3
         
         if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
+          self.en_spas = 7
+          self.en_cnt = 1
+        if CS.mdps11_stat == 7 and self.en_cnt == 1:
           self.en_spas = 2
+          self.en_cnt = 0
 
         if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2
@@ -401,6 +404,7 @@ class CarController():
         if not spas_active:
           apply_angle = CS.mdps11_strang
           self.en_spas = 2 # Needs to be state 2 for a new request. JPR
+          self.en_cnt = 0
 
         self.mdps11_stat_last = CS.mdps11_stat
         can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, apply_angle, CS.mdps_bus))
