@@ -142,7 +142,7 @@ class CarController():
       for x in self.LA:
         total += x
       apply_angle = total / (len(self.LA) + 1)
-      self.last_apply_angle = apply_angle
+      self.last_apply_angle = apply_angle1
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
