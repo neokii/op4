@@ -376,15 +376,12 @@ class CarController():
       if (frame % 2) == 0:
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
           self.en_spas == 7
-          self.en_cnt = 0
         
         if CS.mdps11_stat == 6: # and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2
-          self.en_cnt = 0
 
-        if self.en_spas == 7 and self.en_cnt >= 8: # if MDPS stat 7 or 6 start new request. JPR
+        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 5: # if MDPS stat 7 move back to state 3. JPR
           self.en_spas = 3 # get Ready to Assist and steer.
-          self.en_cnt = 0
         
         if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
           self.en_spas = 2
@@ -401,10 +398,8 @@ class CarController():
         if not spas_active:
           apply_angle = CS.mdps11_strang
           self.en_spas = 2 # Needs to be state 2 for a new request. JPR
-          self.en_cnt = 0
 
         self.mdps11_stat_last = CS.mdps11_stat
-        self.en_cnt += 1
         can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, apply_angle, CS.mdps_bus))
         
       # SPAS12 20Hz
