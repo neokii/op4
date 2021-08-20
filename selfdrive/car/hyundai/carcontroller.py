@@ -138,10 +138,13 @@ class CarController():
 
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
-      total = apply_angle1
+      self.LA.insert(0, apply_angle1)
+      if len(self.LA) > 20: # average last 20 apply_angle1 valuses
+        del self.LA[20]
+      apply_angle = 0
       for x in self.LA:
-        total += x
-      apply_angle = 250 / (len(self.LA) + 1)
+        apply_angle += x
+      apply_angle /= len(self.LA)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
@@ -411,10 +414,5 @@ class CarController():
         can_sends.append(create_spas12(CS.mdps_bus))
         print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
         print("OP SPAS State: ", self.en_spas) # OpenPilot Ask MDPS to switch to state.
-
-
-      self.LA.insert(0, self.last_apply_angle)
-      if len(self.LA) > 250:
-        del self.LA[250]
 
     return can_sends
