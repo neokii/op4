@@ -628,7 +628,7 @@ class CarInterface(CarInterfaceBase):
       events.events.remove(EventName.pedalPressed)
 
     if self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8: # We need to alert driver when SPAS abort or fail.
-      events.add(EventName.steerTempUnavailable)
+      events.add(EventName.steerSaturated)
 
   # handle button presses
     for b in ret.buttonEvents:
