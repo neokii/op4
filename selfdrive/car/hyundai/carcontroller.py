@@ -139,12 +139,12 @@ class CarController():
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
       self.LA.insert(0, apply_angle1)
-      if len(self.LA) > 20: # average last 20 apply_angle1 valuses
-        del self.LA[20]
+      if len(self.LA) > 170: # average last 20 apply_angle1 valuses
+        del self.LA[170]
       apply_angle = 0
       for x in self.LA:
         apply_angle += x
-      apply_angle /= len(self.LA)
+      apply_angle = sum(self.LA) / len(self.LA)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
@@ -153,8 +153,8 @@ class CarController():
     if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
       lkas_active = False
       spas_active = False
-      
-    elif not lkas_active:
+
+    if not lkas_active:
       apply_steer = 0
  
 
@@ -358,9 +358,7 @@ class CarController():
       if CS.mdps_bus:
         spas_active_stat = False
         if spas_active: # Spoof Speed on mdps11_stat 4 and 5 JPR
-          if CS.mdps11_stat == 4: 
-            spas_active_stat = True
-          elif CS.mdps11_stat == 5:
+          if CS.mdps11_stat == 4 or CS.mdps11_stat == 5 or CS.mdps11_stat == 3: 
             spas_active_stat = True
           else:
             spas_active_stat = False
