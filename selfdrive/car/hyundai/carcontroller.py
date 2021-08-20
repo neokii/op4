@@ -357,7 +357,7 @@ class CarController():
         if spas_active: # Spoof Speed on mdps11_stat 4 and 5 JPR
           if CS.mdps11_stat == 4: 
             spas_active_stat = True
-          elif CS.mdps11_stat == 5:
+          if CS.mdps11_stat == 5:
             spas_active_stat = True
           else:
             spas_active_stat = False
