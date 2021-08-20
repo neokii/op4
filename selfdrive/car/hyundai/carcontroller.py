@@ -386,18 +386,19 @@ class CarController():
         
         if CS.mdps11_stat == 7:
           self.en_spas = 7
-          if self.en_cnt < 3:
-            self.en_cnt = self.en_cnt + 1
 
-        if CS.mdps11_stat == 7 and self.en_cnt > 2:
+        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
           self.en_spas = 3
-          self.en_cnt = self.en_cnt + 1
 
-        if CS.mdps11_stat == 3 and self.en_cnt > 5:
+        if CS.mdps11_stat == 3 and self.mdps11_stat_last == 7:
           self.en_spas = 2
           self.en_cnt = 0
           if CS.mdps11_stat == 2:
             self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
+            if CS.mdps11_stat == 3:
+              self.en_spas = 4 # Switch to State 4, and handshake. JPR
+              if CS.mdps11_stat == 4:
+                self.en_spas = 5 # Switch to State 4, and Assist(Steer). JPR
 
 
         if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
