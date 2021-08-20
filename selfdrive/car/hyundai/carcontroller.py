@@ -80,7 +80,6 @@ class CarController():
     self.packer = CANPacker(dbc_name)
     self.accel_steady = 0
     self.apply_steer_last = 0
-    self.LA = [] # initialize the list for first time only
     self.steer_rate_limited = False
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
@@ -100,6 +99,8 @@ class CarController():
       self.en_spas = 2
       self.mdps11_stat_last = 0
       self.spas_always = Params().get_bool('spasAlways')
+
+      self.LA = [] # initialize the list for first time only
       
     self.ldws_opt = Params().get_bool('IsLdwsCar')
     self.stock_navi_decel_enabled = Params().get_bool('StockNaviDecelEnabled')
@@ -380,8 +381,12 @@ class CarController():
               self.en_spas = 3
               if CS.mdps11_stat == 3:
                 self.en_spas = 4
-                if CS.mdps11_stat == 4:
-                  self.en_spas = 5
+                if CS.mdps11_stat == 3 and self.en_spas == 4:
+                  self.en_spas = 3  
+                  if CS.mdps11_stat == 3:
+                    self.en_spas = 4
+                    if CS.mdps11_stat == 4:
+                      self.en_spas = 5
           
         if CS.mdps11_stat == 2 and spas_active:
           self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
