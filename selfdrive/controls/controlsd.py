@@ -536,6 +536,7 @@ class Controls:
         if left_deviation or right_deviation: 
           self.events.add(EventName.steerSaturated)
           self.steerSaturated = True
+          
 
     return actuators, lac_log
 
@@ -642,6 +643,8 @@ class Controls:
     controlsState.startMonoTime = int(start_time * 1e9)
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
+
+    controlsState.steerSaturated = self.steerSaturated
 
     controlsState.angleSteers = steer_angle_without_offset * CV.RAD_TO_DEG
     controlsState.cluSpeedMs = self.clu_speed_ms
