@@ -412,9 +412,8 @@ class CarController():
         print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
         print("OP SPAS State: ", self.en_spas) # OpenPilot Ask MDPS to switch to state.
 
-
       self.LA.insert(0, self.last_apply_angle)
-      if len(self.LA) > 250:
-        del self.LA[250]
+      if len(self.LA) > 50:
+        del self.LA[50]
 
     return can_sends
