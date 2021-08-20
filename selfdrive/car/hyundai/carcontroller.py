@@ -525,16 +525,24 @@ class CarController():
     if CS.spas_enabled:
       if CS.mdps_bus:
         spas_active_stat = False
-        if spas_active and CS.mdps11_stat == 4 or spas_active and CS.mdps11_stat == 5:
-          spas_active_stat = True
+        if spas_active:
+          if CS.mdps11_stat == 4:
+            spas_active_stat = True
+          elif CS.mdps11_stat == 5:
+            spas_active_stat = True
+          else:
+            spas_active_stat = False
         can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active_stat))
         #can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active))
       if (frame % 2) == 0:
         if CS.mdps11_stat == 7 and not self.mdps11_stat_last == 7:
           self.en_spas == 7
           self.en_cnt = 0
+        
+        if CS.mdps11_stat == 6 and not self.mdps11_stat_last == 7:
+          self.en_spas = 2
 
-        if self.en_spas == 7 and self.en_cnt >= 8: # if MDPS stat 7 or 6 start new request. JPR
+        if self.en_spas == 7 and self.en_cnt >= 8 or CS.mdps11_stat == 2: # if MDPS stat 7 or 6 start new request. JPR
           self.en_spas = 3 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
 
