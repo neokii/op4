@@ -384,9 +384,12 @@ class CarController():
           self.en_spas = 5
 
         if CS.mpds11_stat == 5 and not spas_active:
-          self.en_spas = 3
+          self.en_spas = 2
         
-        if CS.mdps11_stat == 6: # and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
+        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
+          self.en_spas = 2
+
+        if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2
 
         if CS.mdps11_stat == 7 and self.mdps11_stat_last == 5: # if MDPS stat 7 and last stat 5 move back to state 2. JPR
