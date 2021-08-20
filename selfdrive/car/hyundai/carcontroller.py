@@ -407,7 +407,7 @@ class CarController():
         can_sends.append(create_spas12(CS.mdps_bus))
         print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
         print("OP SPAS State: ", self.en_spas)
-        print("en_count", self.en_cnt)
+
 
       self.LA.insert(0, self.last_apply_angle)
       if len(self.LA) > 250:
