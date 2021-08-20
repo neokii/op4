@@ -99,7 +99,6 @@ class CarController():
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
 
     if CP.spasEnabled:
-      self.en_cnt = 0
       self.last_apply_angle = 0.0
       self.mdps11_stat = 2
       self.mdps11_stat_last = 0
@@ -359,7 +358,6 @@ class CarController():
 # ---------------------------------------------------
     if CS.spas_enabled:
       if CS.mdps_bus:
-        self.en_spas = 2 # I need this. JPR
         spas_active_stat = False
         if spas_active: # Spoof Speed on mdps11_stat 4 and 5 JPR
           if CS.mdps11_stat == 4: 
