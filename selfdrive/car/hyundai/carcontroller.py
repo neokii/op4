@@ -138,7 +138,7 @@ class CarController():
 
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
-      total = 0
+      total = apply_angle1
       for x in self.LA:
         total += x
       apply_angle = total / (len(self.LA) + 1)
