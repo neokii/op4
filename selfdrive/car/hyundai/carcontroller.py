@@ -87,7 +87,6 @@ class CarController():
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
-    self.lkas_active = False
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
@@ -149,8 +148,7 @@ class CarController():
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
-    self.lkas_active = lkas_active
-
+    
     if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
       lkas_active = False
       spas_active = False
