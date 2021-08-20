@@ -359,7 +359,7 @@ class CarController():
 # ---------------------------------------------------
     if CS.spas_enabled:
       if CS.mdps_bus:
-        #self.en_spas = 1 # Not Sure if I need this. JPR
+        self.en_spas = 2 # I need this. JPR
         spas_active_stat = False
         if spas_active: # Spoof Speed on mdps11_stat 4 and 5 JPR
           if CS.mdps11_stat == 4: 
@@ -386,17 +386,13 @@ class CarController():
         
         if CS.mdps11_stat == 7:
           self.en_spas = 7
-          self.en_cnt = self.en_cnt + 1
+          if self.en_cnt < 3:
+            self.en_cnt = self.en_cnt + 1
 
-        if self.en_cnt == 9:
-          self.en_cnt = 0
-
-        if CS.mdps11_stat == 7 and self.en_cnt > 8:
+        if CS.mdps11_stat == 7 and self.en_cnt > 2:
           self.en_spas = 3
-          self.en_cnt = 0
-          self.en_cnt = self.en_cnt + 1
-        
-        if CS.mdps11_stat == 3 and self.en_cnt > 8:
+
+        if CS.mdps11_stat == 3 and self.en_cnt > 5:
           self.en_spas = 2
           self.en_cnt = 0
 
@@ -408,7 +404,6 @@ class CarController():
 
         if not spas_active:
           apply_angle = CS.mdps11_strang
-          self.en_spas = 2 # Needs to be state 2 for a new request. JPR
           self.en_cnt = 0
 
         self.mdps11_stat_last = CS.mdps11_stat
