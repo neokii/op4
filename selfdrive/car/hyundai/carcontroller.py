@@ -139,8 +139,8 @@ class CarController():
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
       self.LA.insert(0, apply_angle1)
-      if len(self.LA) > 170: # average last 20 apply_angle1 valuses
-        del self.LA[170]
+      if len(self.LA) > 10: # average last 20 apply_angle1 valuses
+        del self.LA[10]
       apply_angle = 0
       for x in self.LA:
         apply_angle += x
