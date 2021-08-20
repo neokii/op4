@@ -524,6 +524,7 @@ class CarController():
     
     if CS.spas_enabled:
       if CS.mdps_bus:
+        spas_active_stat = False
         if spas_active and CS.mdps11_stat == 4 or spas_active and CS.mdps11_stat == 5:
           spas_active_stat = True
         can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active_stat))
