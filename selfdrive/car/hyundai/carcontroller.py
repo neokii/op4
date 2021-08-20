@@ -380,6 +380,8 @@ class CarController():
         
         if CS.mdps11_stat == 6: # and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2
+          self.en_cnt = 0
+
 
         if self.en_spas == 7 and self.en_cnt >= 8: # if MDPS stat 7 or 6 start new request. JPR
           self.en_spas = 3 # get Ready to Assist and steer.
