@@ -28,10 +28,7 @@ STEER_ANG_MAX = 250         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
-
-#STEER = (0, 30, 60, 90, 120) # Steering angle
-#TQ = (2.5, 3.0, 3.5, 4.0, 4.5)
-TQ = 65 # = 0.6 NM * 100 is unit of measure for wheel.
+TQ = 100 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
@@ -149,13 +146,9 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
-    Driver_Torque_Threshold = TQ #np.interp(CS.out.steeringAngleDeg, STEER, TQ)
-    if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
+    if enabled and spas_active and -TQ <= CS.out.steeringWheelTorque >= TQ:
       lkas_active = False
       spas_active = False
-      #self.DO = True 
-    elif enabled and spas_active and not -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold or enabled and not self.CS.steeringPressed:
-      spas_active = True
       
     elif not lkas_active:
       apply_steer = 0
