@@ -384,17 +384,19 @@ class CarController():
         if CS.mdps11_stat == 5 and not spas_active:
           self.en_spas = 3
         
-        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
+        if CS.mdps11_stat == 7:
           self.en_spas = 7
-          self.en_cnt + 1
+          self.en_cnt = self.en_cnt + 1
 
-        if CS.mdps11_stat == 7 and self.en_cnt >= 20:
+        if self.en_cnt == 9:
+          self.en_cnt = 0
+
+        if CS.mdps11_stat == 7 and self.en_cnt > 8:
           self.en_spas = 3
           self.en_cnt = 0
-          self.en_cnt + 1
         
-        if CS.mdps11_stat == 3 and self.en_cnt >= 20:
-          self.en_spas = 3
+        if CS.mdps11_stat == 3 and self.en_cnt > 8:
+          self.en_spas = 2
           self.en_cnt = 0
 
         if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
@@ -416,6 +418,7 @@ class CarController():
         can_sends.append(create_spas12(CS.mdps_bus))
         print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
         print("OP SPAS State: ", self.en_spas)
+        print("en_count", self.en_cnt)
 
       self.LA.insert(0, self.last_apply_angle)
       if len(self.LA) > 250:
