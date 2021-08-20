@@ -381,7 +381,7 @@ class CarController():
           self.en_spas = 2
 
         if CS.mdps11_stat == 7 and self.mdps11_stat_last == 5: # if MDPS stat 7 move back to state 3. JPR
-          self.en_spas = 2 # get Ready to Assist and steer.
+          self.en_spas = 2 # Send MDPS back to new request state. JPR
         
         if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
           self.en_spas = 2
