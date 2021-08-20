@@ -31,8 +31,8 @@ ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 
 #STEER = (0, 30, 60, 90, 120) # Steering angle
 #TQ = (2.5, 3.0, 3.5, 4.0, 4.5)
-TQ = 110 # Nm * 100 is unit of measure for wheel.
-SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
+TQ = 65 # = 0.6 NM * 100 is unit of measure for wheel.
+SPAS_SWITCH = 45 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
 EventName = car.CarEvent.EventName
@@ -152,6 +152,7 @@ class CarController():
     Driver_Torque_Threshold = TQ #np.interp(CS.out.steeringAngleDeg, STEER, TQ)
     if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
       lkas_active = False
+      spas_active = False
       #self.DO = True 
     elif enabled and spas_active and not -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
       spas_active = True
