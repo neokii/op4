@@ -29,7 +29,7 @@ ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
 TQ = 100 # = 1 NM * 100 is unit of measure for wheel.
-SPAS_SWITCH = 46.5 * CV.MPH_TO_MS #MPH
+SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
 EventName = car.CarEvent.EventName
@@ -139,12 +139,12 @@ class CarController():
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
       self.LA.insert(0, apply_angle1)
-      if len(self.LA) > 15: # average last 20 apply_angle1 valuses
-        del self.LA[15]
+      if len(self.LA) > 10: # average last 20 apply_angle1 valuses
+        del self.LA[10]
       apply_angle = 0
       for x in self.LA:
         apply_angle += x
-      apply_angle = sum(self.LA) / len(self.LA)
+      apply_angle = actuators.steeringAngleDeg #sum(self.LA) / len(self.LA)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
