@@ -576,7 +576,8 @@ class CarController():
         self.mdps11_stat_last = CS.mdps11_stat
         self.en_cnt += 1
         can_sends.append(create_spas11(self.packer, self.car_fingerprint, (frame // 2), self.en_spas, apply_angle, CS.mdps_bus))
-
+        print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
+        print("OP SPAS State: ", self.en_spas)
       # SPAS12 20Hz
       if (frame % 5) == 0:
         can_sends.append(create_spas12(CS.mdps_bus))
