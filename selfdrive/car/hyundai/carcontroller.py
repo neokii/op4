@@ -522,11 +522,22 @@ class CarController():
         state = 2 if self.car_fingerprint in FEATURES["send_hda_state_2"] else 1
         can_sends.append(create_hda_mfc(self.packer, activated_hda, state))
     
+############### SPAS STATES ############## JPR
+# State 1 : Start
+# State 2 : New Request
+# State 3 : Ready to Assist(Steer)
+# State 4 : Hand Shake between OpenPilot and MDPS ECU
+# State 5 : Assisting (Steering)
+# State 6 : Failed to Assist (Steer)
+# State 7 : Cancel
+# State 8 : Failed to get ready to Assist (Steer)
+# ---------------------------------------------------
     if CS.spas_enabled:
       if CS.mdps_bus:
+        self.en_spas = 1 # Not Sure if I need this. JPR
         spas_active_stat = False
-        if spas_active:
-          if CS.mdps11_stat == 4:
+        if spas_active: # Spoof Speed on mdps11_stat 4 and 5 JPR
+          if CS.mdps11_stat == 4: 
             spas_active_stat = True
           elif CS.mdps11_stat == 5:
             spas_active_stat = True
@@ -539,16 +550,18 @@ class CarController():
           self.en_spas == 7
           self.en_cnt = 0
         
-        if CS.mdps11_stat == 6 and not self.mdps11_stat_last == 7:
+        if CS.mdps11_stat == 6 and not self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2
 
         if self.en_spas == 7 and self.en_cnt >= 8 or CS.mdps11_stat == 2: # if MDPS stat 7 or 6 start new request. JPR
-          self.en_spas = 3 # previously 3 but we need to start a new request with state 2. JPR
+          self.en_spas = 2 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
-
-        #if CS.mdps11_stat == 2: # when MDPS stat change to 2, it's processed new request state and ready to move to state 3 SPAS ready. JPR
-        #  self.en_spas = 3 # we need to change from starting a new request with state 2 to a spas ready state which is state 3. JPR
-        #  self.en_cnt = 0
+        
+        if self.en_spas == 2:
+          self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
+        
+        if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
+          self.en_spas = 2
 
         if self.en_cnt < 8 and spas_active:
           self.en_spas = 4
@@ -557,7 +570,7 @@ class CarController():
 
         if not spas_active:
           apply_angle = CS.mdps11_strang
-          self.en_spas = 3
+          self.en_spas = 2 # Needs to be state 2 for a new request. JPR
           self.en_cnt = 0
 
         self.mdps11_stat_last = CS.mdps11_stat
