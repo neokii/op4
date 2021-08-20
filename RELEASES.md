@@ -1,10 +1,10 @@
 Version 0.8.8 (2021-08-XX)
 ========================
+* OpenPilot now correctly reads and handles all SPAS states
 * Fixed SPAS.
-* Added TPMS Toggle.
-* Add High Speed Steer Dead Band toggle.
-* Tune Steering Deadband toggle.
-* Fixed wobbles for Kia Stinger.
+* Fixed SPAS to KLAS switch. 
+  * Switches at 45MPH
+* Fixed wobbles
 
 Version 0.8.7 (2021-8-4)
 ========================
