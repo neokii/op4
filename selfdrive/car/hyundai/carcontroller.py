@@ -138,13 +138,14 @@ class CarController():
       else:
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
-        apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        total = apply_angle1
-        for x in self.LA:
-          total += x
-        average = total / len(self.LA)
-        apply_angle = average / (len(self.LA) + 1)
-        self.last_apply_angle = apply_angle1
+      apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
+        
+      total = apply_angle1
+      for x in self.LA:
+        total += x
+      average = total / len(self.LA)
+      apply_angle = average / (len(self.LA) + 1)
+      self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
