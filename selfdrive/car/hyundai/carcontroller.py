@@ -87,7 +87,7 @@ class CarController():
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
-
+    self.lkas_active = False
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
@@ -159,6 +159,7 @@ class CarController():
       apply_steer = 0
     if lkas_active and controls.steerSaturated:
       spas_active = True
+   
       
  
 
