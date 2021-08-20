@@ -550,10 +550,10 @@ class CarController():
           self.en_spas == 7
           self.en_cnt = 0
         
-        if CS.mdps11_stat == 6 and not self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
-          self.en_spas = 2
+        #if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
+        #  self.en_spas = 2
 
-        if self.en_spas == 7 and self.en_cnt >= 8 or CS.mdps11_stat == 2: # if MDPS stat 7 or 6 start new request. JPR
+        if self.en_spas == 7 and self.en_cnt >= 8 or CS.mdps11_stat == 6: # if MDPS stat 7 or 6 start new request. JPR
           self.en_spas = 2 # previously 3 but we need to start a new request with state 2. JPR
           self.en_cnt = 0
         
