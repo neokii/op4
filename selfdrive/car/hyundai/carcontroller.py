@@ -100,7 +100,7 @@ class CarController():
 
     if CP.spasEnabled:
       self.last_apply_angle = 0.0
-      self.mdps11_stat = 2
+      self.en_spas = 2
       self.mdps11_stat_last = 0
       self.spas_always = Params().get_bool('spasAlways')
       
