@@ -627,8 +627,8 @@ class CarInterface(CarInterfaceBase):
     if self.mad_mode_enabled and EventName.pedalPressed in events.events:
       events.events.remove(EventName.pedalPressed)
 
-    #if self.CS.en_spas == 7 or self.CS.en_spas == 6: # We need to alert driver when SPAS abort or fail.
-    #  events.add(EventName.steerTempUnavailable)
+    if self.CS.en_spas == 6 or self.CS.en_spas == 7  or self.CS.en_spas == 8: # We need to alert driver when SPAS abort or fail.
+      events.add(EventName.steerTempUnavailable)
 
   # handle button presses
     for b in ret.buttonEvents:
