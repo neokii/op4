@@ -138,10 +138,10 @@ class CarController():
 
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
         
-      total = apply_angle1
+      total = 0
       for x in self.LA:
         total += x
-      apply_angle = 250 / (len(self.LA) + 1)
+      apply_angle = total / (len(self.LA) + 1)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
