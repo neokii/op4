@@ -142,7 +142,6 @@ class CarController():
       for x in self.LA:
         total += x
       apply_angle = total / (len(self.LA) + 1)
-      self.last_apply_angle = apply_angle1
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
@@ -412,7 +411,7 @@ class CarController():
         print("MDPS SPAS State: ", CS.mdps11_stat) # SPAS STATE DEBUG
         print("OP SPAS State: ", self.en_spas) # OpenPilot Ask MDPS to switch to state.
 
-      self.LA.insert(0, self.last_apply_angle)
+      self.LA.insert(0, apply_angle1)
       if len(self.LA) > 50:
         del self.LA[50]
 
