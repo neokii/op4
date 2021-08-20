@@ -151,11 +151,11 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
 
     Driver_Torque_Threshold = TQ #np.interp(CS.out.steeringAngleDeg, STEER, TQ)
-    if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold and enabled:
-      self.en_spas = 7
-      spas_active = False
+    if enabled and spas_active and -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
       lkas_active = False
-      #self.DO = True    
+      #self.DO = True 
+    elif enabled and spas_active and not -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
+      spas_active = True
       
     elif not lkas_active:
       apply_steer = 0
@@ -185,7 +185,7 @@ class CarController():
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
       self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
-    if self.turning_indicator_alert: # set and clear by interface
+    if self.turning_indicator_alert and enabled: # set and clear by interface
       lkas_active = False
       spas_active = False
       if not self.turning_indicator_alert:
