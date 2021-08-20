@@ -383,7 +383,7 @@ class CarController():
         if CS.mdps11_stat == 4 and spas_active:
           self.en_spas = 5
 
-        if CS.mpds11_stat == 5 and not spas_active:
+        if CS.mdps11_stat == 5 and not spas_active:
           self.en_spas = 2
         
         if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
