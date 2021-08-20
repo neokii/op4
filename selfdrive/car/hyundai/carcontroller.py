@@ -154,7 +154,7 @@ class CarController():
       lkas_active = False
       spas_active = False
       #self.DO = True 
-    elif enabled and spas_active and not -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold:
+    elif enabled and spas_active and not -Driver_Torque_Threshold < CS.out.steeringWheelTorque > Driver_Torque_Threshold or enabled and not self.CS.steeringPressed:
       spas_active = True
       
     elif not lkas_active:
