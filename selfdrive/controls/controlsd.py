@@ -644,8 +644,6 @@ class Controls:
     controlsState.forceDecel = bool(force_decel)
     controlsState.canErrorCounter = self.can_error_counter
 
-    controlsState.steerSaturated = self.steerSaturated
-
     controlsState.angleSteers = steer_angle_without_offset * CV.RAD_TO_DEG
     controlsState.cluSpeedMs = self.clu_speed_ms
     controlsState.applyAccel = self.apply_accel
