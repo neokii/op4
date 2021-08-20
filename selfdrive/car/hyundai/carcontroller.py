@@ -149,7 +149,6 @@ class CarController():
     if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
       lkas_active = False
       spas_active = False
-      
     elif not lkas_active:
       apply_steer = 0
  
@@ -411,6 +410,6 @@ class CarController():
 
       self.LA.insert(0, apply_angle1)
       if len(self.LA) > 50:
-        del self.LA[50]
+        del self.LA[5]
 
     return can_sends
