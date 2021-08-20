@@ -374,18 +374,20 @@ class CarController():
 
         if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
           self.en_spas = 3
-
-        if CS.mdps11_stat == 3 and self.mdps11_stat_last == 7:
-          self.en_spas = 2
+          if CS.mdps11_stat == 3:
+            self.en_spas = 2
+            if CS.mdps11_stat == 2:
+              self.en_spas = 3
+              if CS.mdps11_stat == 3:
+                self.en_spas = 4
+                if CS.mdps11_stat == 4:
+                  self.en_spas = 5
           
         if CS.mdps11_stat == 2 and spas_active:
           self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
 
         if CS.mdps11_stat == 3 and spas_active:
           self.en_spas = 4
-        
-        if CS.mdps11_stat == 3 and self.en_spas == 4:
-          self.en_spas = 2
           
         if CS.mdps11_stat == 4 and spas_active:
           self.en_spas = 5
