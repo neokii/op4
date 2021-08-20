@@ -191,8 +191,8 @@ def below_steer_speed_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: 
     "TAKE CONTROL",
     "Steer Unavailable Below %d %s" % (speed, unit),
     AlertStatus.userPrompt, AlertSize.mid,
-    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 0., 0.4, .3)
-#JPR
+    Priority.MID, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.)
+
 def flTPMS(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   return Alert(
     "LOW FRONT LEFT TIRE PRESSURE",
