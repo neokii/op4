@@ -41,7 +41,6 @@ if Params().get_bool('LoggerEnabled'):
       # EON only
     PythonProcess("rtshield", "selfdrive.rtshield", enabled=EON),
     PythonProcess("androidd", "selfdrive.hardware.eon.androidd", enabled=EON, persistent=True),
-
   ]
 else:
   procs = [
@@ -81,5 +80,4 @@ else:
   PythonProcess("androidd", "selfdrive.hardware.eon.androidd", enabled=EON, persistent=True),
 ]
 
-]
 managed_processes = {p.name: p for p in procs}
