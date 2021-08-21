@@ -28,7 +28,7 @@ STEER_ANG_MAX = 250         # SPAS Max Angle
 ANGLE_DELTA_BP = [0., 5., 15.]
 ANGLE_DELTA_V = [5., .8, .15]     # windup limit
 ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
-TQ = 80 # = 1 NM * 100 is unit of measure for wheel.
+TQ = 25 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
@@ -87,7 +87,6 @@ class CarController():
     self.resume_cnt = 0
     self.last_lead_distance = 0
     self.resume_wait_timer = 0
-
     self.turning_signal_timer = 0
     self.longcontrol = CP.openpilotLongitudinalControl
     self.scc_live = not CP.radarOffCan
@@ -147,17 +146,13 @@ class CarController():
       apply_angle = actuators.steeringAngleDeg #sum(self.LA) / len(self.LA)
       self.last_apply_angle = apply_angle
 
-    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH)
+    spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
-
-    if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
-      lkas_active = False
-      spas_active = False
-
     if not lkas_active:
       apply_steer = 0
- 
-
+    if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
+      spas_active = False
+    
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     if Params().get_bool('LongControlEnabled'):
       min_set_speed = 0 * CV.KPH_TO_MS
@@ -178,7 +173,6 @@ class CarController():
         lkas_active = False
         min_set_speed = 30 * CV.KPH_TO_MS
 
-
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
       self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
@@ -188,13 +182,8 @@ class CarController():
       if not self.turning_indicator_alert:
         spas_active = True
 
-
     if self.turning_signal_timer > 0:
-      self.turning_signal_timer -= 1
-
-    if not lkas_active:
-      apply_steer = 0
-      
+      self.turning_signal_timer -= 1  
 
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer

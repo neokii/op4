@@ -498,7 +498,7 @@ class Controls:
                                                                              lat_plan.curvatureRates)
       actuators.steer, actuators.steeringAngleDeg, lac_log = self.LaC.update(self.active, CS, self.CP, self.VM, params,
                                                                              desired_curvature, desired_curvature_rate)
-      actuators.steeringAngleDeg = (math.degrees(self.VM.get_steer_from_curvature(-desired_curvature, CS.vEgo)) * 175) / 200
+      actuators.steeringAngleDeg = (math.degrees(self.VM.get_steer_from_curvature(-desired_curvature, CS.vEgo)) * 180) / 200
       actuators.steeringAngleDeg += params.angleOffsetDeg
     else:
       lac_log = log.ControlsState.LateralDebugState.new_message()
@@ -533,8 +533,10 @@ class Controls:
         left_deviation = actuators.steer > 0 and lat_plan.dPathPoints[0] < -0.1
         right_deviation = actuators.steer < 0 and lat_plan.dPathPoints[0] > 0.1
 
-        if left_deviation or right_deviation:
+        if left_deviation or right_deviation: 
           self.events.add(EventName.steerSaturated)
+          self.steerSaturated = True
+          
 
     return actuators, lac_log
 
