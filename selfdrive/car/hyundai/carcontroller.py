@@ -151,19 +151,7 @@ class CarController():
     if not lkas_active:
       apply_steer = 0
     if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
-      self.cnt + 1 
       spas_active = False
-
-    if enabled and spas_active and 10 <= CS.out.steeringWheelTorque <= 10 and self.cnt > 1:
-      spas_active = False
-      lkas_active = False
-      if self.cnt == 100:
-        lkas_active = True
-        spas_active = False
-        if self.cnt >= 200:
-          self.cnt = 0
-          spas_active = True
-
     
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     if Params().get_bool('LongControlEnabled'):
