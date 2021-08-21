@@ -54,7 +54,7 @@ class CarState(CarStateBase):
   def update(self, cp, cp2, cp_cam):
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
-    cp_scc = cp2 if self.scc_bus == 1 else cp_cam if self.scc_bus == 2 else cp
+    cp_scc = cp2 if self.scc_bus == 1 else cp_cam if ((self.CP.sccBus == 2) or self.CP.radarOffCan) else cp
 
     self.prev_cruise_buttons = self.cruise_buttons
     self.prev_cruise_main_button = self.cruise_main_button
@@ -215,7 +215,7 @@ class CarState(CarStateBase):
 
     # scc smoother
     driver_override = cp.vl["TCS13"]["DriverOverride"]
-    self.acc_mode = cp_scc.vl["SCC12"]['ACCMode'] != 0
+    self.acc_mode = cp_scc.vl["SCC12"]['ACCMode'] != 0 if not self.no_radar else 1
     self.cruise_gap = cp_scc.vl["SCC11"]['TauGapSet'] if not self.no_radar else 1
     self.gas_pressed = ret.gasPressed or driver_override == 1
     self.brake_pressed = ret.brakePressed or driver_override == 2
@@ -223,7 +223,6 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = ret.cruiseState.enabled
     self.cruiseState_speed = ret.cruiseState.speed
     ret.cruiseGap = self.cruise_gap
-
     return ret
 
   @staticmethod
@@ -273,61 +272,62 @@ class CarState(CarStateBase):
       ("ESC_Off_Step", "TCS15", 0),
 
       #("CF_Lvr_GearInf", "LVR11", 0),        # Transmission Gear (0 = N or P, 1-8 = Fwd, 14 = Rev)
-
-      ("MainMode_ACC", "SCC11", 1),
-      ("SCCInfoDisplay", "SCC11", 0),
-      ("AliveCounterACC", "SCC11", 0),
-      ("VSetDis", "SCC11", 30),
-      ("ObjValid", "SCC11", 0),
-      ("DriverAlertDisplay", "SCC11", 0),
-      ("TauGapSet", "SCC11", 4),
-      ("ACC_ObjStatus", "SCC11", 0),
-      ("ACC_ObjLatPos", "SCC11", 0),
-      ("ACC_ObjDist", "SCC11", 150), #TK211X value is 204.6
-      ("ACC_ObjRelSpd", "SCC11", 0),
-      ("Navi_SCC_Curve_Status", "SCC11", 0),
-      ("Navi_SCC_Curve_Act", "SCC11", 0),
-      ("Navi_SCC_Camera_Act", "SCC11", 0),
-      ("Navi_SCC_Camera_Status", "SCC11", 2),
-
-      ("ACCMode", "SCC12", 0),
-      ("CF_VSM_Prefill", "SCC12", 0),
-      ("CF_VSM_DecCmdAct", "SCC12", 0),
-      ("CF_VSM_HBACmd", "SCC12", 0),
-      ("CF_VSM_Warn", "SCC12", 0),
-      ("CF_VSM_Stat", "SCC12", 0),
-      ("CF_VSM_BeltCmd", "SCC12", 0),
-      ("ACCFailInfo", "SCC12", 0),
-      ("StopReq", "SCC12", 0),
-      ("CR_VSM_DecCmd", "SCC12", 0),
-      ("aReqRaw", "SCC12", 0), #aReqMax
-      ("TakeOverReq", "SCC12", 0),
-      ("PreFill", "SCC12", 0),
-      ("aReqValue", "SCC12", 0), #aReqMin
-      ("CF_VSM_ConfMode", "SCC12", 1),
-      ("AEB_Failinfo", "SCC12", 0),
-      ("AEB_Status", "SCC12", 2),
-      ("AEB_CmdAct", "SCC12", 0),
-      ("AEB_StopReq", "SCC12", 0),
-      ("CR_VSM_Alive", "SCC12", 0),
-      ("CR_VSM_ChkSum", "SCC12", 0),
-
-      ("SCCDrvModeRValue", "SCC13", 2),
-      ("SCC_Equip", "SCC13", 1),
-      ("AebDrvSetStatus", "SCC13", 0),
-
-      ("JerkUpperLimit", "SCC14", 0),
-      ("JerkLowerLimit", "SCC14", 0),
-      ("SCCMode2", "SCC14", 0),
-      ("ComfortBandUpper", "SCC14", 0),
-      ("ComfortBandLower", "SCC14", 0),
-
       ("UNIT", "TPMS11", 0),
       ("PRESSURE_FL", "TPMS11", 0),
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
     ]
+    if CP.sccBus == 0 and CP.pcmCruise:
+      signals += [
+        ("MainMode_ACC", "SCC11", 1),
+        ("SCCInfoDisplay", "SCC11", 0),
+        ("AliveCounterACC", "SCC11", 0),
+        ("VSetDis", "SCC11", 30),
+        ("ObjValid", "SCC11", 0),
+        ("DriverAlertDisplay", "SCC11", 0),
+        ("TauGapSet", "SCC11", 4),
+        ("ACC_ObjStatus", "SCC11", 0),
+        ("ACC_ObjLatPos", "SCC11", 0),
+        ("ACC_ObjDist", "SCC11", 150), #TK211X value is 204.6
+        ("ACC_ObjRelSpd", "SCC11", 0),
+        ("Navi_SCC_Curve_Status", "SCC11", 0),
+        ("Navi_SCC_Curve_Act", "SCC11", 0),
+        ("Navi_SCC_Camera_Act", "SCC11", 0),
+        ("Navi_SCC_Camera_Status", "SCC11", 2),
+
+        ("ACCMode", "SCC12", 0),
+        ("CF_VSM_Prefill", "SCC12", 0),
+        ("CF_VSM_DecCmdAct", "SCC12", 0),
+        ("CF_VSM_HBACmd", "SCC12", 0),
+        ("CF_VSM_Warn", "SCC12", 0),
+        ("CF_VSM_Stat", "SCC12", 0),
+        ("CF_VSM_BeltCmd", "SCC12", 0),
+        ("ACCFailInfo", "SCC12", 0),
+        ("StopReq", "SCC12", 0),
+        ("CR_VSM_DecCmd", "SCC12", 0),
+        ("aReqRaw", "SCC12", 0), #aReqMax
+        ("TakeOverReq", "SCC12", 0),
+        ("PreFill", "SCC12", 0),
+        ("aReqValue", "SCC12", 0), #aReqMin
+        ("CF_VSM_ConfMode", "SCC12", 1),
+        ("AEB_Failinfo", "SCC12", 0),
+        ("AEB_Status", "SCC12", 2),
+        ("AEB_CmdAct", "SCC12", 0),
+        ("AEB_StopReq", "SCC12", 0),
+        ("CR_VSM_Alive", "SCC12", 0),
+        ("CR_VSM_ChkSum", "SCC12", 0),
+
+        ("SCCDrvModeRValue", "SCC13", 2),
+        ("SCC_Equip", "SCC13", 1),
+        ("AebDrvSetStatus", "SCC13", 0),
+
+        ("JerkUpperLimit", "SCC14", 0),
+        ("JerkLowerLimit", "SCC14", 0),
+        ("SCCMode2", "SCC14", 0),
+        ("ComfortBandUpper", "SCC14", 0),
+        ("ComfortBandLower", "SCC14", 0),
+      ]
 
     checks = [
       # address, frequency
@@ -422,8 +422,8 @@ class CarState(CarStateBase):
         ("CF_VSM_Warn", "FCA11", 0),
       ]
 
-      if not CP.openpilotLongitudinalControl:
-        checks += [("FCA11", 50)]
+      # if not CP.openpilotLongitudinalControl:
+      #   checks += [("FCA11", 50)]
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))

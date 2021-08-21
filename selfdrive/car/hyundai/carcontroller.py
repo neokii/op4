@@ -175,7 +175,7 @@ class CarController():
     # self.prev_scc_cnt = CS.scc11["AliveCounterACC"]
     # self.scc_update_frame = frame
 
-    self.prev_scc_cnt = CS.scc11["AliveCounterACC"]
+    self.prev_scc_cnt = CS.scc11["AliveCounterACC"] if not CS.no_radar else 0
 
     self.lkas11_cnt = (self.lkas11_cnt + 1) % 0x10
     self.scc12_cnt %= 0xF
@@ -229,14 +229,16 @@ class CarController():
     self.scc_smoother.update(enabled, can_sends, self.packer, CC, CS, frame, apply_accel, controls)
 
     controls.apply_accel = apply_accel
-    aReqValue = CS.scc12["aReqValue"]
-    controls.aReqValue = aReqValue
 
-    if aReqValue < controls.aReqValueMin:
-      controls.aReqValueMin = controls.aReqValue
+    if not CS.no_radar:
+      aReqValue = CS.scc12["aReqValue"]
+      controls.aReqValue = aReqValue
 
-    if aReqValue > controls.aReqValueMax:
-      controls.aReqValueMax = controls.aReqValue
+      if aReqValue < controls.aReqValueMin:
+        controls.aReqValueMin = controls.aReqValue
+
+      if aReqValue > controls.aReqValueMax:
+        controls.aReqValueMax = controls.aReqValue
 
     # send scc to car if longcontrol enabled and SCC not on bus 0 or ont live
     if self.longcontrol and CS.cruiseState_enabled and (CS.scc_bus or not self.scc_live) and frame % 2 == 0:
