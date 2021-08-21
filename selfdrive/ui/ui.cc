@@ -268,10 +268,12 @@ static void update_status(UIState *s) {
     if (s->scene.started) {
       s->status = STATUS_DISENGAGED;
       s->scene.started_frame = s->sm->frame;
-
+      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       s->scene.end_to_end = Params().getBool("EndToEndToggle");
       s->wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
-
+      s->scene.speed_limit_control_enabled = Params().getBool("SpeedLimitControl");
+      s->scene.speed_limit_perc_offset = Params().getBool("SpeedLimitPercOffset");
+      s->scene.show_debug_ui = Params().getBool("ShowDebugUI");
       // Update intrinsics matrix after possible wide camera toggle change
       if (s->vg) {
         ui_resize(s, s->fb_w, s->fb_h);
@@ -335,6 +337,8 @@ QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
     "modelV2", "controlsState", "liveCalibration", "deviceState", "roadCameraState",
     "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "liveLocationKalman",
+    "gpsLocationExternal", "roadCameraState",
+    "carControl", "liveParameters", "ubloxGnss", "longitudinalPlan",
     "gpsLocationExternal", "radarState", "carControl", "liveParameters", "ubloxGnss"});
 
   ui_state.fb_w = vwp_w;

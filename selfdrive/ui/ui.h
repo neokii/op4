@@ -100,6 +100,9 @@ const int bdr_s = 20;
 const int header_h = 420;
 const int footer_h = 280;
 
+const int speed_sgn_r = 96;
+const int speed_sgn_touch_pad = 50;
+
 const int UI_FREQ = 20;   // Hz
 
 typedef enum UIStatus {
@@ -114,6 +117,14 @@ const QColor bg_colors [] = {
   [STATUS_ENGAGED] = QColor(0x17, 0x86, 0x44, 0xf1),
   [STATUS_WARNING] = QColor(0xDA, 0x6F, 0x25, 0xf1),
   [STATUS_ALERT] = QColor(0xC9, 0x22, 0x31, 0xf1),
+};
+
+const QColor tcs_colors [] = {
+  [int(cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED)] =  QColor(0x0, 0x0, 0x0, 0xff),
+  [int(cereal::LongitudinalPlan::VisionTurnControllerState::ENTERING)] = QColor(0xC9, 0x22, 0x31, 0xf1),
+  [int(cereal::LongitudinalPlan::VisionTurnControllerState::TURNING)] = QColor(0xDA, 0x6F, 0x25, 0xf1),
+  [int(cereal::LongitudinalPlan::VisionTurnControllerState::LEAVING)
+  ] = QColor(0x17, 0x86, 0x44, 0xf1),
 };
 
 typedef struct {
@@ -132,6 +143,15 @@ typedef struct UIScene {
   bool leftBlinker, rightBlinker;
   bool leftblindspot, rightblindspot;
   int blinker_blinkingrate;
+  
+    // Debug UI
+  bool show_debug_ui;
+
+  // Speed limit control
+  bool speed_limit_control_enabled;
+  bool speed_limit_perc_offset;
+  Rect speed_limit_sign_touch_rect;
+  double last_speed_limit_sign_tap;
 
   cereal::PandaState::PandaType pandaType;
   cereal::CarState::Reader car_state;

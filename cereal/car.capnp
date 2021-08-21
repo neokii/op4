@@ -115,6 +115,10 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     rl @111;
     rr @112;
 
+    speedLimitActive @113;
+    speedLimitDecrease @114;
+    speedLimitIncrease @115;
+    
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -140,7 +144,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     autoLaneChange @107;
 
     slowingDownSpeed @108;
-    slowingDownSpeedSound @109;
+    slowingDownSpeedSound @116;
   }
 }
 
@@ -150,7 +154,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
 struct CarState {
   events @13 :List(CarEvent);
   # tpms
-  tpmsFl @37 :Float32;
+  tpmsFl @41 :Float32;
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
@@ -231,6 +235,7 @@ struct CarState {
     speedOffset @3 :Float32;
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
+    speedLimit @6 :Float32;
   }
 
   enum GearShifter {
