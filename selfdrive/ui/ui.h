@@ -8,7 +8,7 @@
 #define UI_FEATURE_RIGHT 1
 
 #define UI_FEATURE_LEFT_Y 220
-#define UI_FEATURE_RIGHT_Y 20
+#define UI_FEATURE_RIGHT_Y 10
 
 #define UI_FEATURE_LEFT_REL_DIST 1
 #define UI_FEATURE_LEFT_REL_SPEED 1
@@ -165,6 +165,7 @@ typedef struct UIScene {
   bool dm_active, engageable;
 
   // lead
+  vertex_data lead_vertices_radar[2];
   vertex_data lead_vertices[2];
 
   float light_sensor, accel_sensor, gyro_sensor;

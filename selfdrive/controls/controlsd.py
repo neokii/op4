@@ -23,9 +23,10 @@ from selfdrive.controls.lib.events import Events, ET
 from selfdrive.controls.lib.alertmanager import AlertManager
 from selfdrive.controls.lib.vehicle_model import VehicleModel
 from selfdrive.locationd.calibrationd import Calibration
-from selfdrive.hardware import HARDWARE, TICI
+from selfdrive.hardware import HARDWARE, TICI, EON
+from selfdrive.manager.process_config import managed_processes
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
-from selfdrive.ntune import ntune_get, ntune_isEnabled
+from selfdrive.ntune import ntune_common_get, ntune_common_enabled, ntune_scc_get
 
 LDW_MIN_SPEED = 20 * CV.MPH_TO_MS
 LANE_DEPARTURE_THRESHOLD = 0.1
@@ -34,7 +35,11 @@ STEER_ANGLE_SATURATION_THRESHOLD = 2.5  # Degrees
 
 SIMULATION = "SIMULATION" in os.environ
 NOSENSOR = "NOSENSOR" in os.environ
-IGNORE_PROCESSES = set(["rtshield", "uploader", "deleter", "loggerd", "logmessaged", "tombstoned", "logcatd", "proclogd", "clocksd", "updated", "timezoned", "manage_athenad"])
+IGNORE_PROCESSES = {"rtshield", "uploader", "deleter", "loggerd", "logmessaged", "tombstoned",
+                    "logcatd", "proclogd", "clocksd", "updated", "timezoned", "manage_athenad"} | \
+                    {k for k, v in managed_processes.items() if not v.enabled}
+
+ACTUATOR_FIELDS = set(car.CarControl.Actuators.schema.fields.keys())
 
 ThermalStatus = log.DeviceState.ThermalStatus
 State = log.ControlsState.OpenpilotState
@@ -159,9 +164,13 @@ class Controls:
     self.aReqValue = 0.
     self.aReqValueMin = 0.
     self.aReqValueMax = 0.
+    self.sccStockCamStatus = 0
+    self.sccStockCamAct = 0
 
     self.left_lane_visible = False
     self.right_lane_visible = False
+
+    self.wide_camera = TICI and params.get_bool('EnableWideCamera')
 
     # TODO: no longer necessary, aside from process replay
     self.sm['liveParameters'].valid = True
@@ -215,6 +224,9 @@ class Controls:
     # TODO: make tici threshold the same
     if self.sm['deviceState'].memoryUsagePercent > (90 if TICI else 65) and not SIMULATION:
       self.events.add(EventName.lowMemory)
+    cpus = list(self.sm['deviceState'].cpuUsagePercent)[:(-1 if EON else None)]
+    if max(cpus, default=0) > 95:
+      self.events.add(EventName.highCpuUsage)
 
     # Alert if fan isn't spinning for 5 seconds
     if self.sm['pandaState'].pandaType in [PandaType.uno, PandaType.dos]:
@@ -460,10 +472,10 @@ class Controls:
     x = max(params.stiffnessFactor, 0.1)
     #sr = max(params.steerRatio, 0.1)
 
-    if ntune_isEnabled('useLiveSteerRatio'):
+    if ntune_common_enabled('useLiveSteerRatio'):
       sr = max(params.steerRatio, 0.1)
     else:
-      sr = max(ntune_get('steerRatio'), 0.1)
+      sr = max(ntune_common_get('steerRatio'), 0.1)
 
     self.VM.update_params(x, sr)
 
@@ -531,6 +543,12 @@ class Controls:
         if left_deviation or right_deviation:
           self.events.add(EventName.steerSaturated)
 
+    # Ensure no NaNs/Infs
+    for p in ACTUATOR_FIELDS:
+      if not math.isfinite(getattr(actuators, p)):
+        cloudlog.error(f"actuators.{p} not finite {actuators.to_dict()}")
+        setattr(actuators, p, 0.0)
+
     return actuators, lac_log
 
   def publish_logs(self, CS, start_time, actuators, lac_log):
@@ -578,7 +596,7 @@ class Controls:
     if len(meta.desirePrediction) and ldw_allowed:
       l_lane_change_prob = meta.desirePrediction[Desire.laneChangeLeft - 1]
       r_lane_change_prob = meta.desirePrediction[Desire.laneChangeRight - 1]
-      cameraOffset = ntune_get("cameraOffset")
+      cameraOffset = ntune_common_get("cameraOffset") + 0.08 if self.wide_camera else ntune_common_get("cameraOffset")
       l_lane_close = left_lane_visible and (self.sm['modelV2'].laneLines[1].y[0] > -(1.08 + cameraOffset))
       r_lane_close = right_lane_visible and (self.sm['modelV2'].laneLines[2].y[0] < (1.08 - cameraOffset))
 
@@ -643,10 +661,16 @@ class Controls:
     controlsState.aReqValue = self.aReqValue
     controlsState.aReqValueMin = self.aReqValueMin
     controlsState.aReqValueMax = self.aReqValueMax
+    controlsState.sccStockCamAct = self.sccStockCamAct
+    controlsState.sccStockCamStatus = self.sccStockCamStatus
 
     controlsState.steerRatio = self.VM.sR
-    controlsState.steerRateCost = ntune_get('steerRateCost')
-    controlsState.steerActuatorDelay = ntune_get('steerActuatorDelay')
+    controlsState.steerRateCost = ntune_common_get('steerRateCost')
+    controlsState.steerActuatorDelay = ntune_common_get('steerActuatorDelay')
+
+    controlsState.sccGasFactor = ntune_scc_get('sccGasFactor')
+    controlsState.sccBrakeFactor = ntune_scc_get('sccBrakeFactor')
+    controlsState.sccCurvatureFactor = ntune_scc_get('sccCurvatureFactor')
 
     if self.joystick_mode:
       controlsState.lateralControlState.debugState = lac_log

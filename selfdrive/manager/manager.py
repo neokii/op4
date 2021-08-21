@@ -35,9 +35,9 @@ def manager_init():
   params.clear_all(ParamKeyType.CLEAR_ON_MANAGER_START)
 
   default_params = [
-    ("CompletedTrainingVersion", "0"),
-    ("HasAcceptedTerms", "0"),
+
     ("OpenpilotEnabledToggle", "1"),
+    ("CommunityFeaturesToggle", "1"),
     ("IsMetric", "0"),
 
     # HKG
@@ -49,7 +49,6 @@ def manager_init():
     ("AutoLaneChangeEnabled", "1"),
 
     ("SccSmootherSlowOnCurves", "0"),
-    ("SccSmootherSyncGasPressed", "1"),
     ("ShowDebugUI", "1"),
     ("SpeedLimitControl", "1"),
     ("SpeedLimitPercOffset", "1"),
@@ -68,6 +67,10 @@ def manager_init():
     ("UseLQR", "0"),
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1")
+    ("SccSmootherSyncGasPressed", "0"),
+    ("StockNaviDecelEnabled", "0"),
+    ("ShowDebugUI", "0"),
+    ("CustomLeadMark", "0")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))

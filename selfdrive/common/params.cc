@@ -74,7 +74,7 @@ int mkdir_p(std::string path) {
   return 0;
 }
 
-static bool create_params_path(const std::string &param_path, const std::string &key_path) {
+bool create_params_path(const std::string &param_path, const std::string &key_path) {
   // Make sure params path exists
   if (!util::file_exists(param_path) && mkdir_p(param_path) != 0) {
     return false;
@@ -113,7 +113,7 @@ static bool create_params_path(const std::string &param_path, const std::string 
   return chmod(key_path.c_str(), 0777) == 0;
 }
 
-static void ensure_params_path(const std::string &params_path) {
+void ensure_params_path(const std::string &params_path) {
   if (!create_params_path(params_path, params_path + "/d")) {
     throw std::runtime_error(util::string_format("Failed to ensure params path, errno=%d", errno));
   }
@@ -194,6 +194,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"PandaFirmware", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},
     {"PandaFirmwareHex", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},
     {"PandaDongleId", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},
+    {"PandaHeartbeatLost", CLEAR_ON_MANAGER_START | CLEAR_ON_IGNITION_OFF},
     {"Passive", PERSISTENT},
     {"PrimeRedirected", PERSISTENT},
     {"RecordFront", PERSISTENT},
@@ -234,6 +235,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"UseClusterSpeed", PERSISTENT},
     {"LongControlEnabled", PERSISTENT},
     {"MadModeEnabled", PERSISTENT},
+
     {"IsLdwsCar", PERSISTENT},
     {"LaneChangeEnabled", PERSISTENT},
     {"AutoLaneChangeEnabled", PERSISTENT},
@@ -241,6 +243,8 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"SccSmootherState", PERSISTENT},
     {"SccSmootherSlowOnCurves", PERSISTENT},
     {"SccSmootherSyncGasPressed", PERSISTENT},
+    {"StockNaviDecelEnabled", PERSISTENT},
+    {"ShowDebugUI", PERSISTENT},
     {"CustomLeadMark", PERSISTENT},
     {"UseSMDPSHarness", PERSISTENT},
     {"SSCOD", PERSISTENT},
@@ -255,15 +259,13 @@ std::unordered_map<std::string, uint32_t> keys = {
 
 } // namespace
 
-Params::Params(bool persistent_param) : Params(persistent_param ? Path::persistent_params() : Path::params()) {}
+Params::Params() : params_path(Path::params()) {
+  static std::once_flag once_flag;
+  std::call_once(once_flag, ensure_params_path, params_path);
+}
 
-std::once_flag default_params_path_ensured;
 Params::Params(const std::string &path) : params_path(path) {
-  if (path == Path::params()) {
-    std::call_once(default_params_path_ensured, ensure_params_path, path);
-  } else {
-    ensure_params_path(path);
-  }
+  ensure_params_path(params_path);
 }
 
 bool Params::checkKey(const std::string &key) {

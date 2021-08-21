@@ -219,7 +219,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.766
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate in [CAR.SONATA, CAR.SONATA_HEV]:
+    elif candidate in [CAR.SONATA, CAR.SONATA_HEV, CAR.SONATA21_HEV]:      
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1513. + STD_CARGO_KG
       ret.wheelbase = 2.84
@@ -261,6 +261,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.72
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       tire_stiffness_factor = 0.65
+      ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.ELANTRA_HEV_2021:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = (3017. * CV.LB_TO_KG) + STD_CARGO_KG
@@ -423,7 +424,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.78
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV]:
+    elif candidate in [CAR.NIRO_EV, CAR.NIRO_HEV, CAR.NIRO21_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1737. + STD_CARGO_KG
       ret.wheelbase = 2.7
@@ -452,6 +453,10 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.8
 
     ret.radarTimeStep = 0.05
+
+    if ret.centerToFront == 0:
+      ret.centerToFront = ret.wheelbase * 0.4
+
 
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase

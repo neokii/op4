@@ -19,6 +19,7 @@ from selfdrive.controls.lib.speed_limit_controller import SpeedLimitController, 
 from selfdrive.controls.lib.turn_speed_controller import TurnSpeedController
 from selfdrive.controls.lib.events import Events
 from selfdrive.swaglog import cloudlog
+from common.params import Params
 
 LON_MPC_STEP = 0.2  # first step is 0.2s
 AWARENESS_DECEL = -0.2     # car smoothly decel at .2m/s^2 when user is distracted
@@ -73,6 +74,8 @@ class Planner():
     self.speed_limit_controller = SpeedLimitController()
     self.events = Events()
     self.turn_speed_controller = TurnSpeedController()
+    self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
+    self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
   def update(self, sm, CP):
     cur_time = sec_since_boot()
@@ -82,6 +85,11 @@ class Planner():
     v_cruise_kph = sm['controlsState'].vCruise
     v_cruise_kph = min(v_cruise_kph, V_CRUISE_MAX)
     v_cruise = v_cruise_kph * CV.KPH_TO_MS
+
+    if not self.use_cluster_speed or self.long_control_enabled:
+      cluSpeedMs = sm['controlsState'].cluSpeedMs
+      if v_ego > 3. and cluSpeedMs > 3.:
+        v_cruise *= v_ego / cluSpeedMs
 
     long_control_state = sm['controlsState'].longControlState
     force_slow_decel = sm['controlsState'].forceDecel

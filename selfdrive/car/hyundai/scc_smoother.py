@@ -3,12 +3,14 @@ import random
 import numpy as np
 from common.numpy_fast import clip, interp, mean
 from cereal import car
+from common.realtime import DT_CTRL
 from selfdrive.config import Conversions as CV
 from selfdrive.car.hyundai.values import Buttons
 from common.params import Params
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_CRUISE_DELTA_KM, V_CRUISE_DELTA_MI
 from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
 from selfdrive.controls.lib.lead_mpc import AUTO_TR_CRUISE_GAP
+from selfdrive.ntune import ntune_scc_get
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
 
 SYNC_MARGIN = 3.
@@ -54,7 +56,7 @@ class SccSmoother:
   def kph_to_clu(self, kph):
     return int(kph * CV.KPH_TO_MS * self.speed_conv_to_clu)
 
-  def __init__(self, gas_factor, brake_factor, curvature_factor):
+  def __init__(self):
 
     self.longcontrol = Params().get_bool('LongControlEnabled')
     self.slow_on_curves = Params().get_bool('SccSmootherSlowOnCurves')
@@ -66,10 +68,6 @@ class SccSmoother:
 
     self.min_set_speed_clu = self.kph_to_clu(MIN_SET_SPEED_KPH)
     self.max_set_speed_clu = self.kph_to_clu(MAX_SET_SPEED_KPH)
-
-    self.gas_factor = clip(gas_factor, 0.7, 1.3)
-    self.brake_factor = clip(brake_factor, 0.7, 1.3)
-    self.curvature_factor = curvature_factor
 
     self.target_speed = 0.
 
@@ -90,8 +88,7 @@ class SccSmoother:
     self.limited_lead = False
 
     self.curve_speed_ms = 0.
-
-    self.fused_decel = []
+    self.stock_weight = 0.
 
   def reset(self):
 
@@ -102,8 +99,6 @@ class SccSmoother:
 
     self.max_speed_clu = 0.
     self.curve_speed_ms = 0.
-
-    self.fused_decel.clear()
 
     self.slowing_down = False
     self.slowing_down_alert = False
@@ -300,7 +295,7 @@ class SccSmoother:
         curv = curv[start:min(start+10, TRAJECTORY_SIZE)]
         a_y_max = 2.975 - v_ego * 0.0375  # ~1.85 @ 75mph, ~2.6 @ 25mph
         v_curvature = np.sqrt(a_y_max / np.clip(np.abs(curv), 1e-4, None))
-        model_speed = np.mean(v_curvature) * 0.85 * self.curvature_factor
+        model_speed = np.mean(v_curvature) * 0.85 * ntune_scc_get("sccCurvatureFactor")
 
         if model_speed < v_ego:
           self.curve_speed_ms = float(max(model_speed, MIN_CURVE_SPEED))
@@ -342,13 +337,13 @@ class SccSmoother:
 
   def get_accel(self, CS, sm, accel):
 
-    gas_factor = clip(self.gas_factor, 0.7, 1.3)
-    brake_factor = clip(self.brake_factor, 0.7, 1.3)
+    gas_factor = ntune_scc_get("sccGasFactor")
+    brake_factor = ntune_scc_get("sccBrakeFactor")
 
     lead = self.get_lead(sm)
     if lead is not None:
       if not lead.radar:
-        brake_factor *= 0.93
+        brake_factor *= 0.95
 
     if accel > 0:
       accel *= gas_factor
@@ -356,6 +351,18 @@ class SccSmoother:
       accel *= brake_factor
 
     return accel
+
+  def get_stock_cam_accel(self, apply_accel, stock_accel, scc11):
+    stock_cam = scc11["Navi_SCC_Camera_Act"] == 2 and scc11["Navi_SCC_Camera_Status"] == 2
+    if stock_cam:
+      self.stock_weight += DT_CTRL / 3.
+    else:
+      self.stock_weight -= DT_CTRL / 3.
+
+    self.stock_weight = clip(self.stock_weight, 0., 1.)
+
+    accel = stock_accel * self.stock_weight + apply_accel * (1. - self.stock_weight)
+    return min(accel, apply_accel), stock_cam
 
   @staticmethod
   def update_cruise_buttons(controls, CS, longcontrol):  # called by controlds's state_transition
