@@ -233,7 +233,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.766
       ret.steerRatio = 13.27 * 1.15   # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate in [CAR.SONATA, CAR.SONATA_HEV, CAR.SONATA21_HEV]:
+    elif candidate in [CAR.SONATA, CAR.SONATA_HEV, CAR.SONATA21_HEV]:      
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1513. + STD_CARGO_KG
       ret.wheelbase = 2.84
@@ -438,7 +438,7 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.78
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV, CAR.NIRO21_HEV]:
+    elif candidate in [CAR.NIRO_EV, CAR.NIRO_HEV, CAR.NIRO21_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
       ret.mass = 1737. + STD_CARGO_KG
       ret.wheelbase = 2.7
