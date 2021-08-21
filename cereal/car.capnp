@@ -213,8 +213,8 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
-  cruiseGap @66 : Int32;
-  autoHold @67 : Int32;
+  cruiseGap @42 : Int32;
+  autoHold @43 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds
