@@ -58,7 +58,6 @@ def manager_init():
     ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
-    ("RVL", "0"),
     ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),

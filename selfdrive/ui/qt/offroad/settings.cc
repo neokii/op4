@@ -614,11 +614,6 @@ QWidget * community_panel() {
                                             ));
                                             
   toggles_list->addWidget(horizontal_line());        
-  toggles_list->addWidget(new ParamControl("RVL",
-                                            "Bring Back my Lead Markers",
-                                            "This is very misleading and can cause confusion, if HKG Long isn't on and working properly!DO NOT MISTAKE OP LEADS FOR WHAT YOUR CAR SEE'S. Please procceed with caution.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));     
 
   QWidget *widget = new QWidget;
   widget->setLayout(toggles_list);
