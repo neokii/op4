@@ -661,6 +661,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.steerTempUnavailable: {
     ET.SOFT_DISABLE: SoftDisableAlert("Steering Temporarily Unavailable"),
+    ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
   },
 
   EventName.outOfSpace: {
