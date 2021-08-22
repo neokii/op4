@@ -1,5 +1,6 @@
 import copy
 import random
+from selfdrive.controls.lib.speed_limit_controller import SpeedLimitController
 import numpy as np
 from common.numpy_fast import clip, interp, mean
 from cereal import car
@@ -418,5 +419,7 @@ class SccSmoother:
           v_cruise_kph -= V_CRUISE_DELTA - -v_cruise_kph % V_CRUISE_DELTA
         ButtonCnt %= 70
       v_cruise_kph = clip(v_cruise_kph, MIN_SET_SPEED_KPH, MAX_SET_SPEED_KPH)
+      if Params().get_bool('SpeedLimitControl'):
+        v_cruise_kph = SpeedLimitController._speed_limit_set
 
     return v_cruise_kph
