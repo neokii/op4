@@ -567,6 +567,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "MDPS SPAS State: 7, User override, or MDPS Fault",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
+      ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Cruise Faulted"),
   },
 
   # Thrown when the fan is driven at >50% but is not rotating
