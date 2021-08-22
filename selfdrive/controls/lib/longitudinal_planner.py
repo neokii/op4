@@ -14,6 +14,10 @@ from selfdrive.controls.lib.longcontrol import LongCtrlState
 from selfdrive.controls.lib.lead_mpc import LeadMpc
 from selfdrive.controls.lib.long_mpc import LongitudinalMpc
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, CONTROL_N
+from selfdrive.controls.lib.vision_turn_controller import VisionTurnController
+from selfdrive.controls.lib.speed_limit_controller import SpeedLimitController, SpeedLimitResolver
+from selfdrive.controls.lib.turn_speed_controller import TurnSpeedController
+from selfdrive.controls.lib.events import Events
 from selfdrive.swaglog import cloudlog
 from common.params import Params
 
@@ -66,6 +70,10 @@ class Planner():
     self.v_desired_trajectory = np.zeros(CONTROL_N)
     self.a_desired_trajectory = np.zeros(CONTROL_N)
 
+    self.vision_turn_controller = VisionTurnController(CP)
+    self.speed_limit_controller = SpeedLimitController()
+    self.events = Events()
+    self.turn_speed_controller = TurnSpeedController()
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
     self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
@@ -104,6 +112,10 @@ class Planner():
       # if required so, force a smooth deceleration
       accel_limits_turns[1] = min(accel_limits_turns[1], AWARENESS_DECEL)
       accel_limits_turns[0] = min(accel_limits_turns[0], accel_limits_turns[1])
+
+    cruise_source, v_cruise, accel_limits_turns = self.cruise_solution(enabled, self.v_desired, self.a_desired,
+                                                                       accel_limits_turns, v_cruise, sm)
+
     # clip limits, cannot init MPC outside of bounds
     accel_limits_turns[0] = min(accel_limits_turns[0], self.a_desired)
     accel_limits_turns[1] = max(accel_limits_turns[1], self.a_desired)
@@ -114,7 +126,7 @@ class Planner():
       self.mpcs[key].set_cur_state(self.v_desired, self.a_desired)
       self.mpcs[key].update(sm['carState'], sm['radarState'], v_cruise)
       if self.mpcs[key].status and self.mpcs[key].a_solution[5] < next_a:
-        self.longitudinalPlanSource = key
+        self.longitudinalPlanSource = key if key != 'cruise' else cruise_source
         self.v_desired_trajectory = self.mpcs[key].v_solution[:CONTROL_N]
         self.a_desired_trajectory = self.mpcs[key].a_solution[:CONTROL_N]
         self.j_desired_trajectory = self.mpcs[key].j_solution[:CONTROL_N]
@@ -155,4 +167,46 @@ class Planner():
     longitudinalPlan.longitudinalPlanSource = self.longitudinalPlanSource
     longitudinalPlan.fcw = self.fcw
 
+    longitudinalPlan.visionTurnControllerState = self.vision_turn_controller.state
+    longitudinalPlan.visionTurnSpeed = self.vision_turn_controller.v_turn
+
+    longitudinalPlan.speedLimitControlState = self.speed_limit_controller.state
+    longitudinalPlan.speedLimit = float(self.speed_limit_controller.speed_limit)
+    longitudinalPlan.speedLimitOffset = float(self.speed_limit_controller.speed_limit_offset)
+    longitudinalPlan.distToSpeedLimit = float(self.speed_limit_controller.distance)
+    longitudinalPlan.isMapSpeedLimit = bool(self.speed_limit_controller.source == SpeedLimitResolver.Source.map_data)
+    longitudinalPlan.eventsDEPRECATED = self.events.to_msg()
+
+    longitudinalPlan.turnSpeedControlState = self.turn_speed_controller.state
+    longitudinalPlan.turnSpeed = float(self.turn_speed_controller.speed_limit)
+    longitudinalPlan.distToTurn = float(self.turn_speed_controller.distance)
+    longitudinalPlan.turnSign = int(self.turn_speed_controller.turn_sign)
+
     pm.send('longitudinalPlan', plan_send)
+
+  def cruise_solution(self, enabled, v_desired, a_desired, acc_limits, v_cruise, sm):
+    # Update controllers
+    self.events = Events()
+    self.vision_turn_controller.update(enabled, v_desired, a_desired, v_cruise, acc_limits, sm)
+    self.speed_limit_controller.update(enabled, v_desired, sm, v_cruise, acc_limits, self.events)
+    self.turn_speed_controller.update(enabled, v_desired, sm, acc_limits)
+
+    # Pick slowest solution
+    v_solutions = {'cruise': v_cruise}
+    limits_solutions = {'cruise': acc_limits}
+
+    if self.vision_turn_controller.is_active:
+      v_solutions['turn'] = self.vision_turn_controller.v_turn
+      limits_solutions['turn'] = self.vision_turn_controller.acc_limits
+
+    if self.speed_limit_controller.is_active:
+      v_solutions['limit'] = self.speed_limit_controller.v_limit
+      limits_solutions['limit'] = self.speed_limit_controller.acc_limits
+
+    if self.turn_speed_controller.is_active:
+      v_solutions['turnlimit'] = self.turn_speed_controller.v_turn_limit
+      limits_solutions['turnlimit'] = self.turn_speed_controller.acc_limits
+
+    source = min(v_solutions, key=v_solutions.get)
+
+    return source, v_solutions[source], limits_solutions[source]

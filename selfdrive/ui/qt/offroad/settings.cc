@@ -86,6 +86,31 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                    "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
                                    "../assets/offroad/icon_road.png",
                                    this));
+  toggles.append(new ParamControl("TurnVisionControl",
+                                  "Enable vision based turn control",
+                                  "Use vision path predictions to estimate the appropiate speed to drive through turns ahead.",
+                                  "../assets/offroad/icon_road.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitControl",
+                                  "Enable Speed Limit Control",
+                                  "Use speed limit signs information from map data and car interface to automatically adapt cruise speed to road limits.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitPercOffset",
+                                  "Enable Speed Limit Offset",
+                                  "Set speed limit slightly higher than actual speed limit for a more natural drive.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitDelayIncrease",
+                                  "Delay increase of speed limit",
+                                  "Delays the increase of the speed limit to give time to the driver to cancel the increase by changing cruise speed.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("TurnSpeedControl",
+                                  "Enable Map Data Turn Control",
+                                  "Use curvature info from map data to define speed limits to take turns ahead",
+                                  "../assets/offroad/icon_openpilot.png",
+                                  this));
 
 #ifdef ENABLE_MAPS
   toggles.append(new ParamControl("NavSettingTime24h",
@@ -555,6 +580,12 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                             ));
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("StockNaviDecelEnabled",
+                                            "Stock Navi based deceleration",
+                                            "Use the stock navi based deceleration for longcontrol",
+                                            "../assets/offroad/icon_road.png"
+                                            ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("ShowDebugUI",
                                             "Show Debug UI",
                                             "Shows Longitudinal Debug stats when `Clean UI` option is off.",
@@ -583,11 +614,6 @@ QWidget * community_panel() {
                                             ));
                                             
   toggles_list->addWidget(horizontal_line());        
-  toggles_list->addWidget(new ParamControl("RVL",
-                                            "Bring Back my Lead Markers",
-                                            "This is very misleading and can cause confusion, if HKG Long isn't on and working properly!DO NOT MISTAKE OP LEADS FOR WHAT YOUR CAR SEE'S. Please procceed with caution.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));     
 
   QWidget *widget = new QWidget;
   widget->setLayout(toggles_list);

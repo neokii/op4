@@ -76,6 +76,7 @@ class CarController():
 
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
     self.ldws_opt = Params().get_bool('IsLdwsCar')
+    self.stock_navi_decel_enabled = Params().get_bool('StockNaviDecelEnabled')
 
  
 
@@ -174,7 +175,7 @@ class CarController():
     # self.prev_scc_cnt = CS.scc11["AliveCounterACC"]
     # self.scc_update_frame = frame
 
-    self.prev_scc_cnt = CS.scc11["AliveCounterACC"]
+    self.prev_scc_cnt = CS.scc11["AliveCounterACC"] if not CS.no_radar else 0
 
     self.lkas11_cnt = (self.lkas11_cnt + 1) % 0x10
     self.scc12_cnt %= 0xF
@@ -228,21 +229,32 @@ class CarController():
     self.scc_smoother.update(enabled, can_sends, self.packer, CC, CS, frame, apply_accel, controls)
 
     controls.apply_accel = apply_accel
-    aReqValue = CS.scc12["aReqValue"]
-    controls.aReqValue = aReqValue
 
-    if aReqValue < controls.aReqValueMin:
-      controls.aReqValueMin = controls.aReqValue
+    if not CS.no_radar:
+      aReqValue = CS.scc12["aReqValue"]
+      controls.aReqValue = aReqValue
 
-    if aReqValue > controls.aReqValueMax:
-      controls.aReqValueMax = controls.aReqValue
+      if aReqValue < controls.aReqValueMin:
+        controls.aReqValueMin = controls.aReqValue
+
+      if aReqValue > controls.aReqValueMax:
+        controls.aReqValueMax = controls.aReqValue
 
     # send scc to car if longcontrol enabled and SCC not on bus 0 or ont live
     if self.longcontrol and CS.cruiseState_enabled and (CS.scc_bus or not self.scc_live) and frame % 2 == 0:
 
+      if self.stock_navi_decel_enabled:
+        controls.sccStockCamAct = CS.scc11["Navi_SCC_Camera_Act"]
+        controls.sccStockCamStatus = CS.scc11["Navi_SCC_Camera_Status"]
+        apply_accel, stock_cam = self.scc_smoother.get_stock_cam_accel(apply_accel, aReqValue, CS.scc11)
+      else:
+        controls.sccStockCamAct = 0
+        controls.sccStockCamStatus = 0
+        stock_cam = False
+
       can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc12_cnt, self.scc_live, CS.scc12))
       can_sends.append(create_scc11(self.packer, frame, enabled, set_speed, lead_visible, self.scc_live, CS.scc11,
-                                    self.scc_smoother.active_cam))
+                                    self.scc_smoother.active_cam, stock_cam))
 
       if frame % 20 == 0 and CS.has_scc13:
         can_sends.append(create_scc13(self.packer, CS.scc13))
@@ -272,6 +284,7 @@ class CarController():
       if self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append(create_lfahda_mfc(self.packer, enabled, activated_hda))
       elif CS.mdps_bus == 0:
-        can_sends.append(create_hda_mfc(self.packer, activated_hda))
+        state = 2 if self.car_fingerprint in FEATURES["send_hda_state_2"] else 1
+        can_sends.append(create_hda_mfc(self.packer, activated_hda, state))
 
     return can_sends

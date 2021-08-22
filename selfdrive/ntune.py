@@ -4,9 +4,17 @@ import signal
 import json
 import numpy as np
 
+from selfdrive.hardware import TICI
+
 CONF_PATH = '/data/ntune/'
 CONF_LQR_FILE = '/data/ntune/lat_lqr.json'
 
+ntunes = {}
+
+def file_watch_handler(signum, frame):
+  global ntunes
+  for ntune in ntunes.values():
+    ntune.handle()
 
 class nTune():
   def __init__(self, CP=None, controller=None, group=None):
@@ -15,6 +23,7 @@ class nTune():
     self.CP = CP
     self.lqr = None
     self.group = group
+    self.config = {}
 
     if "LatControlLQR" in str(type(controller)):
       self.lqr = controller
@@ -33,7 +42,7 @@ class nTune():
     self.read()
 
     try:
-      signal.signal(signal.SIGIO, self.handler)
+      signal.signal(signal.SIGIO, file_watch_handler)
       fd = os.open(CONF_PATH, os.O_RDONLY)
       fcntl.fcntl(fd, fcntl.F_SETSIG, 0)
       fcntl.fcntl(fd, fcntl.F_NOTIFY, fcntl.DN_MODIFY | fcntl.DN_CREATE | fcntl.DN_MULTISHOT)
@@ -41,19 +50,19 @@ class nTune():
       print("exception", ex)
       pass
 
-  def handler(self, signum, frame):
+  def handle(self):
     try:
-      if os.path.isfile(self.file):
+      if os.path.getsize(self.file) > 0:
         with open(self.file, 'r') as f:
           self.config = json.load(f)
-          if self.checkValid():
-            self.write_config(self.config)
 
-    except Exception as ex:
-      print("exception", ex)
+        if self.checkValid():
+          self.write_config(self.config)
+
+        self.invalidated = True
+
+    except:
       pass
-
-    self.invalidated = True
 
   def check(self):  # called by LatControlLQR.update
     if self.invalidated:
@@ -61,28 +70,29 @@ class nTune():
       self.update()
 
   def read(self):
-
+    success = False
     try:
-      if os.path.isfile(self.file):
+      if os.path.getsize(self.file) > 0:
         with open(self.file, 'r') as f:
           self.config = json.load(f)
-          if self.checkValid():
-            self.write_config(self.config)
 
+        if self.checkValid():
+          self.write_config(self.config)
           self.update()
-      else:
-        self.write_default()
-
-        with open(self.file, 'r') as f:
-          self.config = json.load(f)
-          if self.checkValid():
-            self.write_config(self.config)
-          self.update()
-
+        success = True
     except:
-      return False
+      pass
 
-    return True
+    if not success:
+      try:
+        self.write_default()
+        with open(self.file, 'r') as f:
+          self.config = json.load(f)
+          if self.checkValid():
+            self.write_config(self.config)
+          self.update()
+      except:
+        pass
 
   def checkValue(self, key, min_, max_, default_):
     updated = False
@@ -128,7 +138,7 @@ class nTune():
     if self.checkValue("steerRateCost", 0.1, 1.5, 0.4):
       updated = True
 
-    if self.checkValue("cameraOffset", -1.0, 1.0, 0.06):
+    if self.checkValue("cameraOffset", -1.0, 1.0, -0.04 if TICI else 0.06):
       updated = True
 
     return updated
@@ -178,8 +188,6 @@ class nTune():
 
   def read_cp(self):
 
-    self.config = {}
-
     try:
       if self.CP is not None:
 
@@ -224,7 +232,6 @@ class nTune():
       except:
         pass
 
-ntunes = {}
 def ntune_get(group, key):
   global ntunes
   if group not in ntunes:
