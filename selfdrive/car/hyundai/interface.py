@@ -435,9 +435,10 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.SPORTAGE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
-      ret.mass = 1985. + STD_CARGO_KG
-      ret.wheelbase = 2.78
+      ret.mass = 3765. * CV.LB_TO_KG
+      ret.wheelbase = 2.66
       tire_stiffness_factor = 0.7
+      ret.steerRatio = 13.75
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.NIRO_HEV, CAR.NIRO_EV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
@@ -581,6 +582,8 @@ class CarInterface(CarInterfaceBase):
       minTP = 30
     elif CAR.K5:
       minTP = 30
+    elif CAR.SPORTAGE:
+      minTP = 33
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
