@@ -602,7 +602,8 @@ class CarInterface(CarInterfaceBase):
       minTP = 28
 
     #if self.CC.DO:
-      
+    if EventName.buttonCancel in events.events:
+          events.events.remove(EventName.buttonCancel)
 
     if ret.tpmsFl < minTP and Params().get_bool('TPMS_Alerts'):
       events.add(car.CarEvent.EventName.fl)
@@ -630,6 +631,7 @@ class CarInterface(CarInterfaceBase):
     if ret.vEgo < 41 and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
       events.add(EventName.steerSaturated)
       events.add(EventName.buttonCancel)
+    
 
   # handle button presses
     for b in ret.buttonEvents:
