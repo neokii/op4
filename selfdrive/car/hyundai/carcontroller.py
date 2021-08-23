@@ -151,10 +151,10 @@ class CarController():
     if not lkas_active:
       apply_steer = 0
     CNT = 0
-    if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ or CNT < 10:
+    if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ or CNT < 60:
       spas_active = False
       CNT = CNT + 1
-    if CNT == 10:
+    if CNT == 60:
       CNT = 0
     
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
