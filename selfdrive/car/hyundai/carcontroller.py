@@ -153,7 +153,7 @@ class CarController():
     CNT = 0
     if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ or CNT < 60:
       spas_active = False
-      CNT + 1
+      CNT = CNT + 1
     
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     if Params().get_bool('LongControlEnabled'):
