@@ -308,6 +308,8 @@ class CarState(CarStateBase):
       ("Navi_SCC_Camera_Act", "SCC11", 0),
       ("Navi_SCC_Camera_Status", "SCC11", 2),
 
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0), 
+
       ("ACCMode", "SCC12", 0),
       ("CF_VSM_Prefill", "SCC12", 0),
       ("CF_VSM_DecCmdAct", "SCC12", 0),
@@ -345,8 +347,6 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
-
-      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
     ]
 
     checks = [
@@ -359,6 +359,7 @@ class CarState(CarStateBase):
       ("CGW2", 5),
       ("CGW4", 5),
       ("WHL_SPD11", 50),
+      ("SpeedLim_Nav_Clu", 50),
     ]
 
     if CP.sccBus == 0 and CP.pcmCruise:
