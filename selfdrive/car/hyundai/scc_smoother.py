@@ -13,7 +13,7 @@ from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
 from selfdrive.controls.lib.lead_mpc import AUTO_TR_CRUISE_GAP
 from selfdrive.ntune import ntune_scc_get
 from selfdrive.road_speed_limiter import road_speed_limiter_get_max_speed, road_speed_limiter_get_active
-
+from selfdrive.controls.lib.speed_limit_controller import SpeedLimitResolver
 SYNC_MARGIN = 3.
 
 # do not modify
@@ -317,7 +317,7 @@ class SccSmoother:
           set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           controls.v_cruise_kph = set_speed * self.speed_conv_to_ms * CV.MS_TO_KPH
       if Params().get_bool('SpeedLimitControl'):
-        controls.v_cruise_kph = ???? #simulate button presses
+        controls.v_cruise_kph = SpeedLimitResolver.speed_limit #simulate button presses
 
 
       self.target_speed = self.kph_to_clu(controls.v_cruise_kph)
@@ -331,8 +331,8 @@ class SccSmoother:
           set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           self.target_speed = set_speed
       
-      if Params().get_bool('SpeedLimitControl'):
-        self.target_speed = ????# Set cruise speed (long control enabled)
+      if Params().get_bool('SpeedLimitControl'): # Set cruise Speed to Speed Limit JPR
+        self.target_speed = SpeedLimitResolver.speed_limit # Set cruise speed (long control enabled)
 
   def update_max_speed(self, max_speed):
 
@@ -426,7 +426,5 @@ class SccSmoother:
           v_cruise_kph -= V_CRUISE_DELTA - -v_cruise_kph % V_CRUISE_DELTA
         ButtonCnt %= 70
       v_cruise_kph = clip(v_cruise_kph, MIN_SET_SPEED_KPH, MAX_SET_SPEED_KPH)
-      if Params().get_bool('SpeedLimitControl'):
-        v_cruise_kph = SpeedLimitController._speed_limit_set
 
     return v_cruise_kph
