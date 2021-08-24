@@ -246,6 +246,7 @@ class CarState(CarStateBase):
 
   @staticmethod
   def get_can_parser(CP):
+    
 
     signals = [
       # sig_name, sig_address, default
@@ -308,8 +309,6 @@ class CarState(CarStateBase):
       ("Navi_SCC_Camera_Act", "SCC11", 0),
       ("Navi_SCC_Camera_Status", "SCC11", 2),
 
-      ("SpeedLim_Nav_Clu", "Navi_HU", 0), 
-
       ("ACCMode", "SCC12", 0),
       ("CF_VSM_Prefill", "SCC12", 0),
       ("CF_VSM_DecCmdAct", "SCC12", 0),
@@ -359,7 +358,6 @@ class CarState(CarStateBase):
       ("CGW2", 5),
       ("CGW4", 5),
       ("WHL_SPD11", 50),
-      ("SpeedLim_Nav_Clu", 50),
     ]
 
     if CP.sccBus == 0 and CP.pcmCruise:
@@ -449,6 +447,15 @@ class CarState(CarStateBase):
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
+
+    signals += [
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
+    ]
+
+    checks += [
+      ("Navi_HU", 5)
+    ]
+
 
     if CP.enableBsm:
       signals += [
