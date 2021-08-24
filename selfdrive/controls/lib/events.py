@@ -445,7 +445,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "",
       AlertStatus.userPrompt, AlertSize.small,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
-    ET.USER_DISABLE 
   },
 
   EventName.preDriverDistracted: {
