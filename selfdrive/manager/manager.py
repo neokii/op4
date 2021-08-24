@@ -74,7 +74,6 @@ def manager_init():
 
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1"),
-    ("SccSmootherSyncGasPressed", "0"),
     ("StockNaviDecelEnabled", "0"),
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0",),
