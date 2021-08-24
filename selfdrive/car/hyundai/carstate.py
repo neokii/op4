@@ -347,6 +347,8 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
+
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
     ]
 
     checks = [
