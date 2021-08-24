@@ -625,8 +625,13 @@ class CarInterface(CarInterfaceBase):
     if self.mad_mode_enabled and EventName.pedalPressed in events.events:
       events.events.remove(EventName.pedalPressed)
 
-    if self.CS.out.vEgo < 41 * CV.MPH_TO_MS and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
+    if self.CS.out.vEgo < 40.8 * CV.MPH_TO_MS and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
       events.add(EventName.steerSaturated)
+
+    if self.CC.override == True: 
+      events.add(EventName.buttonCancel)
+    else:
+      events.events.remove(EventName.buttonCancel)
 
     
 
