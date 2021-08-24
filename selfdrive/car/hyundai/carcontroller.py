@@ -107,8 +107,13 @@ class CarController():
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg
 
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
-    # fix for Genesis hard fault at low speed
-	  # Use SMDPS and Min Steer Speed limits - JPR
+    
+    if Params().get_bool('LongControlEnabled'):
+      min_set_speed = 0 * CV.KPH_TO_MS
+    else:
+      min_set_speed = 30 * CV.KPH_TO_MS
+
+    # Use SMDPS and Min Steer Speed limits - JPR
     if UseSMDPS == True:
       min_set_speed = 0 * CV.KPH_TO_MS
     else:
