@@ -239,6 +239,7 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = ret.cruiseState.enabled
     self.cruiseState_speed = ret.cruiseState.speed
     ret.cruiseGap = self.cruise_gap
+    ret.cruiseState.speed = self.speed_limit * CV.MPH_MS
 
     return ret
 
