@@ -397,7 +397,7 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.78
-      ret.steerRatio = 13.56 # 15% higher at the center seems reasonable
+      ret.steerRatio = 14 # 15% higher at the center seems reasonable
       ret.centerToFront = ret.wheelbase * 0.4
       if not UseLQR:
         ret.lateralTuning.init('indi')
