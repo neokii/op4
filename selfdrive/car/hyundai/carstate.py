@@ -95,7 +95,7 @@ class CarState(CarStateBase):
 
     ret.NAVISL = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
 
-    if Params().get_bool("HyundaiNaviSL") and not ret.NAVISL == 255: # JPR 2019 or newer hyundai 
+    if Params().get_bool('HyundaiNaviSL') and not ret.NAVISL == 255: # JPR 2019 or newer hyundai 
       ret.carState.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
     
     ret.yawRate = cp.vl["ESP12"]['YAW_RATE']
