@@ -627,9 +627,6 @@ class CarInterface(CarInterfaceBase):
 
     if self.CS.out.vEgo < 40.8 * CV.MPH_TO_MS and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
       events.add(EventName.steerSaturated)
-    
-    if EventName.buttonCancel in events.events and self.CC.override == False:
-      events.events.remove(EventName.buttonCancel)
 
     if self.CC.override == True: 
       events.add(EventName.buttonCancel)
