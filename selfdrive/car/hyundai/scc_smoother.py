@@ -316,8 +316,8 @@ class SccSmoother:
         if clu11_speed + SYNC_MARGIN > self.kph_to_clu(controls.v_cruise_kph):
           set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           controls.v_cruise_kph = set_speed * self.speed_conv_to_ms * CV.MS_TO_KPH
-      if Params().get_bool('SpeedLimitControl'):
-        controls.v_cruise_kph = SpeedLimitResolver.speed_limit #simulate button presses
+      #if Params().get_bool('SpeedLimitControl'):
+      #  controls.v_cruise_kph = SpeedLimitResolver.speed_limit #simulate button presses
 
 
       self.target_speed = self.kph_to_clu(controls.v_cruise_kph)
@@ -331,8 +331,8 @@ class SccSmoother:
           set_speed = clip(clu11_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
           self.target_speed = set_speed
       
-      if Params().get_bool('SpeedLimitControl'): # Set cruise Speed to Speed Limit JPR
-        self.target_speed = SpeedLimitResolver.speed_limit # Set cruise speed (long control enabled)
+      #if Params().get_bool('SpeedLimitControl'): # Set cruise Speed to Speed Limit JPR
+      #  self.target_speed = SpeedLimitResolver.speed_limit # Set cruise speed (long control enabled)
 
   def update_max_speed(self, max_speed):
 
