@@ -92,6 +92,7 @@ class CarController():
     self.scc_live = not CP.radarOffCan
     self.accel_steady = 0
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+    self.override = False
 
     if CP.spasEnabled:
       self.last_apply_angle = 0.0
