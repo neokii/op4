@@ -631,7 +631,8 @@ class CarInterface(CarInterfaceBase):
     if self.CC.override == True: 
       events.add(EventName.buttonCancel)
     else:
-      events.events.remove(EventName.buttonCancel)
+      if EventName.buttonCancel in events.events:
+        events.events.remove(EventName.buttonCancel)
 
     
 
