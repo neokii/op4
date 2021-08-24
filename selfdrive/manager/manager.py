@@ -57,11 +57,10 @@ def manager_init():
     ("SpeedLimitDelayIncrease", "1"),
     ("TurnSpeedControl", "1"),
     ("TurnVisionControl", "1"),
-    ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
     ("RVL", "0"),
-    ("CustomLeadMark", "0"),
+
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
     ("CleanUI", "1"),
@@ -76,7 +75,7 @@ def manager_init():
     ("TPMS_Alerts", "1"),
     ("StockNaviDecelEnabled", "0"),
     ("ShowDebugUI", "0"),
-    ("CustomLeadMark", "0",),
+    ("CustomLeadMark", "0"),
     ("HyundaiNaviSL", "0")
   ]
   if not PC:
