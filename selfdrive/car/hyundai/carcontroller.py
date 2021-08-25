@@ -26,8 +26,8 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 250         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 5., 15.]
-ANGLE_DELTA_V = [1.2., .8, .15]     # windup limit
-ANGLE_DELTA_VU = [2.5., 1, 0.4]   # unwind limit
+ANGLE_DELTA_V = [1.2, .8, .15]     # windup limit
+ANGLE_DELTA_VU = [2.5, 1, 0.4]   # unwind limit
 TQ = 20 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
@@ -92,7 +92,6 @@ class CarController():
     self.scc_live = not CP.radarOffCan
     self.accel_steady = 0
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
-    self.override = False
 
     if CP.spasEnabled:
       self.last_apply_angle = 0.0
@@ -153,10 +152,6 @@ class CarController():
       apply_steer = 0
     if enabled and TQ <= CS.out.steeringWheelTorque <= -TQ:
       spas_active = False
-      self.override = True
-    else:
-      self.override = False
-  
     
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
     if Params().get_bool('LongControlEnabled'):
@@ -190,6 +185,7 @@ class CarController():
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1  
 
+    self.spas_active = spas_active
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
