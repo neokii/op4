@@ -361,6 +361,13 @@ class CarState(CarStateBase):
       ("CGW4", 5),
       ("WHL_SPD11", 50),
     ]
+    signals += [
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
+    ]
+
+    checks += [
+      ("Navi_HU", 5)
+    ]
 
     if CP.sccBus == 0 and CP.pcmCruise:
       checks += [
@@ -449,14 +456,6 @@ class CarState(CarStateBase):
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
-
-    signals += [
-      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
-    ]
-
-    checks += [
-      ("Navi_HU", 5)
-    ]
 
 
     if CP.enableBsm:
