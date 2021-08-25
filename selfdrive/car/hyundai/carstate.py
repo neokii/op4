@@ -95,7 +95,7 @@ class CarState(CarStateBase):
     ret.steeringRateDeg = cp_sas.vl["SAS11"]['SAS_Speed']
 
     if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
-      ret.carState.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
+      ret.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
     
     ret.yawRate = cp.vl["ESP12"]['YAW_RATE']
     ret.leftBlinker, ret.rightBlinker = self.update_blinker_from_lamp(50, cp.vl["CGW1"]['CF_Gway_TurnSigLh'],
