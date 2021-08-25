@@ -177,7 +177,7 @@ class CarController():
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1  
 
-    self.spas_active = spas_active
+    self.lkas_active = lkas_active
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
