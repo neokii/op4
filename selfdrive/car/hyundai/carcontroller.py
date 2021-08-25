@@ -98,8 +98,7 @@ class CarController():
       self.en_spas = 2
       self.mdps11_stat_last = 0
       self.spas_always = Params().get_bool('spasAlways')
-
-      self.LA = [] # initialize the list for first time only
+      self.spas_active = False
       
     self.ldws_opt = Params().get_bool('IsLdwsCar')
     self.stock_navi_decel_enabled = Params().get_bool('StockNaviDecelEnabled')
@@ -136,13 +135,6 @@ class CarController():
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        
-      self.LA.insert(0, apply_angle1)
-      if len(self.LA) > 10: # average last 20 apply_angle1 valuses
-        del self.LA[10]
-      apply_angle = 0
-      for x in self.LA:
-        apply_angle += x
       apply_angle = actuators.steeringAngleDeg #sum(self.LA) / len(self.LA)
       self.last_apply_angle = apply_angle
 
