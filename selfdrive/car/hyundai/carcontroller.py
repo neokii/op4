@@ -360,7 +360,7 @@ class CarController():
                 self.en_spas = 4
                 if CS.mdps11_stat == 3 and self.en_spas == 4:
                   self.en_spas = 3  
-                  
+
         if CS.mdps11_stat == 3 and spas_active:
           self.en_spas = 4
           if CS.mdps11_stat == 4:
@@ -378,7 +378,7 @@ class CarController():
         if CS.mdps11_stat == 5 and not spas_active:
           self.en_spas = 3
 
-        if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
+        if CS.mdps11_stat == 6: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
           self.en_spas = 2    
 
         if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
