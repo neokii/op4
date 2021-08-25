@@ -156,7 +156,7 @@ class Controls:
 
     # scc smoother
     self.is_cruise_enabled = False
-    self.cruiseVirtualMaxSpeed = 0
+    self.applyMaxSpeed = 0
     self.clu_speed_ms = 0.
     self.apply_accel = 0.
     self.fused_accel = 0.
@@ -493,12 +493,13 @@ class Controls:
       self.LaC.reset()
       self.LoC.reset(v_pid=CS.vEgo)
 
-    if not CS.cruiseState.enabled:
+    if not CS.cruiseState.enabledAcc:
       self.LoC.reset(v_pid=CS.vEgo)
 
     if not self.joystick_mode:
       # Gas/Brake PID loop
-      actuators.gas, actuators.brake, self.v_target, self.a_target = self.LoC.update(self.active, CS, self.CP, long_plan)
+      actuators.gas, actuators.brake, self.v_target, self.a_target = self.LoC.update(self.active and CS.cruiseState.enabledAcc,
+                                                                                     CS, self.CP, long_plan)
 
       # Steering PID loop and lateral MPC
       desired_curvature, desired_curvature_rate = get_lag_adjusted_curvature(self.CP, CS.vEgo,
@@ -646,7 +647,7 @@ class Controls:
     controlsState.engageable = not self.events.any(ET.NO_ENTRY)
     controlsState.longControlState = self.LoC.long_control_state
     controlsState.vPid = float(self.LoC.v_pid)
-    controlsState.vCruise = float(self.cruiseVirtualMaxSpeed if self.CP.openpilotLongitudinalControl else self.v_cruise_kph)
+    controlsState.vCruise = float(self.applyMaxSpeed if self.CP.openpilotLongitudinalControl else self.v_cruise_kph)
     controlsState.upAccelCmd = float(self.LoC.pid.p)
     controlsState.uiAccelCmd = float(self.LoC.pid.i)
     controlsState.ufAccelCmd = float(self.LoC.pid.f)
