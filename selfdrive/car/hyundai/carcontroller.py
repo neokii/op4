@@ -140,6 +140,7 @@ class CarController():
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
+    self.lkas_active = lkas_active
     if not lkas_active:
       apply_steer = 0
     if enabled and TQ <= CS.out.steeringWheelTorque <= -TQ:
@@ -176,8 +177,7 @@ class CarController():
 
     if self.turning_signal_timer > 0:
       self.turning_signal_timer -= 1  
-
-    self.lkas_active = lkas_active
+      
     self.apply_accel_last = apply_accel
     self.apply_steer_last = apply_steer
 
