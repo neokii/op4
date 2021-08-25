@@ -8,8 +8,9 @@ import struct
 from threading import Thread
 from cereal import messaging
 from common.params import Params
-from common.numpy_fast import interp
+from common.numpy_fast import interp, clip
 from common.realtime import sec_since_boot
+from selfdrive.config import Conversions as CV
 
 
 CAMERA_SPEED_FACTOR = 1.05
@@ -162,13 +163,17 @@ class RoadLimitSpeedServer:
 
   def get_limit_val(self, key, default=None):
 
-    if self.json_road_limit is None:
-      return default
+    try:
+      if self.json_road_limit is None:
+        return default
 
-    if key in self.json_road_limit:
-      return self.json_road_limit[key]
+      if key in self.json_road_limit:
+        return self.json_road_limit[key]
+
+    except:
+      pass
+
     return default
-
 
 
 
@@ -194,6 +199,7 @@ def main():
             dat.roadLimitSpeed.camLimitSpeed = server.get_limit_val("cam_limit_speed", 0)
             dat.roadLimitSpeed.sectionLimitSpeed = server.get_limit_val("section_limit_speed", 0)
             dat.roadLimitSpeed.sectionLeftDist = server.get_limit_val("section_left_dist", 0)
+            dat.roadLimitSpeed.camSpeedFactor = server.get_limit_val("cam_speed_factor", CAMERA_SPEED_FACTOR)
             roadLimitSpeed.send(dat.to_bytes())
 
           server.check()
@@ -224,7 +230,7 @@ class RoadSpeedLimiter:
       return self.roadLimitSpeed.active
     return 0
 
-  def get_max_speed(self, CS, v_cruise_speed):
+  def get_max_speed(self, cluster_speed, is_metric):
 
     log = ""
     self.recv()
@@ -244,6 +250,7 @@ class RoadSpeedLimiter:
 
       section_limit_speed = self.roadLimitSpeed.sectionLimitSpeed
       section_left_dist = self.roadLimitSpeed.sectionLeftDist
+      camSpeedFactor = clip(self.roadLimitSpeed.camSpeedFactor, 1.0, 1.1)
 
       if is_highway is not None:
         if is_highway:
@@ -262,16 +269,18 @@ class RoadSpeedLimiter:
       # log += ", " + str(section_limit_speed)
       # log += ", " + str(section_left_dist)
 
-      v_ego = CS.clu11["CF_Clu_Vanz"] / 3.6
-
       if cam_limit_speed_left_dist is not None and cam_limit_speed is not None and cam_limit_speed_left_dist > 0:
 
-        diff_speed = v_ego * 3.6 - cam_limit_speed
+        v_ego = cluster_speed * (CV.KPH_TO_MS if is_metric else CV.MPH_TO_MS)
+        v_limit = cam_limit_speed * (CV.KPH_TO_MS if is_metric else CV.MPH_TO_MS)
+
+        diff_speed = cluster_speed - cam_limit_speed
+        v_diff = v_ego - v_limit
 
         if self.longcontrol:
-          sec = interp(diff_speed, [10., 30.], [15., 20.])
+          sec = interp(v_diff, [2.7, 8.3], [15., 20.])
         else:
-          sec = interp(diff_speed, [10., 30.], [17., 23.])
+          sec = interp(v_diff, [2.7, 8.3], [17., 23.])
 
         if MIN_LIMIT <= cam_limit_speed <= MAX_LIMIT and (self.slowing_down or cam_limit_speed_left_dist < v_ego * sec):
 
@@ -292,7 +301,7 @@ class RoadSpeedLimiter:
           else:
             pp = 0
 
-          return cam_limit_speed * CAMERA_SPEED_FACTOR + int(
+          return cam_limit_speed * camSpeedFactor + int(
             pp * diff_speed), cam_limit_speed, cam_limit_speed_left_dist, first_started, log
 
         self.slowing_down = False
@@ -307,7 +316,7 @@ class RoadSpeedLimiter:
           else:
             first_started = False
 
-          return section_limit_speed * CAMERA_SPEED_FACTOR, section_limit_speed, section_left_dist, first_started, log
+          return section_limit_speed * camSpeedFactor, section_limit_speed, section_left_dist, first_started, log
 
         self.slowing_down = False
         return 0, section_limit_speed, section_left_dist, False, log
@@ -330,12 +339,12 @@ def road_speed_limiter_get_active():
   return road_speed_limiter.get_active()
 
 
-def road_speed_limiter_get_max_speed(CS, v_cruise_speed):
+def road_speed_limiter_get_max_speed(cluster_speed, is_metric):
   global road_speed_limiter
   if road_speed_limiter is None:
     road_speed_limiter = RoadSpeedLimiter()
 
-  return road_speed_limiter.get_max_speed(CS, v_cruise_speed)
+  return road_speed_limiter.get_max_speed(cluster_speed, is_metric)
 
 
 if __name__ == "__main__":

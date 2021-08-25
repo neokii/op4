@@ -93,6 +93,9 @@ class CarState(CarStateBase):
 
     ret.steeringAngleDeg = cp_sas.vl["SAS11"]['SAS_Angle']
     ret.steeringRateDeg = cp_sas.vl["SAS11"]['SAS_Speed']
+
+    if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
+      ret.carState.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
     
     ret.yawRate = cp.vl["ESP12"]['YAW_RATE']
     ret.leftBlinker, ret.rightBlinker = self.update_blinker_from_lamp(50, cp.vl["CGW1"]['CF_Gway_TurnSigLh'],
@@ -103,7 +106,7 @@ class CarState(CarStateBase):
 
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
 
-    if cp_mdps.vl["MDPS12"]['CF_Mdps_ToiUnavail'] != 0:
+    if not ret.standstill and cp_mdps.vl["MDPS12"]['CF_Mdps_ToiUnavail'] != 0:
       self.mdps_error_cnt += 1
     else:
       self.mdps_error_cnt = 0
@@ -119,6 +122,8 @@ class CarState(CarStateBase):
     ret.cruiseState.available = (cp_scc.vl["SCC11"]["MainMode_ACC"] != 0) if not self.no_radar else \
                                       cp.vl['EMS16']['CRUISE_LAMP_M'] != 0
     ret.cruiseState.standstill = cp_scc.vl["SCC11"]['SCCInfoDisplay'] == 4. if not self.no_radar else False
+
+    ret.cruiseState.enabledAcc = ret.cruiseState.enabled
 
     if ret.cruiseState.enabled:
       ret.cruiseState.speed = cp_scc.vl["SCC11"]['VSetDis'] * self.speed_conv_to_ms if not self.no_radar else \
@@ -239,11 +244,11 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = ret.cruiseState.enabled
     self.cruiseState_speed = ret.cruiseState.speed
     ret.cruiseGap = self.cruise_gap
-
     return ret
 
   @staticmethod
   def get_can_parser(CP):
+    
 
     signals = [
       # sig_name, sig_address, default
@@ -444,6 +449,15 @@ class CarState(CarStateBase):
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
+
+    signals += [
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
+    ]
+
+    checks += [
+      ("Navi_HU", 5)
+    ]
+
 
     if CP.enableBsm:
       signals += [

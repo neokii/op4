@@ -26,9 +26,9 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 250         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 5., 15.]
-ANGLE_DELTA_V = [5., .8, .15]     # windup limit
-ANGLE_DELTA_VU = [5., 3.5, 0.4]   # unwind limit
-TQ = 25 # = 1 NM * 100 is unit of measure for wheel.
+ANGLE_DELTA_V = [0.8, .6, .15]     # windup limit
+ANGLE_DELTA_VU = [1., 0.8, 0.4]   # unwind limit
+TQ = 20 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
 
@@ -98,8 +98,7 @@ class CarController():
       self.en_spas = 2
       self.mdps11_stat_last = 0
       self.spas_always = Params().get_bool('spasAlways')
-
-      self.LA = [] # initialize the list for first time only
+      self.lkas_active = False
       
     self.ldws_opt = Params().get_bool('IsLdwsCar')
     self.stock_navi_decel_enabled = Params().get_bool('StockNaviDecelEnabled')
@@ -136,21 +135,15 @@ class CarController():
         rate_limit = interp(CS.out.vEgo, ANGLE_DELTA_BP, ANGLE_DELTA_VU)
 
       apply_angle1 = clip(apply_angle, self.last_apply_angle - rate_limit, self.last_apply_angle + rate_limit) 
-        
-      self.LA.insert(0, apply_angle1)
-      if len(self.LA) > 10: # average last 20 apply_angle1 valuses
-        del self.LA[10]
-      apply_angle = 0
-      for x in self.LA:
-        apply_angle += x
       apply_angle = actuators.steeringAngleDeg #sum(self.LA) / len(self.LA)
       self.last_apply_angle = apply_angle
 
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
+    self.lkas_active = lkas_active
     if not lkas_active:
       apply_steer = 0
-    if enabled and spas_active and TQ <= CS.out.steeringWheelTorque <= -TQ:
+    if enabled and TQ <= CS.out.steeringWheelTorque <= -TQ:
       spas_active = False
     
     UseSMDPS = Params().get_bool('UseSMDPSHarness')
@@ -354,16 +347,10 @@ class CarController():
         can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active_stat))
         #can_sends.append(create_ems_366(self.packer, CS.ems_366, spas_active))
       if (frame % 2) == 0:
-        if CS.mdps11_stat == 6 and self.mdps11_stat_last == 7: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
-          self.en_spas = 2
-        
-        if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
-          self.en_spas = 2
-
         if CS.mdps11_stat == 7:
           self.en_spas = 7
 
-        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7 and spas_active:
+        if CS.mdps11_stat == 7 and self.mdps11_stat_last == 7:
           self.en_spas = 3
           if CS.mdps11_stat == 3:
             self.en_spas = 2
@@ -373,10 +360,11 @@ class CarController():
                 self.en_spas = 4
                 if CS.mdps11_stat == 3 and self.en_spas == 4:
                   self.en_spas = 3  
-                  if CS.mdps11_stat == 3:
-                    self.en_spas = 4
-                    if CS.mdps11_stat == 4:
-                      self.en_spas = 5
+
+        if CS.mdps11_stat == 3 and spas_active:
+          self.en_spas = 4
+          if CS.mdps11_stat == 4:
+            self.en_spas = 5
           
         if CS.mdps11_stat == 2 and spas_active:
           self.en_spas = 3 # Switch to State 3, and get Ready to Assist(Steer). JPR
@@ -389,7 +377,13 @@ class CarController():
 
         if CS.mdps11_stat == 5 and not spas_active:
           self.en_spas = 3
-        
+
+        if CS.mdps11_stat == 6: # Failed to Assist and Steer, Set state back to 2 for a new request. JPR
+          self.en_spas = 2    
+
+        if CS.mdps11_stat == 8: #MDPS ECU Fails to get into state 3 and ready for state 5. JPR
+          self.en_spas = 2    
+
         if not spas_active:
           apply_angle = CS.mdps11_strang
 

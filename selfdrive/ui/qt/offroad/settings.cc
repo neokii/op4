@@ -86,6 +86,36 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                    "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
                                    "../assets/offroad/icon_road.png",
                                    this));
+  toggles.append(new ParamControl("TurnVisionControl",
+                                  "Enable vision based turn control",
+                                  "Use vision path predictions to estimate the appropiate speed to drive through turns ahead.",
+                                  "../assets/offroad/icon_road.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitControl",
+                                  "Enable Speed Limit Control",
+                                  "Use speed limit signs information from map data and car interface to automatically adapt cruise speed to road limits.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("HyundaiNaviSL",
+                                  "Pull Hyundai Navigation Speed Limit",
+                                  "Use speed limit information from Hyundai's built in navigation on newer Hyundai models.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitPercOffset",
+                                  "Enable Speed Limit Offset",
+                                  "Set speed limit slightly higher than actual speed limit for a more natural drive.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitDelayIncrease",
+                                  "Delay increase of speed limit",
+                                  "Delays the increase of the speed limit to give time to the driver to cancel the increase by changing cruise speed.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("TurnSpeedControl",
+                                  "Enable Map Data Turn Control",
+                                  "Use curvature info from map data to define speed limits to take turns ahead",
+                                  "../assets/offroad/icon_openpilot.png",
+                                  this));
 
 #ifdef ENABLE_MAPS
   toggles.append(new ParamControl("NavSettingTime24h",

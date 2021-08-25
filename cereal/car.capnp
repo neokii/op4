@@ -108,12 +108,17 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     driverCameraError @101;
     wideRoadCameraError @102;
     localizerMalfunction @103;
+    highCpuUsage @105;
 
     fl @109;
     fr @110;
     rl @111;
     rr @112;
 
+    speedLimitActive @113;
+    speedLimitDecrease @114;
+    speedLimitIncrease @115;
+    
     driverMonitorLowAccDEPRECATED @68;
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -135,11 +140,11 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     modelLagWarningDEPRECATED @93;
     startupOneplusDEPRECATED @82;
 
-    turningIndicatorOn @105;
-    autoLaneChange @106;
+    turningIndicatorOn @106;
+    autoLaneChange @107;
 
-    slowingDownSpeed @107;
-    slowingDownSpeedSound @108;
+    slowingDownSpeed @108;
+    slowingDownSpeedSound @116;
   }
 }
 
@@ -149,7 +154,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
 struct CarState {
   events @13 :List(CarEvent);
   # tpms
-  tpmsFl @37 :Float32;
+  tpmsFl @41 :Float32;
   tpmsFr @38 :Float32;
   tpmsRl @39 :Float32;
   tpmsRr @40 :Float32;
@@ -173,6 +178,7 @@ struct CarState {
 
   # steering wheel
   steeringAngleDeg @7 :Float32;
+  steeringAngleOffsetDeg @37 :Float32; # Offset betweens sensors in case there multiple
   steeringRateDeg @15 :Float32;
   steeringTorque @8 :Float32;      # TODO: standardize units
   steeringTorqueEps @27 :Float32;  # TODO: standardize units
@@ -212,8 +218,8 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
-  cruiseGap @41 : Int32;
-  autoHold @42 : Int32;
+  cruiseGap @42 : Int32;
+  autoHold @44 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds
@@ -230,6 +236,8 @@ struct CarState {
     speedOffset @3 :Float32;
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
+    speedLimit @6 :Float32;
+    enabledAcc @7 :Bool;
   }
 
   enum GearShifter {
@@ -321,8 +329,8 @@ struct CarControl {
   struct SccSmoother {
     longControl @0:Bool;
 
-    cruiseVirtualMaxSpeed @1 :Float32;
-    cruiseRealMaxSpeed @2 :Float32;
+    applyMaxSpeed @1 :Float32;
+    cruiseMaxSpeed @2 :Float32;
 
     logMessage @3 :Text;
 
@@ -340,6 +348,7 @@ struct CarControl {
     # range from -1.0 - 1.0
     steer @2: Float32;
     steeringAngleDeg @3: Float32;
+    accel @4: Float32; # m/s^2
   }
 
   struct CruiseControl {
