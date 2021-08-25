@@ -328,9 +328,9 @@ class SpeedLimitController():
       return
 
     # In any case, we deactivate the speed limit controller temporarily if the user changes the cruise speed
-    if self._v_cruise_setpoint_changed:
-      self.state = SpeedLimitControlState.tempInactive
-      return
+    #if self._v_cruise_setpoint_changed:
+    #  self.state = SpeedLimitControlState.tempInactive
+    #  return
 
     # inactive
     if self.state == SpeedLimitControlState.inactive:
