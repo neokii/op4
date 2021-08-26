@@ -46,6 +46,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
    - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust speed limit.
    - Cruise speed does not adjust set speed, it instead adjusts longitudinal plan. So for it to work set max speed higher than speed limit
    - All Settings are under `Toggles` in `Settings`.
+   - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decied speed limit.
 
 
 ***RetroPilot***
