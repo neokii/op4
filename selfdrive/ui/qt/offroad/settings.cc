@@ -534,12 +534,6 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("spasAlways",
-                                            "Enable SPAS Always.",
-                                            "SPAS all the time.",
-                                            "../assets/offroad/icon_road.png"
-                                              ));
-  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
@@ -578,13 +572,6 @@ QWidget * community_panel() {
                                             "warnings: DO NOT TRUST BMS FOR ACCURATE BMS INFORMATION!!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
-
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves",
-                                            "Requires HKG Long: When activated with a properly setup car, The system will moderate speed around curves and corners.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
 
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSyncGasPressed",
