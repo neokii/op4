@@ -42,7 +42,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 
 ***Open Street Maps!***
 ---------------------
-   - Speed limit wrong or missing? Contribute to Open Street Maps in your area! https://www.openstreetmap.org/#map=19/26.56437/-80.11415
+   - Speed limit wrong or missing? Contribute to Open Street Maps in your area! https://www.openstreetmap.org
    - Special Thanks to the Move-Fast Team for all the help and hard work with OSM!
    - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust the longitudinal plan for speed limit and other factors.
    - Cruise speed does not adjust SCC max set speed, it instead adjusts longitudinal plan. So for it to work set max SCC speed higher than speed limit. To override speed limit tap on speed limit symbol on screen in top left corner next to max speed.
