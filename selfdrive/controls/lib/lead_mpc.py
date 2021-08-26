@@ -15,7 +15,6 @@ CRUISE_GAP_V = [1.3, 1.4, 1.8, 2.2]
 AUTO_TR_BP = [20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
 AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
 
-
 AUTO_TR_ENABLED = True
 AUTO_TR_CRUISE_GAP = 1
 
@@ -80,6 +79,9 @@ class LeadMpc():
       x_lead = lead.dRel
       v_lead = max(0.0, lead.vLead)
       a_lead = lead.aLeadK
+
+      if not lead.radar:
+        x_lead = max(0., x_lead - 1.)
 
       if (v_lead < 0.1 or -a_lead / 2.0 > v_lead):
         v_lead = 0.0
