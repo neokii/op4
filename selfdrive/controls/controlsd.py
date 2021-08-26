@@ -17,6 +17,7 @@ from selfdrive.controls.lib.drive_helpers import get_lag_adjusted_curvature
 from selfdrive.controls.lib.longcontrol import LongControl, STARTING_TARGET_SPEED
 from selfdrive.controls.lib.latcontrol_pid import LatControlPID
 from selfdrive.controls.lib.latcontrol_indi import LatControlINDI
+
 from selfdrive.controls.lib.latcontrol_lqr import LatControlLQR
 from selfdrive.controls.lib.latcontrol_angle import LatControlAngle
 from selfdrive.controls.lib.events import Events, ET
@@ -29,7 +30,7 @@ from selfdrive.car.hyundai.scc_smoother import SccSmoother
 from selfdrive.ntune import ntune_common_get, ntune_common_enabled, ntune_scc_get
 
 LDW_MIN_SPEED = 20 * CV.MPH_TO_MS
-LANE_DEPARTURE_THRESHOLD = 0.1
+LANE_DEPARTURE_THRESHOLD = 0.01
 STEER_ANGLE_SATURATION_TIMEOUT = 1.0 / DT_CTRL
 STEER_ANGLE_SATURATION_THRESHOLD = 2.5  # Degrees
 
@@ -470,11 +471,9 @@ class Controls:
     # Update VehicleModel
     params = self.sm['liveParameters']
     x = max(params.stiffnessFactor, 0.1)
-    #sr = max(params.steerRatio, 0.1)
-
     if ntune_common_enabled('useLiveSteerRatio'):
       sr = max(params.steerRatio, 0.1)
-    else:
+    else:      
       sr = max(ntune_common_get('steerRatio'), 0.1)
 
     self.VM.update_params(x, sr)
@@ -508,6 +507,8 @@ class Controls:
                                                                              lat_plan.curvatureRates)
       actuators.steer, actuators.steeringAngleDeg, lac_log = self.LaC.update(self.active, CS, self.CP, self.VM, params,
                                                                              desired_curvature, desired_curvature_rate)
+      actuators.steeringAngleDeg = (math.degrees(self.VM.get_steer_from_curvature(-desired_curvature, CS.vEgo)) * 180) / 200
+      actuators.steeringAngleDeg += params.angleOffsetDeg
     else:
       lac_log = log.ControlsState.LateralDebugState.new_message()
       if self.sm.rcv_frame['testJoystick'] > 0 and self.active:
@@ -541,8 +542,10 @@ class Controls:
         left_deviation = actuators.steer > 0 and lat_plan.dPathPoints[0] < -0.1
         right_deviation = actuators.steer < 0 and lat_plan.dPathPoints[0] > 0.1
 
-        if left_deviation or right_deviation:
+        if left_deviation or right_deviation: 
           self.events.add(EventName.steerSaturated)
+          self.steerSaturated = True
+          
 
     # Ensure no NaNs/Infs
     for p in ACTUATOR_FIELDS:

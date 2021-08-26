@@ -1,5 +1,6 @@
 import copy
 import random
+from selfdrive.controls.lib.speed_limit_controller import SpeedLimitController
 import numpy as np
 from common.numpy_fast import clip, interp, mean
 from cereal import car

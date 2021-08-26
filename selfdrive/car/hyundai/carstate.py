@@ -38,6 +38,7 @@ class CarState(CarStateBase):
     self.cruise_unavail_cnt = 0
 
     self.apply_steer = 0.
+    self.steeringTorqueEps = 0
 
     # scc smoother
     self.acc_mode = False
@@ -47,7 +48,7 @@ class CarState(CarStateBase):
     self.standstill = False
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
-
+    self.spas_enabled = CP.spasEnabled
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
     self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
@@ -92,15 +93,14 @@ class CarState(CarStateBase):
 
     ret.steeringAngleDeg = cp_sas.vl["SAS11"]['SAS_Angle']
     ret.steeringRateDeg = cp_sas.vl["SAS11"]['SAS_Speed']
-
-    if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
-      ret.carState.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
     
     ret.yawRate = cp.vl["ESP12"]['YAW_RATE']
     ret.leftBlinker, ret.rightBlinker = self.update_blinker_from_lamp(50, cp.vl["CGW1"]['CF_Gway_TurnSigLh'],
                                                             cp.vl["CGW1"]['CF_Gway_TurnSigRh'])
     ret.steeringTorque = cp_mdps.vl["MDPS12"]['CR_Mdps_StrColTq']
     ret.steeringTorqueEps = cp_mdps.vl["MDPS12"]['CR_Mdps_OutTq']
+    ret.steeringWheelTorque = cp_mdps.vl["MDPS11"]['CR_Mdps_DrvTq'] 
+
     ret.steeringPressed = abs(ret.steeringTorque) > STEER_THRESHOLD
 
     if not ret.standstill and cp_mdps.vl["MDPS12"]['CF_Mdps_ToiUnavail'] != 0:
@@ -166,6 +166,12 @@ class CarState(CarStateBase):
       ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
 
+    #Parking Sensors - JPR
+    #ret.ParkFrontRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkFrontLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkRearRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+    #ret.ParkRearLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
+
 
     # TODO: refactor gear parsing in function
     # Gear Selection via Cluster - For those Kia/Hyundai which are not fully discovered, we can use the Cluster Indicator for Gear Selection,
@@ -207,11 +213,21 @@ class CarState(CarStateBase):
     self.cruise_unavail_cnt += 1 if cp.vl["TCS13"]['CF_VSM_Avail'] != 1 and cp.vl["TCS13"]['ACCEnable'] != 0 else -self.cruise_unavail_cnt
     self.cruise_unavail = self.cruise_unavail_cnt > 100
 
+    if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
+      ret.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
+
+    if self.spas_enabled:
+      self.ems_366 = cp.vl["EMS_366"]
+
     self.lead_distance = cp_scc.vl["SCC11"]['ACC_ObjDist'] if not self.no_radar else 0
     if self.has_scc13:
       self.scc13 = cp_scc.vl["SCC13"]
     if self.has_scc14:
       self.scc14 = cp_scc.vl["SCC14"]
+    if self.spas_enabled:
+      self.ems11 = cp.vl["EMS11"]
+      self.mdps11_strang = cp_mdps.vl["MDPS11"]["CR_Mdps_StrAng"]
+      self.mdps11_stat = cp_mdps.vl["MDPS11"]["CF_Mdps_Stat"]
 
     self.lkas_error = cp_cam.vl["LKAS11"]["CF_Lkas_LdwsSysState"] == 7
     if not self.lkas_error and self.car_fingerprint not in [CAR.SONATA,CAR.PALISADE,
@@ -333,6 +349,8 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
+
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
     ]
     if CP.sccBus == 0 and CP.pcmCruise:
       signals += [
@@ -395,6 +413,7 @@ class CarState(CarStateBase):
       ("CGW2", 5),
       ("CGW4", 5),
       ("WHL_SPD11", 50),
+      ("Navi_HU", 5),
     ]
 
     if CP.sccBus == 0 and CP.pcmCruise:
@@ -414,10 +433,12 @@ class CarState(CarStateBase):
         ("CF_Mdps_SErr", "MDPS12", 0),
         ("CR_Mdps_StrTq", "MDPS12", 0),
         ("CF_Mdps_FailStat", "MDPS12", 0),
-        ("CR_Mdps_OutTq", "MDPS12", 0)
+        ("CR_Mdps_OutTq", "MDPS12", 0),
+        ("CR_Mdps_DrvTq", "MDPS11", 0),
       ]
       checks += [
-        ("MDPS12", 50)
+        ("MDPS12", 50),
+        ("MDPS11", 100),
       ]
     if CP.sasBus == 0:
       signals += [
@@ -477,20 +498,11 @@ class CarState(CarStateBase):
         ("FCA_CmdAct", "FCA11", 0),
         ("CF_VSM_Warn", "FCA11", 0),
       ]
-
-      # if not CP.openpilotLongitudinalControl:
-      #   checks += [("FCA11", 50)]
+      if not CP.openpilotLongitudinalControl:
+        checks += [("FCA11", 50)]
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
-
-    signals += [
-      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
-    ]
-
-    checks += [
-      ("Navi_HU", 5)
-    ]
 
 
     if CP.enableBsm:
@@ -506,6 +518,21 @@ class CarState(CarStateBase):
         ("LDM_STAT", "ESP11", 0),
       ]
       checks += [("ESP11", 50)]
+    if CP.spasEnabled:
+      if CP.mdpsBus == 1:
+        signals += [
+          ("TQI_1", "EMS_366", 0),
+          ("N", "EMS_366", 0),
+          ("TQI_2", "EMS_366", 0),
+          ("VS", "EMS_366", 0),
+          ("SWI_IGK", "EMS_366", 0),
+        ]
+      elif CP.mdpsBus == 0:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [("MDPS11", 100)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
@@ -519,18 +546,27 @@ class CarState(CarStateBase):
         ("CF_Mdps_Def", "MDPS12", 0),
         ("CF_Mdps_ToiActive", "MDPS12", 0),
         ("CF_Mdps_ToiUnavail", "MDPS12", 0),
-        ("CF_Mdps_ToiFlt", "MDPS12", 0),
         ("CF_Mdps_MsgCount2", "MDPS12", 0),
         ("CF_Mdps_Chksum2", "MDPS12", 0),
+        ("CF_Mdps_ToiFlt", "MDPS12", 0),
         ("CF_Mdps_SErr", "MDPS12", 0),
         ("CR_Mdps_StrTq", "MDPS12", 0),
         ("CF_Mdps_FailStat", "MDPS12", 0),
-        ("CR_Mdps_OutTq", "MDPS12", 0)
+        ("CR_Mdps_OutTq", "MDPS12", 0),
+        ("CR_Mdps_DrvTq", "MDPS11", 0),
       ]
       checks += [
-        ("MDPS12", 50)
+        ("MDPS12", 50),
+        ("MDPS11", 100),
       ]
-
+      if CP.spasEnabled:
+        signals += [
+          ("CR_Mdps_StrAng", "MDPS11", 0),
+          ("CF_Mdps_Stat", "MDPS11", 0),
+        ]
+        checks += [
+          ("MDPS11", 100),
+        ]
     if CP.sasBus == 1:
       signals += [
         ("SAS_Angle", "SAS11", 0),

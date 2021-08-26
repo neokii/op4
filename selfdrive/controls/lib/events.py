@@ -564,7 +564,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.steerSaturated: {
     ET.WARNING: Alert(
       "TAKE CONTROL",
-      "Turn Exceeds Steering Limit",
+      "MDPS SPAS State: 7, User override, or MDPS Fault",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
@@ -661,8 +661,6 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.steerTempUnavailable: {
     ET.SOFT_DISABLE: SoftDisableAlert("Steering Temporarily Unavailable"),
-    ET.NO_ENTRY: NoEntryAlert("Steering Temporarily Unavailable",
-                              duration_hud_alert=0.),
   },
 
   EventName.outOfSpace: {
