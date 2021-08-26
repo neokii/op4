@@ -115,10 +115,6 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
 
-***Slow down for curves toggle. (Beta)***
-
-   - allows openpilot to slow car when entering curves on HKG Long. 
-
 ***LDWS toggle***
 
    - under `Community` in `Settings`. For cars with LDWS but not SCC.
@@ -149,11 +145,6 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 ***Sync Speed on Gas Press***
 
   - openpilot will sync cruise control set speed to match last attained speed automatically
-
-***Smooth SCC with SCC smoother.***
-
-***Use by fusion with stock SCC*** - removed in 0.8.8
-   If applicable stock SCC will control gas and OP will control braking, it will smooth out the late abrupt braking from stock SCC.
 
 ***Make sure to reboot with toggle changes.***
 
