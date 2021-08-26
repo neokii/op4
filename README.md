@@ -36,10 +36,19 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 **Liability**
 ------------
 
-
 **It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
 
 **By using this software you are responsible for anything that occurs while OpenPilot is engaged or disengaged. Be ready to take over at any moment. Fork maintainers assumes no liability for your use of this software and any hardware.**
+
+***Open Street Maps!***
+---------------------
+   - Special Thanks to the Move-Fast Team for all the help and hard work with OSM!
+   - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust speed limit.
+   - Cruise speed does not adjust set speed, it instead adjusts longitudinal plan. So for it to work set max speed higher than speed limit
+   - All Settings are under `Toggles` in `Settings`.
+   - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decied speed limit.
+   - https://www.youtube.com/watch?v=hTuvA6o6gjY
+
 
 ***RetroPilot***
 ----------------
@@ -100,9 +109,11 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
    - Bring back my Lead Markers toggle for non HKG Longitudinal cars in `Community`. Not Recommended VERY MISSLEADING FOR STOCK LONGITUDINAL CARS
     - when Toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
 
-***Slow down for curves toggle. (Beta)***
+***SPAS Support for EMS 366***
+   - Sends parking assist messages up to 41mph, With safety code to due the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
+   - https://www.youtube.com/watch?v=9U3gntnhbvM
+   - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
-   - allows openpilot to slow car when entering curves on HKG Long. 
 
 ***LDWS toggle***
 
@@ -134,11 +145,6 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 ***Sync Speed on Gas Press***
 
   - openpilot will sync cruise control set speed to match last attained speed automatically
-
-***Smooth SCC with SCC smoother.***
-
-***Use by fusion with stock SCC*** - removed in 0.8.8
-   If applicable stock SCC will control gas and OP will control braking, it will smooth out the late abrupt braking from stock SCC.
 
 ***Make sure to reboot with toggle changes.***
 
