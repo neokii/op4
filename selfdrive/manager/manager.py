@@ -59,8 +59,6 @@ def manager_init():
     ("TurnVisionControl", "1"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
-    ("RVL", "0"),
-
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
     ("CleanUI", "1"),
