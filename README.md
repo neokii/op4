@@ -43,11 +43,32 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 ***Open Street Maps!***
 ---------------------
    - Special Thanks to the Move-Fast Team for all the help and hard work with OSM!
-   - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust speed limit.
-   - Cruise speed does not adjust set speed, it instead adjusts longitudinal plan. So for it to work set max speed higher than speed limit. To override speed limit tap on speed limit symbol on screen in top left corner next to max speed.
+   - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust the longitudinal plan for speed limit and other factors.
+   - Cruise speed does not adjust SCC max set speed, it instead adjusts longitudinal plan. So for it to work set max SCC speed higher than speed limit. To override speed limit tap on speed limit symbol on screen in top left corner next to max speed.
    - All Settings are under `Toggles` in `Settings`.
    - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decide speed limit.
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
+
+***SPAS***
+----------
+   - SPAS currently only **Supports EMS 366** EMS 11 is being worked on reach out to @johnpr#5623 on Discord to help!
+   - Sends parking assist messages up to 41mph, With safety code to do the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
+   - OpenPilot disables on override.
+   - Overried driver torque thresehold is 0.25 nm and is set in "carcontroller.py".
+   - Openpilot takes into account and handels all 8 states in the correct order.
+   - Openpilot correctly handles all MDPS faults.
+   - Openpilot handels switch from SPAS to LKAS and back correctly, not to spam if hovering around 41mph.
+   - SPAS has a Delta V rate limit on the steering thats speed corralated located in "carcontroller.py".
+   - Max SPAS steering angle is set in "carcontroller.py" .
+   - SPAS to LKAS switch speed is 41mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
+   - https://www.youtube.com/watch?v=9U3gntnhbvM
+   - https://www.youtube.com/watch?v=hTuvA6o6gjY
+
+***HKG Long control toggle. (radar + vision)***
+-----------------------------------------------
+   - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
+   - Lead markers are not available unless you have HKG long.
+   - Radar harness needed except for 2015 - 2016 Genesis.
 
 
 ***RetroPilot***
@@ -78,7 +99,8 @@ The **Comma 2** has **POOR** performance with logging and uploader enabled so it
 
 Make sure to **shut off** auto start stop or you will get steering temporarily unavailable if the engine shuts off.
 
-**Screen Recordings** saved to. `/storage/emulated/0/videos`
+**Screen Recordings** 
+- Saved to. `/storage/emulated/0/videos`
 
 **Features**
 ------------
@@ -103,25 +125,6 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 ***Cluster Speed***
 
    - Uses the speed of the gauge cluster instead GPS speed.
-
-***HKG Long control toggle. (radar + vision)***
-
-   - Bring back my Lead Markers toggle for non HKG Longitudinal cars in `Community`. Not Recommended VERY MISSLEADING FOR STOCK LONGITUDINAL CARS
-    - when Toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
-
-***SPAS Support for EMS 366***
-   - Sends parking assist messages up to 41mph, With safety code to due the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
-   - OpenPilot disables on override.
-   - Overried driver torque thresehold is 0.25 nm and is set in "carcontroller.py".
-   - Openpilot takes into account and handels all 8 states in the correct order.
-   - Openpilot correctly handles all MDPS faults.
-   - Openpilot handels switch from SPAS to LKAS and back correctly, not to spam if hovering around 41mph.
-   - SPAS has a Delta V rate limit on the steering thats speed corralated located in "carcontroller.py".
-   - Max SPAS steering angle is set in "carcontroller.py" .
-   - SPAS to LKAS switch speed is 41mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
-   - https://www.youtube.com/watch?v=9U3gntnhbvM
-   - https://www.youtube.com/watch?v=hTuvA6o6gjY
-
 
 ***LDWS toggle***
 
