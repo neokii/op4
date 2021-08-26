@@ -49,8 +49,9 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
    - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decide speed limit.
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
-***SPAS Support for EMS 366***
--------------------------------
+***SPAS***
+----------
+   - SPAS currently only **Supports for EMS 366** EMS 11 is being worked on.
    - Sends parking assist messages up to 41mph, With safety code to due the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
    - OpenPilot disables on override.
    - Overried driver torque thresehold is 0.25 nm and is set in "carcontroller.py".
