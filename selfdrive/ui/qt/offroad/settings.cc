@@ -96,6 +96,11 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "Use speed limit signs information from map data and car interface to automatically adapt cruise speed to road limits.",
                                   "../assets/offroad/icon_speed_limit.png",
                                   this));
+  toggles.append(new ParamControl("HyundaiNaviSL",
+                                  "Pull Hyundai Navigation Speed Limit",
+                                  "Use speed limit information from Hyundai's built in navigation on newer Hyundai models.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
   toggles.append(new ParamControl("SpeedLimitPercOffset",
                                   "Enable Speed Limit Offset",
                                   "Set speed limit slightly higher than actual speed limit for a more natural drive.",
@@ -157,6 +162,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     }
   });
 
+  main_layout->addWidget(horizontal_line());
+  main_layout->addLayout(reset_layout);
 
   // Settings and buttons - JPR
   main_layout->addWidget(horizontal_line());
@@ -521,6 +528,12 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("spasEnabled",
+                                            "Enable SPAS.",
+                                            "Enable Send Parking Assist Messages up to 6MPH. Warning: It is beta, be careful!!",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("LongControlEnabled",
                                             "Enable HKG Long Control",
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
@@ -567,13 +580,6 @@ QWidget * community_panel() {
                                               ));
 
   toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves",
-                                            "Requires HKG Long: When activated with a properly setup car, The system will moderate speed around curves and corners.",
-                                            "../assets/offroad/icon_road.png"
-                                            ));
-
-  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("SccSmootherSyncGasPressed",
                                             "Sync set speed on gas pressed",
                                             "Syncs the set speed with the cluster when gas is pressed.",
@@ -581,7 +587,7 @@ QWidget * community_panel() {
                                             ));
   toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("StockNaviDecelEnabled",
-                                            "Stock Navi based deceleration",
+                                            "Neokii Stock Navi based deceleration",
                                             "Use the stock navi based deceleration for longcontrol",
                                             "../assets/offroad/icon_road.png"
                                             ));

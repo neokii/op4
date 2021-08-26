@@ -182,6 +182,7 @@ struct CarState {
   steeringRateDeg @15 :Float32;
   steeringTorque @8 :Float32;      # TODO: standardize units
   steeringTorqueEps @27 :Float32;  # TODO: standardize units
+  steeringWheelTorque @43:Float32;
   steeringPressed @9 :Bool;        # if the user is using the steering wheel
   steeringRateLimited @29 :Bool;   # if the torque is limited by the rate limiter
   steerWarning @35 :Bool;          # temporary steer unavailble
@@ -218,7 +219,7 @@ struct CarState {
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
   cruiseGap @42 : Int32;
-  autoHold @43 : Int32;
+  autoHold @44 : Int32;
 
   struct WheelSpeeds {
     # optional wheel speeds
@@ -236,6 +237,7 @@ struct CarState {
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
     speedLimit @6 :Float32;
+    enabledAcc @7 :Bool;
   }
 
   enum GearShifter {
@@ -327,8 +329,8 @@ struct CarControl {
   struct SccSmoother {
     longControl @0:Bool;
 
-    cruiseVirtualMaxSpeed @1 :Float32;
-    cruiseRealMaxSpeed @2 :Float32;
+    applyMaxSpeed @1 :Float32;
+    cruiseMaxSpeed @2 :Float32;
 
     logMessage @3 :Text;
 
@@ -480,6 +482,7 @@ struct CarParams {
   hasScc13 @62 :Bool;
   hasScc14 @63 :Bool;
   hasEms @64 :Bool;
+  spasEnabled @65: Bool;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);

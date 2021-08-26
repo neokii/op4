@@ -49,28 +49,30 @@ def manager_init():
     ("AutoLaneChangeEnabled", "1"),
 
     ("SccSmootherSlowOnCurves", "0"),
-    ("ShowDebugUI", "1"),
+    ("SccSmootherSyncGasPressed", "0"),
+    ("StockNaviDecelEnabled", "0"),
+    ("ShowDebugUI", "0"),
     ("SpeedLimitControl", "1"),
     ("SpeedLimitPercOffset", "1"),
     ("SpeedLimitDelayIncrease", "1"),
     ("TurnSpeedControl", "1"),
     ("TurnVisionControl", "1"),
-    ("CustomLeadMark", "0"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
-    ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
     ("CleanUI", "1"),
     ("AR", "0"),
     ("UseLQR", "0"),
+    ("spasEnabled","0"),
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1"),
-    ("LowSpeedAlerts", "1"),
-    ("SccSmootherSyncGasPressed", "0"),
+    ("spasAlways", "0"),
+    ("PutPrebuilt", "0"),
     ("StockNaviDecelEnabled", "0"),
     ("ShowDebugUI", "0"),
-    ("CustomLeadMark", "0")
+    ("CustomLeadMark", "0"),
+    ("HyundaiNaviSL", "0")
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
