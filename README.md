@@ -36,10 +36,17 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 **Liability**
 ------------
 
-
 **It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
 
 **By using this software you are responsible for anything that occurs while OpenPilot is engaged or disengaged. Be ready to take over at any moment. Fork maintainers assumes no liability for your use of this software and any hardware.**
+
+***Open Street Maps!***
+---------------------
+   - Special Thanks to the Move-Fast Team for all the help and hard work with OSM!
+   - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust speed limit.
+   - Cruise speed does not adjust set speed, it instead adjusts longitudinal plan. So for it to work set max speed higher than speed limit
+   - All Settings are under `Toggles` in `Settings`.
+
 
 ***RetroPilot***
 ----------------
@@ -99,6 +106,10 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 
    - Bring back my Lead Markers toggle for non HKG Longitudinal cars in `Community`. Not Recommended VERY MISSLEADING FOR STOCK LONGITUDINAL CARS
     - when Toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
+
+***SPAS Support for EMS 366***
+   - Sends parking assist messages up to 41mph, With safety code to due the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
+
 
 ***Slow down for curves toggle. (Beta)***
 
