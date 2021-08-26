@@ -26,8 +26,8 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 250         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 5., 15.]
-ANGLE_DELTA_V = [0.8, .6, .15]     # windup limit
-ANGLE_DELTA_VU = [1., 0.8, 0.4]   # unwind limit
+ANGLE_DELTA_V = [0.6, .4, .15]     # windup limit
+ANGLE_DELTA_VU = [0.8, 0.6, 0.4]   # unwind limit
 TQ = 20 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
