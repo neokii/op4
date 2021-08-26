@@ -47,6 +47,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
    - Cruise speed does not adjust set speed, it instead adjusts longitudinal plan. So for it to work set max speed higher than speed limit
    - All Settings are under `Toggles` in `Settings`.
    - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decied speed limit.
+   - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
 
 ***RetroPilot***
@@ -110,6 +111,8 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 
 ***SPAS Support for EMS 366***
    - Sends parking assist messages up to 41mph, With safety code to due the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
+   - https://www.youtube.com/watch?v=9U3gntnhbvM
+   - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
 
 ***Slow down for curves toggle. (Beta)***
