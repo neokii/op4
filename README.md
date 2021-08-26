@@ -51,7 +51,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 
 ***SPAS***
 ----------
-   - SPAS currently only **Supports for EMS 366** EMS 11 is being worked on.
+   - SPAS currently only **Supports EMS 366** EMS 11 is being worked on reach out to @johnpr#5623 on Discord to help!
    - Sends parking assist messages up to 41mph, With safety code to do the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
    - OpenPilot disables on override.
    - Overried driver torque thresehold is 0.25 nm and is set in "carcontroller.py".
