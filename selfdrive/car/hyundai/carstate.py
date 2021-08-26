@@ -214,7 +214,7 @@ class CarState(CarStateBase):
     self.cruise_unavail = self.cruise_unavail_cnt > 100
 
     if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
-      self.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
+      ret.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
 
     if self.spas_enabled:
       self.ems_366 = cp.vl["EMS_366"]
@@ -349,6 +349,8 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11", 0),
       ("PRESSURE_RL", "TPMS11", 0),
       ("PRESSURE_RR", "TPMS11", 0),
+
+      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
     ]
 
     checks = [
@@ -361,6 +363,7 @@ class CarState(CarStateBase):
       ("CGW2", 5),
       ("CGW4", 5),
       ("WHL_SPD11", 50),
+      ("Navi_HU", 5),
     ]
 
     if CP.sccBus == 0 and CP.pcmCruise:
@@ -447,14 +450,6 @@ class CarState(CarStateBase):
       ]
       if not CP.openpilotLongitudinalControl:
         checks += [("FCA11", 50)]
-        
-    signals += [
-      ("SpeedLim_Nav_Clu", "Navi_HU", 0),
-    ]
-
-    checks += [
-      ("Navi_HU", 5)
-    ]
 
     if CP.carFingerprint in [CAR.SANTA_FE]:
       checks.remove(("TCS13", 50))
