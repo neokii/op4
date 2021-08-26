@@ -214,7 +214,7 @@ class CarState(CarStateBase):
     self.cruise_unavail = self.cruise_unavail_cnt > 100
 
     if Params().get_bool('HyundaiNaviSL'): # JPR 2019 or newer hyundai 
-      ret.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
+      self.speedLimit = cp.vl["Navi_HU"]['SpeedLim_Nav_Clu']
 
     if self.spas_enabled:
       self.ems_366 = cp.vl["EMS_366"]
