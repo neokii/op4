@@ -627,10 +627,11 @@ class CarInterface(CarInterfaceBase):
     if self.mad_mode_enabled and EventName.pedalPressed in events.events:
       events.events.remove(EventName.pedalPressed)
 
-    if not self.CC.lkas_active and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
-      events.add(EventName.steerSaturated)
-      if not self.CC.turning_indicator_alert:
-        events.add(EventName.buttonCancel)
+    if Params().get_bool('spasEnabled'):
+      if not self.CC.lkas_active and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
+        events.add(EventName.steerSaturated)
+        if not self.CC.turning_indicator_alert:
+          events.add(EventName.buttonCancel)
 
     
 
