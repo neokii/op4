@@ -806,7 +806,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.highCpuUsage: {
     ET.WARNING: Alert(
-      "High CPU Usage : Poor Performance",
+      "!!High CPU Usage!!",
+      "!!Poor Performance!!",
       AlertStatus.userPrompt, AlertSize.small,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .0, .2),
     #ET.SOFT_DISABLE: SoftDisableAlert("System Malfunction: Reboot Your Device"),
