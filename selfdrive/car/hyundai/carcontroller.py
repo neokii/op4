@@ -26,8 +26,8 @@ VisualAlert = car.CarControl.HUDControl.VisualAlert
 STEER_ANG_MAX = 250         # SPAS Max Angle
 # nissan limits values
 ANGLE_DELTA_BP = [0., 5., 15.]
-ANGLE_DELTA_V = [0.6, .4, .15]     # windup limit
-ANGLE_DELTA_VU = [0.8, 0.6, 0.4]   # unwind limit
+ANGLE_DELTA_V = [0.4, .25, .15]     # windup limit
+ANGLE_DELTA_VU = [0.6, 0.4, 0.2]   # unwind limit
 TQ = 20 # = 1 NM * 100 is unit of measure for wheel.
 SPAS_SWITCH = 41 * CV.MPH_TO_MS #MPH
 ###### SPAS #######
@@ -141,6 +141,8 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     self.lkas_active = lkas_active
+    if spas_active and -apply_angle > 10 < apply_angle:
+      spas_active = True
     if not lkas_active:
       apply_steer = 0
     if enabled and TQ <= CS.out.steeringWheelTorque <= -TQ:
