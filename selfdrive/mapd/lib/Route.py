@@ -242,7 +242,7 @@ class Route():
       return []
 
     self._cuvature_limits_ahead = self._nodes_data. \
-        curvatures_speed_limit_sections_ahead(self._ahead_idx, self._distance_to_node_ahead)
+      curvatures_speed_limit_sections_ahead(self._ahead_idx, self._distance_to_node_ahead)
 
     return self._cuvature_limits_ahead
 
