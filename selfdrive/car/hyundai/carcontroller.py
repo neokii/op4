@@ -141,7 +141,7 @@ class CarController():
     spas_active = CS.spas_enabled and enabled and (self.spas_always or CS.out.vEgo < SPAS_SWITCH) 
     lkas_active = enabled and abs(CS.out.steeringAngleDeg) < CS.CP.maxSteeringAngleDeg and not spas_active
     self.lkas_active = lkas_active
-    if spas_active and -apply_angle > 10 < apply_angle:
+    if spas_active and -5 > apply_angle < 5:
       spas_active = True
     if not lkas_active:
       apply_steer = 0
