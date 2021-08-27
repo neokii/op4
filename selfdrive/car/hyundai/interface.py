@@ -147,6 +147,8 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.steerRatio = 16.5
       tire_stiffness_factor = 0.85
+      ret.minSteerSpeed = 37 * CV.MPH_TO_MS
+
       if not UseLQR:
         ret.lateralTuning.init('indi')
         ret.lateralTuning.indi.innerLoopGainBP = [0.]
