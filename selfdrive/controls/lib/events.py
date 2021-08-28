@@ -564,7 +564,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.steerSaturated: {
     ET.WARNING: Alert(
       "TAKE CONTROL",
-      "MDPS SPAS State: 7, User override, or MDPS Fault",
+      "User override or MDPS Fault",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
       ET.NO_ENTRY: NoEntryAlert("MDPS State 7: User override or fault."),  },
