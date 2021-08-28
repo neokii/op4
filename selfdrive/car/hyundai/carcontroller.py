@@ -168,7 +168,7 @@ class CarController():
 
     # Disable steering while turning blinker on and speed below 60 kph
     if CS.out.leftBlinker or CS.out.rightBlinker:
-      self.turning_signal_timer = 0.5 / DT_CTRL  # Disable for 0.5 Seconds after blinker turned off
+      self.turning_signal_timer = 1.0 / DT_CTRL  # Disable for 1.0 Seconds after blinker turned off
     if self.turning_indicator_alert and enabled: # set and clear by interface
       lkas_active = False
       spas_active = False
