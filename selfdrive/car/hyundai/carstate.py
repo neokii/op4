@@ -48,7 +48,7 @@ class CarState(CarStateBase):
     self.standstill = False
     self.cruiseState_enabled = False
     self.cruiseState_speed = 0
-    self.spas_enabled = CP.spasEnabled
+
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
     self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
@@ -512,21 +512,6 @@ class CarState(CarStateBase):
         ("LDM_STAT", "ESP11", 0),
       ]
       checks += [("ESP11", 50)]
-    if CP.spasEnabled:
-      if CP.mdpsBus == 1:
-        signals += [
-          ("TQI_1", "EMS_366", 0),
-          ("N", "EMS_366", 0),
-          ("TQI_2", "EMS_366", 0),
-          ("VS", "EMS_366", 0),
-          ("SWI_IGK", "EMS_366", 0),
-        ]
-      elif CP.mdpsBus == 0:
-        signals += [
-          ("CR_Mdps_StrAng", "MDPS11", 0),
-          ("CF_Mdps_Stat", "MDPS11", 0),
-        ]
-        checks += [("MDPS11", 100)]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
@@ -553,14 +538,6 @@ class CarState(CarStateBase):
         ("MDPS12", 50),
         ("MDPS11", 100),
       ]
-      if CP.spasEnabled:
-        signals += [
-          ("CR_Mdps_StrAng", "MDPS11", 0),
-          ("CF_Mdps_Stat", "MDPS11", 0),
-        ]
-        checks += [
-          ("MDPS11", 100),
-        ]
     if CP.sasBus == 1:
       signals += [
         ("SAS_Angle", "SAS11", 0),

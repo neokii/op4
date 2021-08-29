@@ -59,11 +59,8 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.c = [1., 0.]
       ret.lateralTuning.lqr.k = [-110., 451.]
       ret.lateralTuning.lqr.l = [0.33, 0.318]
-
-    if not Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.1
-    else:
-      ret.steerActuatorDelay = 0.1
+    
+    ret.steerActuatorDelay = 0.1
 
     tire_stiffness_factor = 1.
     ret.steerLimitTimer = 2.5
@@ -509,10 +506,7 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.pcmCruise = not ret.radarOffCan
 
-    # SPAS
-    ret.spasEnabled = Params().get_bool('spasEnabled')
-    if Params().get_bool('spasAlways'):
-      ret.steerControlType = car.CarParams.SteerControlType.angle
+
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
