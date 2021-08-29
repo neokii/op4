@@ -271,9 +271,9 @@ void CANParser::UpdateValid(uint64_t sec) {
     const auto& state = kv.second;
     if (state.check_threshold > 0 && (sec - state.seen) > state.check_threshold) {
       if (state.seen > 0) {
-        DEBUG("0x%X TIMEOUT\n", state.address);
+        INFO("0x%X TIMEOUT\n", state.address);
       } else {
-        DEBUG("0x%X MISSING\n", state.address);
+        INFO("0x%X MISSING\n", state.address);
       }
       can_valid = false;
     }

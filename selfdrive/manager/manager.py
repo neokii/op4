@@ -38,7 +38,7 @@ def manager_init():
 
     ("OpenpilotEnabledToggle", "1"),
     ("CommunityFeaturesToggle", "1"),
-    ("IsMetric", "1"),
+    ("IsMetric", "0"),
 
     # HKG
     ("UseClusterSpeed", "0"),
@@ -49,22 +49,31 @@ def manager_init():
     ("AutoLaneChangeEnabled", "1"),
 
     ("SccSmootherSlowOnCurves", "0"),
-    ("SccSmootherSyncGasPressed", "1"),
+    ("SccSmootherSyncGasPressed", "0"),
+    ("StockNaviDecelEnabled", "0"),
     ("ShowDebugUI", "0"),
-    ("CustomLeadMark", "0"),
+    ("SpeedLimitControl", "1"),
+    ("SpeedLimitPercOffset", "1"),
+    ("SpeedLimitDelayIncrease", "1"),
+    ("TurnSpeedControl", "1"),
+    ("TurnVisionControl", "1"),
     ("UseSMDPSHarness", "0"),
     ("SSCOD", "0"),
-    ("RVL", "0"),
-    ("CustomLeadMark", "0"),
     ("DisableUpdates", "0"),
     ("LoggerEnabled", "0"),
     ("CleanUI", "1"),
     ("AR", "0"),
     ("UseLQR", "0"),
+    ("spasEnabled","0"),
     ("PutPrebuilt", "0"),
     ("TPMS_Alerts", "1"),
+    ("spasAlways", "0"),
+    ("PutPrebuilt", "0"),
+    ("StockNaviDecelEnabled", "0"),
+    ("ShowDebugUI", "0"),
+    ("CustomLeadMark", "0"),
+    ("HyundaiNaviSL", "0"),
     ("LowSpeedAlerts", "1")
-
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
@@ -226,19 +235,6 @@ def main():
   if Params().get_bool("DoUninstall"):
     cloudlog.warning("uninstalling")
     HARDWARE.uninstall()
-
-  count = 0
-  
-  if count == 0:
-    if Params().getBool('hotspot_on_boot') and Params().getBool('IsOnroad'):
-      os.system("service call wifi 37 i32 0 i32 1 &")
-      count = 1
-  if count > 0:
-    if Params().getBool('IsOffroad') and Params().getBool('c_wifi_offroad'):
-      os.system("service call wifi 37 i32 0 i32 0 &")
-      count = 0
-
-
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ hyundai_checksum = crcmod.mkCrcFun(0x11D, initCrc=0xFD, rev=False, xorOut=0xdf)
 def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
                   lkas11, sys_warning, sys_state, enabled,
                   left_lane, right_lane,
-                  left_lane_depart, right_lane_depart, bus, ldws_opt):
+                  left_lane_depart, right_lane_depart, bus):
   values = copy.copy(lkas11)
   values["CF_Lkas_LdwsSysState"] = sys_state
   values["CF_Lkas_SysWarning"] = 3 if sys_warning else 0
@@ -49,8 +49,6 @@ def create_lkas11(packer, frame, car_fingerprint, apply_steer, steer_req,
     values["CF_Lkas_FcwOpt_USM"] = 2 if enabled else 1
     values["CF_Lkas_SysWarning"] = 4 if sys_warning else 0
 
-  if ldws_opt:
-    values["CF_Lkas_LdwsOpt_USM"] = 3
 
   dat = packer.make_can_msg("LKAS11", 0, values)[2]
 
@@ -91,11 +89,11 @@ def create_lfahda_mfc(packer, enabled, active):
 
   return packer.make_can_msg("LFAHDA_MFC", 0, values)
 
-def create_hda_mfc(packer, active):
+def create_hda_mfc(packer, active, state):
   values = {
     "HDA_USM": 2,
     "HDA_Active": 1 if active > 0 else 0,
-    "HDA_Icon_State": 2 if active > 0 else 0,
+    "HDA_Icon_State": state if active > 0 else 0,
   }
 
   return packer.make_can_msg("LFAHDA_MFC", 0, values)
@@ -113,12 +111,13 @@ def create_mdps12(packer, frame, mdps12):
 
   return packer.make_can_msg("MDPS12", 2, values)
 
-def create_scc11(packer, frame, enabled, set_speed, lead_visible, scc_live, scc11, active_cam):
+def create_scc11(packer, frame, enabled, set_speed, lead_visible, scc_live, scc11, active_cam, stock_cam):
   values = copy.copy(scc11)
   values["AliveCounterACC"] = frame // 2 % 0x10
 
-  values["Navi_SCC_Camera_Act"] = 2 if active_cam else 0
-  values["Navi_SCC_Camera_Status"] = 2 if active_cam else 0
+  if not stock_cam:
+    values["Navi_SCC_Camera_Act"] = 2 if active_cam else 0
+    values["Navi_SCC_Camera_Status"] = 2 if active_cam else 0
 
   if not scc_live:
     values["MainMode_ACC"] = 1
@@ -169,3 +168,29 @@ def create_scc14(packer, enabled, e_vgo, standstill, accel, gaspressed, objgap, 
 
   return packer.make_can_msg("SCC14", 0, values)
 
+def create_spas11(packer, car_fingerprint, frame, en_spas, apply_steer, bus):
+  values = {
+    "CF_Spas_Stat": en_spas,
+    "CF_Spas_TestMode": 0,
+    "CR_Spas_StrAngCmd": apply_steer,
+    "CF_Spas_BeepAlarm": 0,
+    "CF_Spas_Mode_Seq": 2,
+    "CF_Spas_AliveCnt": frame % 0x200,
+    "CF_Spas_Chksum": 0,
+    "CF_Spas_PasVol": 0,
+  }
+  dat = packer.make_can_msg("SPAS11", 0, values)[2]
+  if car_fingerprint in CHECKSUM["crc8"]:
+    dat = dat[:6]
+    values["CF_Spas_Chksum"] = hyundai_checksum(dat)
+  else:
+    values["CF_Spas_Chksum"] = sum(dat[:6]) % 256
+  return packer.make_can_msg("SPAS11", bus, values)
+
+def create_spas12(bus):
+  return [1268, 0, b"\x00\x00\x00\x00\x00\x00\x00\x00", bus]
+def create_ems_366(packer, ems_366, enabled):
+  values = ems_366
+  if enabled:
+    values["VS"] = 1
+  return packer.make_can_msg("EMS_366", 1, values)
