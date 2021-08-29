@@ -630,9 +630,8 @@ class CarInterface(CarInterfaceBase):
         events.add(EventName.steerSaturated)
         if not self.CC.turning_indicator_alert:
           events.add(EventName.buttonCancel)
-
-    if not self.CC.lkas_active and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 8):
-      events.add(EventName.steerTempUnavailable)
+      if not self.CC.lkas_active and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 8):
+        events.add(EventName.steerTempUnavailable)
 
     
 
