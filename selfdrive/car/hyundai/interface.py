@@ -59,11 +59,8 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.c = [1., 0.]
       ret.lateralTuning.lqr.k = [-110., 451.]
       ret.lateralTuning.lqr.l = [0.33, 0.318]
-
-    if not Params().get_bool('spasEnabled'):
-      ret.steerActuatorDelay = 0.1
-    else:
-      ret.steerActuatorDelay = 0.1
+    
+    ret.steerActuatorDelay = 0.1
 
     tire_stiffness_factor = 1.
     ret.steerLimitTimer = 2.5
@@ -147,7 +144,6 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
       ret.steerRatio = 16.5
       tire_stiffness_factor = 0.85
-
       if not UseLQR:
         ret.lateralTuning.init('indi')
         ret.lateralTuning.indi.innerLoopGainBP = [0.]
@@ -342,7 +338,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
       ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
 
-    elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
+    elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV, CAR.IONIQ_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
       ret.mass = 1490. + STD_CARGO_KG
       ret.steerRatio = 13.73  # Spec
@@ -437,10 +433,9 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.SPORTAGE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
-      ret.mass = 3765. * CV.LB_TO_KG
-      ret.wheelbase = 2.66
+      ret.mass = 1985. + STD_CARGO_KG
+      ret.wheelbase = 2.78
       tire_stiffness_factor = 0.7
-      ret.steerRatio = 13.75
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.NIRO_EV, CAR.NIRO_HEV, CAR.NIRO21_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
@@ -511,10 +506,7 @@ class CarInterface(CarInterfaceBase):
     ret.radarOffCan = ret.sccBus == -1
     ret.pcmCruise = not ret.radarOffCan
 
-    # SPAS
-    ret.spasEnabled = Params().get_bool('spasEnabled')
-    if Params().get_bool('spasAlways'):
-      ret.steerControlType = car.CarParams.SteerControlType.angle
+
 
     # set safety_hyundai_community only for non-SCC, MDPS harrness or SCC harrness cars or cars that have unknown issue
     if ret.radarOffCan or ret.mdpsBus == 1 or ret.openpilotLongitudinalControl or ret.sccBus == 1 or Params().get_bool('MadModeEnabled'):
@@ -541,7 +533,7 @@ class CarInterface(CarInterfaceBase):
       ret.cruiseState.enabled = ret.cruiseState.available
 
     # turning indicator alert logic
-    if (ret.leftBlinker or ret.rightBlinker or self.CC.turning_signal_timer) and ret.vEgo < LANE_CHANGE_SPEED_MIN - 1.2:
+    if (ret.leftBlinker or ret.rightBlinker or self.CC.turning_signal_timer) and ret.vEgo < LANE_CHANGE_SPEED_MIN - 0.5:
       self.CC.turning_indicator_alert = True
     else:
       self.CC.turning_indicator_alert = False
@@ -592,8 +584,6 @@ class CarInterface(CarInterfaceBase):
       minTP = 30
     elif CAR.K5:
       minTP = 30
-    elif CAR.SPORTAGE:
-      minTP = 33
     elif CAR.FORTE:
       minTP = 30
     elif CAR.GENESIS:
@@ -630,12 +620,6 @@ class CarInterface(CarInterfaceBase):
     #  events.add(EventName.buttonCancel)
     if self.mad_mode_enabled and EventName.pedalPressed in events.events:
       events.events.remove(EventName.pedalPressed)
-
-    if Params().get_bool('spasEnabled'):
-      if not self.CC.lkas_active and (self.CS.mdps11_stat == 6 or self.CS.mdps11_stat == 7  or self.CS.mdps11_stat == 8): # We need to alert driver when SPAS abort or fail.
-        events.add(EventName.steerSaturated)
-        if not self.CC.turning_indicator_alert:
-          events.add(EventName.buttonCancel)
 
     
 
