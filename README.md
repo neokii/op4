@@ -172,27 +172,37 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 ***Install***
 ------------
 
-***0.8.8 From Setup***
+***Comma 2 From Setup***
 ---------------------
+
 
 **Test**
 
-Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test`
+Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test_C2`
 
 **Stable**
 
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable`
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
 
-***0.8.8 From SSH***
+***Comma 2 & 3 From SSH***
 ---------------------
+
+***Comma 3***
+-------------
+Comma 3 is only in dev at this stage nothing is expected to work properly.
+Run this command after install of stock OpenPilot
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout dev_C3 && reboot`
+
+***Comma 2***
+-------------
 
 **Test**
 
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout test && reboot`
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout test_C2 && reboot`
 
 **Stable**
 
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable && reboot`
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable_C2 && reboot`
 
 ***If you installed from SSH***
 
