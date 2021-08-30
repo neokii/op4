@@ -31,7 +31,7 @@ https://discord.gg/zWSnqJ6rKD
 
 This fork has full long control for all HKG and Harnessless for older 2015 & 2016 & 2017 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
-**Reach out to johnpr#5623 on discord too buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
+**Reach out to johnpr#5623 on discord to buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
 
 **Liability**
 ------------
@@ -62,6 +62,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
    - SPAS has a Delta V rate limit on the steering thats speed corralated located in "carcontroller.py".
    - Max SPAS steering angle is set in "carcontroller.py" .
    - SPAS to LKAS switch speed is 41mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
+   - MDPS Harness needed. Reach out to johnpr#5623 on discord to buy a radar harness.
    - https://www.youtube.com/watch?v=9U3gntnhbvM
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
@@ -69,7 +70,7 @@ This fork has full long control for all HKG and Harnessless for older 2015 & 201
 -----------------------------------------------
    - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
    - Lead markers are not available unless you have HKG long.
-   - Radar harness needed except for 2015 - 2016 Genesis.
+   - Radar harness or mod is needed except for 2015 - 2016 Genesis.
 
 
 ***RetroPilot***
