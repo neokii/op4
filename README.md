@@ -29,7 +29,7 @@ https://discord.gg/zWSnqJ6rKD
 **Longitudinal Info**
 ----------------------
 
-This fork has full long control for all HKG and Harnessless for older 2015 & 2016 & 2017 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
+This fork has full long control for all HKG with radar harness and Harnessless for older 2015 & 2016 & 2017 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
 **Reach out to johnpr#5623 on discord to buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
 
