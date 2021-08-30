@@ -1,4 +1,4 @@
-**OpenPilot HKG 0.8.8**
+**OpenPilot HKG 0.8.9**
 ------------------
 
 **This fork is Community Supported!**
