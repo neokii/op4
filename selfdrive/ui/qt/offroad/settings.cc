@@ -177,28 +177,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   main_layout->addWidget(gitpullbtn);
   main_layout->addWidget(horizontal_line());
-
-  const char* panda_flash = "sh /data/openpilot/panda/board/flash.sh";
-  auto pandaflashbtn = new ButtonControl("Flash Panda Firmware", "RUN");
-  QObject::connect(pandaflashbtn, &ButtonControl::clicked, [=]() {
-    std::system(panda_flash);
-    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
-      QTimer::singleShot(1000, []() { Hardware::reboot(); });
-    }
-  });
-  main_layout->addWidget(pandaflashbtn);
-  main_layout->addWidget(horizontal_line());
-
-  const char* panda_recover = "sh /data/openpilot/panda/board/recover.sh";
-  auto pandarecoverbtn = new ButtonControl("Panda Recover Firmware", "RUN");
-  QObject::connect(pandarecoverbtn, &ButtonControl::clicked, [=]() {
-    std::system(panda_recover);
-    if (ConfirmationDialog::confirm("Process Completed. Reboot?", this)){
-      QTimer::singleShot(1000, []() { Hardware::reboot(); });
-    }
-  });
-  main_layout->addWidget(pandarecoverbtn);
-  main_layout->addWidget(horizontal_line());
+  
   auto nTune = new ButtonControl("Run nTune AutoTune for lateral.", "nTune", "Run this after 20 or so miles of driving, to Auto Tune Lateral control.");
   QObject::connect(nTune, &ButtonControl::clicked, [=]() { 
     if (Params().getBool("IsOffroad") && ConfirmationDialog::confirm("Run nTune? This Lags click only ONCE please be patient.", this)){
@@ -525,12 +504,6 @@ QWidget * community_panel() {
   toggles_list->addWidget(new ParamControl("UseLQR",
                                             "Enable LQR Lateral Control",
                                             "For Linear Quadratic Ratio Control: Warning please run nTune after 15-20 miles of driving.",
-                                            "../assets/offroad/icon_road.png"
-                                              ));
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("spasEnabled",
-                                            "Enable SPAS.",
-                                            "Enable Send Parking Assist Messages up to 6MPH. Warning: It is beta, be careful!!",
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
