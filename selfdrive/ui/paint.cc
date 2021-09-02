@@ -637,7 +637,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
    // bb_ry = bb_y + bb_h;
   //}
 
-  finally draw the frame
+  //finally draw the frame
   bb_h += 40;
   nvgBeginPath(s->vg);
   nvgRoundedRect(s->vg, bb_x, bb_y, bb_w, bb_h, 20);
