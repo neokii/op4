@@ -506,6 +506,15 @@ class CarState(CarStateBase):
       ]
       checks += [("ESP11", 50)]
 
+    if Params().get_bool("HyundaiNaviSL"):
+      signals += [
+        ("SpeedLim_Nav_Clu", "Navi_HU", 0),
+      ]
+
+      checks += [
+        ("Navi_HU", 5)
+      ]
+
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
   @staticmethod
