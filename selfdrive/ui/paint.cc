@@ -331,7 +331,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   int bb_h = 5;
   NVGcolor lab_color = nvgRGBA(255, 255, 255, 200);
   NVGcolor uom_color = nvgRGBA(255, 255, 255, 200);
-  int value_fontSize=30;
+  int value_fontSize=45;
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
@@ -435,37 +435,37 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   }
 
   //add  desired steering angle
-  if (UI_FEATURE_LEFT_DESIRED_STEER) {
-    char val_str[16];
-    char uom_str[6];
-    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+  //if (UI_FEATURE_LEFT_DESIRED_STEER) {
+   // char val_str[16];
+    //char uom_str[6];
+   // NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    auto carControl = (*s->sm)["carControl"].getCarControl();
-    if (carControl.getEnabled()) {
+   // auto carControl = (*s->sm)["carControl"].getCarControl();
+    //if (carControl.getEnabled()) {
       //show Orange if more than 6 degrees
       //show red if  more than 12 degrees
 
-      auto actuators = carControl.getActuators();
-      float steeringAngleDeg  = actuators.getSteeringAngleDeg();
+    //  auto actuators = carControl.getActuators();
+      //float steeringAngleDeg  = actuators.getSteeringAngleDeg();
 
-      if(((int)(steeringAngleDeg ) < -30) || ((int)(steeringAngleDeg ) > 30)) {
-        val_color = nvgRGBA(255, 255, 255, 200);
-      }
-      if(((int)(steeringAngleDeg ) < -50) || ((int)(steeringAngleDeg ) > 50)) {
-        val_color = nvgRGBA(255, 255, 255, 200);
-      }
+      //if(((int)(steeringAngleDeg ) < -30) || ((int)(steeringAngleDeg ) > 30)) {
+        //val_color = nvgRGBA(255, 255, 255, 200);
+     // }
+      //if(((int)(steeringAngleDeg ) < -50) || ((int)(steeringAngleDeg ) > 50)) {
+       // val_color = nvgRGBA(255, 255, 255, 200);
+     // }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg );
-    } else {
-       snprintf(val_str, sizeof(val_str), "-");
-    }
-      snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "DESIR STEER",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
+      //snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg );
+   // } else {
+       //snprintf(val_str, sizeof(val_str), "-");
+   // }
+     // snprintf(uom_str, sizeof(uom_str), "");
+    //bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "DESIR STEER",
+       // bb_rx, bb_ry, bb_uom_dx,
+        //val_color, lab_color, uom_color,
+        //value_fontSize, label_fontSize, uom_fontSize );
+   // bb_ry = bb_y + bb_h;
+ // }
 
 
   //finally draw the frame
@@ -484,7 +484,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   int bb_h = 5;
   NVGcolor lab_color = nvgRGBA(255, 255, 255, 200);
   NVGcolor uom_color = nvgRGBA(255, 255, 255, 200);
-  int value_fontSize=30;
+  int value_fontSize=40;
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
@@ -533,10 +533,10 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    if(ambientTemp > 40.f) {
+    if(ambientTemp > 45.f) {
       val_color = nvgRGBA(255, 188, 3, 200);
     }
-    if(ambientTemp > 50.f) {
+    if(ambientTemp > 55.f) {
       val_color = nvgRGBA(255, 0, 0, 200);
     }
     snprintf(val_str, sizeof(val_str), "%.1f°", ambientTemp);
@@ -570,74 +570,74 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   }
 
   // add panda GPS altitude
-  if (UI_FEATURE_RIGHT_GPS_ALTITUDE) {
-    char val_str[16];
-    char uom_str[3];
-    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+  //if (UI_FEATURE_RIGHT_GPS_ALTITUDE) {
+   // char val_str[16];
+    //char uom_str[3];
+    //NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    snprintf(val_str, sizeof(val_str), "%.1f", s->scene.gps_ext.getAltitude());
-    snprintf(uom_str, sizeof(uom_str), "m");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "ALTITUDE",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
+   // snprintf(val_str, sizeof(val_str), "%.1f", s->scene.gps_ext.getAltitude());
+   //snprintf(uom_str, sizeof(uom_str), "m");
+    //bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "ALTITUDE",
+       // bb_rx, bb_ry, bb_uom_dx,
+        //val_color, lab_color, uom_color,
+       // value_fontSize, label_fontSize, uom_fontSize );
+   // bb_ry = bb_y + bb_h;
+ // }
 
   // add panda GPS accuracy
-  if (UI_FEATURE_RIGHT_GPS_ACCURACY) {
-    char val_str[16];
-    char uom_str[3];
+ // if (UI_FEATURE_RIGHT_GPS_ACCURACY) {
+   // char val_str[16];
+   // char uom_str[3];
 
-    auto gps_ext = s->scene.gps_ext;
-    float verticalAccuracy = gps_ext.getVerticalAccuracy();
-    float gpsAltitude = gps_ext.getAltitude();
-    float gpsAccuracy = gps_ext.getAccuracy();
+    //auto gps_ext = s->scene.gps_ext;
+   // float verticalAccuracy = gps_ext.getVerticalAccuracy();
+   // float gpsAltitude = gps_ext.getAltitude();
+   // float gpsAccuracy = gps_ext.getAccuracy();
 
-    if(verticalAccuracy == 0 || verticalAccuracy > 100)
-        gpsAltitude = 99.99;
+    //if(verticalAccuracy == 0 || verticalAccuracy > 100)
+       // gpsAltitude = 99.99;
 
-    if (gpsAccuracy > 100)
-      gpsAccuracy = 99.99;
-    else if (gpsAccuracy == 0)
-      gpsAccuracy = 99.8;
+    //if (gpsAccuracy > 100)
+      //gpsAccuracy = 99.99;
+    //else if (gpsAccuracy == 0)
+     // gpsAccuracy = 99.8;
 
-    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    if(gpsAccuracy > 1.0) {
-         val_color = nvgRGBA(255, 188, 3, 200);
-      }
-      if(gpsAccuracy > 2.0) {
-         val_color = nvgRGBA(255, 80, 80, 200);
-      }
+   // NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+   // if(gpsAccuracy > 1.0) {
+        // val_color = nvgRGBA(255, 188, 3, 200);
+     // }
+      //if(gpsAccuracy > 2.0) {
+        // val_color = nvgRGBA(255, 80, 80, 200);
+     // }
 
-    snprintf(val_str, sizeof(val_str), "%.2f", gpsAccuracy);
-    snprintf(uom_str, sizeof(uom_str), "m");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "GPS PREC",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
+   // snprintf(val_str, sizeof(val_str), "%.2f", gpsAccuracy);
+   // snprintf(uom_str, sizeof(uom_str), "m");
+    //bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "GPS PREC",
+       // bb_rx, bb_ry, bb_uom_dx,
+        //val_color, lab_color, uom_color,
+       // value_fontSize, label_fontSize, uom_fontSize );
+   // bb_ry = bb_y + bb_h;
+  /}
 
   // add panda GPS satellite
-  if (UI_FEATURE_RIGHT_GPS_SATELLITE) {
-    char val_str[16];
-    char uom_str[3];
-    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+ // if (UI_FEATURE_RIGHT_GPS_SATELLITE) {
+   // char val_str[16];
+   // char uom_str[3];
+   // NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    if(s->scene.satelliteCount < 6)
-         val_color = nvgRGBA(255, 80, 80, 200);
+   // if(s->scene.satelliteCount < 6)
+        // val_color = nvgRGBA(255, 80, 80, 200);
 
-    snprintf(val_str, sizeof(val_str), "%d", s->scene.satelliteCount > 0 ? s->scene.satelliteCount : 0);
-    snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "SATELLITE",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
+   // snprintf(val_str, sizeof(val_str), "%d", s->scene.satelliteCount > 0 ? s->scene.satelliteCount : 0);
+   // snprintf(uom_str, sizeof(uom_str), "");
+   // bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "SATELLITE",
+       // bb_rx, bb_ry, bb_uom_dx,
+        //val_color, lab_color, uom_color,
+       // value_fontSize, label_fontSize, uom_fontSize );
+   // bb_ry = bb_y + bb_h;
+  //}
 
-  //finally draw the frame
+  finally draw the frame
   bb_h += 40;
   nvgBeginPath(s->vg);
   nvgRoundedRect(s->vg, bb_x, bb_y, bb_w, bb_h, 20);
@@ -665,13 +665,13 @@ static void bb_ui_draw_basic_info(UIState *s)
     int mdps_bus = scene->car_params.getMdpsBus();
     int scc_bus = scene->car_params.getSccBus();
 
-    snprintf(str, sizeof(str), "AO(%.2f/%.2f) SR(%.2f) SRC(%.2f) SAD(%.2f) BUS(MDPS:%d SCC:%d) SCC(%.2f/%.2f/%.2f)%s%s",
+    snprintf(str, sizeof(str), "AO(%.2f/%.2f) SR(%.2f) SRC(%.2f) BUS(MDPS:%d SCC:%d) SCC(%.2f/%.2f/%.2f)%s%s",
 
                         live_params.getAngleOffsetDeg(),
                         live_params.getAngleOffsetAverageDeg(),
                         controls_state.getSteerRatio(),
                         controls_state.getSteerRateCost(),
-                        controls_state.getSteerActuatorDelay(),
+                        //controls_state.getSteerActuatorDelay(),
 
                         mdps_bus, scc_bus,
                         controls_state.getSccGasFactor(),
@@ -686,7 +686,7 @@ static void bb_ui_draw_basic_info(UIState *s)
 
     nvgTextAlign(s->vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
 
-    ui_draw_text(s, x, y, str, 20 * 2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    ui_draw_text(s, x, y, str, 30 * 2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
 }
 
 static void bb_ui_draw_debug(UIState *s)
