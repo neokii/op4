@@ -1,3 +1,10 @@
+Version 0.8.9 (2021-09-XX)
+========================
+ * Fixed QR Code. 
+ * Bug fixes.
+ * Fixed Pull Hyundai Navigation Speed Limit.
+
+
 Version 0.8.8 (2021-08-XX)
 ========================
  * New driving model with improved laneless performance
