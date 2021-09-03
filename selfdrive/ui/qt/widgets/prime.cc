@@ -20,7 +20,6 @@ PairingQRWidget::PairingQRWidget(QWidget* parent) : QWidget(parent) {
   qrCode->setScaledContents(true);
   QVBoxLayout* main_layout = new QVBoxLayout(this);
   main_layout->addWidget(qrCode, 0, Qt::AlignCenter);
-
   QTimer* timer = new QTimer(this);
   timer->start(30 * 1000);
   connect(timer, &QTimer::timeout, this, &PairingQRWidget::refresh);
@@ -53,7 +52,6 @@ void PairingQRWidget::updateQrCode(const QString &text) {
   QImage im(sz + 2, sz + 2, QImage::Format_RGB32);
   QRgb black = qRgb(0, 0, 0);
   QRgb white = qRgb(255, 255, 255);
-
   for (int y = 0; y < sz + 2; y++) {
     for (int x = 0; x < sz + 2; x++) {
       im.setPixel(x, y, white);
