@@ -54,6 +54,7 @@ def manager_init():
     ("ShowDebugUI", "0"),
     ("SpeedLimitControl", "1"),
     ("SpeedLimitPercOffset", "1"),
+    ("SpeedLimitDelayIncrease", "1"),
     ("TurnSpeedControl", "1"),
     ("TurnVisionControl", "1"),
     ("UseSMDPSHarness", "0"),
@@ -70,7 +71,6 @@ def manager_init():
     ("ShowDebugUI", "0"),
     ("CustomLeadMark", "0"),
     ("HyundaiNaviSL", "0"),
-    ("HyundaiNaviSLDebug", "0"),
     ("LowSpeedAlerts", "1")
   ]
   if not PC:

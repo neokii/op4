@@ -20,6 +20,7 @@ PairingQRWidget::PairingQRWidget(QWidget* parent) : QWidget(parent) {
   qrCode->setScaledContents(true);
   QVBoxLayout* main_layout = new QVBoxLayout(this);
   main_layout->addWidget(qrCode, 0, Qt::AlignCenter);
+
   QTimer* timer = new QTimer(this);
   timer->start(30 * 1000);
   connect(timer, &QTimer::timeout, this, &PairingQRWidget::refresh);
@@ -29,19 +30,9 @@ void PairingQRWidget::showEvent(QShowEvent *event) {
   refresh();
 }
 
-void PairingQRWidget::refresh(){
-  Params params;
-  QString IMEI = QString::fromStdString(params.get("IMEI"));
-  QString serial = QString::fromStdString(params.get("HardwareSerial"));
-
-  if (std::min(IMEI.length(), serial.length()) <= 5) {
-    qrCode->setText("Error getting serial: contact support");
-    qrCode->setWordWrap(true);
-    qrCode->setStyleSheet(R"(font-size: 60px;)");
-    return;
-  }
+void PairingQRWidget::refresh() {
   QString pairToken = CommaApi::create_jwt({{"pair", true}});
-  QString qrString = IMEI + "--" + serial + "--" + pairToken;
+  QString qrString = "https://connect.comma.ai/?pair=" + pairToken;
   this->updateQrCode(qrString);
 }
 
@@ -52,6 +43,7 @@ void PairingQRWidget::updateQrCode(const QString &text) {
   QImage im(sz + 2, sz + 2, QImage::Format_RGB32);
   QRgb black = qRgb(0, 0, 0);
   QRgb white = qRgb(255, 255, 255);
+
   for (int y = 0; y < sz + 2; y++) {
     for (int x = 0; x < sz + 2; x++) {
       im.setPixel(x, y, white);

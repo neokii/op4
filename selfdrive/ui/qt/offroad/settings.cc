@@ -101,14 +101,14 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "Use speed limit information from Hyundai's built in navigation on newer Hyundai models.",
                                   "../assets/offroad/icon_speed_limit.png",
                                   this));
-  toggles.append(new ParamControl("HyundaiNaviSLDebug",
-                                  "Pull Hyundai Navigation Speed Limit Debug",
-                                  "Use speed limit information from Hyundai's built in navigation on newer Hyundai models Debug.",
-                                  "../assets/offroad/icon_speed_limit.png",
-                                  this));
   toggles.append(new ParamControl("SpeedLimitPercOffset",
                                   "Enable Speed Limit Offset",
                                   "Set speed limit slightly higher than actual speed limit for a more natural drive.",
+                                  "../assets/offroad/icon_speed_limit.png",
+                                  this));
+  toggles.append(new ParamControl("SpeedLimitDelayIncrease",
+                                  "Delay increase of speed limit",
+                                  "Delays the increase of the speed limit to give time to the driver to cancel the increase by changing cruise speed.",
                                   "../assets/offroad/icon_speed_limit.png",
                                   this));
   toggles.append(new ParamControl("TurnSpeedControl",
@@ -498,12 +498,6 @@ QWidget * community_panel() {
   toggles_list->addWidget(new ParamControl("UseClusterSpeed",
                                             "Use Cluster Speed",
                                             "Use cluster speed instead of wheel speed.",
-                                            "../assets/offroad/icon_road.png"
-                                              ));
-  toggles_list->addWidget(horizontal_line());
-  toggles_list->addWidget(new ParamControl("LowSpeedAlerts",
-                                            "Enable Low Speed Alerts",
-                                            "Enables Low Speed Alerts for Below Steer Speed on certain cars.",
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());

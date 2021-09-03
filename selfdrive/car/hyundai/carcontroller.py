@@ -280,8 +280,5 @@ class CarController():
       elif CS.mdps_bus == 0:
         state = 2 if self.car_fingerprint in FEATURES["send_hda_state_2"] else 1
         can_sends.append(create_hda_mfc(self.packer, activated_hda, state))
-    
-      if Params().get_bool('HyundaiNaviSLDebug'):
-        print("Hyundai Navigation Speed Limit", CS.out.cruiseState.speedLimit / 1.609344)
 
     return can_sends

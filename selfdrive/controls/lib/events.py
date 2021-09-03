@@ -567,7 +567,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "User override or MDPS Fault",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
-      ET.NO_ENTRY: NoEntryAlert("MDPS State 7: User override or fault."),  },
+  },
 
   # Thrown when the fan is driven at >50% but is not rotating
   EventName.fanMalfunction: {
@@ -805,15 +805,10 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.highCpuUsage: {
-    ET.WARNING: Alert(
-      "!!High CPU Usage!!",
-      "!!Poor Performance!!",
-      AlertStatus.userPrompt, AlertSize.small,
-      Priority.LOW, VisualAlert.none, AudibleAlert.none, .0, .0, .2),
     #ET.SOFT_DISABLE: SoftDisableAlert("System Malfunction: Reboot Your Device"),
     #ET.PERMANENT: NormalPermanentAlert("System Malfunction", "Reboot your Device"),
-    #ET.NO_ENTRY: NoEntryAlert("System Malfunction: Reboot Your Device",
-    #                          audible_alert=AudibleAlert.chimeDisengage),
+    ET.NO_ENTRY: NoEntryAlert("System Malfunction: Reboot Your Device",
+                              audible_alert=AudibleAlert.chimeDisengage),
   },
 
   EventName.accFaulted: {
