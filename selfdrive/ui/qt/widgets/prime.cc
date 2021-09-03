@@ -1,5 +1,4 @@
 #include "selfdrive/ui/qt/widgets/prime.h"
-#include "selfdrive/common/params.cc"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
