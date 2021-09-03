@@ -1102,6 +1102,15 @@ static void ui_draw_vision_speed(UIState *s) {
 }
 
 static void ui_draw_vision_event(UIState *s) {
+  if (s->scene.engageable) {
+    // draw steering wheel
+    const int radius = 96;
+    const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
+    const int center_y = s->viz_rect.y + radius  + (bdr_s * 1.5);
+    const QColor &color = bg_colors[s->status];
+    NVGcolor nvg_color = nvgRGBA(color.red(), color.green(), color.blue(), color.alpha());
+    ui_draw_circle_image(s, center_x, center_y, radius, "wheel", nvg_color, 1.0f);
+  }
   auto longitudinal_plan = (*s->sm)["longitudinalPlan"].getLongitudinalPlan();
   auto visionTurnControllerState = longitudinal_plan.getVisionTurnControllerState();
   if (visionTurnControllerState > cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED && s->scene.engageable) {
@@ -1119,15 +1128,6 @@ static void ui_draw_vision_event(UIState *s) {
       std::string acc_str = std::to_string((int)std::nearbyint(vision_turn_speed));
       nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
       ui_draw_text(s, rect.centerX(), rect.centerY(), acc_str.c_str(), 56, COLOR_WHITE_ALPHA(alpha), "sans-bold");
-  if (s->scene.engageable) {
-    // draw steering wheel
-    const int radius = 96;
-    const int center_x = s->viz_rect.right() - radius - bdr_s * 2;
-    const int center_y = s->viz_rect.y + radius  + (bdr_s * 1.5);
-    const QColor &color = bg_colors[s->status];
-    NVGcolor nvg_color = nvgRGBA(color.red(), color.green(), color.blue(), color.alpha());
-    ui_draw_circle_image(s, center_x, center_y, radius, "wheel", nvg_color, 1.0f);
-  }
 }
 }
 }
