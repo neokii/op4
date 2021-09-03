@@ -102,8 +102,8 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "../assets/offroad/icon_speed_limit.png",
                                   this));
   toggles.append(new ParamControl("HyundaiNaviSLDebug",
-                                  "Pull Hyundai Navigation Speed Limit",
-                                  "Use speed limit information from Hyundai's built in navigation on newer Hyundai models.",
+                                  "Pull Hyundai Navigation Speed Limit Debug",
+                                  "Use speed limit information from Hyundai's built in navigation on newer Hyundai models Debug.",
                                   "../assets/offroad/icon_speed_limit.png",
                                   this));
   toggles.append(new ParamControl("SpeedLimitPercOffset",
