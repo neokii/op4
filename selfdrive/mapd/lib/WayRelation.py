@@ -9,40 +9,40 @@ _WAY_BBOX_PADING = 80. / R  # 80 mts of pading to bounding box. (expressed in ra
 _LANE_WIDTH = 3.7  # Lane width estimate. Used for detecting departures from way.
 
 _COUNTRY_LIMITS_KPH = {
-    'DE': {
-        'urban': 50.,
-        'rural': 100.,
-        'motorway': 0.,
-        'living_street': 7.,
-        'bicycle_road': 30.
-    }
+  'DE': {
+    'urban': 50.,
+    'rural': 100.,
+    'motorway': 0.,
+    'living_street': 7.,
+    'bicycle_road': 30.
+  }
 }
 
 _WD = {
-    'Mo': 0,
-    'Tu': 1,
-    'We': 2,
-    'Th': 3,
-    'Fr': 4,
-    'Sa': 5,
-    'Su': 6
+  'Mo': 0,
+  'Tu': 1,
+  'We': 2,
+  'Th': 3,
+  'Fr': 4,
+  'Sa': 5,
+  'Su': 6
 }
 
 _HIGHWAY_RANK = {
-    'motorway': 0,
-    'motorway_link': 1,
-    'trunk': 10,
-    'trunk_link': 11,
-    'primary': 20,
-    'primary_link': 21,
-    'secondary': 30,
-    'secondary_link': 31,
-    'tertiary': 40,
-    'tertiary_link': 41,
-    'unclassified': 50,
-    'residential': 60,
-    'living_street': 61,
-    None: 100,
+  'motorway': 0,
+  'motorway_link': 1,
+  'trunk': 10,
+  'trunk_link': 11,
+  'primary': 20,
+  'primary_link': 21,
+  'secondary': 30,
+  'secondary_link': 31,
+  'tertiary': 40,
+  'tertiary_link': 41,
+  'unclassified': 50,
+  'residential': 60,
+  'living_street': 61,
+  None: 100,
 }
 
 

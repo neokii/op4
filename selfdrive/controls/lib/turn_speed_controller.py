@@ -3,13 +3,14 @@ import time
 from common.params import Params
 from cereal import log
 from common.realtime import sec_since_boot
+from selfdrive.controls.lib.drive_helpers import LIMIT_ADAPT_ACC, LIMIT_MIN_SPEED, LIMIT_MAX_MAP_DATA_AGE, \
+  LIMIT_SPEED_OFFSET_TH, CONTROL_N, LIMIT_MIN_ACC, LIMIT_MAX_ACC
+from selfdrive.modeld.constants import T_IDXS
 
 
-_SPEED_OFFSET_TH = -1.0  # m/s Maximum offset between speed limit and current speed for adapting state.
-_LIMIT_ADAPT_ACC = -1.2  # Ideal acceleration for the adapting (braking) phase when approaching speed limits.
-_MIN_SPEED_LIMIT = 8.33  # m/s, Minimum speed limit to provide as solution.
+_ACTIVE_LIMIT_MIN_ACC = -0.5  # m/s^2 Maximum deceleration allowed while active.
+_ACTIVE_LIMIT_MAX_ACC = 0.5   # m/s^2 Maximum acelration allowed while active.
 
-_MAX_MAP_DATA_AGE = 10.0  # s Maximum time to hold to map data, then consider it invalid.
 
 _DEBUG = False
 
@@ -36,31 +37,27 @@ def _description_for_state(turn_speed_control_state):
 class TurnSpeedController():
   def __init__(self):
     self._params = Params()
-    self._last_params_update = 0.0
+    self._last_params_update = 0.
     self._is_enabled = self._params.get_bool("TurnSpeedControl")
     self._op_enabled = False
-    self._v_ego = 0.0
-    self._v_cruise_setpoint = 0.0
+    self._v_ego = 0.
+    self._a_ego = 0.
+    self._v_cruise_setpoint = 0.
 
-    self._v_offset = 0.0
-    self._speed_limit = 0.0
-    self._speed_limit_temp_inactive = 0.0
-    self._distance = 0.0
+    self._v_offset = 0.
+    self._speed_limit = 0.
+    self._speed_limit_temp_inactive = 0.
+    self._distance = 0.
     self._turn_sign = 0
     self._state = TurnSpeedControlState.inactive
 
     self._next_speed_limit_prev = 0.
 
-    self._acc_limits = [0.0, 0.0]
-    self._v_turn_limit = 0.0
+    self._a_target = 0.
 
   @property
-  def v_turn_limit(self):
-    return float(self._v_turn_limit) if self.is_active else self._v_cruise_setpoint
-
-  @property
-  def acc_limits(self):
-    return self._acc_limits
+  def a_target(self):
+    return self._a_target if self.is_active else self._a_ego
 
   @property
   def state(self):
@@ -70,6 +67,11 @@ class TurnSpeedController():
   def state(self, value):
     if value != self._state:
       _debug(f'Turn Speed Controller state: {_description_for_state(value)}')
+
+      if value == TurnSpeedControlState.adapting:
+        _debug('TSC: Enteriing Adapting as speed offset is below threshold')
+        _debug(f'_v_offset: {self._v_offset * 3.6}\nspeed_limit: {self.speed_limit * 3.6}')
+        _debug(f'_v_ego: {self._v_ego * 3.6}\ndistance: {self.distance}')
 
       if value == TurnSpeedControlState.tempInactive:
         # Track the speed limit value when controller was set to temp inactive.
@@ -83,11 +85,11 @@ class TurnSpeedController():
 
   @property
   def speed_limit(self):
-    return max(self._speed_limit, _MIN_SPEED_LIMIT) if self._speed_limit > 0. else 0.
+    return max(self._speed_limit, LIMIT_MIN_SPEED) if self._speed_limit > 0. else 0.
 
   @property
   def distance(self):
-    return self._distance
+    return max(self._distance, 0.)
 
   @property
   def turn_sign(self):
@@ -108,7 +110,7 @@ class TurnSpeedController():
 
     # Calculate the age of the gps fix. Ignore if too old.
     gps_fix_age = time.time() - map_data.lastGpsTimestamp * 1e-3
-    if gps_fix_age > _MAX_MAP_DATA_AGE:
+    if gps_fix_age > LIMIT_MAX_MAP_DATA_AGE:
       _debug(f'TS: Ignoring map data as is too old. Age: {gps_fix_age}')
       return 0., 0., 0
 
@@ -133,8 +135,8 @@ class TurnSpeedController():
       return speed_limit, 0., turn_sign
 
     # Calculated the time needed to adapt to the limits ahead and the corresponding distances.
-    adapt_times = (np.maximum(speed_limit_in_sections_ahead, _MIN_SPEED_LIMIT) - self._v_ego) / _LIMIT_ADAPT_ACC
-    adapt_distances = self._v_ego * adapt_times + 0.5 * _LIMIT_ADAPT_ACC * adapt_times**2
+    adapt_times = (np.maximum(speed_limit_in_sections_ahead, LIMIT_MIN_SPEED) - self._v_ego) / LIMIT_ADAPT_ACC
+    adapt_distances = self._v_ego * adapt_times + 0.5 * LIMIT_ADAPT_ACC * adapt_times**2
     distance_gaps = distances_to_sections_ahead - adapt_distances
 
     # We select as next speed limit, the one that have the lowest distance gap.
@@ -185,9 +187,9 @@ class TurnSpeedController():
 
     # inactive
     if self.state == TurnSpeedControlState.inactive:
-      # If the limit speed offset is negative (i.e. reduce speed) and lower than threshold
-      # we go to adapting state to quickly reduce speed, otherwise we go directly to active
-      if self._v_offset < _SPEED_OFFSET_TH:
+      # If the limit speed offset is negative (i.e. reduce speed) and lower than threshold and distanct to turn limit
+      # is positive (not in turn yet) we go to adapting state to reduce speed, otherwise we go directly to active
+      if self._v_offset < LIMIT_SPEED_OFFSET_TH and self.distance > 0.:
         self.state = TurnSpeedControlState.adapting
       else:
         self.state = TurnSpeedControlState.active
@@ -199,41 +201,39 @@ class TurnSpeedController():
         self.state = TurnSpeedControlState.inactive
     # adapting
     elif self.state == TurnSpeedControlState.adapting:
-      # Go to active once the speed offset is over threshold.
-      if self._v_offset >= _SPEED_OFFSET_TH:
+      # Go to active once the speed offset is over threshold or the distance to turn is now 0.
+      if self._v_offset >= LIMIT_SPEED_OFFSET_TH or self.distance == 0.:
         self.state = TurnSpeedControlState.active
     # active
     elif self.state == TurnSpeedControlState.active:
-      # Go to adapting if the speed offset goes below threshold.
-      if self._v_offset < _SPEED_OFFSET_TH:
+      # Go to adapting if the speed offset goes below threshold as long as the distance to turn is still positive.
+      if self._v_offset < LIMIT_SPEED_OFFSET_TH and self.distance > 0.:
         self.state = TurnSpeedControlState.adapting
 
   def _update_solution(self):
-    # Calculate acceleration limits and turn speed based on state.
-    acc_limits = self._acc_limits
-    v_turn_limit = self._v_cruise_setpoint
-
     # inactive or tempInactive state
     if self.state <= TurnSpeedControlState.tempInactive:
       # Preserve current values
-      pass
+      a_target = self._a_ego
     # adapting
     elif self.state == TurnSpeedControlState.adapting:
-      # When adapting we target the turn speed limit speed with the adapt acceleration if lower than provided limits.
-      v_turn_limit = self.speed_limit
-      acc_limits[0] = min(_LIMIT_ADAPT_ACC, acc_limits[0])
+      # When adapting we target to achieve the speed limit on the distance.
+      a_target = (self.speed_limit**2 - self._v_ego**2) / (2. * self.distance)
+      a_target = np.clip(a_target, LIMIT_MIN_ACC, LIMIT_MAX_ACC)
     # active
     elif self.state == TurnSpeedControlState.active:
-      v_turn_limit = self.speed_limit
+      # When active we are trying to keep the speed constant around the control time horizon.
+      # but under constrained acceleration limits since we are in a turn.
+      a_target = self._v_offset / T_IDXS[CONTROL_N]
+      a_target = np.clip(a_target, _ACTIVE_LIMIT_MIN_ACC, _ACTIVE_LIMIT_MAX_ACC)
 
     # update solution values.
-    self._v_turn_limit = v_turn_limit
-    self._acc_limits = acc_limits
+    self._a_target = a_target
 
-  def update(self, enabled, v_ego, sm, acc_limits):
+  def update(self, enabled, v_ego, a_ego, sm):
     self._op_enabled = enabled
     self._v_ego = v_ego
-    self._acc_limits = acc_limits
+    self._a_ego = a_ego
 
     # Get the speed limit from Map Data
     self._speed_limit, self._distance, self._turn_sign = self._get_limit_from_map_data(sm)

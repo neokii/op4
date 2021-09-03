@@ -10,12 +10,11 @@ from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX
 
 
 _MIN_V = 5.6  # Do not operate under 20km/h
-_MIN_V_SOLUTION = 8.33  # m/s, Minimum speed to provide as solution.
 
 _ENTERING_PRED_LAT_ACC_TH = 1.3  # Predicted Lat Acc threshold to trigger entering turn state.
 _ABORT_ENTERING_PRED_LAT_ACC_TH = 1.1  # Predicted Lat Acc threshold to abort entering state if speed drops.
 
-_TURNING_LAT_ACC_TH = 1.5  # Lat Acc threshold to trigger turning turn state.
+_TURNING_LAT_ACC_TH = 1.6  # Lat Acc threshold to trigger turning turn state.
 
 _LEAVING_LAT_ACC_TH = 1.3  # Lat Acc threshold to trigger leaving turn state.
 _FINISH_LAT_ACC_TH = 1.1  # Lat Acc threshold to trigger end of turn cycle.
@@ -29,13 +28,15 @@ _A_LAT_REG_MAX = 2.  # Maximum lateral acceleration
 
 # Lookup table for the minimum smooth deceleration during the ENTERING state
 # depending on the actual maximum absolute lateral acceleration predicted on the turn ahead.
-_ENTERING_SMOOTH_DECEL_V = [-0.3, -1.]  # min decel value allowed on ENTERING state
-_ENTERING_SMOOTH_DECEL_BP = [1., 3]  # absolute value of lat acc ahead
+_ENTERING_SMOOTH_DECEL_V = [-0.2, -1.]  # min decel value allowed on ENTERING state
+_ENTERING_SMOOTH_DECEL_BP = [1.3, 3]  # absolute value of lat acc ahead
 
-# Lookup table for the minimum acceleration for the TURNING state
+# Lookup table for the acceleration for the TURNING state
 # depending on the current lateral acceleration of the vehicle.
-_MIN_TURNING_ACC_V = [-0.1, -0.2, -0.4]  # acc value
-_MIN_TURNING_ACC_BP = [1., 2., 3.]  # absolute value of current lat acc
+_TURNING_ACC_V = [0.4, 0., -0.4]  # acc value
+_TURNING_ACC_BP = [1.3, 2., 3.]  # absolute value of current lat acc
+
+_LEAVING_ACC = 0.5  # Confortble acceleration to regain speed while leaving a turn.
 
 _MIN_LANE_PROB = 0.6  # Minimum lanes probability to allow curvature prediction based on lanes.
 
@@ -95,24 +96,27 @@ class VisionTurnController():
     self._op_enabled = False
     self._gas_pressed = False
     self._is_enabled = self._params.get_bool("TurnVisionControl")
-    self._last_params_update = 0.0
-    self._v_cruise_setpoint = 0.0
-    self._v_ego = 0.0
+    self._last_params_update = 0.
+    self._v_cruise_setpoint = 0.
+    self._v_ego = 0.
+    self._a_ego = 0.
+    self._a_target = 0.
+    self._v_overshoot = 0.
     self._state = VisionTurnControllerState.disabled
 
     self._reset()
 
   @property
-  def v_turn(self):
-    return float(self._v_turn) if self.state != VisionTurnControllerState.disabled else self._v_cruise_setpoint
-
-  @property
-  def acc_limits(self):
-    return self._acc_limits
-
-  @property
   def state(self):
     return self._state
+
+  @property
+  def a_target(self):
+    return self._a_target if self.is_active else self._a_ego
+
+  @property
+  def v_turn(self):
+    return self._v_overshoot if self.is_active and self._lat_acc_overshoot_ahead else self._v_ego
 
   @property
   def is_active(self):
@@ -127,11 +131,10 @@ class VisionTurnController():
     self._state = value
 
   def _reset(self):
-    self._current_lat_acc = 0.0
-    self._max_v_for_current_curvature = 0.0
-    self._max_pred_lat_acc = 0.0
-    self._v_overshoot_distance = 200.0
-    self._v_overshoot = 0.0
+    self._current_lat_acc = 0.
+    self._max_v_for_current_curvature = 0.
+    self._max_pred_lat_acc = 0.
+    self._v_overshoot_distance = 200.
     self._lat_acc_overshoot_ahead = False
 
   def _update_params(self):
@@ -189,10 +192,10 @@ class VisionTurnController():
       path_poly = np.array([0., 0., 0., 0.])
 
     current_curvature = abs(
-        sm['carState'].steeringAngleDeg * CV.DEG_TO_RAD / (self._CP.steerRatio * self._CP.wheelbase))
+      sm['carState'].steeringAngleDeg * CV.DEG_TO_RAD / (self._CP.steerRatio * self._CP.wheelbase))
     self._current_lat_acc = current_curvature * self._v_ego**2
     self._max_v_for_current_curvature = math.sqrt(_A_LAT_REG_MAX / current_curvature) if current_curvature > 0 \
-        else V_CRUISE_MAX * CV.KPH_TO_MS
+      else V_CRUISE_MAX * CV.KPH_TO_MS
 
     pred_curvatures = eval_curvature(path_poly, _EVAL_RANGE)
     max_pred_curvature = np.amax(pred_curvatures)
@@ -244,50 +247,39 @@ class VisionTurnController():
         self.state = VisionTurnControllerState.disabled
 
   def _update_solution(self):
-    # Calculate acceleration limits and turn speed based on turn state.
-    acc_limits = self._acc_limits
-    v_turn = self._v_cruise_setpoint
-
     # DISABLED
     if self.state == VisionTurnControllerState.disabled:
-      pass
+      # when not overshooting, calculate v_turn as the speed at the prediction horizon when following
+        # the smooth deceleration.
+      a_target = self._a_ego
     # ENTERING
     elif self.state == VisionTurnControllerState.entering:
-      min_acc = interp(self._max_pred_lat_acc, _ENTERING_SMOOTH_DECEL_BP, _ENTERING_SMOOTH_DECEL_V)
-      if not self._lat_acc_overshoot_ahead:
-        # when not overshooting, calculate v_turn as the speed at the prediction horizon when following
-        # the smooth deceleration.
-        try:
-          v_turn = math.sqrt(self._v_ego**2 + 2 * min_acc * _EVAL_RANGE[-1])
-        except ValueError:
-          v_turn = _MIN_V_SOLUTION
-      else:
-        # when overshooting, target the overshoot speed and adapt limits to allow braking as to achieve
-        # the overshoot speed at the overshoot distance.
-        v_turn = self._v_overshoot
-        min_acc = min((self._v_overshoot**2 - self._v_ego**2) / (2 * self._v_overshoot_distance), min_acc)
-      acc_limits[0] = min(min_acc, acc_limits[0])
+      # when not overshooting, target a smooth deceleration in preparation for a sharp turn to come.
+      a_target = interp(self._max_pred_lat_acc, _ENTERING_SMOOTH_DECEL_BP, _ENTERING_SMOOTH_DECEL_V)
+      if self._lat_acc_overshoot_ahead:
+        # when overshooting, target the acceleration needed to achieve the overshoot speed at
+        # the required distance
+        a_target = min((self._v_overshoot**2 - self._v_ego**2) / (2 * self._v_overshoot_distance), a_target)
       _debug(f'TVC Entering: Overshooting: {self._lat_acc_overshoot_ahead}')
-      _debug(f'    Decel: {acc_limits[0]:.2f}, target v: {v_turn * CV.MS_TO_KPH}')
+      _debug(f'    Decel: {a_target:.2f}, target v: {self.v_turn * CV.MS_TO_KPH}')
     # TURNING
     elif self.state == VisionTurnControllerState.turning:
-      v_turn = min(self._v_ego, self._max_v_for_current_curvature)
-      acc_limits[0] = interp(self._current_lat_acc, _MIN_TURNING_ACC_BP, _MIN_TURNING_ACC_V)
+      # When turning we provide a target acceleration that is confortable for the lateral accelearation felt.
+      a_target = interp(self._current_lat_acc, _TURNING_ACC_BP, _TURNING_ACC_V)
     # LEAVING
     elif self.state == VisionTurnControllerState.leaving:
-      v_turn = min(self._v_ego, self._v_cruise_setpoint)
+      # When leaving we provide a confortable acceleration to regain speed.
+      a_target = _LEAVING_ACC
 
     # update solution values.
-    self._v_turn = max(v_turn, _MIN_V_SOLUTION)
-    self._acc_limits = acc_limits
+    self._a_target = a_target
 
-  def update(self, enabled, v_ego, a_ego, v_cruise_setpoint, acc_limits, sm):
+  def update(self, enabled, v_ego, a_ego, v_cruise_setpoint, sm):
     self._op_enabled = enabled
     self._gas_pressed = sm['carState'].gasPressed
     self._v_ego = v_ego
     self._a_ego = a_ego
     self._v_cruise_setpoint = v_cruise_setpoint
-    self._acc_limits = acc_limits
 
     self._update_params()
     self._update_calculations(sm)
