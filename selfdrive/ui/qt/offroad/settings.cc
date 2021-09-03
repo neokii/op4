@@ -517,6 +517,12 @@ QWidget * community_panel() {
                                             "../assets/offroad/icon_road.png"
                                               ));
   toggles_list->addWidget(horizontal_line());
+  toggles_list->addWidget(new ParamControl("LowSpeedAlerts",
+                                            "Enable Low Speed Alerts",
+                                            "Enables Low Speed Alerts for Below Steer Speed on certain cars.",
+                                            "../assets/offroad/icon_road.png"
+                                              ));
+  toggles_list->addWidget(horizontal_line());
   toggles_list->addWidget(new ParamControl("UseLQR",
                                             "Enable LQR Lateral Control",
                                             "For Linear Quadratic Ratio Control: Warning please run nTune after 15-20 miles of driving.",
