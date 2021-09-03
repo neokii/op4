@@ -166,7 +166,7 @@ class CarState(CarStateBase):
       ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
 
-    ret.cruiseState.speedLimit = cp.vl["Navi_HU"]["SpeedLim_Nav_Clu"] / 0.62137119223733 if Params().get_bool("HyundaiNaviSL") else 0.
+    ret.cruiseState.speedLimit = cp.vl["Navi_HU"]["SpeedLim_Nav_Clu"] * 0.62137119223733 if Params().get_bool("HyundaiNaviSL") else 0.
 
 
     #Parking Sensors - JPR
