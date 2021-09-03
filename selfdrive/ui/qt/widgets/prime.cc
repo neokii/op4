@@ -1,5 +1,5 @@
 #include "selfdrive/ui/qt/widgets/prime.h"
-
+#include "selfdrive/common/params.cc"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -12,6 +12,7 @@
 
 #include "selfdrive/ui/qt/request_repeater.h"
 #include "selfdrive/ui/qt/util.h"
+
 
 using qrcodegen::QrCode;
 
@@ -30,7 +31,7 @@ void PairingQRWidget::showEvent(QShowEvent *event) {
   refresh();
 }
 
-void PairingQRWidget::refresh(){ # Fix QR Code
+void PairingQRWidget::refresh(){ // Fix QR Code
   Params params;
   QString IMEI = QString::fromStdString(params.get("IMEI"));
   QString serial = QString::fromStdString(params.get("HardwareSerial"));
