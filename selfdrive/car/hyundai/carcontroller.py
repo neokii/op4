@@ -282,6 +282,6 @@ class CarController():
         can_sends.append(create_hda_mfc(self.packer, activated_hda, state))
     
       if Params().get_bool('HyundaiNaviSLDebug'):
-        print("Hyundai Navigation Speed Limit", CS.out.cruiseState.speedLimit * 1.609344)
+        print("Hyundai Navigation Speed Limit", CS.out.cruiseState.speedLimit / 1.609344)
 
     return can_sends
