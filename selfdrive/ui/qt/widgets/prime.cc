@@ -32,7 +32,7 @@ void PairingQRWidget::showEvent(QShowEvent *event) {
 
 void PairingQRWidget::refresh() {
   QString pairToken = CommaApi::create_jwt({{"pair", true}});
-  QString qrString = "https://connect.retropilot.org/?pair=" + pairToken;
+  QString qrString = "https://api.retropilot.org/?pair=" + pairToken;
   this->updateQrCode(qrString);
 }
 
