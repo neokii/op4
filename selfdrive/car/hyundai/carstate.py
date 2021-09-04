@@ -166,6 +166,9 @@ class CarState(CarStateBase):
       ret.tpmsRl = cp.vl["TPMS11"]["PRESSURE_RL"] / 10 * 14.5038
       ret.tpmsRr = cp.vl["TPMS11"]["PRESSURE_RR"] / 10 * 14.5038
 
+    ret.cruiseState.speedLimit = cp.vl["Navi_HU"]["SpeedLim_Nav_Clu"] * 0.62137119223733 if Params().get_bool("HyundaiNaviSL") else 0.
+
+
     #Parking Sensors - JPR
     #ret.ParkFrontRight = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
     #ret.ParkFrontLeft = cp.vl["PAS11"]["CF_Gway_PASDisplayFLH"]
@@ -505,6 +508,15 @@ class CarState(CarStateBase):
         ("LDM_STAT", "ESP11", 0),
       ]
       checks += [("ESP11", 50)]
+
+    if Params().get_bool("HyundaiNaviSL"):
+      signals += [
+        ("SpeedLim_Nav_Clu", "Navi_HU", 0),
+      ]
+
+      checks += [
+        ("Navi_HU", 5)
+      ]
 
     return CANParser(DBC[CP.carFingerprint]['pt'], signals, checks, 0, enforce_checks=False)
 
