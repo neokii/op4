@@ -1,14 +1,11 @@
 from selfdrive.car.hyundai.interface import CarInterface
 import time
 from enum import IntEnum
-
 import numpy as np
 from cereal import car, log
 from common.numpy_fast import interp
 from common.params import Params
 from common.realtime import sec_since_boot
-from selfdrive.car.hyundai.carstate import CarState, CarStateBase
-from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.events import Events
 
 _PARAMS_UPDATE_PERIOD = 2.  # secs. Time between parameter updates.
