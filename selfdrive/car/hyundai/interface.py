@@ -616,12 +616,14 @@ class CarInterface(CarInterfaceBase):
       events.add(EventName.belowSteerSpeed)
     if self.CC.turning_indicator_alert:
       events.add(EventName.turningIndicatorOn)
-    #if self.CS.lkas_button_on != self.CS.prev_lkas_button:
-    #  events.add(EventName.buttonCancel)
     if self.mad_mode_enabled and EventName.pedalPressed in events.events:
       events.events.remove(EventName.pedalPressed)
 
-    
+    # Check to see if lkas button on HKG was pressed - JPR
+    if self.CS.lkas_button_on != self.CS.prev_lkas_button and self.speed_limit:
+      self.speed_limit = False
+    if self.CS.lkas_button_on != self.CS.prev_lkas_button and not self.speed_limit:
+      self.speed_limit = True
 
   # handle button presses
     for b in ret.buttonEvents:
