@@ -979,7 +979,7 @@ static void ui_draw_vision(UIState *s) {
   ui_draw_vision_header(s);
   ui_draw_vision_scc_gap(s);
   ui_draw_vision_brake(s);
-  ui_draw_vision_autohold(s);
+  //ui_draw_vision_autohold(s);
 }
 
 void ui_draw(UIState *s, int w, int h) {
