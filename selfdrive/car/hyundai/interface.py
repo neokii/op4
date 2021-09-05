@@ -22,6 +22,7 @@ class CarInterface(CarInterfaceBase):
     super().__init__(CP, CarController, CarState)
     self.cp2 = self.CS.get_can2_parser(CP)
     self.mad_mode_enabled = Params().get_bool('MadModeEnabled')
+    self.speed_limit = True
 
   @staticmethod
   def compute_gb(accel, speed):
