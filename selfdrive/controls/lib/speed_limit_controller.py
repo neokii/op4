@@ -7,6 +7,7 @@ from common.numpy_fast import interp
 from common.params import Params
 from common.realtime import sec_since_boot
 from selfdrive.controls.lib.events import Events
+from selfdrive.car.hyundai import interface
 
 _PARAMS_UPDATE_PERIOD = 2.  # secs. Time between parameter updates.
 _WAIT_TIME_LIMIT_RISE = 2.0  # Waiting time before raising the speed limit.
@@ -333,9 +334,9 @@ class SpeedLimitController():
     #  return
 
     # Check to see if lkas button on HKG was pressed - JPR
-    if not CarInterface.speed_limit:
+    if not interface.CarInterface.speed_limit:
       self.state = SpeedLimitControlState.tempInactive
-    if CarInterface.speed_limit:
+    if interface.CarInterface.speed_limit:
       self.state == SpeedLimitControlState.active
 
     # inactive
