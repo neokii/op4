@@ -848,40 +848,40 @@ static void ui_draw_vision_scc_gap(UIState *s) {
 
 }
 
-//static void ui_draw_vision_brake(UIState *s) {
-  //const UIScene *scene = &s->scene;
-
-  //const int radius = 96;
-  //const int center_x = radius + (bdr_s * 2) + radius*2 + 60;
-  //const int center_y = s->fb_h - footer_h / 2;
-
-  //auto car_state = (*s->sm)["carState"].getCarState();
-  //bool brake_valid = car_state.getBrakeLights();
-  //float brake_img_alpha = brake_valid ? 1.0f : 0.15f;
-  //float brake_bg_alpha = brake_valid ? 0.3f : 0.1f;
-  //NVGcolor brake_bg = nvgRGBA(0, 0, 0, (255 * brake_bg_alpha));
-
-  //ui_draw_circle_image(s, center_x, center_y, radius, "brake", brake_bg, brake_img_alpha);
-//}
-
-static void ui_draw_vision_autohold(UIState *s) {
-  auto car_state = (*s->sm)["carState"].getCarState();
-  int autohold = car_state.getAutoHold();
-  if(autohold < 0)
-    return;
+static void ui_draw_vision_brake(UIState *s) {
+  const UIScene *scene = &s->scene;
 
   const int radius = 96;
-  const int center_x = radius + (bdr_s * 2) + (radius*2 + 60) * 2;
+  const int center_x = radius + (bdr_s * 2) + radius*2 + 60;
   const int center_y = s->fb_h - footer_h / 2;
 
-  float brake_img_alpha = autohold > 0 ? 1.0f : 0.15f;
-  float brake_bg_alpha = autohold > 0 ? 0.3f : 0.1f;
+  auto car_state = (*s->sm)["carState"].getCarState();
+  bool brake_valid = car_state.getBrakeLights();
+  float brake_img_alpha = brake_valid ? 1.0f : 0.15f;
+  float brake_bg_alpha = brake_valid ? 0.3f : 0.1f;
   NVGcolor brake_bg = nvgRGBA(0, 0, 0, (255 * brake_bg_alpha));
 
-  ui_draw_circle_image(s, center_x, center_y, radius,
-        autohold > 1 ? "autohold_warning" : "autohold_active",
-        brake_bg, brake_img_alpha);
+  ui_draw_circle_image(s, center_x, center_y, radius, "brake", brake_bg, brake_img_alpha);
 }
+
+//static void ui_draw_vision_autohold(UIState *s) {
+  //auto car_state = (*s->sm)["carState"].getCarState();
+ // int autohold = car_state.getAutoHold();
+  //if(autohold < 0)
+   // return;
+
+ // const int radius = 96;
+  //const int center_x = radius + (bdr_s * 2) + (radius*2 + 60) * 2;
+  //const int center_y = s->fb_h - footer_h / 2;
+
+ // float brake_img_alpha = autohold > 0 ? 1.0f : 0.15f;
+ // float brake_bg_alpha = autohold > 0 ? 0.3f : 0.1f;
+  //NVGcolor brake_bg = nvgRGBA(0, 0, 0, (255 * brake_bg_alpha));
+
+ // ui_draw_circle_image(s, center_x, center_y, radius,
+     //   autohold > 1 ? "autohold_warning" : "autohold_active",
+      //  brake_bg, brake_img_alpha);
+//}
 
 static void ui_draw_vision_maxspeed(UIState *s) {
 
@@ -978,8 +978,8 @@ static void ui_draw_vision(UIState *s) {
   // Set Speed, Current Speed, Status/Events
   ui_draw_vision_header(s);
   ui_draw_vision_scc_gap(s);
-  //ui_draw_vision_brake(s);
-  ui_draw_vision_autohold(s);
+  ui_draw_vision_brake(s);
+  //ui_draw_vision_autohold(s);
 }
 
 void ui_draw(UIState *s, int w, int h) {
