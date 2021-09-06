@@ -9,7 +9,7 @@ from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness,
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 from selfdrive.car.hyundai.carstate import CarStateBase, CarState
-
+from common.params import Params
 
 GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
