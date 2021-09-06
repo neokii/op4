@@ -334,10 +334,10 @@ class SpeedLimitController():
     #  return
 
     # Check to see if lkas button on HKG was pressed - JPR
-    if not interface.CarInterface.speed_limit:
-      self.state = SpeedLimitControlState.tempInactive
-    if interface.CarInterface.speed_limit:
-      self.state == SpeedLimitControlState.active
+    #if not interface.CarInterface.speed_limit:
+    #  self.state = SpeedLimitControlState.tempInactive
+    #if interface.CarInterface.speed_limit:
+     # self.state == SpeedLimitControlState.active
 
     # inactive
     if self.state == SpeedLimitControlState.inactive:
