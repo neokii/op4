@@ -96,9 +96,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.3, 0.98, 0.83, 0.75, 0.655, 0.57, 0.48]
       ret.longitudinalTuning.kiBP = [0., 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.05, 0.03]
-      ret.gasMaxV = [0.6, 0.65, 0.55, 0.45, 0.35, 0.25]
 
-    ret.gasMaxBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
     ret.brakeMaxBP = [0, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
     ret.brakeMaxV = [2.3, 1.5, 0.8]
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
@@ -140,9 +138,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [0.6, 0.58, 0.55, 0.48, 0.45, 0.40, 0.35]
       ret.longitudinalTuning.kiBP = [0.]
       ret.longitudinalTuning.kiV = [0.015]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.85, 0.7, 0.45, 0.3, 0.2, 0.15]
 
     elif candidate == CAR.GENESIS_G80:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -167,10 +162,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.2, 0.95, 0.8, 0.65, 0.53, 0.43, 0.325]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
-      
+
     elif candidate == CAR.GENESIS_EQ900:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
       ret.mass = 2060. + STD_CARGO_KG
@@ -193,9 +185,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
 
     elif candidate == CAR.GENESIS_EQ900_L:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Genesis.png img_spinner_comma.png")
@@ -227,9 +216,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.23, 0.97, 0.83, 0.68, 0.57, 0.48, 0.38]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
+
 
     # hyundai
     elif candidate in [CAR.SANTA_FE]:
@@ -313,9 +300,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.20, 1.1, 1.05, 1.0, 0.95, 0.90, 0.85]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
+
 
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
@@ -341,9 +326,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.20, 1.1, 1.05, 1.0, 0.95, 0.90, 0.85]
       ret.longitudinalTuning.kiBP = [0, 130.*CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.07, 0.03]
-      ret.longitudinalTuning.kfBP = [10.*CV.KPH_TO_MS, 30.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kfV = [1.0, 0.92, 0.86, 0.79, 0.76, 0.72]
-      ret.gasMaxV = [0.65, 0.65, 0.65, 0.55, 0.45, 0.35]
+
 
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV, CAR.IONIQ_HEV]:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Hyundai.png img_spinner_comma.png")
@@ -420,9 +403,7 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kpV = [1.185, 1.095, 1.0, 0.95, 0.90, 0.85, 0.80]
       ret.longitudinalTuning.kiBP = [0., 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.05, 0.03]
-      ret.longitudinalTuning.kfBP = [0.]
-      ret.longitudinalTuning.kfV = [1.0]
-      ret.gasMaxV = [0.65, 0.65, 0.60, 0.55, 0.45, 0.35]
+
 
     elif candidate == CAR.FORTE:
       os.system("cd /data/openpilot/selfdrive/assets && rm -rf img_spinner_comma.png && cp Kia.png img_spinner_comma.png")
