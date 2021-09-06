@@ -616,15 +616,33 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    if(ambientTemp > 40.f) {
+    if(ambientTemp > 50.f) {
       val_color = nvgRGBA(255, 188, 3, 200);
     }
-    if(ambientTemp > 50.f) {
+    if(ambientTemp > 60.f) {
       val_color = nvgRGBA(255, 0, 0, 200);
     }
     snprintf(val_str, sizeof(val_str), "%.1f°", ambientTemp);
     snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "PCB Temp",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "AMBIENT",
+        bb_rx, bb_ry, bb_uom_dx,
+        val_color, lab_color, uom_color,
+        value_fontSize, label_fontSize, uom_fontSize );
+    bb_ry = bb_y + bb_h;
+  }
+
+  // add battery level
+  if(UI_FEATURE_RIGHT_BATTERY_LEVEL && !Hardware::TICI()) {
+    char val_str[16];
+    char uom_str[6];
+    char bat_lvl[4] = "";
+    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+
+    int batteryPercent = device_state.getBatteryPercent();
+
+    snprintf(val_str, sizeof(val_str), "%d%%", batteryPercent);
+    snprintf(uom_str, sizeof(uom_str), "");
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "BAT LVL",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
@@ -781,8 +799,7 @@ static void bb_ui_draw_debug(UIState *s)
     float upAccelCmd = controls_state.getUpAccelCmd();
     float uiAccelCmd = controls_state.getUiAccelCmd();
     float ufAccelCmd = controls_state.getUfAccelCmd();
-    float gas = car_control.getActuators().getGas();
-    float brake = car_control.getActuators().getBrake();
+    float accel = car_control.getActuators().getAccel();
 
     const char* long_state[] = {"off", "pid", "stopping", "starting"};
 
@@ -809,11 +826,11 @@ static void bb_ui_draw_debug(UIState *s)
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
 
     y += height;
-    snprintf(str, sizeof(str), "Gas: %.3f, Brake: %.3f", gas, brake);
+    snprintf(str, sizeof(str), "Accel: %.3f", accel);
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
 
     y += height;
-    snprintf(str, sizeof(str), "Accel: %.3f/%.3f", applyAccel, aReqValue);
+    snprintf(str, sizeof(str), "Apply Accel: %.3f, Stock Accel: %.3f", applyAccel, aReqValue);
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
 
     y += height;
@@ -832,13 +849,11 @@ static void bb_ui_draw_debug(UIState *s)
     auto lead_one = (*s->sm)["modelV2"].getModelV2().getLeadsV3()[0];
 
     float radar_dist = lead_radar.getStatus() && lead_radar.getRadar() ? lead_radar.getDRel() : 0;
-    float vision_dist = lead_one.getProb() > .5 ? lead_one.getX()[0] : 0;
+    float vision_dist = lead_one.getProb() > .5 ? (lead_one.getX()[0] - 1.5) : 0;
 
     y += height;
     snprintf(str, sizeof(str), "Lead: %.1f/%.1f/%.1f", radar_dist, vision_dist, (radar_dist - vision_dist));
     ui_draw_text(s, text_x, y, str, 22 * 2.5, textColor, "sans-regular");
-
-
 }
 
 

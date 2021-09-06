@@ -12,8 +12,8 @@ from selfdrive.config import Conversions as CV
 CRUISE_GAP_BP = [1., 2., 3., 4.]
 CRUISE_GAP_V = [1.3, 1.4, 1.8, 2.2]
 
-AUTO_TR_BP = [20.*CV.KPH_TO_MS, 50.*CV.KPH_TO_MS, 80.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
+AUTO_TR_BP = [10.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
+AUTO_TR_V = [1.3, 1.45, 1.6]
 
 AUTO_TR_ENABLED = True
 AUTO_TR_CRUISE_GAP = 1

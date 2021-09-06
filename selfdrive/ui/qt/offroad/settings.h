@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QWidget>
+#include <QStackedLayout>
 
 
 #include "selfdrive/ui/qt/widgets/controls.h"
@@ -20,6 +21,7 @@ public:
 signals:
   void reviewTrainingGuide();
   void showDriverView();
+  void closeSettings();
 };
 
 class TogglesPanel : public QWidget {
@@ -71,3 +73,33 @@ private:
   QButtonGroup *nav_btns;
   QStackedWidget *panel_widget;
 };
+
+
+
+class SelectCar : public QWidget {
+  Q_OBJECT
+public:
+  explicit SelectCar(QWidget* parent = 0);
+
+private:
+
+signals:
+  void backPress();
+  void selectedCar();
+
+};
+
+class CommunityPanel : public QWidget {
+  Q_OBJECT
+
+private:
+  QStackedLayout* main_layout = nullptr;
+  QWidget* homeScreen = nullptr;
+  SelectCar* selectCar = nullptr;
+
+  QWidget* homeWidget;
+
+public:
+  explicit CommunityPanel(QWidget *parent = nullptr);
+};
+

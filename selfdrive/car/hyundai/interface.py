@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-import numpy as np
 import os
-import shutil
-from os import path
-from cereal import car, messaging
-from common.params import Params
+import numpy as np
+from cereal import car
+from common.numpy_fast import interp
 from selfdrive.config import Conversions as CV
-from selfdrive.car.hyundai.values import Ecu, ECU_FINGERPRINT, CAR, FINGERPRINTS, Buttons, FEATURES
+from selfdrive.car.hyundai.values import CAR, Buttons
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
@@ -25,12 +23,22 @@ class CarInterface(CarInterfaceBase):
     self.speed_limit = True
 
   @staticmethod
-  def compute_gb(accel, speed):
-    return float(accel) / 3.0
+  def get_pid_accel_limits(current_speed, cruise_speed):
+
+    v_current_kph = current_speed * CV.MS_TO_KPH
+
+    gas_max_bp = [0., 10., 20., 50., 70., 130.]
+    gas_max_v = [1.8, 1.15, 0.87, 0.63, 0.45, 0.33]
+
+    brake_max_bp = [0, 70., 130.]
+    brake_max_v = [-4., -3., -2.1]
+
+    return interp(v_current_kph, brake_max_bp, brake_max_v), interp(v_current_kph, gas_max_bp, gas_max_v)
 
   @staticmethod
-  def get_params(candidate, fingerprint=gen_empty_fingerprint(), has_relay=False, car_fw=[]):  # pylint: disable=dangerous-default-value
-    ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
+  def get_params(candidate, fingerprint=gen_empty_fingerprint(), car_fw=[]):  # pylint: disable=dangerous-default-value
+    ret = CarInterfaceBase.get_std_params(candidate, fingerprint)
+
     ret.openpilotLongitudinalControl = Params().get_bool('LongControlEnabled')
 
     ret.carName = "hyundai"
@@ -85,7 +93,7 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.indi.actuatorEffectivenessV = [2.]
 
       ret.longitudinalTuning.kpBP = [0., 10.*CV.KPH_TO_MS, 20.*CV.KPH_TO_MS, 40.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 100.*CV.KPH_TO_MS, 130.*CV.KPH_TO_MS]
-      ret.longitudinalTuning.kpV = [1.2, 0.97, 0.82, 0.735, 0.63, 0.54, 0.46]
+      ret.longitudinalTuning.kpV = [1.3, 0.98, 0.83, 0.75, 0.655, 0.57, 0.48]
       ret.longitudinalTuning.kiBP = [0., 130. * CV.KPH_TO_MS]
       ret.longitudinalTuning.kiV = [0.05, 0.03]
       ret.longitudinalTuning.kfBP = [0.]
@@ -98,8 +106,8 @@ class CarInterface(CarInterfaceBase):
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
 
-    ret.stoppingBrakeRate = 0.12  # brake_travel/s while trying to stop
-    ret.startingBrakeRate = 1.0  # brake_travel/s while releasing on restart
+    ret.stoppingDecelRate = 0.6  # m/s^2/s while trying to stop
+    ret.startingAccelRate = 3.2  # m/s^2/s while trying to start
     ret.startAccel = 2.0
 
     # genesis

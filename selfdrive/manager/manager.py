@@ -91,8 +91,6 @@ def manager_init():
   if params.get("Passive") is None:
     raise Exception("Passive must be set to continue")
 
-  os.umask(0)  # Make sure we can create files with 777 permissions
-
   # Create folders needed for msgq
   try:
     os.mkdir("/dev/shm")
@@ -150,7 +148,6 @@ def manager_thread():
 
   if EON:
     system("am startservice com.neokii.optool/.MainService")
-    system("am startservice com.neokii.openpilot/.MainService")
 
   cloudlog.info("manager start")
   cloudlog.info({"environ": os.environ})
