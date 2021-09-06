@@ -143,7 +143,9 @@ typedef struct UIScene {
   bool leftBlinker, rightBlinker;
   bool leftblindspot, rightblindspot;
   int blinker_blinkingrate;
-  
+  float tpmsFl, tpmsFr, tpmsRl, tpmsRr;
+  bool ui_tpms;
+
     // Debug UI
   bool show_debug_ui;
 
