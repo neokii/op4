@@ -157,6 +157,7 @@ typedef struct UIScene {
 
   cereal::PandaState::PandaType pandaType;
   cereal::CarState::Reader car_state;
+  cereal::ControlsState::Reader controls_state;
   // modelV2
   float lane_line_probs[4];
   float road_edge_stds[2];
