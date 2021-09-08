@@ -797,6 +797,50 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
 
   QList<ParamControl*> toggles;
 
+
+
+  toggles.append(new ParamControl("PutPrebuilt",
+                                            "Prebuilt Enable",
+                                            "Create prebuilt files to speed up load time.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("AR",
+                                            "Enable Auto Record",
+                                            "Starts recording on car start and stops on car off.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("CleanUI",
+                                            "Enables Cleaner UI",
+                                            "Removes most of the clutter.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("LoggerEnabled",
+                                            "Enable Logger / Uploader",
+                                            "This causes slow frame time on weak hardware.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("DisableUpdates",
+                                            "Disable Auto Updates",
+                                            "This Disables Auto Updates.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("UseLQR",
+                                            "Enable LQR Lateral Control",
+                                            "For Linear Quadratic Ratio Control: Warning please run nTune after 15-20 miles of driving.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("TPMS_Alerts",
+                                            "Enable TPMS Alerts",
+                                            "Enables Tire Pressure Monitoring System Alerts for Low Tire Pressure.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("SSCOD",
+                                            "Stop Screen Capture on disengage",
+                                            "Stop Screen Capture on disengage, loss of steering, or any other event.",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+
+
   toggles.append(new ParamControl("UseClusterSpeed",
                                             "Use Cluster Speed",
                                             "Use cluster speed instead of wheel speed.",
@@ -808,7 +852,21 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
                                             "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
                                             "../assets/offroad/icon_road.png",
                                             this));
-
+  toggles.append(new ParamControl("spasEnabled",
+                                            "Enable SPAS.",
+                                            "Enable Send Parking Assist Messages up to 38mph. Warning: It is beta, be careful!!",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("spasAlways",
+                                            "Enable SPAS Always.",
+                                            "Enable Send Parking Assist Messages. Warning: It is beta, be careful!!",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
+  toggles.append(new ParamControl("SPASDebug",
+                                            "Enable SPAS Debugging.",
+                                            "This outputs OP SPAS State: (The state that op is calling MDPS to) and MDPS SPAS State: (The state MDPS is actually in)",
+                                            "../assets/offroad/icon_road.png",
+                                            this));
   toggles.append(new ParamControl("MadModeEnabled",
                                             "Enable HKG MAD mode",
                                             "Openpilot will engage when turn cruise control on",
