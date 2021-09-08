@@ -1216,7 +1216,7 @@ static void ui_draw_tpms(UIState *s) {
   ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(80), 5, 20);
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
   const int pos_x = tpms_x + (tpms_w/2);
-  const int pos_y = 845;
+  const int pos_y = 945;
   const int pos_add = 50;
   const int fontsize = 60;
 
