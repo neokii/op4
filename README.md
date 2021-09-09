@@ -237,11 +237,6 @@ Run `adb shell am start -a android.settings.SETTINGS` and go too `"SIM cards"` a
 **Parts**
 ----------
 
-**MDPS/SMDPS** Refrence these guides to build one. 
-- https://github.com/Circuit-Pro/openpilot/blob/main/Hyundai_MDPS_Comma_Harness.pdf 
-- https://github.com/Circuit-Pro/openpilot/blob/main/Pinout%20For%20CommaPower%20to%20Micro64.pdf 
-- https://medium.com/@kyroapps/adding-support-for-lateral-control-below-51km-h-for-hyundai-vehicles-10be0b556371
-
 Kia Niro MDPS ECU - http://www.kniro.net/schematic_diagrams-1321.html
 
 MDPS Connectors
