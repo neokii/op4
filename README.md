@@ -55,7 +55,8 @@ This fork has full long control for all HKG with radar harness and Harnessless f
    - SPAS currently supports EMS366 and EMS11! EMS11 NEEDS testing(!!BE CAREFUL!!), EMS366 has been stable in all of my testing but in no way does that mean trust it. At its current stage, DO NOT TRUST IT AND ALWAYS BE READY TO TAKE OVER WHEN USING SPAS!!!
    - Sends parking assist messages up to 38mph, With safety code to do the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
    - OpenPilot disables on override.
-   - Overried driver torque thresehold is 0.25 nm and is set in "carcontroller.py".
+   - Overried driver torque thresehold is 2.2 nm and is set in "carcontroller.py".
+   - OpenPilot winds up and unwinds on spas enable so no jerk.
    - Openpilot takes into account and handels all 8 states in the correct order.
    - Openpilot correctly handles all MDPS faults.
    - Openpilot handels switch from SPAS to LKAS and back correctly, not to spam if hovering around 41mph.
