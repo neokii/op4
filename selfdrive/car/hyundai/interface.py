@@ -23,7 +23,7 @@ class CarInterface(CarInterfaceBase):
     self.speed_limit = True
 
   @staticmethod
-  def get_pid_accel_limits(current_speed, cruise_speed):
+  def get_pid_accel_limits(CP, current_speed, cruise_speed):
 
     v_current_kph = current_speed * CV.MS_TO_KPH
 
@@ -99,10 +99,10 @@ class CarInterface(CarInterfaceBase):
       
     ret.longitudinalTuning.deadzoneBP = [0., 100. * CV.KPH_TO_MS]
     ret.longitudinalTuning.deadzoneV = [0., 0.015]
+    ret.longitudinalActuatorDelay = 0.2
 
     ret.stoppingDecelRate = 0.6  # m/s^2/s while trying to stop
     ret.startingAccelRate = 3.2  # m/s^2/s while trying to start
-    ret.startAccel = 2.0
 
     # genesis
     if candidate == CAR.GENESIS:
