@@ -1171,63 +1171,6 @@ static void ui_draw_vision_bsd_right(UIState *s) {
   ui_draw_circle_image(s, bsd_x + (radius*2), bsd_y - (radius*2), radius, "bsd_r", s->scene.car_state.getRightBlindspot());
 }
 
-// tpms display by openpilotusers
-static void ui_draw_tpms(UIState *s) {
-  int tpms_x = s->fb_w - 490;
-  int tpms_y = 845;
-  int tpms_w = 240;
-  int tpms_h = 160;
-  char tpmsFl[32];
-  char tpmsFr[32];
-  char tpmsRl[32];
-  char tpmsRr[32];
-
-  // Draw Border
-  const Rect rect = {tpms_x, tpms_y, tpms_w, tpms_h};
-  ui_draw_rect(s->vg, rect, COLOR_WHITE_ALPHA(80), 5, 20);
-  nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-  const int pos_x = tpms_x + (tpms_w/2);
-  const int pos_y = 945;
-  const int pos_add = 50;
-  const int fontsize = 60;
-
-  ui_draw_text(s, pos_x, pos_y+pos_add, "TPMS (psi)", fontsize-20, COLOR_WHITE_ALPHA(200), "sans-regular");
-  snprintf(tpmsFl, sizeof(tpmsFl), "%.0f", s->scene.tpmsFl);
-  snprintf(tpmsFr, sizeof(tpmsFr), "%.0f", s->scene.tpmsFr);
-  snprintf(tpmsRl, sizeof(tpmsRl), "%.0f", s->scene.tpmsRl);
-  snprintf(tpmsRr, sizeof(tpmsRr), "%.0f", s->scene.tpmsRr);
-
-  if (s->scene.tpmsFl < 34) {
-    ui_draw_text(s, pos_x - pos_add, pos_y-pos_add, tpmsFl, fontsize, COLOR_RED_ALPHA(200), "sans-bold");
-  } else if (s->scene.tpmsFl > 50) {
-    ui_draw_text(s, pos_x - pos_add, pos_y-pos_add, "-", fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x - pos_add, pos_y-pos_add, tpmsFl, fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsFr < 34) {
-    ui_draw_text(s, pos_x + pos_add, pos_y-pos_add, tpmsFr, fontsize, COLOR_RED_ALPHA(200), "sans-bold");
-  } else if (s->scene.tpmsFr > 50) {
-    ui_draw_text(s, pos_x + pos_add, pos_y-pos_add, "-", fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x + pos_add, pos_y-pos_add, tpmsFr, fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsRl < 34) {
-    ui_draw_text(s, pos_x - pos_add, pos_y, tpmsRl, fontsize, COLOR_RED_ALPHA(200), "sans-bold");
-  } else if (s->scene.tpmsRl > 50) {
-    ui_draw_text(s, pos_x - pos_add, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x - pos_add, pos_y, tpmsRl, fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-  if (s->scene.tpmsRr < 34) {
-    ui_draw_text(s, pos_x + pos_add, pos_y, tpmsRr, fontsize, COLOR_RED_ALPHA(200), "sans-bold");
-  } else if (s->scene.tpmsRr > 50) {
-    ui_draw_text(s, pos_x + pos_add, pos_y, "-", fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  } else {
-    ui_draw_text(s, pos_x + pos_add, pos_y, tpmsRr, fontsize, COLOR_WHITE_ALPHA(200), "sans-semibold");
-  }
-}
-
-
 static void ui_draw_vision_header(UIState *s) {
   NVGpaint gradient = nvgLinearGradient(s->vg, 0, header_h - (header_h / 2.5), 0, header_h,
                                         nvgRGBAf(0, 0, 0, 0.45), nvgRGBAf(0, 0, 0, 0));
@@ -1262,7 +1205,7 @@ static void ui_draw_vision(UIState *s) {
   ui_draw_vision_bsd_left(s);
   ui_draw_vision_bsd_right(s);
   ui_draw_gps(s);
-  ui_draw_tpms(s);
+
 }
 
 void ui_draw(UIState *s, int w, int h) {
