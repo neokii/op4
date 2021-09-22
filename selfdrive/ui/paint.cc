@@ -1,4 +1,5 @@
 #include "selfdrive/ui/paint.h"
+#include "selfdrive/ui/paint.h"
 
 #include <cassert>
 
@@ -20,6 +21,7 @@
 #include "selfdrive/hardware/hw.h"
 #include "selfdrive/ui/ui.h"
 #include "selfdrive/ui/extras.h"
+#include "selfdrive/ui/dashcam.h"
 
 #ifdef QCOM2
 const int vwp_w = 2160;
@@ -1171,6 +1173,7 @@ static void ui_draw_vision_bsd_right(UIState *s) {
   ui_draw_circle_image(s, bsd_x + (radius*2), bsd_y - (radius*2), radius, "bsd_r", s->scene.car_state.getRightBlindspot());
 }
 
+
 static void ui_draw_vision_header(UIState *s) {
   NVGpaint gradient = nvgLinearGradient(s->vg, 0, header_h - (header_h / 2.5), 0, header_h,
                                         nvgRGBAf(0, 0, 0, 0.45), nvgRGBAf(0, 0, 0, 0));
@@ -1206,6 +1209,15 @@ static void ui_draw_vision(UIState *s) {
   ui_draw_vision_bsd_right(s);
   ui_draw_gps(s);
 
+
+#if UI_FEATURE_DASHCAM
+   if(s->awake && Hardware::EON())
+   {
+        int touch_x = -1, touch_y = -1;
+        int touched = touch_poll(&(s->touch), &touch_x, &touch_y, 0);
+        dashcam(s, touch_x, touch_y);
+   }
+#endif
 }
 
 void ui_draw(UIState *s, int w, int h) {
@@ -1284,6 +1296,7 @@ void ui_nvg_init(UIState *s) {
   {"img_hda", "../assets/img_hda.png"},
   {"custom_lead_vision", "../assets/images/custom_lead_vision.png"},
   {"custom_lead_radar", "../assets/images/custom_lead_radar.png"},
+  {"tire_pressure", "../assets/images/img_tire_pressure.png"},
   };
   for (auto [name, file] : images) {
     s->images[name] = nvgCreateImage(s->vg, file, 1);
