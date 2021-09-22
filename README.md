@@ -1,4 +1,4 @@
-**OpenPilot H.K.G. 0.8.9**
+**OpenPilot 0.8.10 Community Fork for Kia, Hyundai, and Genesis**
 ------------------
 
 **This fork is Community Supported!**
