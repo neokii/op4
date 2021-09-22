@@ -89,9 +89,6 @@ fail:
     libusb_free_device_list(dev_list, 1);
   }
   cleanup();
-  if (dev_list != NULL) {
-    libusb_free_device_list(dev_list, 1);
-  }
   throw std::runtime_error("Error connecting to panda");
 }
 

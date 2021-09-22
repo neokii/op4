@@ -1,5 +1,4 @@
 from cereal import car
-from common.params import Params
 from selfdrive.car.hyundai.values import DBC, STEER_THRESHOLD, FEATURES, CAR, HYBRID_CAR, EV_HYBRID_CAR
 from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
@@ -241,6 +240,13 @@ class CarState(CarStateBase):
     self.cruiseState_enabled = ret.cruiseState.enabled
     self.cruiseState_speed = ret.cruiseState.speed
     ret.cruiseGap = self.cruise_gap
+
+    tpms_unit = cp.vl["TPMS11"]["UNIT"] * 0.725 if int(cp.vl["TPMS11"]["UNIT"]) > 0 else 1.
+    ret.tpms.fl = tpms_unit * cp.vl["TPMS11"]["PRESSURE_FL"]
+    ret.tpms.fr = tpms_unit * cp.vl["TPMS11"]["PRESSURE_FR"]
+    ret.tpms.rl = tpms_unit * cp.vl["TPMS11"]["PRESSURE_RL"]
+    ret.tpms.rr = tpms_unit * cp.vl["TPMS11"]["PRESSURE_RR"]
+
     return ret
 
   @staticmethod

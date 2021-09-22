@@ -4,9 +4,12 @@ from panda import Panda
 from common.numpy_fast import interp
 from common.params import Params
 from selfdrive.car.honda.values import CarControllerParams, CruiseButtons, CAR, HONDA_BOSCH, HONDA_BOSCH_ALT_BRAKE_SIGNAL
-from selfdrive.car.honda.hondacan import disable_radar
 from selfdrive.car import STD_CARGO_KG, CivicParams, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
+<<<<<<< HEAD
+=======
+from selfdrive.car.disable_ecu import disable_ecu
+>>>>>>> hkg_dev
 from selfdrive.config import Conversions as CV
 
 
@@ -26,6 +29,7 @@ class CarInterface(CarInterfaceBase):
       ACCEL_MAX_VALS = [CarControllerParams.NIDEC_ACCEL_MAX, 0.2]
       ACCEL_MAX_BP = [cruise_speed - 2., cruise_speed - .2]
       return CarControllerParams.NIDEC_ACCEL_MIN, interp(current_speed, ACCEL_MAX_BP, ACCEL_MAX_VALS)
+<<<<<<< HEAD
 
   @staticmethod
   def calc_accel_override(a_ego, a_target, v_ego, v_target):
@@ -58,6 +62,8 @@ class CarInterface(CarInterfaceBase):
     # unless aTargetMax is very high and then we scale with it; this help in quicker restart
 
     return float(max(max_accel, a_target / CarControllerParams.NIDEC_ACCEL_MAX)) * min(speedLimiter, accelLimiter)
+=======
+>>>>>>> hkg_dev
 
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), car_fw=[]):  # pylint: disable=dangerous-default-value
@@ -323,8 +329,6 @@ class CarInterface(CarInterfaceBase):
     ret.tireStiffnessFront, ret.tireStiffnessRear = scale_tire_stiffness(ret.mass, ret.wheelbase, ret.centerToFront,
                                                                          tire_stiffness_factor=tire_stiffness_factor)
 
-    ret.startAccel = 0.5
-
     ret.steerActuatorDelay = 0.1
     ret.steerRateCost = 0.5
     ret.steerLimitTimer = 0.8
@@ -334,7 +338,7 @@ class CarInterface(CarInterfaceBase):
   @staticmethod
   def init(CP, logcan, sendcan):
     if CP.carFingerprint in HONDA_BOSCH and CP.openpilotLongitudinalControl:
-      disable_radar(logcan, sendcan)
+      disable_ecu(logcan, sendcan, bus=1, addr=0x18DAB0F1, com_cont_req=b'\x28\x83\x03')
 
   # returns a car.CarState
   def update(self, c, can_strings):
@@ -439,10 +443,7 @@ class CarInterface(CarInterfaceBase):
 
     can_sends = self.CC.update(c.enabled, self.CS, self.frame,
                                c.actuators,
-                               c.cruiseControl.speedOverride,
-                               c.cruiseControl.override,
                                c.cruiseControl.cancel,
-                               c.cruiseControl.accelOverride,
                                hud_v_cruise,
                                c.hudControl.lanesVisible,
                                hud_show_car=c.hudControl.leadVisible,

@@ -260,11 +260,10 @@ def uploader_fn(exit_event):
         time.sleep(60 if params.get_bool("IsOffroad") else 5)
       continue
 
-    on_wifi = network_type == NetworkType.wifi
+    good_internet = network_type in [NetworkType.wifi, NetworkType.ethernet]
+    allow_raw_upload = params.get_bool("UploadRaw")
 
-    allow_raw_upload= params.get_bool("UploadRaw")
-
-    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and on_wifi and params.get_bool("IsOffroad"))
+    d = uploader.next_file_to_upload(with_raw=allow_raw_upload and good_internet and offroad)
     if d is None:  # Nothing to upload
       if allow_sleep:
         time.sleep(60 if params.get_bool("IsOffroad") else 5)

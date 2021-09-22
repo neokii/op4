@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from cereal import car
 from selfdrive.config import Conversions as CV
-from selfdrive.car.toyota.values import Ecu, CAR, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, PEDAL_HYST_GAP
+from selfdrive.car.toyota.values import Ecu, CAR, TSS2_CAR, NO_DSU_CAR, MIN_ACC_SPEED, PEDAL_HYST_GAP, CarControllerParams
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint
 from selfdrive.car.interfaces import CarInterfaceBase
 
@@ -330,7 +330,6 @@ class CarInterface(CarInterfaceBase):
       ret.longitudinalTuning.kiV = [.35, .23, .20, .17, .1]
       ret.stoppingDecelRate = 0.3  # reach stopping target smoothly
       ret.startingAccelRate = 6.0  # release brakes fast
-      ret.startAccel = 1.2  # Accelerate from 0 faster
     else:
       # Default longitudinal tune
       ret.longitudinalTuning.deadzoneBP = [0., 9.]

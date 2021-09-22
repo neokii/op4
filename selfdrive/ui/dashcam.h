@@ -266,12 +266,6 @@ void draw_lock_button(UIState *s) {
 
 static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
   // Set button to bottom left of screen
-  if (s->scene.world_objects_visible){
-
-    //if (captureState == CAPTURE_STATE_CAPTURING) {
-    //  draw_lock_button(s);
-    //}
-
     int btn_w = 160;
     int btn_h = 160;
     int btn_x = s->fb_w - btn_w - (bdr_s * 2);
@@ -296,17 +290,13 @@ static void screen_draw_button(UIState *s, int touch_x, int touch_y) {
     }
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
     nvgText(s->vg, btn_x+btn_w/2, btn_y+btn_h/2, "REC", NULL);
-  }
 
-  if (captureState == CAPTURE_STATE_CAPTURING) {
-    //draw_date_time(s);
-
-    elapsed_time = get_time() - start_time;
-
-    if (elapsed_time >= RECORD_INTERVAL) {
-      rotate_video();
+    if (captureState == CAPTURE_STATE_CAPTURING) {
+        elapsed_time = get_time() - start_time;
+        if (elapsed_time >= RECORD_INTERVAL) {
+          rotate_video();
+        }
     }
-  }
 }
 
 void screen_toggle_record_state(){
@@ -343,20 +333,9 @@ bool dashcam( UIState *s, int touch_x, int touch_y ) {
       touched = true;
     }
   }
-  
-  //if (screen_lock_button_clicked(touch_x,touch_y,lock_button)) {
-  //  screen_toggle_lock();
-  //  touched = true;
-  //}
-  if (!s->scene.world_objects_visible) {
-    // Assume car is not in drive so stop recording
+
+  if ((*s->sm)["carState"].getCarState().getVEgo() < 1.5 && !(*s->sm)["controlsState"].getControlsState().getEnabled()) {
     stop_capture();
-  }
-// Auto stop capture on disengage
-  if (Params().getBool("SSCOD") == true) {
-    if ((*s->sm)["carState"].getCarState().getVEgo() < 1.5 && !(*s->sm)["controlsState"].getControlsState().getEnabled()) {
-      stop_capture();
-      }
   }
   //s->scene.recording = (captureState != CAPTURE_STATE_NOT_CAPTURING);
   
