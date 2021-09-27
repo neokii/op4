@@ -189,29 +189,3 @@ def create_scc14(packer, enabled, e_vgo, standstill, accel, gaspressed, objgap, 
 
   return packer.make_can_msg("SCC14", 0, values)
 
-def create_spas11(packer, car_fingerprint, frame, en_spas, apply_steer, bus):
-  values = {
-    "CF_Spas_Stat": en_spas,
-    "CF_Spas_TestMode": 0,
-    "CR_Spas_StrAngCmd": apply_steer,
-    "CF_Spas_BeepAlarm": 0,
-    "CF_Spas_Mode_Seq": 2,
-    "CF_Spas_AliveCnt": frame % 0x200,
-    "CF_Spas_Chksum": 0,
-    "CF_Spas_PasVol": 0,
-  }
-  dat = packer.make_can_msg("SPAS11", 0, values)[2]
-  if car_fingerprint in CHECKSUM["crc8"]:
-    dat = dat[:6]
-    values["CF_Spas_Chksum"] = hyundai_checksum(dat)
-  else:
-    values["CF_Spas_Chksum"] = sum(dat[:6]) % 256
-  return packer.make_can_msg("SPAS11", bus, values)
-
-def create_spas12(bus):
-  return [1268, 0, b"\x00\x00\x00\x00\x00\x00\x00\x00", bus]
-def create_ems_366(packer, ems_366, enabled):
-  values = ems_366
-  if enabled:
-    values["VS"] = 1
-  return packer.make_can_msg("EMS_366", 1, values)
