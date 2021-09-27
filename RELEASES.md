@@ -7,6 +7,9 @@ Version 0.8.9 (2021-09-14)
  * Improved fan control on comma three
  * AGNOS 1.5: improved stability
  * Honda e 2020 support
+ * Fixed QR Code. 
+ * Bug fixes.
+ * Fixed Pull Hyundai Navigation Speed Limit.
 
 
 Version 0.8.8 (2021-08-XX)
