@@ -333,14 +333,14 @@ static void ui_draw_world(UIState *s) {
       draw_lead(s, lead_two, s->scene.lead_vertices[1]);
     }
 
-    auto radar_state = (*s->sm)["radarState"].getRadarState();
-    auto lead_radar = radar_state.getLeadOne();
-    if (lead_radar.getStatus() && lead_radar.getRadar()) {
-      if (s->custom_lead_mark)
-        draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
-      else
-        draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
-    }
+  //  auto radar_state = (*s->sm)["radarState"].getRadarState();
+ //   auto lead_radar = radar_state.getLeadOne();
+  //  if (lead_radar.getStatus() && lead_radar.getRadar()) {
+  //    if (s->custom_lead_mark)
+    //    draw_lead_custom(s, lead_radar, s->scene.lead_vertices_radar[0]);
+   //   else
+    //    draw_lead_radar(s, lead_radar, s->scene.lead_vertices_radar[0]);
+  //  }
   nvgResetScissor(s->vg);
 }
 }
@@ -387,7 +387,7 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   int bb_h = 5;
   NVGcolor lab_color = nvgRGBA(255, 255, 255, 200);
   NVGcolor uom_color = nvgRGBA(255, 255, 255, 200);
-  int value_fontSize=30;
+  int value_fontSize=45;
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
@@ -491,37 +491,37 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   }
 
   //add  desired steering angle
-  if (UI_FEATURE_LEFT_DESIRED_STEER) {
-    char val_str[16];
-    char uom_str[6];
-    NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
+ // if (UI_FEATURE_LEFT_DESIRED_STEER) {
+ //   char val_str[16];
+  //  char uom_str[6];
+ //   NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    auto carControl = (*s->sm)["carControl"].getCarControl();
-    if (carControl.getEnabled()) {
+  //  auto carControl = (*s->sm)["carControl"].getCarControl();
+  //  if (carControl.getEnabled()) {
       //show Orange if more than 6 degrees
       //show red if  more than 12 degrees
 
-      auto actuators = carControl.getActuators();
-      float steeringAngleDeg  = actuators.getSteeringAngleDeg();
+   //   auto actuators = carControl.getActuators();
+  //    float steeringAngleDeg  = actuators.getSteeringAngleDeg();
 
-      if(((int)(steeringAngleDeg ) < -30) || ((int)(steeringAngleDeg ) > 30)) {
-        val_color = nvgRGBA(255, 255, 255, 200);
-      }
-      if(((int)(steeringAngleDeg ) < -50) || ((int)(steeringAngleDeg ) > 50)) {
-        val_color = nvgRGBA(255, 255, 255, 200);
-      }
+    //  if(((int)(steeringAngleDeg ) < -30) || ((int)(steeringAngleDeg ) > 30)) {
+    //    val_color = nvgRGBA(255, 255, 255, 200);
+   //   }
+    //  if(((int)(steeringAngleDeg ) < -50) || ((int)(steeringAngleDeg ) > 50)) {
+     //   val_color = nvgRGBA(255, 255, 255, 200);
+   //   }
       // steering is in degrees
-      snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg);
-    } else {
-       snprintf(val_str, sizeof(val_str), "-");
-    }
-      snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "DESIR STEER",
-        bb_rx, bb_ry, bb_uom_dx,
-        val_color, lab_color, uom_color,
-        value_fontSize, label_fontSize, uom_fontSize );
-    bb_ry = bb_y + bb_h;
-  }
+   //   snprintf(val_str, sizeof(val_str), "%.1f°", steeringAngleDeg);
+   // } else {
+   //    snprintf(val_str, sizeof(val_str), "-");
+  //  }
+  //   snprintf(uom_str, sizeof(uom_str), "");
+   // bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "DESIR STEER",
+   //     bb_rx, bb_ry, bb_uom_dx,
+   //     val_color, lab_color, uom_color,
+   //     value_fontSize, label_fontSize, uom_fontSize );
+  //  bb_ry = bb_y + bb_h;
+//  }
 
 
   //finally draw the frame
@@ -589,10 +589,10 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
 
-    if(ambientTemp > 50.f) {
+    if(ambientTemp > 45.f) {
       val_color = nvgRGBA(255, 188, 3, 200);
     }
-    if(ambientTemp > 60.f) {
+    if(ambientTemp > 55.f) {
       val_color = nvgRGBA(255, 0, 0, 200);
     }
     snprintf(val_str, sizeof(val_str), "%.1f°", ambientTemp);
@@ -700,13 +700,13 @@ static void bb_ui_draw_basic_info(UIState *s)
     int mdps_bus = scene->car_params.getMdpsBus();
     int scc_bus = scene->car_params.getSccBus();
 
-    snprintf(str, sizeof(str), "AO(%.2f/%.2f) SR(%.2f) SRC(%.2f) SAD(%.2f) BUS(MDPS:%d SCC:%d) LAD(%.2f) SCC(%.2f/%.2f/%.2f)%s%s",
+    snprintf(str, sizeof(str), "AO(%.2f/%.2f) SR(%.2f) BUS(MDPS:%d SCC:%d) LAD(%.2f) SCC(%.2f/%.2f/%.2f)%s%s",
 
                         live_params.getAngleOffsetDeg(),
                         live_params.getAngleOffsetAverageDeg(),
                         controls_state.getSteerRatio(),
-                        controls_state.getSteerRateCost(),
-                        controls_state.getSteerActuatorDelay(),
+                      //  controls_state.getSteerRateCost(),
+                     //   controls_state.getSteerActuatorDelay(),
                         mdps_bus, scc_bus,
                         controls_state.getLongitudinalActuatorDelay(),
                         controls_state.getSccGasFactor(),
@@ -721,7 +721,7 @@ static void bb_ui_draw_basic_info(UIState *s)
 
     nvgTextAlign(s->vg, NVG_ALIGN_LEFT | NVG_ALIGN_MIDDLE);
 
-    ui_draw_text(s, x, y, str, 20 * 2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
+    ui_draw_text(s, x, y, str, 30 * 2.5, COLOR_WHITE_ALPHA(200), "sans-semibold");
 }
 
 static void bb_ui_draw_debug(UIState *s)
