@@ -179,19 +179,19 @@ void OffroadHome::refresh() {
   int alerts = alerts_widget->refresh();
 
   // pop-up new notification
-  int idx = center_layout->currentIndex();
-  if (!updateAvailable && !alerts) {
-    idx = 0;
-  } else if (updateAvailable && (!update_notif->isVisible() || (!alerts && idx == 2))) {
-    idx = 1;
-  } else if (alerts && (!alert_notif->isVisible() || (!updateAvailable && idx == 1))) {
-    idx = 2;
-  }
-  center_layout->setCurrentIndex(idx);
+ // int idx = center_layout->currentIndex();
+ // if (!updateAvailable && !alerts) {
+  //  idx = 0;
+ // } else if (updateAvailable && (!update_notif->isVisible() || (!alerts && idx == 2))) {
+  //  idx = 1;
+  //} else if (alerts && (!alert_notif->isVisible() || (!updateAvailable && idx == 1))) {
+   // idx = 2;
+ // }
+ // center_layout->setCurrentIndex(idx);
 
-  update_notif->setVisible(updateAvailable);
-  alert_notif->setVisible(alerts);
-  if (alerts) {
-    alert_notif->setText(QString::number(alerts) + " ALERT" + (alerts > 1 ? "S" : ""));
-  }
+ // update_notif->setVisible(updateAvailable);
+//  alert_notif->setVisible(alerts);
+ // if (alerts) {
+ //   alert_notif->setText(QString::number(alerts) + " ALERT" + (alerts > 1 ? "S" : ""));
+//  }
 }
