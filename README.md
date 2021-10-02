@@ -181,7 +181,7 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 **SPAS**
 
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/SPAS`
+Put this url during setup for SPAS `https://smiskol.com/fork/Circuit-Pro/SPAS`
 
 ***Comma 2 & 3 From SSH***
 ---------------------
