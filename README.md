@@ -173,7 +173,7 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 ***Install***
 ------------
-***Comma 3 From Setup***
+***From Setup***
 -------------
 **Stable**
 
@@ -183,41 +183,16 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/SPAS_C3`
 
-***Comma 2 From Setup***
----------------------
-
-**Stable**
-
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
-
-**SPAS**
-
-Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/SPAS_C2`
-
-
 ***Comma 2 & 3 From SSH***
 ---------------------
 
-***Comma 3***
--------------
 **Stable**
 
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable_C3` then reboot.
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable && reboot`
 
-**Dev**
+**SPAS**
 
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout dev_C3` then reboot.
-
-***Comma 2***
--------------
-
-**Stable**
-
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable_C2 && reboot`
-
-**Test**
-
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout test_C2 && reboot`
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout SPAS && reboot`
 
 ***If you installed from SSH***
 
