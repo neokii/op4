@@ -173,6 +173,15 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 ***Install***
 ------------
+***Comma 3 From Setup***
+-------------
+**Stable**
+
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C3`
+
+**SPAS**
+
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/SPAS_C3`
 
 ***Comma 2 From Setup***
 ---------------------
@@ -181,9 +190,9 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
 
-**Test**
+**SPAS**
 
-Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test_C2`
+Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/SPAS_C2`
 
 
 ***Comma 2 & 3 From SSH***
@@ -191,9 +200,13 @@ Put this url during setup for Test `https://smiskol.com/fork/Circuit-Pro/test_C2
 
 ***Comma 3***
 -------------
-Comma 3 is only in dev at this stage nothing is expected to work properly.
-Run this command after install of stock OpenPilot
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout dev_C3 && reboot`
+**Stable**
+
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable_C3` then reboot.
+
+**Dev**
+
+`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout dev_C3` then reboot.
 
 ***Comma 2***
 -------------
