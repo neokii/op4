@@ -177,11 +177,11 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 -------------
 **Stable**
 
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C3`
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable`
 
 **SPAS**
 
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/SPAS_C3`
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/SPAS`
 
 ***Comma 2 & 3 From SSH***
 ---------------------
