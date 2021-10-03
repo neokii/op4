@@ -173,7 +173,7 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 ***Install***
 ------------
-***From Setup***
+***Comma 3***
 -------------
 **Stable**
 
@@ -183,16 +183,12 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 Put this url during setup for SPAS `https://smiskol.com/fork/Circuit-Pro/SPAS`
 
-***Comma 2 & 3 From SSH***
+***Comma 2***
 ---------------------
 
 **Stable**
 
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout stable && reboot`
-
-**SPAS**
-
-`git remote add circuit-pro https://github.com/Circuit-Pro/openpilot && git fetch --all && git checkout SPAS && reboot`
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
 
 ***If you installed from SSH***
 
