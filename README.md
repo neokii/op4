@@ -71,7 +71,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 -----------------------------------------------
    - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
    - Lead markers are not available unless you have HKG long.
-   - Radar harness or mod is needed except for 2015 - 2016 Genesis.
+   - Radar harness or mod is needed. 
 
 
 ***RetroPilot***
