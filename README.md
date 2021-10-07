@@ -185,6 +185,9 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 **SPAS**
 
 Put this url during setup for SPAS `https://smiskol.com/fork/Circuit-Pro/SPAS`
+   - Install `SPAS` for EMS366 vehicles (most Genesis, Kia Stinger, Kona).
+   - Install `SPAS_EEMS11` for EV's / Hybrids.
+   - Install `SPAS_EMS11` for everything else
 
 ***Comma 2***
 ---------------------
@@ -192,6 +195,7 @@ Put this url during setup for SPAS `https://smiskol.com/fork/Circuit-Pro/SPAS`
 **Stable**
 
 Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
+
 
 ***If you installed from SSH***
 
