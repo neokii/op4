@@ -52,7 +52,9 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 ***SPAS***
 ----------
-   - Make sure to install the correct panda firmware, needs reinstall after update and comes with EMS366 stock. https://github.com/Circuit-Pro/panda/blob/docs/README.md Or you can install SPAS_EEMS11 for EV's / Hybrids.
+   - Install `SPAS` for EMS366 vehicles (most Genesis, Kia Stinger, Kona).
+   - Install `SPAS_EEMS11` for EV's / Hybrids.
+   - Install `SPAS_EMS11` for everything else
    - SPAS currently supports EMS366 and EMS11! EMS11 NEEDS testing(!!BE CAREFUL!!), EMS366 has been stable in all of my testing but in no way does that mean trust it. At its current stage, DO NOT TRUST IT AND ALWAYS BE READY TO TAKE OVER WHEN USING SPAS!!!
    - Sends parking assist messages up to 38mph, With safety code to do the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
    - OpenPilot disables on override.
