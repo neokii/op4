@@ -24,7 +24,7 @@ title="PayPal – The safer, easier way to pay online!" border="0" />
 
 https://discord.gg/zWSnqJ6rKD
 
-**Submit issues on the issues page or in a detailed report on GitHub or for quick help post in issues channel on our discord server.**
+**Submit issues on the issues page or in a detailed report on GitHub issues page. For quick help post in issues channel on our discord server.**
 
 **Longitudinal Info**
 ----------------------
