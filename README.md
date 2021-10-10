@@ -8,11 +8,11 @@
 
 **By using this software you are responsible for anything that occurs while OpenPilot is engaged or disengaged. Be ready to take over at any moment. Fork maintainers assumes no liability for your use of this software and any hardware.**
 
+**For anyone wondering where the software sources are, they are after the install section where they have been this whole TIME!**
+-------------------------------------------
 
 **This fork is Community Supported!**
 ------------------------
-
-**For anyone wondering where the software sources are, they are after the install section where they have been this whole TIME!**
 
 We **appreciate** all help! Anywhere we get it! 
 To get involved join us on discord or Contribute to the project with code or help support the coders by donating.
