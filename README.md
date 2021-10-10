@@ -56,6 +56,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 ***SPAS***
 ----------
+   - **DO NOT ASSUME THIS IS SAFE**
    - **THERE IS NO PANDA SAFETY CODE ATM**
    - **YOUR LIABLE FOR EVERYTHING. USE THIS AT YOUR OWN RISK**
    - Install `SPAS` for EMS366 vehicles (most Genesis, Kia Stinger, Kona).
