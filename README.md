@@ -1,5 +1,13 @@
 **OpenPilot 0.8.10 Community Fork for Kia, Hyundai, and Genesis**
 ------------------
+
+**Liability**
+------------
+
+**It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
+
+**By using this software you are responsible for anything that occurs while OpenPilot is engaged or disengaged. Be ready to take over at any moment. Fork maintainers assumes no liability for your use of this software and any hardware.**
+
 For anyone wondering where the software sources are, they are after the install section where they have been this whole TIME!
 
 **This fork is Community Supported!**
@@ -34,12 +42,6 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 **Reach out to johnpr#5623 on discord to buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
 
-**Liability**
-------------
-
-**It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
-
-**By using this software you are responsible for anything that occurs while OpenPilot is engaged or disengaged. Be ready to take over at any moment. Fork maintainers assumes no liability for your use of this software and any hardware.**
 
 ***Open Street Maps!***
 ---------------------
