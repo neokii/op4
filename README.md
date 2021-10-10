@@ -74,7 +74,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
    - Openpilot handels switch from SPAS to LKAS and back correctly, not to spam if hovering around 41mph.
    - SPAS has a Delta V rate limit on the steering thats speed corralated located in "carcontroller.py".
    - Max SPAS steering angle is set in "carcontroller.py" .
-   - SPAS to LKAS switch speed is 41mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
+   - SPAS to LKAS switch speed is 38 mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
    - MDPS Harness needed. Reach out to johnpr#5623 on discord to buy a radar harness.
    - https://www.youtube.com/watch?v=9U3gntnhbvM
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
