@@ -4,7 +4,7 @@
 **Liability**
 ------------
 
-**DO NOT USE SPAS WITHOUT UNDERSTANDING IT IS NOT DEEMED SAFE**
+**DO NOT USE SPAS WITHOUT UNDERSTANDING IT IS NOT DEEMED SAFE, AND YOU ACCEPT ALL LIABILITY.**
 
 **It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
 
