@@ -58,29 +58,6 @@ This fork has full long control for all HKG with radar harness and Harnessless f
    - We have the correct DBC for newer Hyundais(2019+ and have built in navigation) to pull speed limit information from head unit over can bus, There is a toggle to do this `Pull Hyundai Navigation Speed Limit`. O.S.M. will use both database and car head unit input to decide speed limit.
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
 
-***SPAS***
-----------
-   - **DO NOT ASSUME THIS IS SAFE**
-   - **THERE IS NO PANDA SAFETY CODE ATM**
-   - **YOUR LIABLE FOR EVERYTHING. USE THIS AT YOUR OWN RISK**
-   - Install `SPAS` for EMS366 vehicles (most Genesis, Kia Stinger, Kona).
-   - Install `SPAS_EEMS11` for EV's / Hybrids.
-   - Install `SPAS_EMS11` for everything else
-   - SPAS currently supports EMS366 and EMS11! EMS11 NEEDS testing(!!BE CAREFUL!!), EMS366 has been stable in all of my testing but in no way does that mean trust it. At its current stage, **DO NOT TRUST IT AND ALWAYS BE READY TO TAKE OVER WHEN USING SPAS!!!**
-   - Sends parking assist messages up to 38mph, With safety code to do the following and more, Rate limit, Override disengage, OpenPilot Correctly! handles all 8 states of MDPS_stat. OpenPilot can understand all MDPS faults and react accordingly.
-   - OpenPilot disables on override.
-   - Overried driver torque thresehold is 2.2 nm and is set in "carcontroller.py".
-   - OpenPilot winds up and unwinds on spas enable so no jerk.
-   - Openpilot takes into account and handels all 8 states in the correct order.
-   - Openpilot correctly handles all MDPS faults.
-   - Openpilot handels switch from SPAS to LKAS and back correctly, not to spam if hovering around 41mph.
-   - SPAS has a Delta V rate limit on the steering thats speed corralated located in "carcontroller.py".
-   - Max SPAS steering angle is set in "carcontroller.py" .
-   - SPAS to LKAS switch speed is 38 mph and SHOULD NOT BE SET HIGHER! This causes a wobble. SPAS to LKAS switch speed can be lowerd in "carcontroller.py".
-   - MDPS Harness needed. Reach out to johnpr#5623 on discord to buy a radar harness.
-   - https://www.youtube.com/watch?v=9U3gntnhbvM
-   - https://www.youtube.com/watch?v=hTuvA6o6gjY
-
 ***HKG Long control toggle. (radar + vision)***
 -----------------------------------------------
    - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
