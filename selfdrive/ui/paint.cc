@@ -894,10 +894,56 @@ static void ui_draw_vision_speed(UIState *s) {
   if(s->fb_w > 1500) {
     ui_draw_text(s, s->fb_w/2, 220, speed_str.c_str(), 96 * 2.5, COLOR_WHITE, "sans-bold");
     ui_draw_text(s, s->fb_w/2, 300, s->scene.is_metric ? "km/h" : "mph", 36 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
-  }
-  else {
+  } else {
     ui_draw_text(s, s->fb_w/2, 180, speed_str.c_str(), 60 * 2.5, COLOR_WHITE, "sans-bold");
     ui_draw_text(s, s->fb_w/2, 230, s->scene.is_metric ? "km/h" : "mph", 25 * 2.5, COLOR_WHITE_ALPHA(200), "sans-regular");
+  }
+
+  // turning blinker sequential crwusiz / mod by arne-fork Togo
+  const int blinker_w = 280;
+  const int blinker_x = s->fb_w/2 - 140;
+  const int pos_add = 50;
+  bool is_warning = (s->status == STATUS_WARNING);
+
+  if(s->scene.leftBlinker || s->scene.rightBlinker) {
+    s->scene.blinkingrate -= 5;
+    if(s->scene.blinkingrate < 0) s->scene.blinkingrate = 120;
+
+    float progress = (120 - s->scene.blinkingrate) / 120.0;
+    float offset = progress * (6.4 - 1.0) + 1.0;
+    if (offset < 1.0) offset = 1.0;
+    if (offset > 6.4) offset = 6.4;
+
+    float alpha = 1.0;
+    if (progress < 0.25) alpha = progress / 0.25;
+    if (progress > 0.75) alpha = 1.0 - ((progress - 0.75) / 0.25);
+
+    if(s->scene.leftBlinker) {
+      nvgBeginPath(s->vg);
+      nvgMoveTo(s->vg, blinker_x - (pos_add*offset), (header_h/4.2));
+      nvgLineTo(s->vg, blinker_x - (pos_add*offset) - (blinker_w/2), (header_h/2.1));
+      nvgLineTo(s->vg, blinker_x - (pos_add*offset), (header_h/1.4));
+      nvgClosePath(s->vg);
+      if (is_warning) {
+        nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
+      } else {
+        nvgFillColor(s->vg, COLOR_ENGAGED_ALPHA(180 * alpha));
+      }
+      nvgFill(s->vg);
+    }
+    if(s->scene.rightBlinker) {
+      nvgBeginPath(s->vg);
+      nvgMoveTo(s->vg, blinker_x + (pos_add*offset) + blinker_w, (header_h/4.2));
+      nvgLineTo(s->vg, blinker_x + (pos_add*offset) + (blinker_w*1.5), (header_h/2.1));
+      nvgLineTo(s->vg, blinker_x + (pos_add*offset) + blinker_w, (header_h/1.4));
+      nvgClosePath(s->vg);
+      if (is_warning) {
+        nvgFillColor(s->vg, COLOR_WARNING_ALPHA(180 * alpha));
+      } else {
+        nvgFillColor(s->vg, COLOR_ENGAGED_ALPHA(180 * alpha));
+      }
+      nvgFill(s->vg);
+    }
   }
 }
 

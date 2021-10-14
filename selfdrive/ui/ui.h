@@ -51,6 +51,9 @@
 #define COLOR_YELLOW nvgRGBA(218, 202, 37, 255)
 #define COLOR_RED nvgRGBA(201, 34, 49, 255)
 
+#define COLOR_ENGAGED_ALPHA(x) nvgRGBA(23, 134, 68, x)
+#define COLOR_WARNING_ALPHA(x) nvgRGBA(218, 111, 37, x)
+
 typedef cereal::CarControl::HUDControl::AudibleAlert AudibleAlert;
 
 // TODO: this is also hardcoded in common/transformations/camera.py
@@ -123,6 +126,10 @@ typedef struct UIScene {
   mat3 view_from_calib;
   bool world_objects_visible;
 
+  // ui blinker add
+  bool leftBlinker, rightBlinker;
+  int blinkingrate;
+
   cereal::PandaState::PandaType pandaType;
 
   // modelV2
@@ -144,6 +151,7 @@ typedef struct UIScene {
 
   // neokii dev UI
   cereal::CarControl::Reader car_control;
+  cereal::CarState::Reader car_state;
   cereal::CarParams::Reader car_params;
   cereal::GpsLocationData::Reader gps_ext;
   cereal::LiveParametersData::Reader live_params;
