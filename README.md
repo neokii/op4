@@ -170,12 +170,14 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable`
 
+Put this url during setup for Stable Open Street Maps `https://smiskol.com/fork/Circuit-Pro/stable_OSM`
+
 ***Comma 2***
 ---------------------
 
 **Stable**
 
-Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable_C2`
+Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stable`
 
 
 ***If you installed from SSH***
