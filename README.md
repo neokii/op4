@@ -1,7 +1,7 @@
 **OpenPilot 0.8.10 Community Fork for Kia, Hyundai, and Genesis**
 ------------------
 
-**The software sources are after the install section where they have been this whole TIME!**
+**The software sources are after the install section.**
 -------------------------------------------
 
 **This fork is Community Supported!**
