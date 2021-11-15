@@ -183,11 +183,11 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 --------------------------
 To print debug info for Panda and Harness issue:
 
-python panda/tests/debug_console.py
+`python panda/tests/debug_console.py`
 To print Opentpilot live data:
 
-python selfdrive/debug/dump.py <category>
-replace <category> with any one of these: health carState carControl controlsState carParams sendcan can
+`python selfdrive/debug/dump.py <category>`
+replace <category> with any one of these: `health carState carControl controlsState carParams sendcan can`
 
 
 
