@@ -179,6 +179,15 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 - make sure too run `rm /data/params/d/DongleId` to reset your dongle ID.
 
+*** xx979xx's Debugging Tools:***
+--------------------------
+To print debug info for Panda and Harness issue:
+
+python panda/tests/debug_console.py
+To print Opentpilot live data:
+
+python selfdrive/debug/dump.py <category>
+replace <category> with any one of these: health carState carControl controlsState carParams sendcan can
 
 
 
