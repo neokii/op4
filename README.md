@@ -58,7 +58,7 @@ SPAS stands for Smart Parking Assist System. Your vehicle does not need to be eq
  - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch due to it blocking signals when this is violated. Panda will call a violation and controls not allowed if this higher limit is reached. - TEMPORARILY DISABLED - Need to send MDPS into state 7 first before tx = 0
  - OpenPilot is appying a rate limit up and down to the sent steering angles and Panda is enforcing this. NOTE Panda's SPAS up and down rate limits are set conservatively and may require some adjusting.
  - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
- - If driver torque is detected with SPAS on and under 38Mph, OpenPilot will disengage.
+ - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
  - !KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES!
 
 ***Open Street Maps!***
