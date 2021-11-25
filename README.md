@@ -186,6 +186,21 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 - make sure too run `rm /data/params/d/DongleId` to reset your dongle ID.
 
+**Panda Issues**
+----------------
+
+**Comma 3***
+
+`pkill -f openpilot; cd panda/board; ./recover.sh; sudo reboot`
+
+`pkill -f openpilot; cd panda/board; ./flash.sh; sudo reboot`
+
+**Comma 2**
+
+`pkill -f openpilot; cd panda/board; ./recover.sh; reboot`
+
+`pkill -f openpilot; cd panda/board; ./flash.sh; reboot`
+
 **xx979xx's Debugging Tools:**
 --------------------------
 To print debug info for Panda and Harness issue:
