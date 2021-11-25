@@ -2,7 +2,6 @@
 ------------------
 
 **The software sources are after the install section.**
--------------------------------------------
 
 **This fork is Community Supported!**
 ------------------------
