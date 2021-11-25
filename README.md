@@ -27,7 +27,7 @@ title="PayPal – The safer, easier way to pay online!" border="0" />
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 
-**DO NOT USE SPAS WITHOUT UNDERSTANDING, YOU ACCEPT ALL LIABILITY.**
+**DO NOT USE SPAS WITHOUT UNDERSTANDING, HOW IT WORKS AND WHAT IT DOES, YOU ACCEPT ALL LIABILITY.**
 
 **It is open source and inherits MIT license.  By installing this software you accept all responsibility for anything that might occur while you use it.  All contributors to this fork are not liable.**  <b>Use at your own risk.</b>
 
@@ -47,6 +47,18 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 **Reach out to johnpr#5623 on discord to buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
 
+**SPAS**
+-------------
+
+SPAS stands for Smart Parking Assist System. Your vehicle does not need to be equiped with this feature to use it. To use this an MDPS harness is required. Most H.K.G. MDPS will accept these messages. This is currently reported to be working on vehicles 2019 and under, with newer vehicles needing more work due to tighter tolerances and more checks. To get a new vehicle working you need to set the `ret.emsType = _` for your vehicle if one is not set. Register your device to RetroPilot, and grab a cabana for your car, Then use the "Kia_Hyundai_Generic" DBC. Search for EMS and see which EMS your vehicle uses. Then set `ret.emsType = ` : N/A = 0 : EMS366 = 1 : EMS11 = 2 : E_EMS11 = 3 :
+
+ - Panda safety is in a working state and needs more testing and edge case tuning, I.E. The rate limit's for the steering wheel SPAS is set conservatively and may need some increasing. Just because there is panda safety code PLEASE do not ever fully assume it is safe, since this is so new! !Remember this is using the ENTIRE force of the MDPS/EPS Motor! 
+ - This works by faking the vehicle speed to ONLY to the MDPS when it's in state 5 (Steer/Assist) and sending an angle to MDPS to execute.
+ - OpenPilot currently switches to LKAS steering at 38MPH automatically. If the tune of LKAS steering is not good and stable there can be a noticeable transition on a curve. Although if your vehicle is properly tuned you should have no issues, In all of my testing. - TO DO - make this dynamic based on numerous factors like steer angle and steer staturation. For steer saturation it will need testing to see if feasible and safe to do this transfer when lkas already saturated; will probably need to have a rate limit upwind from current angle rather than straight to desired angle.
+ - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch due to it blocking signals when this is violated. Panda will call a violation and controls not allowed if this higher limit is reached.
+ - OpenPilot is appying a rate limit up and down to the sent steering angles and Panda is enforcing this. NOTE Panda's SPAS up and down rate limits are set conservatively and may require some adjusting.
+ - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
+ - !KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES!
 
 ***Open Street Maps!***
 ---------------------
