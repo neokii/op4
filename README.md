@@ -139,13 +139,7 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
 ***Use SMDPS Harness***
 
    - Use of MDPS Harness to enable openpilot steering down to 0 MPH
-
-***Built in TPMS Alerts***
-
-   - An alert is displayed showing what tire and pressure is low.
-
-***Stop Screen Capture on disengage toggle.***
-
+  
 ***On screen blinkers and blind spot alerts.***
 
 ***Enable Lane Change Assist***
