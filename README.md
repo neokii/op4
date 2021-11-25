@@ -7,7 +7,7 @@
 ------------------------
 
 We **appreciate** all help! Anywhere we get it! 
-To get involved join us on discord or Contribute to the project with code or help support the coders by donating.
+To get involved join us on discord or Contribute to the project with code or help support the project by donating.
 
 - https://discord.gg/zWSnqJ6rKD
 
