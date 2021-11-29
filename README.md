@@ -44,14 +44,16 @@ https://discord.gg/zWSnqJ6rKD
 
 This fork has full long control for all HKG with radar harness and Harnessless for older 2015 & 2016 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
-**Reach out to johnpr#5623 on discord to buy a radar harness. MDPS harnesses are available for sale with a 1 1/2 week lead time. Software to control it is currently WORKING and SUPPORTED!!**
+- Reach out to **johnpr#5623** on discord to buy a radar harness. 1 & 1/2 week lead time depending on location of parts.
 
 **SPAS**
 -------------
 
-SPAS stands for Smart Parking Assist System. Your vehicle does not need to be equiped with this feature to use it. To use this an MDPS harness is required. Most H.K.G. MDPS will accept these messages. This is currently reported to be working on vehicles 2019 and under, with newer vehicles needing more work due to tighter tolerances and more checks. To get a new vehicle working you need to set the `ret.emsType = _` for your vehicle if one is not set. Register your device to RetroPilot, and grab a cabana for your car, Then use the "Kia_Hyundai_Generic" DBC. Search for EMS and see which EMS your vehicle uses. Then set `ret.emsType = ` : N/A = 0 : EMS366 = 1 : EMS11 = 2 : E_EMS11 = 3 :
+SPAS stands for Smart Parking Assist System. Your vehicle does not need to be equiped with this feature to use it. To use this an MDPS harness is required! 
+Most H.K.G. MDPS will accept these messages. This is currently reported to be working on vehicles 2019 and under, with newer vehicles needing more work due to tighter tolerances on logic, more checks, and new checksums. To get a new vehicle working you need to set the `ret.emsType = _` for your vehicle if one is not set. Register your device to RetroPilot, and grab a cabana for your car, Then use the "Kia_Hyundai_Generic" DBC. Search for EMS and see which EMS your vehicle uses. Then set `ret.emsType = ` : N/A = 0 : EMS366 = 1 : EMS11 = 2 : E_EMS11 = 3 :
 Reach out with any questions or to get help with EMS types not listed, join our discord and ask in the spas channel.
 
+ - To use this an MDPS harness is required.
  - Panda safety is in a working state and needs more testing and edge case tuning, I.E. The rate limit's for the steering wheel SPAS is set conservatively and may need some increasing. 
  - Just because there is panda safety code **PLEASE** do not ever fully assume it is safe, especially since this is so new! Remember this is using the **ENTIRE** force of the MDPS/EPS Motor! 
  - This works by faking the vehicle speed **ONLY** to the MDPS when it's in state 5 (SPAS Steer/Assist) and sending an angle to MDPS to execute.
@@ -96,9 +98,12 @@ The Comma 3 has great performance with this fork.
 
 The **Comma 2** has **POOR** performance with logging and uploader enabled so it's disabled by default. You can change that in `Settings` under `Community`.
 
-- **MDPS Harnesses** are availaible for sale if you have the newer style plug. Contact johnpr#5623 on discord for more information.
+**MDPS Harnesses** are availaible for sale if you have the newer style plug and or 2015 - 2016 Genesis. Contact johnpr#5623 on discord for more information.
+- 2015 - 2016 Genesis requires some work to install please review this guide from Ahmed Barnawi. This guide is centered around SMDPS but from page (2 - 7) is no different for MDPS harness installation. https://github.com/Circuit-Pro/openpilot/blob/main/Guides/Hyundai_MDPS_Comma_Harness.pdf
 
-- **Radar Harnesses** for Kia Stinger, G70, Niro, and Ioniq are for sale. Contact johnpr#5623 on discord for more information.
+- Newer style plug for MDPS ECU located in cabin (Most likely up under the steering wheel.) is plug and play. MDPS harness connects between comma power and RJ45 from the Car Harness Box. The MDPS ECU data connector(CAN L, H, and IGN) gets unplugged from MDPS ECU and this connector that just got unplugged gets plugged into female of harness and the male MDPS harness connector will replace where the MDPS ECU data connector(CAN L, H, and IGN) **originally** was. I.E. MDPS ECU Data female socket. Avoid touching MDPS ECU Power connector and any others. https://github.com/Circuit-Pro/openpilot/blob/main/PICS/MDPS%20ECU%20view%201.png https://github.com/Circuit-Pro/openpilot/blob/main/PICS/MDPS%20ECU%20view%202.png
+
+**Radar Harnesses** for Kia Stinger, G70, Niro, and Ioniq are for sale. Varying lead time based on location of radar connector. Contact johnpr#5623 on discord for more information.
 
 **Notes**
 ---------
