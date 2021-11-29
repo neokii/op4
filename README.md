@@ -50,6 +50,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 -------------
 
 SPAS stands for Smart Parking Assist System. Your vehicle does not need to be equiped with this feature to use it. To use this an MDPS harness is required. Most H.K.G. MDPS will accept these messages. This is currently reported to be working on vehicles 2019 and under, with newer vehicles needing more work due to tighter tolerances and more checks. To get a new vehicle working you need to set the `ret.emsType = _` for your vehicle if one is not set. Register your device to RetroPilot, and grab a cabana for your car, Then use the "Kia_Hyundai_Generic" DBC. Search for EMS and see which EMS your vehicle uses. Then set `ret.emsType = ` : N/A = 0 : EMS366 = 1 : EMS11 = 2 : E_EMS11 = 3 :
+Reach out with any questions or to get help with EMS types not listed, join our discord and ask in the spas channel.
 
  - Panda safety is in a working state and needs more testing and edge case tuning, I.E. The rate limit's for the steering wheel SPAS is set conservatively and may need some increasing. 
  - Just because there is panda safety code **PLEASE** do not ever fully assume it is safe, especially since this is so new! Remember this is using the **ENTIRE** force of the MDPS/EPS Motor! 
