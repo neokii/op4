@@ -98,7 +98,7 @@ The **Comma 2** has **POOR** performance with logging and uploader enabled so it
 
 - **MDPS Harnesses** are availaible for sale if you have the newer style plug. Contact johnpr#5623 on discord for more information.
 
-- **Radar Harnesses** for Kia Stinger & G70 are for sale. Contact johnpr#5623 on discord for more information.
+- **Radar Harnesses** for Kia Stinger, G70, Niro, and Ioniq are for sale. Contact johnpr#5623 on discord for more information.
 
 **Notes**
 ---------
@@ -106,7 +106,10 @@ The **Comma 2** has **POOR** performance with logging and uploader enabled so it
 Make sure to **shut off** auto start stop or you will get steering temporarily unavailable if the engine shuts off.
 
 **Screen Recordings** 
-- Saved to. `/storage/emulated/0/videos`
+
+- Comma 2 Storage Location. `/storage/emulated/0/videos`
+
+- Comma 2 Storage Location. `/data/media/0/videos`
 
 **Features**
 ------------
@@ -118,15 +121,16 @@ Make sure to **shut off** auto start stop or you will get steering temporarily u
 The loading logo is automatically set to your HKG cars brand after the first boot, first car start, first reboot, and resets on update.
 
 ***nTune***
-- nTune Auto Tunes lateral steering.
 
-Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. Use this command `cd selfdrive && python ntune.py` or use the button in `Settings` under `Device`. (make sure your not driving!)
+- nTune Auto Tunes lateral LQR steering and some SCC/Long settings like accuation delay upper and lower bounds, gas factor, and brake factor.=
+
+Run **nTune** in middle of drive: Use this command `cd selfdrive && python ntune.py` or use the button in `Settings` under `Device`. (make sure your not driving!)
 
 **Delete UI Screen Recordings button in `Settings` under `Device`.**
 
 **Toggles**
 
-- Toggles are in `Settings` under `Community`.
+- Toggles are in `Settings` under `Community` & `Device`.
 
 ***Cluster Speed***
 
@@ -146,11 +150,14 @@ Run **nTune** after 30 - 50 miles of driving. It will autotune lateral control. 
   
 ***On screen blinkers and blind spot alerts.***
 
+ - Your choice of Neokii or Crwusiz on screen blinkers with Crwusiz on-screen Blind Spot Monitoring indicators.
+
 ***Enable Lane Change Assist***
 
   - allows openpilot to change lanes. Driver is responsible for ensuring that it is SAFE to change lanes. Requires signal, and steering wheel nudge.
 
 ***Auto Lane Change with Blind spot monitoring toggle (No Nudge).***
+
   - Same as the original, now with 100% less nudge.
 
 ***Sync Speed on Gas Press***
