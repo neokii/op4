@@ -68,7 +68,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - This works by faking the vehicle speed **ONLY** to the MDPS when it's in state 5 (SPAS Steer/Assist) and sending an angle to MDPS to execute.
  - OpenPilot currently switches to LKAS steering at 38MPH automatically. If the tune of LKAS steering is not good and stable there can be a noticeable transition on a curve. Although if your vehicle is properly tuned you should have no issues, In all of my testing. - TO DO - make this dynamic based on numerous factors like steer angle and steer staturation. For steer saturation it will need testing to see if feasible and safe to do this transfer when lkas already saturated; will probably need to have a rate limit upwind from current angle rather than straight to desired angle.
  - When LKAS is not active, the controlers are being reset to prevent upwind or unwind issues.
- - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch due to it blocking signals when this is violated. Panda will call a violation and controls not allowed if this higher limit is reached. - TEMPORARILY DISABLED - Need to send MDPS into state 7 first before tx = 0
+ - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch due to it blocking signals when this is violated. Panda will call a violation and controls not allowed if this higher limit is reached. - PANDA DRIVER TORQUE MONITORING TEMPORARILY DISABLED - Need to send MDPS into state 7 first before tx = 0 from panda not Openpilot
  - OpenPilot is appying a rate limit up and down to the sent steering angles and Panda is enforcing this. NOTE Panda's SPAS up and down rate limits are set conservatively and may require some adjusting.
  - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
  - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
@@ -92,7 +92,6 @@ Reach out with any questions or to get help with EMS types not listed, join our 
    - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
    - Lead markers are not available unless you have HKG long.
    - Radar harness or mod is needed. 
-
 
 ***RetroPilot***
 ----------------
