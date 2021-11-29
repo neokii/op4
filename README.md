@@ -82,7 +82,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
    - Speed limit wrong or missing? Contribute to Open Street Maps in your area! https://www.openstreetmap.org
    - Special Thanks to the Move-Fast Team for all the help and hard work with OSM!
    - With an active internet connection, and HKG Long, OpenPilot can plan ahead using vision and map data to slow for curves and adjust the longitudinal plan for speed limit and other factors.
-   - Cruise speed does not adjust SCC max set speed, it instead adjusts longitudinal plan. So for it to work set max SCC speed higher than speed limit. To override speed limit tap on speed limit symbol on screen in top left corner next to max speed.
+   - Cruise speed does not adjust SCC max set speed, OSM instead adjusts longitudinal plan. So for it to work set max SCC speed higher than speed limit. To override speed limit tap on speed limit symbol on screen in top left corner next to max speed.
    - All Settings are under `Toggles` in `Settings`.
    - We have the correct DBC for newer Hyundais; 2019+ with built in navigation. To pull the speed limit information from head unit over can bus. Toggle `Pull Hyundai Navigation Speed Limit` to the ON position and OSM will use both the OSM API and the cars Head Unit GPS/Navigation reported speed limit information to decide the speed limit.
    - https://www.youtube.com/watch?v=hTuvA6o6gjY
