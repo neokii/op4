@@ -57,7 +57,7 @@ Most H.K.G. MDPS will accept these messages. This is currently reported to be wo
 Register your device to RetroPilot. Then go for a short drive and grab a cabana for your car, Then use the "Kia_Hyundai_Generic" DBC. Search for EMS and see which EMS your vehicle uses. Then set `ret.emsType = ` : N/A = 0 : EMS366 = 1 : EMS11 = 2 : E_EMS11 = 3 :
 Reach out with any questions or to get help with EMS types not listed, join our discord and ask in the spas channel.
 
-**Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide!
+**Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide! **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !** You are **responsible** for actions of car engaged or not engaged!
 
  - To use this an MDPS harness is required.
  - MDPS stands for Motor Driven Power Steering.
@@ -72,7 +72,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
  - **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !**
  - SPAS is available for testing on the `dev` branch.
- **Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide!
+ **Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide! **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !** You are **responsible** for actions of car engaged or not engaged!
 
 ***Open Street Maps!***
 ---------------------
