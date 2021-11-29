@@ -63,8 +63,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
  - Before testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide!
  - !KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES!
- - Before testing SPAS steering, **^^ !BE SURE TO READ ALL OF THE ABOVE! ^^**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide!
- - SPAS is available for testing on the dev branch.
+ - SPAS is available for testing on the `dev` branch.
 
 ***Open Street Maps!***
 ---------------------
