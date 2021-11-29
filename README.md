@@ -62,7 +62,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
  - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
  - !KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES!
- - Before testing SPAS steering **^^!BE SURE TO READ ALL OF THE ABOVE!^^**
+ - Before testing SPAS steering, **^^ !BE SURE TO READ ALL OF THE ABOVE! ^^**; Be aware of all the safety concerns with **USING ALL THE TORQUE** that the MDPS/EPS motor can provide!
  - SPAS is available for testing on the dev branch.
 
 ***Open Street Maps!***
