@@ -49,7 +49,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 **SPAS**
 -------------
 
-<td><a href="https://www.youtube.com/watch?v=hTuvA6o6gjY&t=49s" title="YouTube" rel="noopener"><img src="https://github.com/Circuit-Pro/openpilot/blob/main/PICS/SPAS%20thumbnail.p"></a></td>
+<td><a href="https://www.youtube.com/watch?v=hTuvA6o6gjY&t=49s" title="YouTube" rel="noopener"><img src="https://github.com/Circuit-Pro/openpilot/blob/main/PICS/SPAS%20thumbnail.png"></a></td>
 
 SPAS stands for Smart Parking Assist System. Your vehicle does not need to be equiped with this feature to use it. To use this an MDPS harness is required! 
 Most H.K.G. MDPS will accept these messages. This is currently reported to be working on vehicles 2019 and under, with newer vehicles needing more work due to tighter tolerances on logic, more checks, and new checksums. To get a new vehicle working you need to set the `ret.emsType = _` for your vehicle if one is not set. 
