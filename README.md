@@ -92,8 +92,8 @@ This fork uses RetroPilot for logging and online services.  https://api.retropil
 
 Make sure "Upload Raw Logs" and "Enable Logger / Uploader" are both ON for this to work. 
 
-*Performance**
---------------
+**Performance**
+---------------
 
 The Comma 3 has great performance with this fork.
 
