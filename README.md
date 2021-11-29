@@ -188,7 +188,7 @@ If Collision Warning is beeping at you OpenPilot has calculated it can't stop qu
 
 ***Install***
 ------------
-***Comma 3***
+**Comma 3**
 -------------
 **Stable**
 
@@ -196,8 +196,8 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 Put this url during setup for Stable Open Street Maps `https://smiskol.com/fork/Circuit-Pro/stable_OSM`
 
-***Comma 2***
----------------------
+**Comma 2**
+------------
 
 **Stable**
 
@@ -211,7 +211,7 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 **Panda Issues**
 ----------------
 
-**Comma 3***
+**Comma 3**
 
 `pkill -f openpilot; cd panda/board; ./recover.sh; sudo reboot`
 
