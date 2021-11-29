@@ -249,7 +249,7 @@ https://github.com/xx979xx/openpilot
 
 https://github.com/crwusiz/openpilot
 
-https://github.com/move-fast/openpilot/tree/release_0.8.7
+https://github.com/move-fast/openpilot
 
 **Extras**
 ---------------
