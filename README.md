@@ -54,6 +54,7 @@ Most H.K.G. MDPS will accept these messages. This is currently reported to be wo
 Reach out with any questions or to get help with EMS types not listed, join our discord and ask in the spas channel.
 
  - To use this an MDPS harness is required.
+ - MDPS stands for Motor Driven Power Steering.
  - Panda safety is in a working state and needs more testing and edge case tuning, I.E. The rate limit's for the steering wheel SPAS is set conservatively and may need some increasing. 
  - Just because there is panda safety code **PLEASE** do not ever fully assume it is safe, especially since this is so new! Remember this is using the **ENTIRE** force of the MDPS/EPS Motor! 
  - This works by faking the vehicle speed **ONLY** to the MDPS when it's in state 5 (SPAS Steer/Assist) and sending an angle to MDPS to execute.
