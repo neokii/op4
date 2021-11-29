@@ -92,12 +92,15 @@ This fork uses RetroPilot for logging and online services.  https://api.retropil
 
 Make sure "Upload Raw Logs" and "Enable Logger / Uploader" are both ON for this to work. 
 
-**Hardware & Performance**
-------------
+*Performance**
+--------------
 
 The Comma 3 has great performance with this fork.
 
 The **Comma 2** has **POOR** performance with logging and uploader enabled so it's disabled by default. You can change that in `Settings` under `Community`.
+
+**Hardware**
+------------
 
 **MDPS Harness** are available if you have the newer style plug and or 2015 - 2016 Genesis. Contact johnpr#5623 on discord for more information.
 
