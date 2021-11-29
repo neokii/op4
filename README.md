@@ -98,13 +98,13 @@ The Comma 3 has great performance with this fork.
 
 The **Comma 2** has **POOR** performance with logging and uploader enabled so it's disabled by default. You can change that in `Settings` under `Community`.
 
-**MDPS Harnesses** are availaible for sale if you have the newer style plug and or 2015 - 2016 Genesis. Contact johnpr#5623 on discord for more information.
+**MDPS Harness** are available if you have the newer style plug and or 2015 - 2016 Genesis. Contact johnpr#5623 on discord for more information.
 
 - 2015 - 2016 Genesis requires some work to install please review this guide from Ahmed Barnawi. This guide is centered around SMDPS but from page (2 - 7) is no different for MDPS harness installation. If you have a MDPS Harness kit skip right on past step 1, 2, & 3 of "Execution" on page 2 and start from there. The MDPS harness connects between comma power and RJ45 from the Car Harness Box. https://github.com/Circuit-Pro/openpilot/blob/main/Guides/Hyundai_MDPS_Comma_Harness.pdf 
 
 - Newer style plug for MDPS ECU located in cabin (Most likely up under the steering wheel.) is plug and play. MDPS harness connects between comma power and RJ45 from the Car Harness Box. The MDPS ECU data connector(CAN L, H, and IGN) gets unplugged from MDPS ECU and this connector that just got unplugged gets plugged into female of harness and the male MDPS harness connector will replace where the MDPS ECU data connector(CAN L, H, and IGN) **originally** was. I.E. MDPS ECU Data female socket. Avoid touching MDPS ECU Power connector and any others. https://github.com/Circuit-Pro/openpilot/blob/main/PICS/MDPS%20ECU%20view%201.png https://github.com/Circuit-Pro/openpilot/blob/main/PICS/MDPS%20ECU%20view%202.png
 
-**Radar Harnesses** for Kia Stinger, G70, Niro, and Ioniq are for sale. Varying lead time based on location of radar connector. Contact johnpr#5623 on discord for more information.
+**Radar Harness** for Kia Stinger, G70, Niro, and Ioniq are available. Varying lead time based on location of radar connector. Contact johnpr#5623 on discord for more information.
 
 **Notes**
 ---------
