@@ -237,9 +237,7 @@ To print Opentpilot live data:
 `python selfdrive/debug/dump.py <category>`
 replace <category> with any one of these: `health carState carControl controlsState carParams sendcan can`
 
-
-
-**This is based on xx979xx & Neokii's & crwusiz's fork and is tuned best for Genesis G70, Kia Stinger, and works on others.. Please submit a tune to our discord if you find a better one.**
+**This is based on xx979xx & Neokii's & crwusiz's fork and is tuned best 2.0L Kia Stinger, and works on others... Please submit a tune to our discord if you find a better one.**
 
 **Software Sources!**
 ----------------------------
