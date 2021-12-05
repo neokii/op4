@@ -89,9 +89,10 @@ Reach out with any questions or to get help with EMS types not listed, join our 
 
 ***HKG Long control toggle. (radar + vision)***
 -----------------------------------------------
-   - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system. May be useful for systems that don’t currently HAVE SCC but can support SCC via openpilot when programmed to another car variant(same model) that has radar..
-   - Lead markers are not available unless you have HKG long.
-   - Radar harness or mod is needed. 
+   - When toggled on, replaces the default Hyundai / Kia / Genesis factory longitudinal control system (SCC) with the openpilot system.
+   - Lead markers are not available unless you have HKG long toggle on; this is not a method to determine if longitudinal is working.
+   - Radar harness or mod is needed.
+     - Move SCC ECU / RADAR to bus 2.
 
 ***RetroPilot***
 ----------------
