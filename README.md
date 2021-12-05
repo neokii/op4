@@ -213,16 +213,17 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 **Panda Issues**
 ----------------
+If you get "Invalid DFU Signature" unplug comma for 5 min and plug it back in and run `./recover.sh` again.
 
 **Comma 3**
 
-`pkill -f openpilot; cd panda/board; ./recover.sh; sudo reboot`
+Try this first; refer to instructions above, if this does not work. - `pkill -f openpilot; cd panda/board; ./recover.sh; sudo reboot`
 
 `pkill -f openpilot; cd panda/board; ./flash.sh; sudo reboot`
 
 **Comma 2**
 
-`pkill -f openpilot; cd panda/board; ./recover.sh; reboot`
+Try this first; refer to instructions above, if this does not work. - `pkill -f openpilot; cd panda/board; ./recover.sh; reboot`
 
 `pkill -f openpilot; cd panda/board; ./flash.sh; reboot`
 
