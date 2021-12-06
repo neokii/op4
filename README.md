@@ -126,7 +126,7 @@ Make sure to **shut off** auto start stop or you will get steering temporarily u
 
 **Screen Recordings** 
 
-- Comma 2 Storage Location. `/storage/emulated/0/videos`
+- Comma 3 Storage Location. `/storage/emulated/0/videos`
 
 - Comma 2 Storage Location. `/data/media/0/videos`
 
