@@ -153,7 +153,7 @@ Run **nTune** in middle of drive: Use this command `cd selfdrive && python ntune
 
 ***Cluster Speed***
 
-   - Uses the speed of the gauge cluster instead GPS speed.
+   - Uses the speed of the gauge cluster instead Wheel speeds.
 
 ***LDWS toggle***
 
