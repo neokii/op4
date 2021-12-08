@@ -213,7 +213,7 @@ Put this url during setup for Stable `https://smiskol.com/fork/Circuit-Pro/stabl
 
 **Panda Issues**
 ----------------
-If you get "Invalid DFU Signature" unplug comma for 5 min and plug it back in and run `./recover.sh` again.
+Make sure to run the `./recover.sh` while car is off, otherwise "Invalid DFU Signature". If you still get "Invalid DFU Signature" unplug comma for 5 min and plug it back in and run `./recover.sh` again.
 
 **Comma 3**
 
