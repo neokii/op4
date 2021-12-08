@@ -252,6 +252,8 @@ https://github.com/move-fast/openpilot
  
 https://github.com/xps-genesis/openpilot
 
+https://github.com/dragonpilot-community/dragonpilot
+
 **Extras**
 ---------------
 
