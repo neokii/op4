@@ -249,6 +249,8 @@ https://github.com/xx979xx/openpilot
 https://github.com/crwusiz/openpilot
 
 https://github.com/move-fast/openpilot
+ 
+https://github.com/xps-genesis/openpilot
 
 **Extras**
 ---------------
