@@ -213,8 +213,8 @@ DevicePanel::DevicePanel(SettingsWindow *parent) : ListWidget(parent) {
       height: 120px;
       border-radius: 15px;
     }
-    #reboot_btn { background-color: #393939; }
-    #reboot_btn:pressed { background-color: #4a4a4a; }
+    #reboot_btn { background-color: #2CE22C; }
+    #reboot_btn:pressed { background-color: #24FF24; }
     #poweroff_btn { background-color: #E22C2C; }
     #poweroff_btn:pressed { background-color: #FF2424; }
   )");
@@ -505,9 +505,7 @@ void SettingsWindow::hideEvent(QHideEvent *event) {
 #endif
 }
 
-
-/////////////////////////////////////////////////////////////////////////
-
+// Community Panel
 CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
 
   main_layout = new QStackedLayout(this);
@@ -566,94 +564,51 @@ CommunityPanel::CommunityPanel(QWidget* parent) : QWidget(parent) {
 
   QList<ParamControl*> toggles;
 
-  toggles.append(new ParamControl("UseClusterSpeed",
-                                            "Use Cluster Speed",
-                                            "Use cluster speed instead of wheel speed.",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("LongControlEnabled",
-                                            "Enable HKG Long Control",
-                                            "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("MadModeEnabled",
-                                            "Enable HKG MAD mode",
-                                            "Openpilot will engage when turn cruise control on",
-                                            "../assets/offroad/icon_openpilot.png",
-                                            this));
-
-  toggles.append(new ParamControl("IsLdwsCar",
-                                            "LDWS",
-                                            "If your car only supports LDWS, turn it on.",
-                                            "../assets/offroad/icon_openpilot.png",
-                                            this));
-
-  toggles.append(new ParamControl("LaneChangeEnabled",
-                                            "Enable Lane Change Assist",
-                                            "Perform assisted lane changes with openpilot by checking your surroundings for safety, activating the turn signal and gently nudging the steering wheel towards your desired lane. openpilot is not capable of checking if a lane change is safe. You must continuously observe your surroundings to use this feature.",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("AutoLaneChangeEnabled",
-                                            "Enable Auto Lane Change(Nudgeless)",
-                                            "warnings: it is beta, be careful!!",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("SccSmootherSlowOnCurves",
-                                            "Enable Slow On Curves",
-                                            "",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("SccSmootherSyncGasPressed",
-                                            "Sync set speed on gas pressed",
-                                            "",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("StockNaviDecelEnabled",
-                                            "Stock Navi based deceleration",
-                                            "Use the stock navi based deceleration for longcontrol",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
-
-  toggles.append(new ParamControl("KeepSteeringTurnSignals",
-                                            "Keep steering while turn signals.",
-                                            "",
-                                            "../assets/offroad/icon_openpilot.png",
-                                            this));
-  toggles.append(new ParamControl("WarningOverSpeedLimit",
-                                            "Warning when speed limit is exceeded.",
-                                            "",
-                                            "../assets/offroad/icon_openpilot.png",
-                                            this));
-
-  /*toggles.append(new ParamControl("NewRadarInterface",
-                                            "Use new radar interface",
-                                            "",
-                                            "../assets/offroad/icon_road.png",
-                                            this));*/
-
-  toggles.append(new ParamControl("DisableOpFcw",
-                                            "Disable Openpilot FCW",
-                                            "",
-                                            "../assets/offroad/icon_shell.png",
-                                            this));
-
-  toggles.append(new ParamControl("ShowDebugUI",
-                                            "Show Debug UI",
-                                            "",
-                                            "../assets/offroad/icon_shell.png",
-                                            this));
-
-  toggles.append(new ParamControl("CustomLeadMark",
-                                            "Use custom lead mark",
-                                            "",
-                                            "../assets/offroad/icon_road.png",
-                                            this));
+  toggles.append(new ParamControl("UseClusterSpeed", "Use Cluster Speed",
+                                  "Use cluster speed instead of wheel speed.",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("LongControlEnabled", "Enable HKG Long Control",
+                                  "warnings: it is beta, be careful!! Openpilot will control the speed of your car",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("MadModeEnabled", "Enable HKG MAD mode",
+                                  "Openpilot will engage when turn cruise control on",
+                                  "../assets/offroad/icon_openpilot.png", this));
+  toggles.append(new ParamControl("IsLdwsCar", "LDWS",
+                                  "If your car only supports LDWS, turn it on.",
+                                  "../assets/offroad/icon_openpilot.png", this));
+  toggles.append(new ParamControl("LaneChangeEnabled", "Enable Lane Change Assist",
+                                  "Perform assisted lane changes with openpilot by checking your surroundings for safety, activating the turn signal and gently nudging the steering wheel towards your desired lane. openpilot is not capable of checking if a lane change is safe. You must continuously observe your surroundings to use this feature.",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("AutoLaneChangeEnabled", "Enable Auto Lane Change(Nudgeless)",
+                                  "warnings: it is beta, be careful!!",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("SccSmootherSlowOnCurves", "Enable Slow On Curves",
+                                  "",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("SccSmootherSyncGasPressed", "Sync set speed on gas pressed",
+                                  "",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("StockNaviDecelEnabled", "Stock Navi based deceleration",
+                                  "Use the stock navi based deceleration for longcontrol",
+                                  "../assets/offroad/icon_road.png", this));
+  toggles.append(new ParamControl("KeepSteeringTurnSignals", "Keep steering while turn signals.",
+                                  "",
+                                  "../assets/offroad/icon_openpilot.png", this));
+  toggles.append(new ParamControl("WarningOverSpeedLimit", "Warning when speed limit is exceeded.",
+                                  "",
+                                  "../assets/offroad/icon_openpilot.png", this));
+  /*toggles.append(new ParamControl("NewRadarInterface", "Use new radar interface",
+                                    "",
+                                    "../assets/offroad/icon_road.png", this));*/
+  toggles.append(new ParamControl("DisableOpFcw", "Disable Openpilot FCW",
+                                  "",
+                                  "../assets/offroad/icon_shell.png", this));
+  toggles.append(new ParamControl("ShowDebugUI", "Show Debug UI",
+                                  "",
+                                  "../assets/offroad/icon_shell.png", this));
+  toggles.append(new ParamControl("CustomLeadMark", "Use custom lead mark",
+                                  "",
+                                  "../assets/offroad/icon_road.png", this));
 
   for(ParamControl *toggle : toggles) {
     if(main_layout->count() != 0) {

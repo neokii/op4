@@ -58,7 +58,6 @@ class Planner:
     self.j_desired_trajectory = np.zeros(CONTROL_N)
 
     self.use_cluster_speed = Params().get_bool('UseClusterSpeed')
-    self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
   def update(self, sm):
     v_ego = sm['carState'].vEgo
