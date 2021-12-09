@@ -57,7 +57,7 @@ class CAR:
   K5 = "KIA K5 2019 & 2016"
   K5_2021 = "KIA K5 2021"
   K5_HEV = "KIA K5 HYBRID 2017 & SPORTS 2019"
-  SPORTAGE = "KIA SPORTAGE S 2020"  
+  SPORTAGE = "KIA SPORTAGE S 2020"
   SORENTO = "KIA SORENTO GT LINE 2018"
   STINGER = "KIA STINGER GT2 2018"
   NIRO_EV = "KIA NIRO EV 2020 PLATINUM"
@@ -349,6 +349,8 @@ FEATURES = {
   "has_scc14": {CAR.PALISADE, CAR.NIRO_HEV, CAR.NIRO_HEV_2021, CAR.K9, CAR.GENESIS_G90, CAR.K5_2021},
 }
 
+SP_CARS = {CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80, CAR.GENESIS_EQ900, CAR.GENESIS_EQ900_L, CAR.K9, CAR.GENESIS_G90}
+
 HYBRID_CAR = {CAR.K5_HEV, CAR.KONA_HEV, CAR.NIRO_HEV, CAR.NIRO_HEV_2021, CAR.SONATA_HEV, CAR.SONATA21_HEV, CAR.SONATA19_HEV, CAR.K7_HEV,
               CAR.GRANDEUR_IG_HEV, CAR.GRANDEUR_IG_FL_HEV, CAR.IONIQ_PHEV, CAR.ELANTRA_HEV_2021, CAR.IONIQ,
               CAR.SANTA_FE_HEV_2022}
@@ -360,7 +362,7 @@ EV_HYBRID_CAR = EV_CAR | HYBRID_CAR
 DBC = {
   # genesis
   CAR.GENESIS: dbc_dict('hyundai_kia_generic', None),
-  CAR.GENESIS_G70: dbc_dict('hyundai_kia_generic', None),  
+  CAR.GENESIS_G70: dbc_dict('hyundai_kia_generic', None),
   CAR.GENESIS_G80: dbc_dict('hyundai_kia_generic', None),
   CAR.GENESIS_EQ900: dbc_dict('hyundai_kia_generic', None),
   CAR.GENESIS_EQ900_L: dbc_dict('hyundai_kia_generic', None),
@@ -398,9 +400,9 @@ DBC = {
   CAR.K5: dbc_dict('hyundai_kia_generic', None),
   CAR.K5_2021: dbc_dict('hyundai_kia_generic', None),
   CAR.K5_HEV: dbc_dict('hyundai_kia_generic', None),
-  CAR.SPORTAGE: dbc_dict('hyundai_kia_generic', None),  
+  CAR.SPORTAGE: dbc_dict('hyundai_kia_generic', None),
   CAR.SORENTO: dbc_dict('hyundai_kia_generic', None),
-  CAR.STINGER: dbc_dict('hyundai_kia_generic', None),  
+  CAR.STINGER: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_EV: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_HEV: dbc_dict('hyundai_kia_generic', None),
   CAR.NIRO_HEV_2021: dbc_dict('hyundai_kia_generic', None),

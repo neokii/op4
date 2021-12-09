@@ -8,7 +8,7 @@ from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, \
   create_scc11, create_scc12, create_scc13, create_scc14, \
   create_mdps12, create_lfahda_mfc, create_hda_mfc
 from selfdrive.car.hyundai.scc_smoother import SccSmoother
-from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams
+from selfdrive.car.hyundai.values import Buttons, CAR, FEATURES, CarControllerParams, SP_CARS
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
 from common.params import Params
@@ -18,9 +18,6 @@ from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 min_set_speed = 30 * CV.KPH_TO_MS
 
-
-SP_CARS = [CAR.GENESIS, CAR.GENESIS_G70, CAR.GENESIS_G80,
-           CAR.GENESIS_EQ900, CAR.GENESIS_EQ900_L, CAR.K9, CAR.GENESIS_G90]
 
 def process_hud_alert(enabled, fingerprint, visual_alert, left_lane, right_lane,
                       left_lane_depart, right_lane_depart):
@@ -198,7 +195,7 @@ class CarController():
     if self.longcontrol and CS.cruiseState_enabled and (CS.scc_bus or not self.scc_live):
 
       if frame % 2 == 0:
-        
+
         stopping = controls.LoC.long_control_state == LongCtrlState.stopping
         apply_accel = clip(actuators.accel, CarControllerParams.ACCEL_MIN, CarControllerParams.ACCEL_MAX)
         apply_accel = self.scc_smoother.get_apply_accel(CS, controls.sm, apply_accel, stopping)
@@ -237,7 +234,7 @@ class CarController():
 
         if frame % 20 == 0 and CS.has_scc13:
           can_sends.append(create_scc13(self.packer, CS.scc13))
-          
+
         if CS.has_scc14:
           acc_standstill = stopping if CS.out.vEgo < 2. else False
 
