@@ -48,8 +48,13 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 - SCC ECU / Radar Harness **should** preserve Automatic Emergency Braking and Evasive Manuver Assist. Tested on 2018 Kia Stinger 2.0L Premium.
 
 **Enable Radar Tracks**
-Run this from SSH.
+----------------------
+Under `Community` set the `Radar Disable` toggle to the ON position and reboot.
+
+Then run this from SSH.
+
 `killall boardd; python /data/openpilot/selfdrive/debug/hyundai_enable_radar_points.py`
+
 Follow instrucions from script. Reboot and restart car; make sure no errors on dash.
 
 For a more detailed look at this, take a look at this great write up by Sunnhabin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
