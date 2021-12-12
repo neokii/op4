@@ -61,7 +61,7 @@ Then run this from SSH.
 
 Follow instrucions from script. Reboot and restart car; make sure no errors on dash.
 
-For a more detailed look at this, take a look at this great write up by Sunnhabin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
+For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
 **SPAS**
 -------------
