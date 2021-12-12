@@ -49,7 +49,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 **Enable Radar Tracks**
 ----------------------
-**COMMING SOON**
+**COMING SOON**
 
 Under `Community` set the `Radar Disable` toggle to the ON position and reboot.
 
