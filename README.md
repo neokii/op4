@@ -45,6 +45,14 @@ https://discord.gg/zWSnqJ6rKD
 This fork has full long control for all HKG with radar harness and Harnessless for older 2015 & 2016 Genesis G80(Fixed SMDPS) without any radar harness mod. All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
 - Reach out to **johnpr#5623** on discord to buy a radar harness. 1 & 1/2 week lead time depending on location of parts.
+- SCC ECU / Radar Harness **should** preserve Automatic Emergency Braking and Evasive Manuver Assist. Tested on 2018 Kia Stinger 2.0L Premium.
+
+**Enable Radar Tracks**
+Run this from SSH.
+`killall boardd; python /data/openpilot/selfdrive/debug/hyundai_enable_radar_points.py`
+Follow instrucions from script. Reboot and restart car; make sure no errors on dash.
+
+For a more detailed look at this, take a look at this great write up by Sunnhabin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
 **SPAS**
 -------------
