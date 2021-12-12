@@ -53,6 +53,8 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 
 Under `Community` set the `Radar Disable` toggle to the ON position and reboot.
 
+Make sure the car is OFF.
+
 Then run this from SSH.
 
 `killall boardd; python /data/openpilot/selfdrive/debug/hyundai_enable_radar_points.py`
