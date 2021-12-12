@@ -51,7 +51,7 @@ This fork has full long control for all HKG with radar harness and Harnessless f
 ----------------------
 **COMING SOON**
 
-Under `Community` set the `Radar Disable` toggle to the ON position and reboot.
+Under `Community` set the `Radar Disable`, `New Radar Interface`, and `HKG Long` toggle to the ON position and reboot.
 
 Make sure the car is OFF.
 
