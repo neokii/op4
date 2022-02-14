@@ -44,7 +44,7 @@ https://discord.gg/zWSnqJ6rKD
 
 This fork uses the SCC Gap Setting on cluster to display how far a lead is when a lead is there. When there is no lead a "driving" animation will display on screen with scrolling gap bars that change in speed with vehicle speed.
 
-This fork has full long control for all HKG with radar harness and Radar Disable(NO AEB OR FCA!!!). All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
+This fork has full long control for all HKG with radar harness(AEB should work for FCA11 and FCA12 cars) and Radar Disable(NO AEB OR FCA!!!). All other cars should require scc to be moved to bus 2 from bus 0 for full long control.
 
 - Reach out to **oricalworks#5623** on discord to buy a radar harness. 1 & 1/2 week lead time depending on location of parts.
 - SCC ECU / Radar Harness **should** preserve Automatic Emergency Braking(FCA) and Evasive Manuver Assist on **MOST** vehicles. Tested on 2018 Kia Stinger 2.0L Premium. **NOT GUARANTEED**
