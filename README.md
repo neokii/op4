@@ -99,14 +99,14 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - Panda safety is in a working state and needs more testing and edge case tuning, I.E. The rate limit's for the steering wheel SPAS is set conservatively and may need some increasing. 
  - Just because there is panda safety code **PLEASE** do not ever fully assume it is safe, especially since this is so new! Remember this is using the **ENTIRE** force of the MDPS/EPS Motor! 
  - This works by faking the vehicle speed **ONLY** to the MDPS when it's in state 5 (SPAS Steer/Assist) and sending an angle to MDPS to execute.
- - OpenPilot currently switches to LKAS steering at 30MPH automatically. If the tune of LKAS steering is not good and stable there can be a noticeable transition on a curve. Although if your vehicle is properly tuned you should have no issues, In all of my testing. - IN PROGRESS - make this dynamic based on numerous factors like steer angle and steer staturation. For steer saturation it will need testing to see if feasible and safe to do this transfer when lkas already saturated; will probably need to have a rate limit upwind from current angle rather than straight to desired angle.
+ - OpenPilot currently switches to LKAS steering at 30MPH automatically. If the tune of LKAS steering is not good and stable there can be a noticeable transition on a curve. Although if your vehicle is properly tuned you should have no issues, In all of my testing. 
+ - Dynamic SPAS Activates SPAS on certain driving conditions under 60MPH.
  - When LKAS is not active, the controlers are being reset to prevent upwind or unwind issues.
  - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda will call a violation and controls not allowed if this higher limit is reached. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch and interference due to it blocking signals when this is violated. - PANDA DRIVER TORQUE MONITORING TEMPORARILY DISABLED - Need to send MDPS into state 7 first before tx = 0 from panda not Openpilot
  - OpenPilot is appying a rate limit up and down to the sent steering angles and Panda is enforcing this. NOTE Panda's SPAS up and down rate limits are set conservatively and may require some adjusting. The result of panda calling a violation, will cause a controls mismatch.
  - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
  - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
  - **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !**
- - SPAS is available for testing on the `dev` branch.
  
 **Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL OF THE TORQUE** that the MDPS/EPS motor can provide! **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !** You are **responsible** for actions of car engaged or not engaged!
 
