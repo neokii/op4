@@ -75,6 +75,11 @@ Then reboot and restart car.
 
 For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
+**RSPA**
+-------------
+
+!! COMING SOON !!
+
 **SPAS**
 -------------
 Before! testing SPAS steering, ↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓; Be aware of all the safety concerns with USING ALL OF THE TORQUE that the MDPS/EPS motor can provide! ! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES ! You are responsible for actions of car engaged or not engaged!
