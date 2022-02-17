@@ -75,10 +75,10 @@ Then reboot and restart car.
 
 For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
-**MADS**
+**MAD**
 -------------
 
-Modified Assistive Driving System (MADS) allows openpilot's Automatic Lane Centering (ALC) and Adaptive Cruise Control (ACC) / Smart Cruise Control (SCC) to be engaged independently of each other.
+Modified Assistive Driving System (MAD) allows openpilot's Automatic Lane Centering (ALC) and Adaptive Cruise Control (ACC) / Smart Cruise Control (SCC) to be engaged independently of each other.
 
 openpilot's ALC and ACC/SCC can be engaged independently of each other.
 
