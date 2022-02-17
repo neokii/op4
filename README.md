@@ -75,8 +75,8 @@ Then reboot and restart car.
 
 For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
-** HKG MAD MODE**
--------------
+**HKG MAD MODE**
+-----------------
 
 HKG Modified Assistive Driving Mode (MAD) allows openpilot's Automatic Lane Centering (ALC) and Adaptive Cruise Control (ACC) / Smart Cruise Control (SCC) to be engaged independently of each other.
 
@@ -88,17 +88,17 @@ Dedicated button to toggle openpilot ALC:
 
 `CRUISE (MAIN)`: Most HKG cars
 
-`SET`: enables ACC/SCC
+`SET`: engage ACC/SCC
 
-`CANCEL`: only disables ACC/SCC
+`CANCEL`: only disengage ACC/SCC
 
-`CRUISE (MAIN)`: disables openpilot completely when OFF
+`CRUISE (MAIN)`: disengage openpilot completely when OFF
 
-BRAKE pedal press will disable openpilot ACC/SCC
+BRAKE pedal press will disengage openpilot ACC/SCC
 
-BRAKE pedal press will NOT disable openpilot ALC
+BRAKE pedal press will **NOT** disengage openpilot ALC
 
-GAS pedal press will not disengage openpilot ALC or ACC/SCC
+GAS pedal press will **NOT** disengage openpilot ALC or ACC/SCC
 
 
 **RSPA**
