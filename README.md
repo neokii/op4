@@ -75,7 +75,7 @@ Then reboot and restart car.
 
 For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
-**HKG MAD MODE**
+**HKG MAD Mode**
 -----------------
 
 HKG Modified Assistive Driving Mode (MAD) allows openpilot's Automatic Lane Centering (ALC) and Adaptive Cruise Control (ACC) / Smart Cruise Control (SCC) to be engaged independently of each other.
