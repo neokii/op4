@@ -84,15 +84,11 @@ openpilot's ALC and ACC/SCC can be engaged independently of each other.
 
 Dedicated button to toggle openpilot ALC:
 
-`LFA`: Newer HKG cars
-
-`CRUISE (MAIN)`: Most HKG cars
+`CRUISE (MAIN)`: Toggle ALC
 
 `SET`: engage ACC/SCC
 
 `CANCEL`: only disengage ACC/SCC
-
-`CRUISE (MAIN)`: disengage openpilot completely when OFF
 
 BRAKE pedal press will disengage openpilot ACC/SCC
 
