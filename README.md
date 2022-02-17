@@ -75,6 +75,32 @@ Then reboot and restart car.
 
 For a more detailed look at this, take a look at this great write up by Sunnyhaibin - https://github.com/sunnyhaibin/openpilot/blob/(!)README/HOW-TOS.md#radar-tracks
 
+**MADS**
+-------------
+
+Modified Assistive Driving System (MADS) allows openpilot's Automatic Lane Centering (ALC) and Adaptive Cruise Control (ACC) / Smart Cruise Control (SCC) to be engaged independently of each other.
+
+openpilot's ALC and ACC/SCC can be engaged independently of each other.
+
+Dedicated button to toggle openpilot ALC:
+
+`LFA`: Newer HKG cars
+
+`CRUISE (MAIN)`: Most HKG cars
+
+`SET`: enables ACC/SCC
+
+`CANCEL`: only disables ACC/SCC
+
+`CRUISE (MAIN)`: disables openpilot completely when OFF
+
+BRAKE pedal press will disable openpilot ACC/SCC
+
+BRAKE pedal press will NOT disable openpilot ALC
+
+GAS pedal press will not disengage openpilot ALC or ACC/SCC
+
+
 **RSPA**
 -------------
 
