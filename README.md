@@ -127,7 +127,7 @@ Reach out with any questions or to get help with EMS types not listed, join our 
  - OpenPilot and Panda are monitoring driver torque from MDPS11. The correct one for use with SPAS. When OpenPilot detects a force being applied to wheel that's greater than the set limit of 2.85Nm. Panda will call a violation and controls not allowed if this higher limit is reached. Panda's limit is set greater than OpenPilots so it won't cause controls mismatch and interference due to it blocking signals when this is violated. - PANDA DRIVER TORQUE MONITORING TEMPORARILY DISABLED - Need to send MDPS into state 7 first before tx = 0 from panda not Openpilot
  - OpenPilot is appying a rate limit up and down to the sent steering angles and Panda is enforcing this. NOTE Panda's SPAS up and down rate limits are set conservatively and may require some adjusting. The result of panda calling a violation, will cause a controls mismatch.
  - Panda is enforcing that SPAS is off when controls not allowed or not engaged.
- - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage.
+ - If driver torque is detected above set limit with SPAS on and under 38Mph, OpenPilot will disengage unless dynamic SPAS is active with the LKAS switch toggle.
  - **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !**
  
 **Before!** testing SPAS steering, **↓↑ !BE SURE TO READ ALL OF THE SPAS SECTION AND UNDERSTAND HOW IT WORKS! ↑↓**; Be aware of all the safety concerns with **USING ALL OF THE TORQUE** that the MDPS/EPS motor can provide! **! KEEP HANDS ON WHEEL AND EYES ON ROAD AT ALL TIMES !** You are **responsible** for actions of car engaged or not engaged!
