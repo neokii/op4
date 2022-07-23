@@ -90,7 +90,7 @@ class CarState(CarStateBase):
     if 0. < decimal < 0.5:
       cluSpeed += decimal
 
-    ret.cluSpeedMs = cluSpeed * self.speed_conv_to_ms
+    ret.vEgoCluster = cluSpeed * self.speed_conv_to_ms
 
     ret.wheelSpeeds = self.get_wheel_speeds(
       cp.vl["WHL_SPD11"]["WHL_SPD_FL"],
