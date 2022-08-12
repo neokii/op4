@@ -213,13 +213,6 @@ static int hyundai_community_tx_hook(CANPacket_t *to_send, bool longitudinal_all
       puts("  LKAS torque not allowed: controls not allowed!\n");
     }
 
-    // reset to 0 if either controls is not allowed or there's a violation
-    if (!controls_allowed) { // a reset worsen the issue of Panda blocking some valid LKAS messages
-      desired_torque_last = 0;
-      rt_torque_last = 0;
-      ts_last = ts;
-    }
-
     if (violation) {
       tx = 0;
     }
