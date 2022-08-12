@@ -10,13 +10,18 @@ class CarControllerParams:
   def __init__(self, CP):
     self.STEER_MAX = 384
     self.STEER_DELTA_UP = 3
-    self.STEER_DELTA_DOWN = 7
+
+    if CP.carFingerprint in [CAR.KONA_HEV, CAR.KONA_EV]:
+      self.STEER_DELTA_DOWN = 7
+    else:
+      self.STEER_DELTA_DOWN = 6
+
     self.STEER_DRIVER_ALLOWANCE = 50
     self.STEER_DRIVER_MULTIPLIER = 2
     self.STEER_DRIVER_FACTOR = 1
     self.STEER_THRESHOLD = 150
 
-    if CP.carFingerprint in HDA2_CAR:
+    if CP.carFingerprint in CANFD_CAR:
       self.STEER_MAX = 270
       self.STEER_DRIVER_ALLOWANCE = 250
       self.STEER_DRIVER_MULTIPLIER = 2
@@ -419,7 +424,7 @@ EV_CAR = {CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.KONA_EV, CAR.NIRO_EV}
 
 EV_HYBRID_CAR = EV_CAR | HYBRID_CAR
 
-HDA2_CAR = {CAR.EV6, }
+CANFD_CAR = {CAR.EV6, }
 
 DBC = {
   # genesis

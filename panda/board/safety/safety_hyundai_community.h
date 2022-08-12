@@ -200,39 +200,9 @@ static int hyundai_community_tx_hook(CANPacket_t *to_send, bool longitudinal_all
   if (addr == 832) {
     LKAS11_op = 20;
     int desired_torque = ((GET_BYTES_04(to_send) >> 16) & 0x7ff) - 1024;
-    uint32_t ts = microsecond_timer_get();
-    bool violation = 0;
 
-    if (controls_allowed) {
-      // *** global torque limit check ***
-      bool torque_check = 0;
-      violation |= torque_check = max_limit_check(desired_torque, HYUNDAI_MAX_STEER, -HYUNDAI_MAX_STEER);
-      if (torque_check) {
-        puts("  LKAS TX not allowed: torque limit check failed!\n");}
-
-      // *** torque rate limit check ***
-      bool torque_rate_check = 0;
-      violation |= torque_rate_check = driver_limit_check(desired_torque, desired_torque_last, &torque_driver,
-        HYUNDAI_MAX_STEER, HYUNDAI_MAX_RATE_UP, HYUNDAI_MAX_RATE_DOWN,
-        HYUNDAI_DRIVER_TORQUE_ALLOWANCE, HYUNDAI_DRIVER_TORQUE_FACTOR);
-      if (torque_rate_check) {
-        puts("  LKAS TX not allowed: torque rate limit check failed!\n");}
-
-      // used next time
-      desired_torque_last = desired_torque;
-
-      // *** torque real time rate limit check ***
-      bool torque_rt_check = 0;
-      violation |= torque_rt_check = rt_rate_limit_check(desired_torque, rt_torque_last, HYUNDAI_MAX_RT_DELTA);
-      if (torque_rt_check) {
-        puts("  LKAS TX not allowed: torque real time rate limit check failed!\n");}
-
-      // every RT_INTERVAL set the new limits
-      uint32_t ts_elapsed = get_ts_elapsed(ts, ts_last);
-      if (ts_elapsed > HYUNDAI_RT_INTERVAL) {
-        rt_torque_last = desired_torque;
-        ts_last = ts;
-      }
+    if (steer_torque_cmd_checks(desired_torque, steer_req, HYUNDAI_STEERING_LIMITS)) {
+      tx = 0;
     }
 
     // no torque if controls is not allowed
