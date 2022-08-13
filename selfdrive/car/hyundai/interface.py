@@ -189,6 +189,11 @@ class CarInterface(CarInterfaceBase):
       tire_stiffness_factor = 0.7
       ret.steerRatio = 13.27
       ret.centerToFront = ret.wheelbase * 0.4
+
+      if ret.lateralTuning.which() == 'torque':
+        # selfdrive/car/torque_data/params.yaml, https://codebeautify.org/jsonviewer/y220b1623
+        torque_tune(ret.lateralTuning, 4.493208192966529, 0.0863709736632968)
+
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       ret.mass = 1490. + STD_CARGO_KG
       ret.wheelbase = 2.7
@@ -304,16 +309,11 @@ class CarInterface(CarInterfaceBase):
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 3.5, 0.01)
 
-
     ret.radarTimeStep = 0.05
 
     if ret.centerToFront == 0:
       ret.centerToFront = ret.wheelbase * 0.4
-    
-    if ret.lateralTuning.which() == 'torque':
-      #selfdrive/car/torque_data/params.yaml, https://codebeautify.org/jsonviewer/y220b1623
-      torque_tune(ret.lateralTuning, 4.493208192966529, 0.0863709736632968)
-      
+
     # TODO: get actual value, for now starting with reasonable value for
     # civic and scaling by mass and wheelbase
     ret.rotationalInertia = scale_rot_inertia(ret.mass, ret.wheelbase)
