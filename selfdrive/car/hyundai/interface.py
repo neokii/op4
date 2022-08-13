@@ -295,6 +295,15 @@ class CarInterface(CarInterfaceBase):
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 3.5, 0.01)
 
+    elif candidate == CAR.IONIQ_5:
+      ret.mass = 2012 + STD_CARGO_KG
+      ret.wheelbase = 3.0
+      ret.steerRatio = 16.
+      tire_stiffness_factor = 0.65
+
+      if ret.lateralTuning.which() == 'torque':
+        torque_tune(ret.lateralTuning, 3.5, 0.01)
+
 
     ret.radarTimeStep = 0.05
 
