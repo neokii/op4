@@ -3,7 +3,7 @@ from collections import deque
 
 from cereal import car
 from common.numpy_fast import interp
-from selfdrive.car.hyundai.values import DBC, FEATURES, HDA2_CAR, EV_CAR, HYBRID_CAR, Buttons, CarControllerParams, \
+from selfdrive.car.hyundai.values import DBC, FEATURES, CANFD_CAR, EV_CAR, HYBRID_CAR, Buttons, CarControllerParams, \
   EV_HYBRID_CAR, CAR
 from selfdrive.car.interfaces import CarStateBase
 from opendbc.can.parser import CANParser
@@ -25,7 +25,7 @@ class CarState(CarStateBase):
     self.cruise_buttons = deque([Buttons.NONE] * PREV_BUTTON_SAMPLES, maxlen=PREV_BUTTON_SAMPLES)
     self.main_buttons = deque([Buttons.NONE] * PREV_BUTTON_SAMPLES, maxlen=PREV_BUTTON_SAMPLES)
 
-    if CP.carFingerprint in HDA2_CAR:
+    if CP.carFingerprint in CANFD_CAR:
       self.shifter_values = can_define.dv["ACCELERATOR"]["GEAR"]
     elif self.CP.carFingerprint in FEATURES["use_cluster_gears"]:
       self.shifter_values = can_define.dv["CLU15"]["CF_Clu_Gear"]
@@ -65,8 +65,8 @@ class CarState(CarStateBase):
     self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
   def update(self, cp, cp2, cp_cam):
-    if self.CP.carFingerprint in HDA2_CAR:
-      return self.update_hda2(cp, cp_cam)
+    if self.CP.carFingerprint in CANFD_CAR:
+      return self.update_canfd(cp, cp_cam)
 
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
@@ -245,7 +245,7 @@ class CarState(CarStateBase):
 
     return ret
 
-  def update_hda2(self, cp, cp_cam):
+  def update_canfd(self, cp, cp_cam):
     ret = car.CarState.new_message()
 
     ret.gas = cp.vl["ACCELERATOR"]["ACCELERATOR_PEDAL"] / 255.
@@ -294,8 +294,8 @@ class CarState(CarStateBase):
 
   @staticmethod
   def get_can_parser(CP):
-    if CP.carFingerprint in HDA2_CAR:
-      return CarState.get_can_parser_hda2(CP)
+    if CP.carFingerprint in CANFD_CAR:
+      return CarState.get_can_parser_canfd(CP)
 
     signals = [
       # sig_name, sig_address
@@ -517,7 +517,7 @@ class CarState(CarStateBase):
 
   @staticmethod
   def get_can2_parser(CP):
-    if CP.carFingerprint in HDA2_CAR:
+    if CP.carFingerprint in CANFD_CAR:
       return None
 
     signals = []
@@ -608,7 +608,7 @@ class CarState(CarStateBase):
 
   @staticmethod
   def get_cam_can_parser(CP):
-    if CP.carFingerprint in HDA2_CAR:
+    if CP.carFingerprint in CANFD_CAR:
       signals = [(f"BYTE{i}", "CAM_0x2a4") for i in range(3, 24)]
       checks = [("CAM_0x2a4", 20)]
       return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 6)
@@ -705,7 +705,7 @@ class CarState(CarStateBase):
     return CANParser(DBC[CP.carFingerprint]["pt"], signals, checks, 2, enforce_checks=False)
 
   @staticmethod
-  def get_can_parser_hda2(CP):
+  def get_can_parser_canfd(CP):
     signals = [
       ("WHEEL_SPEED_1", "WHEEL_SPEEDS"),
       ("WHEEL_SPEED_2", "WHEEL_SPEEDS"),
