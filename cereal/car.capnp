@@ -111,11 +111,12 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     lkasDisabled @107;
     canBusMissing @111;
     controlsdLagging @112;
+    resumeBlocked @113;
 
-    turningIndicatorOn @113;
-    autoLaneChange @114;
-    slowingDownSpeed @115;
-    slowingDownSpeedSound @116;
+    turningIndicatorOn @114;
+    autoLaneChange @115;
+    slowingDownSpeed @116;
+    slowingDownSpeedSound @117;
 
     radarCanErrorDEPRECATED @15;
     communityFeatureDisallowedDEPRECATED @62;
