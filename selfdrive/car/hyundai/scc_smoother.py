@@ -10,6 +10,7 @@ from common.conversions import Conversions as CV
 from selfdrive.car.hyundai.values import Buttons
 from common.params import Params
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, V_CRUISE_MIN, V_CRUISE_DELTA_KM, V_CRUISE_DELTA_MI, CONTROL_N
+from selfdrive.controls.lib.lane_planner import TRAJECTORY_SIZE
 from selfdrive.controls.lib.longitudinal_mpc_lib.long_mpc import AUTO_TR_CRUISE_GAP
 
 from selfdrive.ntune import ntune_scc_get
@@ -23,8 +24,8 @@ CREEP_SPEED = 2.3
 MIN_SET_SPEED_KPH = V_CRUISE_MIN
 MAX_SET_SPEED_KPH = V_CRUISE_MAX
 
-ALIVE_COUNT = [6, 8]
-WAIT_COUNT = [12, 13, 14, 15, 16]
+ALIVE_COUNT = [8, 10]
+WAIT_COUNT = [12, 14, 16, 18]
 AliveIndex = 0
 WaitIndex = 0
 
@@ -295,22 +296,30 @@ class SccSmoother:
 
   def cal_curve_speed(self, sm, v_ego, frame):
 
-    lateralPlan = sm['lateralPlan']
-    if len(lateralPlan.curvatures) == CONTROL_N:
-      curv = (lateralPlan.curvatures[-1] + lateralPlan.curvatures[-2]) / 2.
-      a_y_max = 2.975 - v_ego * 0.0375  # ~1.85 @ 75mph, ~2.6 @ 25mph
-      v_curvature = sqrt(a_y_max / max(abs(curv), 1e-4))
-      model_speed = v_curvature * 0.85 * ntune_scc_get("sccCurvatureFactor")
+    if frame % 20 == 0:
+      md = sm['modelV2']
+      if len(md.position.x) == TRAJECTORY_SIZE and len(md.position.y) == TRAJECTORY_SIZE:
+        x = md.position.x
+        y = md.position.y
+        dy = np.gradient(y, x)
+        d2y = np.gradient(dy, x)
+        curv = d2y / (1 + dy ** 2) ** 1.5
 
-      if model_speed < v_ego:
-        self.curve_speed_ms = float(max(model_speed, MIN_CURVE_SPEED))
+        start = int(interp(v_ego, [10., 27.], [10, TRAJECTORY_SIZE-10]))
+        curv = curv[start:min(start+10, TRAJECTORY_SIZE)]
+        a_y_max = 2.975 - v_ego * 0.0375  # ~1.85 @ 75mph, ~2.6 @ 25mph
+        v_curvature = np.sqrt(a_y_max / np.clip(np.abs(curv), 1e-4, None))
+        model_speed = np.mean(v_curvature) * 0.85 * ntune_scc_get("sccCurvatureFactor")
+
+        if model_speed < v_ego:
+          self.curve_speed_ms = float(max(model_speed, MIN_CURVE_SPEED))
+        else:
+          self.curve_speed_ms = 255.
+
+        if np.isnan(self.curve_speed_ms):
+          self.curve_speed_ms = 255.
       else:
         self.curve_speed_ms = 255.
-
-      if np.isnan(self.curve_speed_ms):
-        self.curve_speed_ms = 255.
-    else:
-      self.curve_speed_ms = 255.
 
   def cal_target_speed(self, CS, clu11_speed, controls):
 
