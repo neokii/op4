@@ -185,7 +185,6 @@ static int hyundai_community_tx_hook(CANPacket_t *to_send, bool longitudinal_all
   int tx = 1;
   int addr = GET_ADDR(to_send);
   int bus = GET_BUS(to_send);
-  bool violation = 0;
 
   if (!msg_allowed(to_send, HYUNDAI_COMMUNITY_TX_MSGS, sizeof(HYUNDAI_COMMUNITY_TX_MSGS)/sizeof(HYUNDAI_COMMUNITY_TX_MSGS[0]))) {
     tx = 0;
@@ -201,19 +200,9 @@ static int hyundai_community_tx_hook(CANPacket_t *to_send, bool longitudinal_all
   if (addr == 832) {
     LKAS11_op = 20;
     int desired_torque = ((GET_BYTES_04(to_send) >> 16) & 0x7ff) - 1024;
-    bool steer_req = GET_BIT(to_send, 27U) != 0U;
+    //bool steer_req = GET_BIT(to_send, 27U) != 0U;
 
-    if (steer_torque_cmd_checks(desired_torque, steer_req, HYUNDAI_STEERING_LIMITS)) {
-      tx = 0;
-    }
-
-    // no torque if controls is not allowed
-    if (!controls_allowed && (desired_torque != 0)) {
-      violation = 1;
-      puts("  LKAS torque not allowed: controls not allowed!\n");
-    }
-
-    if (violation) {
+    if (steer_torque_cmd_checks(desired_torque, 1, HYUNDAI_STEERING_LIMITS)) {
       tx = 0;
     }
   }
