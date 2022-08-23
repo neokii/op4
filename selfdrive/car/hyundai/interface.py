@@ -4,7 +4,8 @@ from typing import List
 from cereal import car
 from common.numpy_fast import interp
 from common.conversions import Conversions as CV
-from selfdrive.car.hyundai.values import CAR, Buttons, CarControllerParams, CANFD_CAR
+from panda import Panda
+from selfdrive.car.hyundai.values import CAR, Buttons, CarControllerParams, CANFD_CAR, HyundaiFlags
 from selfdrive.car import STD_CARGO_KG, scale_rot_inertia, scale_tire_stiffness, gen_empty_fingerprint, get_safety_config
 from selfdrive.car.interfaces import CarInterfaceBase
 from common.params import Params
@@ -49,6 +50,16 @@ class CarInterface(CarInterfaceBase):
     if candidate in CANFD_CAR:
       ret.safetyConfigs = [get_safety_config(car.CarParams.SafetyModel.noOutput),
                            get_safety_config(car.CarParams.SafetyModel.hyundaiCanfd)]
+
+      # detect HDA2 with LKAS message
+      if 0x50 in fingerprint[6]:
+        ret.flags |= HyundaiFlags.CANFD_HDA2.value
+        ret.safetyConfigs[1].safetyParam |= Panda.FLAG_HYUNDAI_CANFD_HDA2
+      else:
+        # non-HDA2
+        if 0x1cf not in fingerprint[4]:
+          ret.flags |= HyundaiFlags.CANFD_ALT_BUTTONS.value
+
     else:
       ret.safetyConfigs = [get_safety_config(car.CarParams.SafetyModel.hyundaiCommunity, 0)]
 
@@ -309,6 +320,15 @@ class CarInterface(CarInterfaceBase):
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 3.5, 0.01)
 
+    elif candidate == CAR.TUCSON_HYBRID_4TH_GEN:
+      ret.mass = 1680. + STD_CARGO_KG  # average of all 3 trims
+      ret.wheelbase = 2.756
+      ret.steerRatio = 16.
+      tire_stiffness_factor = 0.385
+
+      if ret.lateralTuning.which() == 'torque':
+        torque_tune(ret.lateralTuning, 2.5, 0.0)
+
     ret.radarTimeStep = 0.05
 
     if ret.centerToFront == 0:
@@ -330,7 +350,6 @@ class CarInterface(CarInterfaceBase):
     ret.stoppingControl = True
 
     if candidate in CANFD_CAR:
-      ret.enableBsm = 0x58b in fingerprint[0]
       ret.radarOffCan = False
     else:
       ret.enableBsm = 0x58b in fingerprint[0]

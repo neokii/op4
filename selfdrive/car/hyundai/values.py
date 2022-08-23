@@ -1,3 +1,5 @@
+from enum import IntFlag
+
 from cereal import car
 from selfdrive.car import dbc_dict
 Ecu = car.CarParams.Ecu
@@ -26,6 +28,10 @@ class CarControllerParams:
       self.STEER_DRIVER_ALLOWANCE = 250
       self.STEER_DRIVER_MULTIPLIER = 2
       self.STEER_THRESHOLD = 250
+
+class HyundaiFlags(IntFlag):
+  CANFD_HDA2 = 1
+  CANFD_ALT_BUTTONS = 2
 
 class CAR:
   # genesis
@@ -64,6 +70,7 @@ class CAR:
   GRANDEUR_IG_FL_HEV = "HYUNDAI GRANDEUR IG FL HEV 2020"
   TUCSON_TL_SCC  = "HYUNDAI TUCSON TL SCC 2017"
   IONIQ_5 = "HYUNDAI IONIQ 5 2022"
+  TUCSON_HYBRID_4TH_GEN = "HYUNDAI TUCSON HYBRID 4TH GEN"
 
   # kia
   FORTE = "KIA FORTE E 2018"
@@ -398,6 +405,21 @@ FW_VERSIONS = {
       b'\xf1\x00NE1 MFC  AT USA LHD 1.00 1.02 99211-GI010 211206',
     ],
   },
+  CAR.TUCSON_HYBRID_4TH_GEN: {
+    (Ecu.fwdCamera, 0x7c4, None): [
+      b'\xf1\x00NX4 FR_CMR AT USA LHD 1.00 1.00 99211-N9240 14Q',
+    ],
+    (Ecu.eps, 0x7d4, None): [
+      b'\xf1\x00NX4 MDPS C 1.00 1.01 56300-P0100 2228',
+    ],
+    (Ecu.engine, 0x7e0, None): [
+      b'\xf1\x87391312MND0',
+    ],
+    (Ecu.transmission, 0x7e1, None): [
+      b'\xf1\x00PSBG2441  G19_Rev\x00\x00\x00SNX4T16XXHS01NS2lS\xdfa',
+      b'\xf1\x8795441-3D220\x00\xf1\x81G19_Rev\x00\x00\x00\xf1\x00PSBG2441  G19_Rev\x00\x00\x00SNX4T16XXHS01NS2lS\xdfa',
+    ],
+  },
 }
 
 CHECKSUM = {
@@ -443,7 +465,7 @@ EV_CAR = {CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.KONA_EV, CAR.NIRO_EV}
 
 EV_HYBRID_CAR = EV_CAR | HYBRID_CAR
 
-CANFD_CAR = {CAR.EV6, CAR.IONIQ_5}
+CANFD_CAR = {CAR.EV6, CAR.IONIQ_5, CAR.TUCSON_HYBRID_4TH_GEN}
 
 DBC = {
   # genesis
@@ -501,8 +523,9 @@ DBC = {
   CAR.K9: dbc_dict('hyundai_kia_generic', None),
 
   # CAN FD
-  CAR.EV6: dbc_dict('kia_ev6', None),
-  CAR.IONIQ_5: dbc_dict('kia_ev6', None),
+  CAR.EV6: dbc_dict('hyundai_canfd', None),
+  CAR.IONIQ_5: dbc_dict('hyundai_canfd', None),
+  CAR.TUCSON_HYBRID_4TH_GEN: dbc_dict('hyundai_canfd', None),
 }
 
 

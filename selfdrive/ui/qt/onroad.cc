@@ -478,7 +478,6 @@ void NvgWindow::drawHud(QPainter &p, const cereal::ModelDataV2::Reader &model) {
   drawSpeed(p);
   drawSteer(p);
   drawDeviceState(p);
-  drawRestArea(p);
   //drawTurnSignals(p);
   drawGpsStatus(p);
 
@@ -1033,89 +1032,6 @@ void NvgWindow::drawDeviceState(QPainter &p) {
   rect = QRect(x, y, w, w);
   p.setPen(QColor(255, 255, 255, 200));
   p.drawText(rect, Qt::AlignCenter, "AMBIENT");
-
-  p.restore();
-}
-
-QPixmap NvgWindow::get_icon_iol_com(const char* key) {
-  auto item = ic_oil_com.find(key);
-  if(item == ic_oil_com.end()) {
-    QString str;
-    str.sprintf("../assets/images/oil_com/%s.png", key);
-
-    QPixmap icon = QPixmap(str);
-    ic_oil_com[key] = icon;
-    return icon;
-  }
-  else
-    return item.value();
-}
-
-void NvgWindow::drawRestArea(QPainter &p) {
-  if(width() < 1850)
-    return;
-
-  const SubMaster &sm = *(uiState()->sm);
-  auto roadLimitSpeed = sm["roadLimitSpeed"].getRoadLimitSpeed();
-  auto restAreaList = roadLimitSpeed.getRestArea();
-
-  int length = std::size(restAreaList);
-
-  int yPos = 0;
-  for(int i = length-1; i >= 0; i--) {
-    auto restArea = restAreaList[i];
-    auto image = restArea.getImage();
-    auto title = restArea.getTitle();
-    auto oilPrice = restArea.getOilPrice();
-    auto distance = restArea.getDistance();
-
-    if(title.size() > 0 && distance.size() > 0) {
-      drawRestAreaItem(p, yPos, image, title, oilPrice, distance, i == 0);
-      yPos += 200 + 25;
-    }
-  }
-}
-
-void NvgWindow::drawRestAreaItem(QPainter &p, int yPos, capnp::Text::Reader image, capnp::Text::Reader title,
-        capnp::Text::Reader oilPrice, capnp::Text::Reader distance, bool lastItem) {
-  p.save();
-
-  int mx = 20;
-  int my = 10;
-
-  int box_width = Hardware::TICI() ? 590 : 520;
-  int box_height = 200;
-
-  int icon_size = 70;
-
-  //QRect rc(30, 30, 210, 202); // MAX box
-  QRect rc(204+60, 30 + yPos, box_width, box_height);
-  p.setBrush(QColor(0, 0, 0, 100));
-  p.drawRoundedRect(rc, 20, 20);
-
-  if(lastItem)
-    p.setPen(QColor(255, 255, 255, 200));
-  else
-    p.setPen(QColor(255, 255, 255, 150));
-
-  int x = rc.left() + mx;
-  int y = rc.top() + my;
-
-  configFont(p, "Inter", 60, "Bold");
-  p.drawText(x, y+60+10, title.cStr());
-
-  QPixmap icon = get_icon_iol_com(image.cStr());
-  p.drawPixmap(x, y + box_height/2, icon_size, icon_size, icon);
-
-  configFont(p, "Inter", 50, "Bold");
-  p.drawText(x + icon_size + 15, y + box_height/2 + 50, oilPrice.cStr());
-
-  configFont(p, "Inter", 60, "Bold");
-
-  QFontMetrics fm(p.font());
-  QRect rect = fm.boundingRect(distance.cStr());
-
-  p.drawText(rc.left()+rc.width()-rect.width()-mx-5, y + box_height/2 + 55, distance.cStr());
 
   p.restore();
 }
