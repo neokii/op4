@@ -1889,6 +1889,9 @@ struct EncodeData {
   unixTimestampNanos @3 :UInt64;
 }
 
+struct UserFlag {
+}
+
 struct RoadLimitSpeed {
     active @0 :Int16;
     roadLimitSpeed @1 :Int16;
@@ -1976,8 +1979,11 @@ struct Event {
     navRoute @83 :NavRoute;
     navThumbnail @84: Thumbnail;
     
+    # user flags
+    userFlag @93 :UserFlag;
+    
     # neokii
-    roadLimitSpeed @93 :RoadLimitSpeed;
+    roadLimitSpeed @94 :RoadLimitSpeed;
 
     # *********** debug ***********
     testJoystick @52 :Joystick;
