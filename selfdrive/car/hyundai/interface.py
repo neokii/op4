@@ -120,12 +120,11 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.GENESIS_EQ900:
       ret.mass = 2200
       ret.wheelbase = 3.15
+      ret.steerRatio = 16.0
+      ret.steerActuatorDelay = 0.075
       ret.centerToFront = ret.wheelbase * 0.4
 
       # thanks to 파파
-      ret.steerRatio = 16.0
-      ret.steerActuatorDelay = 0.075
-
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 2.5, 0.01)
 
@@ -137,6 +136,7 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 2150
       ret.wheelbase = 3.16
       ret.centerToFront = ret.wheelbase * 0.4
+
     # hyundai
     elif candidate in [CAR.SANTA_FE]:
       ret.mass = 1694 + STD_CARGO_KG
@@ -149,8 +149,8 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.SONATA, CAR.SONATA_HEV, CAR.SONATA21_HEV]:
       ret.mass = 1513. + STD_CARGO_KG
       ret.wheelbase = 2.84
-      ret.centerToFront = ret.wheelbase * 0.4
       tire_stiffness_factor = 0.65
+      ret.centerToFront = ret.wheelbase * 0.4
     elif candidate in [CAR.SONATA19, CAR.SONATA19_HEV]:
       ret.mass = 4497. * CV.LB_TO_KG
       ret.wheelbase = 2.804
@@ -163,12 +163,11 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.PALISADE:
       ret.mass = 1999. + STD_CARGO_KG
       ret.wheelbase = 2.90
+      ret.steerRatio = 16.0
+      ret.steerActuatorDelay = 0.075
       ret.centerToFront = ret.wheelbase * 0.4
 
       # thanks to 지구별(alexhys)
-      ret.steerRatio = 16.0
-      ret.steerActuatorDelay = 0.075
-
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 2.3, 0.01)
 
@@ -197,8 +196,8 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.KONA_HEV, CAR.KONA_EV]:
       ret.mass = 1427. + STD_CARGO_KG
       ret.wheelbase = 2.6
-      tire_stiffness_factor = 0.7
       ret.steerRatio = 13.27
+      tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
@@ -212,19 +211,27 @@ class CarInterface(CarInterfaceBase):
       #if candidate not in [CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       #  ret.minSteerSpeed = 32 * CV.MPH_TO_MS
       ret.centerToFront = ret.wheelbase * 0.4
+    elif candidate == CAR.IONIQ_5:
+      ret.mass = 2012 + STD_CARGO_KG
+      ret.wheelbase = 3.0
+      ret.steerRatio = 16.
+      tire_stiffness_factor = 0.65
+
+      if ret.lateralTuning.which() == 'torque':
+        torque_tune(ret.lateralTuning, 3.5, 0.01)
+
     elif candidate in [CAR.GRANDEUR_IG, CAR.GRANDEUR_IG_HEV]:
-      tire_stiffness_factor = 0.8
       ret.mass = 1570. + STD_CARGO_KG
       ret.wheelbase = 2.845
-      ret.centerToFront = ret.wheelbase * 0.385
       ret.steerRatio = 16.
-
-    elif candidate in [CAR.GRANDEUR_IG_FL, CAR.GRANDEUR_IG_FL_HEV]:
       tire_stiffness_factor = 0.8
+      ret.centerToFront = ret.wheelbase * 0.385
+    elif candidate in [CAR.GRANDEUR_IG_FL, CAR.GRANDEUR_IG_FL_HEV]:
       ret.mass = 1600. + STD_CARGO_KG
       ret.wheelbase = 2.885
-      ret.centerToFront = ret.wheelbase * 0.385
       ret.steerRatio = 17.
+      tire_stiffness_factor = 0.8
+      ret.centerToFront = ret.wheelbase * 0.385
     elif candidate == CAR.VELOSTER:
       ret.mass = 3558. * CV.LB_TO_KG
       ret.wheelbase = 2.80
@@ -235,6 +242,15 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.67
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
+    elif candidate == CAR.TUCSON_HYBRID_4TH_GEN:
+      ret.mass = 1680. + STD_CARGO_KG  # average of all 3 trims
+      ret.wheelbase = 2.756
+      ret.steerRatio = 16.
+      tire_stiffness_factor = 0.385
+
+      if ret.lateralTuning.which() == 'torque':
+        torque_tune(ret.lateralTuning, 2.5, 0.0)
+
     # kia
     elif candidate == CAR.SORENTO:
       ret.mass = 1985. + STD_CARGO_KG
@@ -251,9 +267,9 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.85
       tire_stiffness_factor = 0.7
     elif candidate == CAR.STINGER:
-      tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
       ret.mass = 1825.0 + STD_CARGO_KG
       ret.wheelbase = 2.906
+      tire_stiffness_factor = 1.125 # LiveParameters (Tunder's 2020)
       ret.centerToFront = ret.wheelbase * 0.4
     elif candidate == CAR.FORTE:
       ret.mass = 3558. * CV.LB_TO_KG
@@ -280,28 +296,6 @@ class CarInterface(CarInterfaceBase):
       ret.wheelbase = 2.6
       tire_stiffness_factor = 0.7
       ret.centerToFront = ret.wheelbase * 0.4
-    elif candidate == CAR.MOHAVE:
-      ret.mass = 2285. + STD_CARGO_KG
-      ret.wheelbase = 2.895
-      ret.centerToFront = ret.wheelbase * 0.5
-      tire_stiffness_factor = 0.8
-    elif candidate in [CAR.K7, CAR.K7_HEV]:
-      tire_stiffness_factor = 0.7
-      ret.mass = 1650. + STD_CARGO_KG
-      ret.wheelbase = 2.855
-      ret.centerToFront = ret.wheelbase * 0.4
-      ret.steerRatio = 17.25
-    elif candidate == CAR.K9:
-      ret.mass = 2075. + STD_CARGO_KG
-      ret.wheelbase = 3.15
-      ret.centerToFront = ret.wheelbase * 0.4
-      tire_stiffness_factor = 0.8
-
-      ret.steerRatio = 14.5
-
-      if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.3, 0.01)
-
     elif candidate == CAR.EV6:
       ret.mass = 2055 + STD_CARGO_KG
       ret.wheelbase = 2.9
@@ -311,23 +305,30 @@ class CarInterface(CarInterfaceBase):
       if ret.lateralTuning.which() == 'torque':
         torque_tune(ret.lateralTuning, 3.5, 0.01)
 
-    elif candidate == CAR.IONIQ_5:
-      ret.mass = 2012 + STD_CARGO_KG
-      ret.wheelbase = 3.0
-      ret.steerRatio = 16.
-      tire_stiffness_factor = 0.65
+    elif candidate == CAR.MOHAVE:
+      ret.mass = 2285. + STD_CARGO_KG
+      ret.wheelbase = 2.895
+      tire_stiffness_factor = 0.8
+      ret.centerToFront = ret.wheelbase * 0.5
+    elif candidate in [CAR.K7, CAR.K7_HEV]:
+      ret.mass = 1850. + STD_CARGO_KG
+      ret.wheelbase = 2.855
+      ret.steerRatio = 15.5
+      tire_stiffness_factor = 0.7
+      ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 3.5, 0.01)
+        torque_tune(ret.lateralTuning, 2.9, 0.01)
 
-    elif candidate == CAR.TUCSON_HYBRID_4TH_GEN:
-      ret.mass = 1680. + STD_CARGO_KG  # average of all 3 trims
-      ret.wheelbase = 2.756
-      ret.steerRatio = 16.
-      tire_stiffness_factor = 0.385
+    elif candidate == CAR.K9:
+      ret.mass = 2075. + STD_CARGO_KG
+      ret.wheelbase = 3.15
+      ret.steerRatio = 14.5
+      tire_stiffness_factor = 0.8
+      ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.5, 0.0)
+        torque_tune(ret.lateralTuning, 2.3, 0.01)
 
     ret.radarTimeStep = 0.05
 
