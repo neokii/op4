@@ -6,6 +6,7 @@ from common.numpy_fast import interp
 import cereal.messaging as messaging
 from common.conversions import Conversions as CV
 from common.filter_simple import FirstOrderFilter
+from common.params import Params
 from common.realtime import DT_MDL
 from selfdrive.modeld.constants import T_IDXS
 from selfdrive.controls.lib.longcontrol import LongCtrlState
@@ -13,7 +14,6 @@ from selfdrive.controls.lib.longitudinal_mpc_lib.long_mpc import LongitudinalMpc
 from selfdrive.controls.lib.longitudinal_mpc_lib.long_mpc import T_IDXS as T_IDXS_MPC
 from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX, CONTROL_N
 from system.swaglog import cloudlog
-from common.params import Params
 
 LON_MPC_STEP = 0.2  # first step is 0.2s
 AWARENESS_DECEL = -0.2  # car smoothly decel at .2m/s^2 when user is distracted
@@ -48,7 +48,10 @@ def limit_accel_in_turns(v_ego, angle_steers, a_target, CP):
 class Planner:
   def __init__(self, CP, init_v=0.0, init_a=0.0):
     self.CP = CP
-    self.mpc = LongitudinalMpc()
+    params = Params()
+    # TODO read param in the loop for live toggling
+    mode = 'blended' if params.get_bool('EndToEndLong') else 'acc'
+    self.mpc = LongitudinalMpc(mode=mode)
 
     self.fcw = False
 
@@ -132,7 +135,7 @@ class Planner:
     self.j_desired_trajectory = np.interp(T_IDXS[:CONTROL_N], T_IDXS_MPC[:-1], self.mpc.j_solution)
 
     # TODO counter is only needed because radar is glitchy, remove once radar is gone
-    self.fcw = self.mpc.crash_cnt > 5
+    self.fcw = self.mpc.mode == 'acc' and self.mpc.crash_cnt > 5
     if self.fcw:
       cloudlog.info("FCW triggered")
 
