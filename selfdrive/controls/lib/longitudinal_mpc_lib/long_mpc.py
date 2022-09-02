@@ -44,9 +44,10 @@ ACADOS_SOLVER_TYPE = 'SQP_RTI'
 
 CRUISE_GAP_BP = [1., 2., 3., 4.]
 CRUISE_GAP_V = [1.1, 1.3, 1.58, 2.10]
-
 AUTO_TR_BP = [0., 30.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 110.*CV.KPH_TO_MS]
 AUTO_TR_V = [1.1, 1.2, 1.3, 1.45]
+
+E2E_TR_FACTOR = 1.1
 
 AUTO_TR_CRUISE_GAP = 4
 DIFF_RADAR_VISION = 1.0
@@ -327,6 +328,9 @@ class LongitudinalMpc:
       tr = interp(carstate.vEgo, AUTO_TR_BP, AUTO_TR_V)
     else:
       tr = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
+
+    if self.mode is not 'acc':
+      tr *= E2E_TR_FACTOR
 
     self.param_tr = tr
 

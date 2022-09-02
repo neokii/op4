@@ -63,10 +63,13 @@ class SccSmoother:
 
   def __init__(self):
 
-    self.longcontrol = Params().get_bool('LongControlEnabled')
-    self.slow_on_curves = Params().get_bool('SccSmootherSlowOnCurves')
-    self.sync_set_speed_while_gas_pressed = Params().get_bool('SccSmootherSyncGasPressed')
-    self.is_metric = Params().get_bool('IsMetric')
+    params = Params()
+
+    self.longcontrol = params.get_bool('LongControlEnabled')
+    self.slow_on_curves = params.get_bool('SccSmootherSlowOnCurves')
+    self.sync_set_speed_while_gas_pressed = params.get_bool('SccSmootherSyncGasPressed')
+    self.is_metric = params.get_bool('IsMetric')
+    self.e2e_long = params.get_bool('EndToEndLong')
 
     self.speed_conv_to_ms = CV.KPH_TO_MS if self.is_metric else CV.MPH_TO_MS
     self.speed_conv_to_clu = CV.MS_TO_KPH if self.is_metric else CV.MS_TO_MPH
@@ -354,16 +357,11 @@ class SccSmoother:
     gas_factor = ntune_scc_get("sccGasFactor")
     brake_factor = ntune_scc_get("sccBrakeFactor")
 
-    #lead = self.get_lead(sm)
-    #if lead is not None:
-    #  if not lead.radar:
-    #    brake_factor *= 0.975
-
-    start_boost = interp(CS.out.vEgo, [0.0, CREEP_SPEED, 2 * CREEP_SPEED], [0.6, 0.6, 0.0])
-    is_accelerating = interp(accel, [0.0, 0.2], [0.0, 1.0])
-    boost = start_boost * is_accelerating
-
-    accel += boost
+    if not self.e2e_long:
+      start_boost = interp(CS.out.vEgo, [0.0, CREEP_SPEED, 2 * CREEP_SPEED], [0.6, 0.6, 0.0])
+      is_accelerating = interp(accel, [0.0, 0.2], [0.0, 1.0])
+      boost = start_boost * is_accelerating
+      accel += boost
 
     if accel > 0:
       accel *= gas_factor
