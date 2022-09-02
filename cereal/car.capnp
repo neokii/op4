@@ -455,7 +455,10 @@ struct CarParams {
   maxSteeringAngleDeg @54 :Float32;
   safetyConfigs @62 :List(SafetyConfig);
   alternativeExperience @65 :Int16;      # panda flag for features like no disengage on gas
+
+  # Car docs fields
   maxLateralAccel @68 :Float32;
+  autoResumeSng @69 :Bool;  # describes whether car can resume from a stop automatically
 
   steerMaxBPDEPRECATED @11 :List(Float32);
   steerMaxVDEPRECATED @12 :List(Float32);
@@ -492,7 +495,7 @@ struct CarParams {
   vEgoStarting @59 :Float32; # Speed at which the car goes into starting state
   directAccelControl @30 :Bool; # Does the car have direct accel control or just gas/brake
   stoppingControl @31 :Bool; # Does the car allows full control even at lows speeds when stopping
-  stopAccel @60 :Float32; # Required acceleraton to keep vehicle stationary
+  stopAccel @60 :Float32; # Required acceleration to keep vehicle stationary
   steerControlType @34 :SteerControlType;
   radarOffCan @35 :Bool; # True when radar objects aren't visible on CAN
   stoppingDecelRate @52 :Float32; # m/s^2/s while trying to stop
@@ -519,18 +522,18 @@ struct CarParams {
     safetyParam2DEPRECATED @2 :UInt32;
   }
   
-  mdpsBus @69: Int8;
-  sasBus @70: Int8;
-  sccBus @71: Int8;
-  enableAutoHold @72 :Bool;
-  hasScc13 @73 :Bool;
-  hasScc14 @74 :Bool;
-  hasEms @75 :Bool;
-  hasLfaHda @76 :Bool;
-  steerFaultMaxAngle @77 :Int16;
-  steerFaultMaxFrames @78 :Int16;
+  mdpsBus @70: Int8;
+  sasBus @71: Int8;
+  sccBus @72: Int8;
+  enableAutoHold @73 :Bool;
+  hasScc13 @74 :Bool;
+  hasScc14 @75 :Bool;
+  hasEms @76 :Bool;
+  hasLfaHda @77 :Bool;
+  steerFaultMaxAngle @78 :Int16;
+  steerFaultMaxFrames @79 :Int16;
 
-  disableLateralLiveTuning @79 :Bool;
+  disableLateralLiveTuning @80 :Bool;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);
@@ -623,8 +626,8 @@ struct CarParams {
     subaruLegacy @22;  # pre-Global platform
     hyundaiLegacy @23;
     hyundaiCommunity @24;
-    stellantis @25;
-    faw @26;
+    stellantisDEPRECATED @25;  # Consolidated with Chrysler; may be recycled for the next new model
+    hongqi @26;
     body @27;
     hyundaiCanfd @28;
   }
@@ -675,6 +678,9 @@ struct CarParams {
     programmedFuelInjection @14;
     electricBrakeBooster @15;
     shiftByWire @16;
+
+    # Chrysler only
+    hcp @18;  # Hybrid Control Processor
 
     debug @17;
   }
