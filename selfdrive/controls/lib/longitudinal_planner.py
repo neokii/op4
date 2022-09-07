@@ -45,7 +45,7 @@ def limit_accel_in_turns(v_ego, angle_steers, a_target, CP):
   return [a_target[0], min(a_target[1], a_x_allowed)]
 
 
-class Planner:
+class LongitudinalPlanner:
   def __init__(self, CP, init_v=0.0, init_a=0.0):
     self.CP = CP
     params = Params()
@@ -135,6 +135,7 @@ class Planner:
     self.j_desired_trajectory = np.interp(T_IDXS[:CONTROL_N], T_IDXS_MPC[:-1], self.mpc.j_solution)
 
     # TODO counter is only needed because radar is glitchy, remove once radar is gone
+    # TODO write fcw in e2e_long mode
     self.fcw = self.mpc.mode == 'acc' and self.mpc.crash_cnt > 5
     if self.fcw:
       cloudlog.info("FCW triggered")

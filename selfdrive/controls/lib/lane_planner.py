@@ -5,18 +5,15 @@ from common.numpy_fast import interp, clip, mean
 from common.realtime import DT_MDL
 from system.swaglog import cloudlog
 
+TRAJECTORY_SIZE = 33
+CAMERA_OFFSET = 0.04
+
 ENABLE_ZORROBYTE = True
 ENABLE_INC_LANE_PROB = True
 
-TRAJECTORY_SIZE = 33
-# camera offset is meters from center car to camera
-# model path is in the frame of the camera
-PATH_OFFSET = 0.00
-CAMERA_OFFSET = 0.04
-
 
 class LanePlanner:
-  def __init__(self, wide_camera=False):
+  def __init__(self,):
     self.ll_t = np.zeros((TRAJECTORY_SIZE,))
     self.ll_x = np.zeros((TRAJECTORY_SIZE,))
     self.lll_y = np.zeros((TRAJECTORY_SIZE,))
@@ -35,8 +32,7 @@ class LanePlanner:
     self.l_lane_change_prob = 0.
     self.r_lane_change_prob = 0.
 
-    self.camera_offset = -CAMERA_OFFSET if wide_camera else CAMERA_OFFSET
-    self.path_offset = -PATH_OFFSET if wide_camera else PATH_OFFSET
+    self.camera_offset = CAMERA_OFFSET
 
     self.readings = []
     self.frame = 0
@@ -62,7 +58,6 @@ class LanePlanner:
   def get_d_path(self, v_ego, path_t, path_xyz):
     # Reduce reliance on lanelines that are too far apart or
     # will be in a few seconds
-    path_xyz[:, 1] += self.path_offset
     l_prob, r_prob = self.lll_prob, self.rll_prob
     width_pts = self.rll_y - self.lll_y
     prob_mods = []

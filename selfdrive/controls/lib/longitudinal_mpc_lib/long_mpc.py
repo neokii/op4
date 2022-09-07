@@ -25,7 +25,7 @@ SOURCES = ['lead0', 'lead1', 'cruise', 'e2e']
 
 X_DIM = 3
 U_DIM = 1
-PARAM_DIM = 5
+PARAM_DIM = 6
 COST_E_DIM = 5
 COST_DIM = COST_E_DIM + 1
 CONSTR_DIM = 4
@@ -38,6 +38,7 @@ J_EGO_COST = 5.0
 A_CHANGE_COST = 20. # 200.
 DANGER_ZONE_COST = 100.
 CRASH_DISTANCE = .5
+LEAD_DANGER_FACTOR = 0.75
 LIMIT_COST = 1e6
 ACADOS_SOLVER_TYPE = 'SQP_RTI'
 
@@ -65,16 +66,16 @@ MIN_ACCEL = -3.5
 MAX_ACCEL = 2.0
 T_FOLLOW = 1.45
 COMFORT_BRAKE = 2.2
-STOP_DISTANCE = 6.3
+STOP_DISTANCE = 6.0
 
 def get_stopped_equivalence_factor(v_lead):
   return (v_lead**2) / (2 * COMFORT_BRAKE)
 
-def get_safe_obstacle_distance(v_ego, tr):
-  return (v_ego**2) / (2 * COMFORT_BRAKE) + tr * v_ego + STOP_DISTANCE
+def get_safe_obstacle_distance(v_ego, t_follow=T_FOLLOW):
+  return (v_ego**2) / (2 * COMFORT_BRAKE) + t_follow * v_ego + STOP_DISTANCE
 
-def desired_follow_distance(v_ego, v_lead, tr):
-  return get_safe_obstacle_distance(v_ego, tr) - get_stopped_equivalence_factor(v_lead)
+def desired_follow_distance(v_ego, v_lead):
+  return get_safe_obstacle_distance(v_ego) - get_stopped_equivalence_factor(v_lead)
 
 
 def gen_long_model():
@@ -102,8 +103,9 @@ def gen_long_model():
   a_max = SX.sym('a_max')
   x_obstacle = SX.sym('x_obstacle')
   prev_a = SX.sym('prev_a')
-  tr = SX.sym('tr')
-  model.p = vertcat(a_min, a_max, x_obstacle, prev_a, tr)
+  lead_t_follow = SX.sym('lead_t_follow')
+  lead_danger_factor = SX.sym('lead_danger_factor')
+  model.p = vertcat(a_min, a_max, x_obstacle, prev_a, lead_t_follow, lead_danger_factor)
 
   # dynamics model
   f_expl = vertcat(v_ego, a_ego, j_ego)
@@ -137,12 +139,13 @@ def gen_long_ocp():
   a_min, a_max = ocp.model.p[0], ocp.model.p[1]
   x_obstacle = ocp.model.p[2]
   prev_a = ocp.model.p[3]
-  tr = ocp.model.p[4]
+  lead_t_follow = ocp.model.p[4]
+  lead_danger_factor = ocp.model.p[5]
 
   ocp.cost.yref = np.zeros((COST_DIM, ))
   ocp.cost.yref_e = np.zeros((COST_E_DIM, ))
 
-  desired_dist_comfort = get_safe_obstacle_distance(v_ego, tr)
+  desired_dist_comfort = get_safe_obstacle_distance(v_ego, lead_t_follow)
 
   # The main cost in normal operation is how close you are to the "desired" distance
   # from an obstacle at every timestep. This obstacle can be a lead car
@@ -163,12 +166,12 @@ def gen_long_ocp():
   constraints = vertcat(v_ego,
                         (a_ego - a_min),
                         (a_max - a_ego),
-                        ((x_obstacle - x_ego) - (3/4) * (desired_dist_comfort)) / (v_ego + 10.))
+                        ((x_obstacle - x_ego) - lead_danger_factor * (desired_dist_comfort)) / (v_ego + 10.))
   ocp.model.con_h_expr = constraints
 
   x0 = np.zeros(X_DIM)
   ocp.constraints.x0 = x0
-  ocp.parameter_values = np.array([-1.2, 1.2, 0.0, 0.0, T_FOLLOW])
+  ocp.parameter_values = np.array([-1.2, 1.2, 0.0, 0.0, T_FOLLOW, LEAD_DANGER_FACTOR])
 
   # We put all constraint cost weights to 0 and only set them at runtime
   cost_weights = np.zeros(CONSTR_DIM)
@@ -226,7 +229,7 @@ class LongitudinalMpc:
     self.x_sol = np.zeros((N+1, X_DIM))
     self.u_sol = np.zeros((N,1))
     self.params = np.zeros((N+1, PARAM_DIM))
-    self.param_tr = T_FOLLOW
+    self.t_follow = T_FOLLOW
     for i in range(N+1):
       self.solver.set(i, 'x', np.zeros(X_DIM))
     self.last_cloudlog_t = 0
@@ -264,7 +267,7 @@ class LongitudinalMpc:
       constraint_cost_weights = [LIMIT_COST, LIMIT_COST, LIMIT_COST, DANGER_ZONE_COST]
     elif self.mode == 'blended':
       cost_weights = [0., 0.2, 0.25, 1.0, 0.0, 1.0]
-      constraint_cost_weights = [LIMIT_COST, LIMIT_COST, LIMIT_COST, 5.0]
+      constraint_cost_weights = [LIMIT_COST, LIMIT_COST, LIMIT_COST, 50.0]
     elif self.mode == 'e2e':
       cost_weights = [0., 0.2, 0.25, 1., 0.0, .1]
       constraint_cost_weights = [LIMIT_COST, LIMIT_COST, LIMIT_COST, 0.0]
@@ -329,10 +332,10 @@ class LongitudinalMpc:
     else:
       tr = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
 
-    if self.mode is not 'acc':
+    if self.mode != 'acc':
       tr *= E2E_TR_FACTOR
 
-    self.param_tr = tr
+    self.t_follow = tr
 
     # To estimate a safe distance from a moving lead, we calculate how much stopping
     # distance that lead needs as a minimum. We can add that to the current distance
@@ -344,6 +347,7 @@ class LongitudinalMpc:
     if self.mode == 'acc':
       self.params[:,0] = MIN_ACCEL if self.status else self.cruise_min_a
       self.params[:,1] = self.cruise_max_a
+      self.params[:,5] = LEAD_DANGER_FACTOR
 
       # Fake an obstacle for cruise, this ensures smooth acceleration to set speed
       # when the leads are no factor.
@@ -352,7 +356,7 @@ class LongitudinalMpc:
       v_cruise_clipped = np.clip(v_cruise * np.ones(N+1),
                                  v_lower,
                                  v_upper)
-      cruise_obstacle = np.cumsum(T_DIFFS * v_cruise_clipped) + get_safe_obstacle_distance(v_cruise_clipped, self.param_tr)
+      cruise_obstacle = np.cumsum(T_DIFFS * v_cruise_clipped) + get_safe_obstacle_distance(v_cruise_clipped, self.t_follow)
       x_obstacles = np.column_stack([lead_0_obstacle, lead_1_obstacle, cruise_obstacle])
       self.source = SOURCES[np.argmin(x_obstacles[0])]
 
@@ -362,6 +366,7 @@ class LongitudinalMpc:
     elif self.mode == 'blended':
       self.params[:,0] = MIN_ACCEL
       self.params[:,1] = MAX_ACCEL
+      self.params[:,5] = 1.0
 
       x_obstacles = np.column_stack([lead_0_obstacle,
                                      lead_1_obstacle])
@@ -371,7 +376,8 @@ class LongitudinalMpc:
 
       x_and_cruise = np.column_stack([x, cruise_target])
       x = np.min(x_and_cruise, axis=1)
-      self.source = 'e2e'
+
+      self.source = 'e2e' if x_and_cruise[0,0] < x_and_cruise[0,1] else 'cruise'
 
     else:
       raise NotImplementedError(f'Planner mode {self.mode} not recognized in planner update')
@@ -386,8 +392,7 @@ class LongitudinalMpc:
 
     self.params[:,2] = np.min(x_obstacles, axis=1)
     self.params[:,3] = np.copy(self.prev_a)
-
-    self.params[:,4] = self.param_tr
+    self.params[:,4] = self.t_follow
 
     self.run()
     if (np.any(lead_xv_0[:,0] - self.x_sol[:,0] < CRASH_DISTANCE) and
@@ -396,10 +401,23 @@ class LongitudinalMpc:
     else:
       self.crash_cnt = 0
 
+    # Check if it got within lead comfort range
+    # TODO This should be done cleaner
+    if self.mode == 'blended':
+      if any((lead_0_obstacle - get_safe_obstacle_distance(self.x_sol[:,1], self.t_follow)) - self.x_sol[:, 0] < 0.0):
+        self.source = 'lead0'
+      if any((lead_1_obstacle - get_safe_obstacle_distance(self.x_sol[:,1], self.t_follow)) - self.x_sol[:, 0] < 0.0) and \
+         (lead_1_obstacle[0] - lead_0_obstacle[0]):
+        self.source = 'lead1'
+
+
+
   def update_with_xva(self, x, v, a):
     self.params[:,0] = -10.
     self.params[:,1] = 10.
     self.params[:,2] = 1e5
+    self.params[:,4] = self.t_follow
+    self.params[:,5] = LEAD_DANGER_FACTOR
 
     # v, and a are in local frame, but x is wrt the x[0] position
     # In >90degree turns, x goes to 0 (and may even be -ve)
@@ -413,7 +431,6 @@ class LongitudinalMpc:
       self.solver.cost_set(i, "yref", self.yref[i])
     self.solver.cost_set(N, "yref", self.yref[N][:COST_E_DIM])
     self.params[:,3] = np.copy(self.prev_a)
-    self.params[:,4] = self.param_tr
     self.run()
 
   def run(self):

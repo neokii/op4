@@ -1,20 +1,23 @@
 import numpy as np
 from common.realtime import sec_since_boot, DT_MDL
 from common.numpy_fast import interp
+from selfdrive.controls.lib.lane_planner import LanePlanner
 from selfdrive.ntune import ntune_common_get
 from system.swaglog import cloudlog
 from selfdrive.controls.lib.lateral_mpc_lib.lat_mpc import LateralMpc
 from selfdrive.controls.lib.drive_helpers import CONTROL_N, MPC_COST_LAT, LAT_MPC_N
-from selfdrive.controls.lib.lane_planner import LanePlanner, TRAJECTORY_SIZE
 from selfdrive.controls.lib.desire_helper import DesireHelper, AUTO_LCA_START_TIME
 import cereal.messaging as messaging
 from cereal import log
+from common.params import Params
 
+TRAJECTORY_SIZE = 33
+CAMERA_OFFSET = 0.04
 
 class LateralPlanner:
-  def __init__(self, CP, use_lanelines=True, wide_camera=False):
-    self.use_lanelines = use_lanelines
-    self.LP = LanePlanner(wide_camera)
+  def __init__(self, CP):
+    self.use_lanelines = not Params().get_bool('EndToEndToggle')
+    self.LP = LanePlanner()
     self.DH = DesireHelper()
 
     # Vehicle model parameters used to calculate lateral movement of car
@@ -88,7 +91,7 @@ class LateralPlanner:
                      heading_pts,
                      curv_rate_pts)
     # init state for next
-    # mpc.u_sol is the desired curvature rate given x0 curv state. 
+    # mpc.u_sol is the desired curvature rate given x0 curv state.
     # with x0[3] = measured_curvature, this would be the actual desired rate.
     # instead, interpolate x_sol so that x0[3] is the desired curvature for lat_control.
     self.x0[3] = interp(DT_MDL, self.t_idxs[:LAT_MPC_N + 1], self.lat_mpc.x_sol[:, 3])
