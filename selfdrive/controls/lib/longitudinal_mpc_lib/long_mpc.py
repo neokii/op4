@@ -44,11 +44,11 @@ ACADOS_SOLVER_TYPE = 'SQP_RTI'
 
 
 CRUISE_GAP_BP = [1., 2., 3., 4.]
-CRUISE_GAP_V = [1.1, 1.3, 1.58, 2.10]
-AUTO_TR_BP = [0., 30.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 110.*CV.KPH_TO_MS]
-AUTO_TR_V = [1.1, 1.2, 1.3, 1.45]
+CRUISE_GAP_V = [1.2, 1.4, 1.6, 1.8]
+CRUISE_GAP_E2E_V = [1.3, 1.45, 1.6, 1.8]
 
-E2E_TR_FACTOR = 1.3
+AUTO_TR_BP = [0., 30.*CV.KPH_TO_MS, 70.*CV.KPH_TO_MS, 110.*CV.KPH_TO_MS]
+AUTO_TR_V = [1.2, 1.3, 1.4, 1.5]
 
 AUTO_TR_CRUISE_GAP = 4
 DIFF_RADAR_VISION = 1.0
@@ -65,8 +65,8 @@ T_DIFFS = np.diff(T_IDXS, prepend=[0.])
 MIN_ACCEL = -3.5
 MAX_ACCEL = 2.0
 T_FOLLOW = 1.45
-COMFORT_BRAKE = 2.2
-STOP_DISTANCE = 6.0
+COMFORT_BRAKE = 2.5
+STOP_DISTANCE = 4.5
 
 def get_stopped_equivalence_factor(v_lead):
   return (v_lead**2) / (2 * COMFORT_BRAKE)
@@ -326,14 +326,11 @@ class LongitudinalMpc:
     lead_xv_1 = self.process_lead(radarstate.leadTwo)
 
     # neokii
-    cruise_gap = int(clip(carstate.cruiseGap, 1., 4.))
+    cruise_gap = int(clip(carstate.cruiseGap, 1., 4.)) if carstate.cruiseGap > 0 else AUTO_TR_CRUISE_GAP
     if cruise_gap == AUTO_TR_CRUISE_GAP:
-      tr = interp(carstate.vEgo, AUTO_TR_BP, AUTO_TR_V)
+      tr = interp(carstate.vEgo, AUTO_TR_BP, AUTO_TR_V) if self.mode == 'acc' else T_FOLLOW
     else:
-      tr = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V)
-
-    if self.mode != 'acc':
-      tr *= E2E_TR_FACTOR
+      tr = interp(float(cruise_gap), CRUISE_GAP_BP, CRUISE_GAP_V if self.mode == 'acc' else CRUISE_GAP_E2E_V)
 
     self.t_follow = tr
 
