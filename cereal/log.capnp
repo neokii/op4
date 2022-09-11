@@ -1901,15 +1901,10 @@ struct RoadLimitSpeed {
     camLimitSpeed @5 :Int16;
     sectionLimitSpeed @6 :Int16;
     sectionLeftDist @7 :Int16;
-    camSpeedFactor @8 :Float32;
-    restArea @9 :List(RestArea);
-
-    struct RestArea {
-      image @0 :Text;
-      title @1 :Text;
-      oilPrice @2 :Text;
-      distance @3 :Text;
-    }
+    sectionAvgSpeed @8 :Int16;
+    sectionLeftTime @9 :Int16;
+    sectionAdjustSpeed @10 :Bool;
+    camSpeedFactor @11 :Float32;
 }
 
 struct Event {
