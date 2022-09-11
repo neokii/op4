@@ -1,7 +1,10 @@
 from enum import IntFlag
 
 from cereal import car
+from panda.python import uds
 from selfdrive.car import dbc_dict
+from selfdrive.car.fw_query_definitions import FwQueryConfig, p16, Request
+
 Ecu = car.CarParams.Ecu
 
 class CarControllerParams:
@@ -341,9 +344,30 @@ FINGERPRINTS = {
   }],
 }
 
+HYUNDAI_VERSION_REQUEST_LONG = bytes([uds.SERVICE_TYPE.READ_DATA_BY_IDENTIFIER]) + \
+  p16(0xf100)  # Long description
+HYUNDAI_VERSION_REQUEST_MULTI = bytes([uds.SERVICE_TYPE.READ_DATA_BY_IDENTIFIER]) + \
+  p16(uds.DATA_IDENTIFIER_TYPE.VEHICLE_MANUFACTURER_SPARE_PART_NUMBER) + \
+  p16(uds.DATA_IDENTIFIER_TYPE.APPLICATION_SOFTWARE_IDENTIFICATION) + \
+  p16(0xf100)
+HYUNDAI_VERSION_RESPONSE = bytes([uds.SERVICE_TYPE.READ_DATA_BY_IDENTIFIER + 0x40])
+
+FW_QUERY_CONFIG = FwQueryConfig(
+  requests=[
+    Request(
+      [HYUNDAI_VERSION_REQUEST_LONG],
+      [HYUNDAI_VERSION_RESPONSE],
+    ),
+    Request(
+      [HYUNDAI_VERSION_REQUEST_MULTI],
+      [HYUNDAI_VERSION_RESPONSE],
+    ),
+  ],
+)
+
 FW_VERSIONS = {
   CAR.EV6: {
-    (Ecu.esp, 0x7d1, None): [
+    (Ecu.abs, 0x7d1, None): [
       b'\xf1\x8758520CV100\xf1\x00CV  IEB \x02 101!\x10\x18 58520-CV100',
     ],
     (Ecu.eps, 0x7d4, None): [
@@ -358,7 +382,7 @@ FW_VERSIONS = {
     ],
   },
   CAR.IONIQ_5: {
-    (Ecu.esp, 0x7d1, None): [
+    (Ecu.abs, 0x7d1, None): [
       b'\xf1\x00NE1 IEB \x07 106!\x11) 58520-GI010',
       b'\xf1\x8758520GI010\xf1\x00NE1 IEB \x07 106!\x11) 58520-GI010',
     ],
