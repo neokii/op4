@@ -266,7 +266,7 @@ def main():
         dat.roadLimitSpeed.sectionLeftDist = server.get_limit_val("section_left_dist", 0)
         dat.roadLimitSpeed.sectionAvgSpeed = server.get_limit_val("section_avg_speed", 0)
         dat.roadLimitSpeed.sectionLeftTime = server.get_limit_val("section_left_time", 0)
-        dat.roadLimitSpeed.sectionAdjustSpeed = server.get_limit_val("section_adjust_speed", 0)
+        dat.roadLimitSpeed.sectionAdjustSpeed = server.get_limit_val("section_adjust_speed", False)
         dat.roadLimitSpeed.camSpeedFactor = server.get_limit_val("cam_speed_factor", CAMERA_SPEED_FACTOR)
 
         roadLimitSpeed.send(dat.to_bytes())
