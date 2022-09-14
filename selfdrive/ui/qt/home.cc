@@ -183,14 +183,9 @@ void OffroadHome::hideEvent(QHideEvent *event) {
 }
 
 void OffroadHome::refresh() {
-  QString translation_file = QString::fromStdString(Params().get("LanguageSetting"));
-  if(translation_file.contains("ko")) {
-    QLocale locale(QLocale("ko_KR"));
-    date->setText(locale.toString(QDateTime::currentDateTime(), QLocale::NarrowFormat));
-  }
-  else {
-    date->setText(QLocale::system().toString(QDateTime::currentDateTime(), QLocale::NarrowFormat));
-  }
+  QString locale_name = QString(uiState()->language).replace("main_", "");
+  QString dateString = QLocale(locale_name).toString(QDateTime::currentDateTime(), "dddd, MMMM d");
+  date->setText(dateString);
 
   bool updateAvailable = update_widget->refresh();
   int alerts = alerts_widget->refresh();
