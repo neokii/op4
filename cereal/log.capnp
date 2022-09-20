@@ -150,10 +150,7 @@ struct FrameData {
 
   transform @10 :List(Float32);
 
-  androidCaptureResult @9 :AndroidCaptureResult;
-
   image @6 :Data;
-  globalGainDEPRECATED @5 :Int32;
 
   temperaturesC @24 :List(Float32);
 
@@ -164,6 +161,15 @@ struct FrameData {
     front @3;
   }
 
+  sensor @26 :ImageSensor;
+  enum ImageSensor {
+    unknown @0;
+    ar0321 @1;
+    ox03c10 @2;
+  }
+
+  globalGainDEPRECATED @5 :Int32;
+  androidCaptureResultDEPRECATED @9 :AndroidCaptureResult;
   struct AndroidCaptureResult {
     sensitivity @0 :Int32;
     frameDuration @1 :Int64;
@@ -396,9 +402,9 @@ struct PandaState @0xa7649e2575e4591e {
   ignitionLine @2 :Bool;
   controlsAllowed @3 :Bool;
   gasInterceptorDetected @4 :Bool;
-  canSendErrs @7 :UInt32;
-  canFwdErrs @8 :UInt32;
-  canRxErrs @19 :UInt32;
+  rxBufferOverflow @7 :UInt32;
+  txBufferOverflow @8 :UInt32;
+  safetyRxInvalid @19 :UInt32;
   gmlanSendErrs @9 :UInt32;
   pandaType @10 :PandaType;
   ignitionCan @13 :Bool;
@@ -411,7 +417,7 @@ struct PandaState @0xa7649e2575e4591e {
   faults @18 :List(FaultType);
   harnessStatus @21 :HarnessStatus;
   heartbeatLost @22 :Bool;
-  blockedCnt @24 :UInt32;
+  safetyTxBlocked @24 :UInt32;
   interruptLoad @25 :Float32;
   fanPower @28 :UInt8;
 
@@ -1774,6 +1780,22 @@ struct LiveParametersData {
   roll @14 :Float32;
 }
 
+struct LiveTorqueParametersData {
+  liveValid @0 :Bool;
+  latAccelFactorRaw @1 :Float32;
+  latAccelOffsetRaw @2 :Float32;
+  frictionCoefficientRaw @3 :Float32;
+  latAccelFactorFiltered @4 :Float32;
+  latAccelOffsetFiltered @5 :Float32;
+  frictionCoefficientFiltered @6 :Float32;
+  totalBucketPoints @7 :Float32;
+  decay @8 :Float32;
+  maxResets @9 :Float32;
+  points @10 :List(List(Float32));
+  version @11 :Int32;
+  useParams @12 :Bool;
+}
+
 struct LiveMapDataDEPRECATED {
   speedLimitValid @0 :Bool;
   speedLimit @1 :Float32;
@@ -1942,6 +1964,7 @@ struct Event {
     gpsLocation @21 :GpsLocationData;
     gnssMeasurements @91 :GnssMeasurements;
     liveParameters @61 :LiveParametersData;
+    liveTorqueParameters @94 :LiveTorqueParametersData;
     cameraOdometry @63 :CameraOdometry;
     thumbnail @66: Thumbnail;
     carEvents @68: List(Car.CarEvent);
@@ -1979,7 +2002,7 @@ struct Event {
     userFlag @93 :UserFlag;
     
     # neokii
-    roadLimitSpeed @94 :RoadLimitSpeed;
+    roadLimitSpeed @95 :RoadLimitSpeed;
 
     # *********** debug ***********
     testJoystick @52 :Joystick;

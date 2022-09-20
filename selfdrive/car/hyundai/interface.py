@@ -15,15 +15,16 @@ GearShifter = car.CarState.GearShifter
 EventName = car.CarEvent.EventName
 ButtonType = car.CarState.ButtonEvent.Type
 
-def torque_tune(tune, max_lat_accel=2.5, friction=0.01, kd=0.0, steering_angle_deadzone_deg=0.0):
+def torque_tune(tune, lat_accel_factor=3.0, friction=0.01, steering_angle_deadzone_deg=0.0):
   tune.init('torque')
   tune.torque.useSteeringAngle = True
-  tune.torque.kp = 1.0 / max_lat_accel
-  tune.torque.kf = 1.0 / max_lat_accel
-  tune.torque.ki = 0.1 / max_lat_accel
+  tune.torque.kp = 1.0
+  tune.torque.kf = 1.0
+  tune.torque.ki = 0.1
+  tune.torque.latAccelFactor = lat_accel_factor
+  tune.torque.latAccelOffset = 0.0
   tune.torque.friction = friction
   tune.torque.steeringAngleDeadzoneDeg = steering_angle_deadzone_deg
-  tune.torque.kd = kd
 
 class CarInterface(CarInterfaceBase):
   def __init__(self, CP, CarController, CarState):
@@ -84,7 +85,7 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.indi.actuatorEffectivenessBP = [0.]
       ret.lateralTuning.indi.actuatorEffectivenessV = [1.8]
     else:
-      torque_tune(ret.lateralTuning, 2.5, 0.01)
+      torque_tune(ret.lateralTuning, 3.0, 0.01)
 
     ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.2
@@ -126,7 +127,7 @@ class CarInterface(CarInterfaceBase):
 
       # thanks to 파파
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.5, 0.01)
+        torque_tune(ret.lateralTuning, 2.7, 0.01)
 
     elif candidate == CAR.GENESIS_EQ900_L:
       ret.mass = 2290
@@ -169,7 +170,7 @@ class CarInterface(CarInterfaceBase):
 
       # thanks to 지구별(alexhys)
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.3, 0.01)
+        torque_tune(ret.lateralTuning, 2.5, 0.01)
 
     elif candidate in [CAR.ELANTRA, CAR.ELANTRA_GT_I30]:
       ret.mass = 1275. + STD_CARGO_KG
@@ -202,7 +203,7 @@ class CarInterface(CarInterfaceBase):
 
       if ret.lateralTuning.which() == 'torque':
         # selfdrive/car/torque_data/params.yaml, https://codebeautify.org/jsonviewer/y220b1623
-        torque_tune(ret.lateralTuning, 4.493208192966529, 0.0863709736632968)
+        torque_tune(ret.lateralTuning, 4.398306735170212, 0.08651833437845884)
 
     elif candidate in [CAR.IONIQ, CAR.IONIQ_EV_LTD, CAR.IONIQ_EV_2020, CAR.IONIQ_PHEV]:
       ret.mass = 1490. + STD_CARGO_KG
@@ -318,7 +319,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.9, 0.01)
+        torque_tune(ret.lateralTuning, 3.0, 0.01)
 
     elif candidate == CAR.K9:
       ret.mass = 2075. + STD_CARGO_KG
@@ -328,7 +329,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.3, 0.01)
+        torque_tune(ret.lateralTuning, 2.5, 0.01)
 
     ret.radarTimeStep = 0.05
 

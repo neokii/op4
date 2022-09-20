@@ -187,15 +187,13 @@ class nTune():
   def checkValidTorque(self):
     updated = False
 
+    if self.checkValue("liveTorqueParams", 0., 1., 1.):
+      updated = True
     if self.checkValue("useSteeringAngle", 0., 1., 1.):
       updated = True
-    if self.checkValue("maxLatAccel", 0.5, 4.0, 2.5):
+    if self.checkValue("latAccelFactor", 0.5, 4.5, 3.0):
       updated = True
     if self.checkValue("friction", 0.0, 0.2, 0.0):
-      updated = True
-    if self.checkValue("ki_factor", 0.0, 1.0, 0.2):
-      updated = True
-    if self.checkValue("kd", 0.0, 2.0, 1.0):
       updated = True
     if self.checkValue("angle_deadzone_v2", 0.0, 2.0, 0.0):
       updated = True
@@ -229,15 +227,11 @@ class nTune():
   def updateTorque(self):
     torque = self.get_ctrl()
     if torque is not None:
-      torque.use_steering_angle = float(self.config["useSteeringAngle"]) > 0.5
-      max_lat_accel = float(self.config["maxLatAccel"])
-      torque.pid._k_p = [[0], [1.0 / max_lat_accel]]
-      torque.pid.k_f = 1.0 / max_lat_accel
-      torque.pid._k_i = [[0], [self.config["ki_factor"] / max_lat_accel]]
-      torque.pid._k_d = [[0], [float(self.config["kd"])]]
-      torque.friction = float(self.config["friction"])
-      torque.steering_angle_deadzone_deg = float(self.config["angle_deadzone_v2"])
-      torque.reset()
+      if float(self.config["liveTorqueParams"]) <= 0.5:
+        torque.use_steering_angle = float(self.config["useSteeringAngle"]) > 0.5
+        torque.steering_angle_deadzone_deg = float(self.config["angle_deadzone_v2"])
+        torque.torque_params.latAccelFactor = float(self.config["latAccelFactor"])
+        torque.torque_params.friction = float(self.config["friction"])
 
   def read_cp(self):
 
@@ -248,9 +242,8 @@ class nTune():
           pass
         elif self.type == LatType.TORQUE:
           self.config["useSteeringAngle"] = 1. if self.CP.lateralTuning.torque.useSteeringAngle else 0.
-          self.config["maxLatAccel"] = round(1. / self.CP.lateralTuning.torque.kp, 2)
+          self.config["latAccelFactor"] = self.CP.lateralTuning.torque.latAccelFactor
           self.config["friction"] = round(self.CP.lateralTuning.torque.friction, 3)
-          self.config["kd"] = round(self.CP.lateralTuning.torque.kd, 2)
           self.config["angle_deadzone_v2"] = round(self.CP.lateralTuning.torque.steeringAngleDeadzoneDeg, 1)
         else:
           self.config["useLiveSteerRatio"] = 1.

@@ -505,13 +505,16 @@ void NvgWindow::drawHud(QPainter &p, const cereal::ModelDataV2::Reader &model) {
   const auto controls_state = sm["controlsState"].getControlsState();
   const auto car_params = sm["carParams"].getCarParams();
   const auto live_params = sm["liveParameters"].getLiveParameters();
+  const auto live_torque_params = sm["liveTorqueParameters"].getLiveTorqueParameters();
 
   int mdps_bus = car_params.getMdpsBus();
   int scc_bus = car_params.getSccBus();
 
   QString infoText;
-  infoText.sprintf("%s AO(%.2f/%.2f) SR(%.2f) SAD(%.2f) BUS(MDPS %d, SCC %d) SCC(%.2f/%.2f/%.2f)",
+  infoText.sprintf("%s TQ(%.2f/%.2f) AO(%.2f/%.2f) SR(%.2f) SAD(%.2f) BUS(MDPS %d, SCC %d) SCC(%.2f/%.2f/%.2f)",
                       s->lat_control.c_str(),
+                      live_torque_params.getLatAccelFactorFiltered(),
+                      live_torque_params.getLatAccelOffsetFiltered(),
                       live_params.getAngleOffsetDeg(),
                       live_params.getAngleOffsetAverageDeg(),
                       controls_state.getSteerRatio(),

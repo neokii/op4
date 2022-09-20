@@ -65,15 +65,18 @@ class CarState(CarStateBase):
     self.long_control_enabled = Params().get_bool('LongControlEnabled')
 
   def update(self, cp, cp2, cp_cam):
+
+    self.prev_left_blinker = self.leftBlinker
+    self.prev_right_blinker = self.rightBlinker
+    self.prev_cruise_buttons = self.cruise_buttons[-1]
+    self.prev_main_button = self.main_buttons[-1]
+
     if self.CP.carFingerprint in CANFD_CAR:
       return self.update_canfd(cp, cp_cam)
 
     cp_mdps = cp2 if self.mdps_bus else cp
     cp_sas = cp2 if self.sas_bus else cp
     cp_scc = cp2 if self.scc_bus == 1 else cp_cam if self.scc_bus == 2 else cp
-
-    self.prev_left_blinker = self.leftBlinker
-    self.prev_right_blinker = self.rightBlinker
 
     ret = car.CarState.new_message()
 
@@ -154,8 +157,6 @@ class CarState(CarStateBase):
     else:
       ret.cruiseState.speed = 0
 
-    self.prev_cruise_buttons = self.cruise_buttons[-1]
-    self.prev_main_button = self.main_buttons[-1]
     self.cruise_buttons.extend(cp.vl_all["CLU11"]["CF_Clu_CruiseSwState"])
     self.main_buttons.extend(cp.vl_all["CLU11"]["CF_Clu_CruiseSwMain"])
 
