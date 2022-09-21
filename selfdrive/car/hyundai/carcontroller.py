@@ -85,7 +85,7 @@ class CarController:
 
   def update(self, CC, CS, controls):
     if self.CP.carFingerprint in CANFD_CAR:
-      return self.update_canfd(CC, CS)
+      return self.update_canfd(CC, CS, controls)
 
     actuators = CC.actuators
     hud_control = CC.hudControl
@@ -293,7 +293,7 @@ class CarController:
     else:
       self.scc12_cnt = -1
 
-  def update_canfd(self, CC, CS):
+  def update_canfd(self, CC, CS, controls):
     actuators = CC.actuators
 
     # Steering Torque
@@ -333,7 +333,8 @@ class CarController:
       # cruise standstill resume
       elif CC.cruiseControl.resume:
         if not (self.CP.flags & HyundaiFlags.CANFD_ALT_BUTTONS):
-          can_sends.append(hyundaicanfd.create_buttons(self.packer, CS.buttons_counter + 1, Buttons.RES_ACCEL))
+          for _ in range(20):
+            can_sends.append(hyundaicanfd.create_buttons(self.packer, CS.buttons_counter + 1, Buttons.RES_ACCEL))
           self.last_button_frame = self.frame
 
     new_actuators = actuators.copy()

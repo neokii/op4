@@ -10,6 +10,7 @@ from cereal import car, log
 from common.params import Params
 from common.realtime import config_realtime_process, DT_MDL
 from common.filter_simple import FirstOrderFilter
+from selfdrive.ntune import ntune_common_get
 from system.swaglog import cloudlog
 from selfdrive.controls.lib.vehicle_model import ACCELERATION_DUE_TO_GRAVITY
 
@@ -92,7 +93,7 @@ class PointBuckets:
 class TorqueEstimator:
   def __init__(self, CP):
     self.hist_len = int(HISTORY / DT_MDL)
-    self.lag = CP.steerActuatorDelay + .2   # from controlsd
+    self.lag = ntune_common_get('steerActuatorDelay') + .2   # from controlsd
 
     self.offline_friction = 0.0
     self.offline_latAccelFactor = 0.0
