@@ -213,26 +213,31 @@ class TorqueEstimator:
     liveTorqueParameters.version = VERSION
     liveTorqueParameters.useParams = self.use_params
     
-    latAccelFactor, latAccelOffset, friction_coeff = self.estimate_params()
-    liveTorqueParameters.latAccelFactorRaw = float(latAccelFactor)
-    liveTorqueParameters.latAccelOffsetRaw = float(latAccelOffset)
-    liveTorqueParameters.frictionCoefficientRaw = float(friction_coeff)
+    try:
+      latAccelFactor, latAccelOffset, friction_coeff = self.estimate_params()
+      liveTorqueParameters.latAccelFactorRaw = float(latAccelFactor)
+      liveTorqueParameters.latAccelOffsetRaw = float(latAccelOffset)
+      liveTorqueParameters.frictionCoefficientRaw = float(friction_coeff)
 
-    if self.filtered_points.is_valid():
-      if self.is_sane(latAccelFactor, latAccelOffset, friction_coeff):
-        liveTorqueParameters.liveValid = True
-        self.update_params({'latAccelFactor': latAccelFactor, 'latAccelOffset': latAccelOffset, 'frictionCoefficient': friction_coeff})
-        self.invalid_values_tracker = max(0.0, self.invalid_values_tracker - 0.5)
+      if self.filtered_points.is_valid():
+        if self.is_sane(latAccelFactor, latAccelOffset, friction_coeff):
+          liveTorqueParameters.liveValid = True
+          self.update_params(
+            {'latAccelFactor': latAccelFactor, 'latAccelOffset': latAccelOffset, 'frictionCoefficient': friction_coeff})
+          self.invalid_values_tracker = max(0.0, self.invalid_values_tracker - 0.5)
+        else:
+          cloudlog.exception("live torque params are numerically unstable")
+          liveTorqueParameters.liveValid = False
+          self.invalid_values_tracker += 1.0
+          # Reset when ~10 invalid over 5 secs
+          if self.invalid_values_tracker > MAX_INVALID_THRESHOLD:
+            # Do not reset the filter as it may cause a drastic jump, just reset points
+            self.reset()
       else:
-        cloudlog.exception("live torque params are numerically unstable")
         liveTorqueParameters.liveValid = False
-        self.invalid_values_tracker += 1.0
-        # Reset when ~10 invalid over 5 secs
-        if self.invalid_values_tracker > MAX_INVALID_THRESHOLD:
-          # Do not reset the filter as it may cause a drastic jump, just reset points
-          self.reset()
-    else:
-      liveTorqueParameters.liveValid = False
+
+    except:
+      pass
 
     if with_points:
       liveTorqueParameters.points = self.filtered_points.get_points()[:, [0, 2]].tolist()
