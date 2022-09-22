@@ -511,17 +511,23 @@ void NvgWindow::drawHud(QPainter &p, const cereal::ModelDataV2::Reader &model) {
   int scc_bus = car_params.getSccBus();
 
   QString infoText;
-  infoText.sprintf("%s LTP(%.2f/%.2f/%s) LTP_RAW(%.2f/%.2f) AO(%.2f/%.2f) SR(%.2f) SAD(%.2f) BUS(MDPS %d, SCC %d) SCC(%.2f/%.2f/%.2f)",
+  infoText.sprintf("%s LTP(%.2f/%.2f/%s) LTP_RAW(%.2f/%.2f/%.0f) AO(%.2f/%.2f) SR(%.2f) SAD(%.2f) BUS(MDPS %d, SCC %d) SCC(%.2f/%.2f/%.2f)",
                       s->lat_control.c_str(),
+
                       live_torque_params.getLatAccelFactorFiltered(),
                       live_torque_params.getFrictionCoefficientFiltered(),
                       live_torque_params.getLiveValid() ? "O" : "X",
+
                       live_torque_params.getLatAccelFactorRaw(),
                       live_torque_params.getFrictionCoefficientRaw(),
+                      live_torque_params.getTotalBucketPoints(),
+
                       live_params.getAngleOffsetDeg(),
                       live_params.getAngleOffsetAverageDeg(),
+
                       controls_state.getSteerRatio(),
                       controls_state.getSteerActuatorDelay(),
+
                       mdps_bus, scc_bus,
                       controls_state.getSccGasFactor(),
                       controls_state.getSccBrakeFactor(),
