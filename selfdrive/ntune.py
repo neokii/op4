@@ -193,7 +193,7 @@ class nTune():
       updated = True
     if self.checkValue("latAccelFactor", 0.5, 4.5, 3.0):
       updated = True
-    if self.checkValue("friction", 0.0, 0.2, 0.05):
+    if self.checkValue("friction", 0.0, 0.2, 0.1):
       updated = True
     if self.checkValue("angle_deadzone_v2", 0.0, 2.0, 0.0):
       updated = True
