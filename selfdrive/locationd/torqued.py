@@ -10,7 +10,7 @@ from cereal import car, log
 from common.params import Params
 from common.realtime import config_realtime_process, DT_MDL
 from common.filter_simple import FirstOrderFilter
-from selfdrive.ntune import ntune_common_get
+from selfdrive.ntune import ntune_common_get, ntune_torque_get
 from system.swaglog import cloudlog
 from selfdrive.controls.lib.vehicle_model import ACCELERATION_DUE_TO_GRAVITY
 
@@ -91,6 +91,13 @@ class PointBuckets:
 
 
 class TorqueEstimator:
+
+  def get_friction(self):
+    return ntune_torque_get('friction')
+
+  def get_lat_accel_factor(self):
+    return ntune_torque_get('latAccelFactor')
+
   def __init__(self, CP):
     self.hist_len = int(HISTORY / DT_MDL)
     self.lag = ntune_common_get('steerActuatorDelay') + .2   # from controlsd
@@ -101,8 +108,8 @@ class TorqueEstimator:
     self.use_params = True
 
     if CP.lateralTuning.which() == 'torque':
-      self.offline_friction = CP.lateralTuning.torque.friction
-      self.offline_latAccelFactor = CP.lateralTuning.torque.latAccelFactor
+      self.offline_friction = self.get_friction()
+      self.offline_latAccelFactor = self.get_lat_accel_factor()
 
     self.reset()
 
@@ -149,8 +156,8 @@ class TorqueEstimator:
   def get_restore_key(self, CP, version):
     a, b = None, None
     if CP.lateralTuning.which() == 'torque':
-      a = CP.lateralTuning.torque.friction
-      b = CP.lateralTuning.torque.latAccelFactor
+      a = self.get_friction()
+      b = self.get_lat_accel_factor()
     return (CP.carFingerprint, CP.lateralTuning.which(), a, b, version)
 
   def reset(self):
@@ -213,7 +220,9 @@ class TorqueEstimator:
     liveTorqueParameters = msg.liveTorqueParameters
     liveTorqueParameters.version = VERSION
     liveTorqueParameters.useParams = self.use_params
-    
+
+    self.checkNTune()
+
     try:
       latAccelFactor, latAccelOffset, friction_coeff = self.estimate_params()
       liveTorqueParameters.latAccelFactorRaw = float(latAccelFactor)
@@ -251,6 +260,12 @@ class TorqueEstimator:
     liveTorqueParameters.maxResets = self.resets
     return msg
 
+  def checkNTune(self):
+    if abs(self.get_friction() - self.offline_friction) > 0.0001 \
+            or abs(self.get_lat_accel_factor() - self.offline_latAccelFactor) > 0.0001:
+      self.reset()
+      self.offline_friction = self.get_friction()
+      self.offline_latAccelFactor = self.get_lat_accel_factor()
 
 def main(sm=None, pm=None):
   config_realtime_process([0, 1, 2, 3], 5)

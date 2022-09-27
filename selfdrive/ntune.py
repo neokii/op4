@@ -4,14 +4,14 @@ import signal
 import json
 import weakref
 from enum import Enum
-import numpy as np
+
+TORQUE_KEY = 'lat_torque_v4'
 
 CONF_PATH = '/data/ntune/'
 CONF_LAT_INDI_FILE = '/data/ntune/lat_indi.json'
-CONF_LAT_TORQUE_FILE = '/data/ntune/lat_torque_v4.json'
+CONF_LAT_TORQUE_FILE = '/data/ntune/'+TORQUE_KEY+'.json'
 
 ntunes = {}
-
 
 def file_watch_handler(signum, frame):
   global ntunes
@@ -227,9 +227,9 @@ class nTune():
   def updateTorque(self):
     torque = self.get_ctrl()
     if torque is not None:
+      torque.use_steering_angle = float(self.config["useSteeringAngle"]) > 0.5
+      torque.steering_angle_deadzone_deg = float(self.config["angle_deadzone_v2"])
       if float(self.config["liveTorqueParams"]) <= 0.5:
-        torque.use_steering_angle = float(self.config["useSteeringAngle"]) > 0.5
-        torque.steering_angle_deadzone_deg = float(self.config["angle_deadzone_v2"])
         torque.torque_params.latAccelFactor = float(self.config["latAccelFactor"])
         torque.torque_params.friction = float(self.config["friction"])
 
@@ -309,3 +309,6 @@ def ntune_common_enabled(key):
 
 def ntune_scc_get(key):
   return ntune_get("scc", key)
+
+def ntune_torque_get(key):
+  return ntune_get(TORQUE_KEY, key)
