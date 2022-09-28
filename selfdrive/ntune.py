@@ -145,7 +145,7 @@ class nTune():
     elif self.group == GroupType.COMMON:
       return self.checkValidCommon()
     elif self.group == GroupType.SCC:
-      return self.checkValidISCC()
+      return self.checkValidSCC()
 
     return False
 
@@ -193,20 +193,18 @@ class nTune():
   def checkValidTorque(self):
     updated = False
 
-    if self.checkValue("liveTorqueParams", 0., 1., 0.):
-      updated = True
     if self.checkValue("useSteeringAngle", 0., 1., 1.):
       updated = True
     if self.checkValue("latAccelFactor", 0.5, 4.5, 3.0):
       updated = True
-    if self.checkValue("friction", 0.0, 0.2, 0.1):
+    if self.checkValue("friction", 0.0, 0.2, 0.05):
       updated = True
     if self.checkValue("angle_deadzone_v2", 0.0, 2.0, 0.0):
       updated = True
 
     return updated
 
-  def checkValidISCC(self):
+  def checkValidSCC(self):
     updated = False
 
     if self.checkValue("sccGasFactor", 0.5, 1.5, 1.0):
@@ -235,9 +233,8 @@ class nTune():
     if torque is not None:
       torque.use_steering_angle = float(self.config["useSteeringAngle"]) > 0.5
       torque.steering_angle_deadzone_deg = float(self.config["angle_deadzone_v2"])
-      if float(self.config["liveTorqueParams"]) <= 0.5:
-        torque.torque_params.latAccelFactor = float(self.config["latAccelFactor"])
-        torque.torque_params.friction = float(self.config["friction"])
+      torque.torque_params.latAccelFactor = float(self.config["latAccelFactor"])
+      torque.torque_params.friction = float(self.config["friction"])
 
   def read_cp(self):
 
