@@ -663,6 +663,8 @@ struct CarParams {
     gateway @10; # can gateway
     hud @11; # heads up display
     combinationMeter @12; # instrument cluster
+    electricBrakeBooster @15;
+    adas @19;
 
     # Toyota only
     dsu @6;
@@ -671,7 +673,6 @@ struct CarParams {
     # Honda only
     vsa @13; # Vehicle Stability Assist
     programmedFuelInjection @14;
-    electricBrakeBooster @15;
     shiftByWire @16;
 
     # Chrysler only
