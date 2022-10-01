@@ -70,7 +70,9 @@ class CarController:
     self.keep_steering_turn_signals = param.get_bool('KeepSteeringTurnSignals')
     self.haptic_feedback_speed_camera = param.get_bool('HapticFeedbackWhenSpeedCamera')
 
-    self.scc_smoother = SccSmoother()
+    self.can_fd = CP.carFingerprint in CANFD_CAR
+
+    self.scc_smoother = SccSmoother(CP)
     self.last_blinker_frame = 0
     self.prev_active_cam = False
     self.active_cam_timer = 0
@@ -84,7 +86,7 @@ class CarController:
     self.steer_fault_max_frames = CP.steerFaultMaxFrames
 
   def update(self, CC, CS, controls):
-    if self.CP.carFingerprint in CANFD_CAR:
+    if self.can_fd:
       return self.update_canfd(CC, CS, controls)
 
     actuators = CC.actuators
@@ -225,7 +227,7 @@ class CarController:
     self.scc_smoother.update(CC.enabled, can_sends, self.packer, CC, CS, self.frame, controls)
 
     # send scc to car if longcontrol enabled and SCC not on bus 0 or ont live
-    if self.longcontrol and CS.cruiseState_enabled and (CS.scc_bus or not self.scc_live):
+    if self.longcontrol and CS.out.cruiseState.enabled and (CS.scc_bus or not self.scc_live):
 
       if self.frame % 2 == 0:
 
