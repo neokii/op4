@@ -141,6 +141,14 @@
         <source>Show Debug UI</source>
         <translation>디버그 메세지 보이기</translation>
     </message>
+    <message>
+        <source>Cellular Metered</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Prevent large data uploads when on a metered connection</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ConfirmationDialog</name>
