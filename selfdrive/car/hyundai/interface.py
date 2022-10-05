@@ -88,7 +88,7 @@ class CarInterface(CarInterfaceBase):
       try:
         CarInterfaceBase.configure_torque_tune(candidate, ret.lateralTuning)
       except:
-        torque_tune(ret.lateralTuning, 3.0, 0.05)
+        torque_tune(ret.lateralTuning, 2.5, 0.01)
 
     ret.steerRatio = 16.5
     ret.steerActuatorDelay = 0.2
@@ -130,14 +130,14 @@ class CarInterface(CarInterfaceBase):
 
       # thanks to 파파
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.7, 0.05)
+        torque_tune(ret.lateralTuning, 2.3, 0.01)
 
     elif candidate == CAR.GENESIS_EQ900_L:
       ret.mass = 2290
       ret.wheelbase = 3.45
       ret.centerToFront = ret.wheelbase * 0.4
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.7, 0.05)
+        torque_tune(ret.lateralTuning, 2.3, 0.01)
 
     elif candidate == CAR.GENESIS_G90:
       ret.mass = 2150
@@ -306,7 +306,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 3.0, 0.05)
+        torque_tune(ret.lateralTuning, 2.5, 0.01)
 
     elif candidate == CAR.K9:
       ret.mass = 2075. + STD_CARGO_KG
@@ -316,7 +316,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.4
 
       if ret.lateralTuning.which() == 'torque':
-        torque_tune(ret.lateralTuning, 2.7, 0.05)
+        torque_tune(ret.lateralTuning, 2.3, 0.01)
 
     ret.radarTimeStep = 0.05
 
