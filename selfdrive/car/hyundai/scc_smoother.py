@@ -236,7 +236,7 @@ class SccSmoother:
 
     CC.sccSmoother.autoTrGap = AUTO_TR_CRUISE_GAP
 
-    ascc_enabled = CS.acc_mode and enabled and CS.out.cruiseState.enabled \
+    ascc_enabled = CS.acc_mode and enabled and CS.out.cruiseState.enabledAcc \
                    and 1 < cruise_speed < 255 and not CS.out.brakePressed
 
     if not self.longcontrol:
@@ -263,9 +263,9 @@ class SccSmoother:
       if self.btn != Buttons.NONE:
 
         if self.can_fd:
-          can_sends.append(SccSmoother.create_clu11(packer, CS.scc_bus, CS.clu11, self.btn))
-        else:
           can_sends.append(hyundaicanfd.create_buttons(packer, CS.buttons_counter + 1, self.btn))
+        else:
+          can_sends.append(SccSmoother.create_clu11(packer, CS.scc_bus, CS.clu11, self.btn))
 
         if self.alive_timer == 0:
           self.started_frame = frame
@@ -360,7 +360,7 @@ class SccSmoother:
       if self.max_speed_clu > self.min_set_speed_clu:
         self.target_speed = clip(self.target_speed, self.min_set_speed_clu, self.max_speed_clu)
 
-    elif CS.out.cruiseState.enabled:
+    elif CS.out.cruiseState.enabledAcc:
       if CS.out.gasPressed and self.sync_set_speed_while_gas_pressed and CS.cruise_buttons[-1] == Buttons.NONE:
         if clu_speed + SYNC_MARGIN > self.kph_to_clu(controls.v_cruise_kph):
           set_speed = clip(clu_speed + SYNC_MARGIN, self.min_set_speed_clu, self.max_set_speed_clu)
@@ -410,7 +410,7 @@ class SccSmoother:
   def update_cruise_buttons(controls, CS, longcontrol):  # called by controlds's state_transition
 
     car_set_speed = CS.cruiseState.speed * CV.MS_TO_KPH
-    is_cruise_enabled = car_set_speed != 0 and car_set_speed != 255 and CS.cruiseState.enabled and controls.CP.pcmCruise
+    is_cruise_enabled = car_set_speed != 0 and car_set_speed != 255 and CS.cruiseState.enabledAcc and controls.CP.pcmCruise
 
     if is_cruise_enabled:
       if longcontrol:
