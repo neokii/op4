@@ -3,10 +3,8 @@ from cereal import log
 from common.filter_simple import FirstOrderFilter
 from common.numpy_fast import interp, clip, mean
 from common.realtime import DT_MDL
-from system.swaglog import cloudlog
 
 TRAJECTORY_SIZE = 33
-CAMERA_OFFSET = 0.0
 
 ENABLE_ZORROBYTE = True
 ENABLE_INC_LANE_PROB = True
@@ -32,7 +30,7 @@ class LanePlanner:
     self.l_lane_change_prob = 0.
     self.r_lane_change_prob = 0.
 
-    self.camera_offset = CAMERA_OFFSET
+    self.camera_offset = 0.0
 
     self.readings = []
     self.frame = 0
