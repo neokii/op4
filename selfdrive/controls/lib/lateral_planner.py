@@ -20,8 +20,13 @@ PATH_COST = 1.0
 LATERAL_MOTION_COST = 0.11
 LATERAL_ACCEL_COST = 0.0
 LATERAL_JERK_COST = 0.05
+# Extreme steering rate is unpleasant, even
+# when it does not cause bad jerk.
+# TODO this cost should be lowered when low
+# speed lateral control is stable on all cars
+STEERING_RATE_COST = 800.0
 
-MIN_SPEED = 1.5
+MIN_SPEED = 0.6
 
 
 class LateralPlanner:
@@ -74,16 +79,18 @@ class LateralPlanner:
 
     # Calculate final driving path and set MPC costs
     if self.use_lanelines:
-      d_path_xyz = self.LP.get_d_path(v_ego, self.t_idxs, self.path_xyz)
+      d_path_xyz = self.LP.get_d_path(self.v_ego, self.t_idxs, self.path_xyz)
       d_path_xyz[:, 1] += ntune_common_get('pathOffset')
       self.lat_mpc.set_weights(PATH_COST, LATERAL_MOTION_COST,
-                             LATERAL_ACCEL_COST, LATERAL_JERK_COST)
+                               LATERAL_ACCEL_COST, LATERAL_JERK_COST,
+                               STEERING_RATE_COST)
     else:
       d_path_xyz = self.path_xyz
       d_path_xyz[:, 1] += ntune_common_get('pathOffset')
 
       self.lat_mpc.set_weights(PATH_COST, LATERAL_MOTION_COST,
-                             LATERAL_ACCEL_COST, LATERAL_JERK_COST)
+                               LATERAL_ACCEL_COST, LATERAL_JERK_COST,
+                               STEERING_RATE_COST)
 
     y_pts = np.interp(self.v_ego * self.t_idxs[:LAT_MPC_N + 1], np.linalg.norm(d_path_xyz, axis=1), d_path_xyz[:, 1])
     heading_pts = np.interp(self.v_ego * self.t_idxs[:LAT_MPC_N + 1], np.linalg.norm(self.path_xyz, axis=1), self.plan_yaw)

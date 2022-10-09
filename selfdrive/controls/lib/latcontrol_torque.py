@@ -20,6 +20,7 @@ from selfdrive.controls.lib.latcontrol_pid import ERROR_RATE_FRAME
 # friction in the steering wheel that needs to be overcome to
 # move it at all, this is compensated for too.
 
+LOW_SPEED_FACTOR = 100
 
 class LatControlTorque(LatControl):
   def __init__(self, CP, CI):
@@ -64,13 +65,15 @@ class LatControlTorque(LatControl):
       actual_lateral_accel = actual_curvature * CS.vEgo ** 2
       lateral_accel_deadzone = curvature_deadzone * CS.vEgo ** 2
 
-      low_speed_factor = interp(CS.vEgo, [0, 30], [300, 100])
-      setpoint = desired_lateral_accel + low_speed_factor * desired_curvature
-      measurement = actual_lateral_accel + low_speed_factor * actual_curvature
+      setpoint = desired_lateral_accel + LOW_SPEED_FACTOR * desired_curvature
+      measurement = actual_lateral_accel + LOW_SPEED_FACTOR * actual_curvature
       error = setpoint - measurement
       gravity_adjusted_lateral_accel = desired_lateral_accel - params.roll * ACCELERATION_DUE_TO_GRAVITY
-      pid_log.error = self.torque_from_lateral_accel(error, self.torque_params, error, lateral_accel_deadzone, friction_compensation=False)
-      ff = self.torque_from_lateral_accel(gravity_adjusted_lateral_accel, self.torque_params, error, lateral_accel_deadzone, friction_compensation=True)
+      pid_log.error = self.torque_from_lateral_accel(error, self.torque_params, error,
+                                                     lateral_accel_deadzone, friction_compensation=False)
+      ff = self.torque_from_lateral_accel(gravity_adjusted_lateral_accel, self.torque_params,
+                                          desired_lateral_accel - actual_lateral_accel,
+                                          lateral_accel_deadzone, friction_compensation=True)
 
       freeze_integrator = steer_limited or CS.steeringPressed or CS.vEgo < 5
       output_torque = self.pid.update(pid_log.error,
