@@ -528,9 +528,7 @@ struct CarParams {
   hasScc14 @77 :Bool;
   hasEms @78 :Bool;
   hasLfaHda @79 :Bool;
-  steerFaultMaxAngle @80 :Int16;
-  steerFaultMaxFrames @81 :Int16;
-  disableLateralLiveTuning @82 :Bool;
+  disableLateralLiveTuning @80 :Bool;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);

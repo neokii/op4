@@ -16,6 +16,12 @@ from selfdrive.road_speed_limiter import road_speed_limiter_get_active
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 min_set_speed = 30 * CV.KPH_TO_MS
 
+# EPS faults if you apply torque while the steering angle is above 90 degrees for more than 1 second
+# All slightly below EPS thresholds to avoid fault
+MAX_ANGLE = 85
+MAX_ANGLE_FRAMES = 89
+MAX_ANGLE_CONSECUTIVE_FRAMES = 2
+
 def process_hud_alert(enabled, fingerprint, hud_control):
 
   sys_warning = (hud_control.visualAlert in (VisualAlert.steerRequired, VisualAlert.ldw))
@@ -79,11 +85,6 @@ class CarController:
     self.last_active_cam_frame = 0
 
     self.angle_limit_counter = 0
-    self.cut_steer_frames = 0
-    self.cut_steer = False
-
-    self.steer_fault_max_angle = CP.steerFaultMaxAngle
-    self.steer_fault_max_frames = CP.steerFaultMaxFrames
 
   def update(self, CC, CS, controls):
     if self.can_fd:
@@ -140,34 +141,28 @@ class CarController:
 
     cut_steer_temp = False
 
-    if self.steer_fault_max_angle > 0:
-      if lkas_active and abs(CS.out.steeringAngleDeg) > self.steer_fault_max_angle:
-        self.angle_limit_counter += 1
-      else:
-        self.angle_limit_counter = 0
+    # Count up to MAX_ANGLE_FRAMES, at which point we need to cut torque to avoid a steering fault
+    if lkas_active and abs(CS.out.steeringAngleDeg) >= MAX_ANGLE:
+      self.angle_limit_counter += 1
+    else:
+      self.angle_limit_counter = 0
 
-      # stop requesting torque to avoid 90 degree fault and hold torque with induced temporary fault
-      # two cycles avoids race conditions every few minutes
-      if self.angle_limit_counter > self.steer_fault_max_frames:
-        self.cut_steer = True
-      elif self.cut_steer_frames > 1:
-        self.cut_steer_frames = 0
-        self.cut_steer = False
+    # Cut steer actuation bit for two frames and hold torque with induced temporary fault
+    torque_fault = lkas_active and self.angle_limit_counter > MAX_ANGLE_FRAMES
+    lat_active = lkas_active and not torque_fault
 
-      if self.cut_steer:
-        cut_steer_temp = True
-        self.angle_limit_counter = 0
-        self.cut_steer_frames += 1
+    if self.angle_limit_counter >= MAX_ANGLE_FRAMES + MAX_ANGLE_CONSECUTIVE_FRAMES:
+      self.angle_limit_counter = 0
 
     can_sends = []
-    can_sends.append(hyundaican.create_lkas11(self.packer, self.frame, self.CP.carFingerprint, apply_steer, lkas_active,
-                                   CS.lkas11, sys_warning, sys_state, CC.enabled, hud_control.leftLaneVisible, hud_control.rightLaneVisible,
-                                   left_lane_warning, right_lane_warning, 0, self.ldws_opt, cut_steer_temp))
+    can_sends.append(hyundaican.create_lkas11(self.packer, self.frame, self.CP.carFingerprint, apply_steer, lat_active,
+                                   torque_fault, CS.lkas11, sys_warning, sys_state, CC.enabled, hud_control.leftLaneVisible, hud_control.rightLaneVisible,
+                                   left_lane_warning, right_lane_warning, 0, self.ldws_opt))
 
     if CS.mdps_bus or CS.scc_bus == 1:  # send lkas11 bus 1 if mdps or scc is on bus 1
-      can_sends.append(hyundaican.create_lkas11(self.packer, self.frame, self.CP.carFingerprint, apply_steer, lkas_active,
-                                     CS.lkas11, sys_warning, sys_state, CC.enabled, hud_control.leftLaneVisible, hud_control.rightLaneVisible,
-                                     left_lane_warning, right_lane_warning, 1, self.ldws_opt, cut_steer_temp))
+      can_sends.append(hyundaican.create_lkas11(self.packer, self.frame, self.CP.carFingerprint, apply_steer, lat_active,
+                                     torque_fault, CS.lkas11, sys_warning, sys_state, CC.enabled, hud_control.leftLaneVisible, hud_control.rightLaneVisible,
+                                     left_lane_warning, right_lane_warning, 1, self.ldws_opt))
 
     if self.frame % 2 and CS.mdps_bus: # send clu11 to mdps if it is not on bus 0
       can_sends.append(hyundaican.create_clu11(self.packer, CS.mdps_bus, CS.clu11, Buttons.NONE, enabled_speed))
